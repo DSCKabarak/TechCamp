@@ -54,6 +54,9 @@ class OrganiserController extends MyBaseController
         $organiser->twitter = $request->get('twitter');
         $organiser->confirmation_key = str_random(15);
 
+        $organiser->taxname = $request->get('taxname');
+        $organiser->taxvalue = round($request->get('taxvalue'),2);
+
         if ($request->hasFile('organiser_logo')) {
             $organiser->setLogo($request->file('organiser_logo'));
         }

@@ -324,8 +324,13 @@ class EventCheckoutController extends Controller
                         'testMode' => config('attendize.enable_test_payments'),
                     ]);
 
+                // Calculating grand total including tax
+                $grand_total = $ticket_order['order_total'] + $ticket_order['organiser_booking_fee'];
+                $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
+                $grand_total = $tax_amt + $grand_total;
+
                 $transaction_data = [
-                        'amount'      => ($ticket_order['order_total'] + $ticket_order['organiser_booking_fee']),
+                        'amount'      => $grand_total,
                         'currency'    => $event->currency->code,
                         'description' => 'Order for customer: ' . $request->get('order_email'),
                     ];
@@ -378,7 +383,6 @@ class EventCheckoutController extends Controller
                         ]);
                         break;
                 }
-
 
                 $transaction = $gateway->purchase($transaction_data);
 
@@ -527,6 +531,12 @@ class EventCheckoutController extends Controller
             $order->account_id = $event->account->id;
             $order->event_id = $ticket_order['event_id'];
             $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
+
+            // Calculating grand total including tax
+            $grand_total = $ticket_order['order_total'] + $ticket_order['organiser_booking_fee'];
+            $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
+
+            $order->taxamt = $tax_amt;
             $order->save();
 
             /*

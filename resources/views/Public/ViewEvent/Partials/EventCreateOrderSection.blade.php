@@ -32,9 +32,27 @@
                 </div>
                 @if($order_total > 0)
                 <div class="panel-footer">
+                    @php
+                        $grand_total = $order_total + $total_booking_fee;
+                    @endphp
                     <h5>
-                        Total: <span style="float: right;"><b>{{ money($order_total + $total_booking_fee,$event->currency) }}</b></span>
+                        Total: <span style="float: right;"><b>{{ money($grand_total,$event->currency) }}</b></span>
                     </h5>
+                    @if($event->organiser->taxname && $event->organiser->taxvalue && $event->organiser->taxvalue > 0)
+                    <h5>
+                        {{ $event->organiser->taxname }} ({{ $event->organiser->taxvalue }}%): 
+                        @php
+                            // Calculating grand total including tax
+                            $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
+                            $grand_total = $tax_amt + $grand_total;
+                        @endphp
+                        <span style="float: right;"><b>{{ money($tax_amt,$event->currency) }}</b></span>
+                    </h5>
+                    <h5>
+                        <strong>Grand Total:</strong>
+                        <span style="float: right;"><b>{{ money($grand_total,$event->currency) }}</b></span>
+                    </h5>
+                    @endif
                 </div>
                 @endif
 
