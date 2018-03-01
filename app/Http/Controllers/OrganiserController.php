@@ -56,6 +56,7 @@ class OrganiserController extends MyBaseController
 
         $organiser->taxname = $request->get('taxname');
         $organiser->taxvalue = round($request->get('taxvalue'),2);
+        $organiser->taxid = $request->get('taxid');
 
         if ($request->hasFile('organiser_logo')) {
             $organiser->setLogo($request->file('organiser_logo'));

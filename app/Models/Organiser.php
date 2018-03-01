@@ -18,6 +18,7 @@ class Organiser extends MyBaseModel
         'email'          => ['required', 'email'],
         'taxname'        => ['required','max:15'],
         'taxvalue'       => ['required','numeric'],
+        'taxid'       => ['required','max:100'],
         'organiser_logo' => ['mimes:jpeg,jpg,png', 'max:10000'],
     ];
 
@@ -29,6 +30,7 @@ class Organiser extends MyBaseModel
     protected $attributes = [
         'taxname'        => 'Tax Name',
         'taxvalue'       => 'Tax Value',
+        'taxid'          => 'Tax ID',
     ];
 
     /**
