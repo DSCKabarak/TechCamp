@@ -42,7 +42,7 @@
                                                     $is_free_event = false;
                                                     ?>
                                                     <span title='{{money($ticket->price, $event->currency)}} Ticket Price + {{money($ticket->total_booking_fee, $event->currency)}} Booking Fees'>{{money($ticket->total_price, $event->currency)}} </span>
-                                                    <span class="tax-amount text-muted text-small">{{ ($event->organiser->taxname && $event->organiser->taxvalue) ? '(+'.money(($ticket->total_price*($event->organiser->taxvalue)/100), $event->currency).' '.$event->organiser->taxname.')' : '' }}</span>
+                                                    <span class="tax-amount text-muted text-smaller">{{ ($event->organiser->taxname && $event->organiser->taxvalue) ? '(+'.money(($ticket->total_price*($event->organiser->taxvalue)/100), $event->currency).' '.$event->organiser->taxname.')' : '' }}</span>
                                                     <meta property="priceCurrency"
                                                           content="{{ $event->currency->code }}">
                                                     <meta property="price"
