@@ -1,16 +1,8 @@
 <section id="tickets" class="container">
     <div class="row">
-        <div class="col-md-2">
-            &nbsp;
-        </div>
-        <div class="col-md-8">
-            <h1 class='section_head'>
-                Tickets
-            </h1>
-        </div>
-        <div class="col-md-2">
-            <strong class="pull-right">{{ ($event->organiser->taxname && $event->organiser->taxvalue) ? $event->organiser->taxname.' : '.$event->organiser->taxvalue.'%' : '' }}</strong>
-        </div>
+        <h1 class='section_head'>
+            Tickets
+        </h1>
     </div>
 
     @if($event->start_date->isPast())
