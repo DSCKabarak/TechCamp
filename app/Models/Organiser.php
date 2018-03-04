@@ -18,18 +18,18 @@ class Organiser extends MyBaseModel
         'email'          => ['required', 'email'],
         'taxname'        => ['required','max:15'],
         'taxvalue'       => ['required','numeric'],
-        'taxid'       => ['required','max:100'],
+        'taxid'          => ['required','max:100'],
         'organiser_logo' => ['mimes:jpeg,jpg,png', 'max:10000'],
     ];
 
     /**
      * The validation rules for the model.
      *
-     * @var array $rules
+     * @var array $attributes
      */
     protected $attributes = [
         'taxname'        => 'Tax Name',
-        'taxvalue'       => 'Tax Value',
+        'taxvalue'       => 'Tax Rate',
         'taxid'          => 'Tax ID',
     ];
 
@@ -162,3 +162,4 @@ class Organiser extends MyBaseModel
         }
     }
 }
+

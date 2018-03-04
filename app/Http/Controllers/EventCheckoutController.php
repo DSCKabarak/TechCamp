@@ -335,7 +335,6 @@ class EventCheckoutController extends Controller
                         'description' => 'Order for customer: ' . $request->get('order_email'),
                     ];
 
-
                 switch ($ticket_order['payment_gateway']->id) {
                     case config('attendize.payment_gateway_paypal'):
                     case config('attendize.payment_gateway_coinbase'):
@@ -661,7 +660,7 @@ class EventCheckoutController extends Controller
              * Queue up some tasks - Emails to be sent, PDFs etc.
              */
             Log::info('Firing the event');
-            event(new OrderCompletedEvent($order));
+            //event(new OrderCompletedEvent($order));
 
 
         } catch (Exception $e) {
