@@ -660,7 +660,7 @@ class EventCheckoutController extends Controller
              * Queue up some tasks - Emails to be sent, PDFs etc.
              */
             Log::info('Firing the event');
-            //event(new OrderCompletedEvent($order));
+            event(new OrderCompletedEvent($order));
 
 
         } catch (Exception $e) {
