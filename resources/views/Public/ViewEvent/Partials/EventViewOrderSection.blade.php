@@ -82,6 +82,7 @@
 
                         <div class="col-sm-4 col-xs-6">
                             <b>Amount</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount,2)}}
+                            <small>{{ ($event->organiser->taxname && $event->organiser->taxvalue) ? '(+'.money(($order->total_amount*($event->organiser->taxvalue)/100), $event->currency).' '.$event->organiser->taxname.')' : '' }}</small>
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
@@ -184,6 +185,34 @@
                                 </td>
                                 <td colspan="2">
                                     {{money($order->total_amount, $order->event->currency)}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    {{$event->organiser->taxname}}
+                                </td>
+                                <td colspan="2">
+                                   {{money(($order->total_amount*($event->organiser->taxvalue)/100), $event->currency)}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <b>Total</b>
+                                </td>
+                                <td colspan="2">
+                                   {{money($order->total_amount+($order->total_amount*($event->organiser->taxvalue)/100), $event->currency)}}
                                 </td>
                             </tr>
                             @if($order->is_refunded || $order->is_partially_refunded)

@@ -76,10 +76,38 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                <b>Sub Total</b>
+                Sub Total
             </td>
             <td colspan="2">
                {{money($order->amount + $order->order_fee, $order->event->currency)}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                {{$event->organiser->taxname}}
+            </td>
+            <td colspan="2">
+               {{money(($order->amount*($event->organiser->taxvalue)/100), $event->currency)}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <b>Total</b>
+            </td>
+            <td colspan="2">
+               {{money($order->amount+($order->amount*($event->organiser->taxvalue)/100), $event->currency)}}
             </td>
         </tr>
     </table>
