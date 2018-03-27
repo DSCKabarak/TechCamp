@@ -14,7 +14,7 @@ https://www.attendize.com
 
 > Please ask any questions/report bugs in our new support forum: https://attendize.com/forum/
 
-Demo Event Page: http://attendize.website/e/1/acmes-amazing-demo-event
+Demo Event Page: http://attendize.website/e/799/attendize-test-event-w-special-guest-attendize
 ---
 
 
