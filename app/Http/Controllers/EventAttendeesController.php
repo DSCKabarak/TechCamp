@@ -723,7 +723,7 @@ class EventAttendeesController extends MyBaseController
                 $message->to($attendee->email, $attendee->full_name)
                     ->from(config('attendize.outgoing_email_noreply'), $attendee->event->organiser->name)
                     ->replyTo($attendee->event->organiser->email, $attendee->event->organiser->name)
-                    ->subject('You\'re ticket has been cancelled');
+                    ->subject('Your ticket has been cancelled');
             });
         }
 

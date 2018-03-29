@@ -16,7 +16,7 @@ Event Widgets
 
 @section('page_title')
 <i class='ico-code mr5'></i>
-Event Surveys
+Event Widgets
 @stop
 
 @section('head')
