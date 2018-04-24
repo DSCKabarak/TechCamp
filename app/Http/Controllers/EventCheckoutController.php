@@ -548,7 +548,7 @@ class EventCheckoutController extends Controller
             /*
              * Update the event stats
              */
-            $event_stats = EventStats::firstOrNew([
+            $event_stats = EventStats::updateOrCreate([
                 'event_id' => $event_id,
                 'date'     => DB::raw('CURRENT_DATE'),
             ]);
