@@ -10,7 +10,7 @@ Open-source ticket selling and event management platform
 
 https://www.attendize.com
 
-> PLEASE NOTE: Attendize is in the early stages of development and therefore is likely to contain bugs and unfinished features. Be wary about using Attendize in a production environment.
+> PLEASE NOTE: Attendize is in the early stages of development and therefore is likely to contain bugs and unfinished features.
 
 > Please ask any questions/report bugs in our new support forum: https://attendize.com/forum/
 
@@ -19,8 +19,6 @@ Demo Event Page: http://attendize.website/e/799/attendize-test-event-w-special-g
 
 
 *Attendize* is an open-source event ticketing and event management application built using the Laravel PHP framework. Attendize was created to offer event organisers a simple solution to managing general admission events, without paying extortionate service fees.
-
-The current version (v1.X.X) will not receive any significant feature improvements, only security fixes. All effort will go into developing <a href="https://github.com/Attendize/Attendize/tree/develop">v2.0.0</a>.
 
 Current Features (v1.X.X)
 ---
@@ -49,7 +47,7 @@ Current Features (v1.X.X)
  - Ability to ask custom questions during checkout
  - Browser based QR code scanner for door management
     
-Upcoming changes in v2.0.0
+Roadmap
 ---
  - Theme support
  - Plugin Support

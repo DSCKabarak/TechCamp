@@ -48,7 +48,7 @@ class EventStats extends \Illuminate\Database\Eloquent\Model
      */
     public function updateViewCount($event_id)
     {
-        $stats = $this->firstOrNew([
+        $stats = $this->updateOrCreate([
             'event_id' => $event_id,
             'date'     => DB::raw('CURRENT_DATE'),
         ]);
@@ -72,7 +72,7 @@ class EventStats extends \Illuminate\Database\Eloquent\Model
      */
     public function updateSalesVolume($event_id)
     {
-        $stats = $this->firstOrNew([
+        $stats = $this->updateOrCreate([
             'event_id' => $event_id,
             'date'     => DB::raw('CURRENT_DATE'),
         ]);
@@ -92,7 +92,7 @@ class EventStats extends \Illuminate\Database\Eloquent\Model
      */
     public function updateTicketsSoldCount($event_id, $count)
     {
-        $stats = $this->firstOrNew([
+        $stats = $this->updateOrCreate([
             'event_id' => $event_id,
             'date'     => DB::raw('CURRENT_DATE'),
         ]);
