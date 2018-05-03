@@ -1,10 +1,11 @@
 <section id="details" class="container">
     <div class="row">
         <h1 class="section_head">
-            Event Details
+            @lang("Public_ViewEvent.event_details")
         </h1>
     </div>
     <div class="row">
+        <?php /*
         @if($event->images->count())
         <div class="col-md-7">
             <div class="content event_details" property="description">
@@ -16,12 +17,12 @@
                 <img alt="{{$event->title}}" src="{{config('attendize.cdn_url_user_assets').'/'.$event->images->first()['image_path']}}" property="image">
             </div>
         </div>
-        @else
+        @else */ ?>
         <div class="col-md-12">
             <div class="content event_details" property="description">
                 {!! Markdown::parse($event->description) !!}
             </div>
         </div>
-        @endif
+        <?php /*@endif*/ ?>
     </div>
 </section>

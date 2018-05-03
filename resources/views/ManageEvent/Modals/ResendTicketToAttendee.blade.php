@@ -6,17 +6,17 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-envelope"></i>
-                    Resend Ticket to {{{$attendee->full_name}}}
+                    @lang("ManageEvent.resend_ticket_to_attendee", ["attendee"=>$attendee->full_name])
                 </h3>
             </div>
             <div class="modal-body">
                 <div class="help-block">
-                    The attendee will be sent another copy of their ticket to <b>{{$attendee->email}}</b>
+                    @lang("ManageEvent.resend_ticket_help", ["email"=>$attendee->email])
                 </div>
             </div> <!-- /end modal body-->
             <div class="modal-footer">
-               {!! Form::button('Cancel', ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
-               {!! Form::submit('Send Ticket', ['class'=>"btn btn-success"]) !!}
+               {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
+               {!! Form::submit(trans("ManageEvent.send_ticket"), ['class'=>"btn btn-success"]) !!}
             </div>
         </div><!-- /end modal content-->
         {!! Form::close() !!}

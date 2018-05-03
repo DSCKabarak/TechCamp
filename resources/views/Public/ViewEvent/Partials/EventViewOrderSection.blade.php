@@ -53,9 +53,10 @@
             <span class="massive-icon">
                 <i class="ico ico-checkmark-circle"></i>
             </span>
-            <h1>Thank you for your order!</h1>
+            <h1>@lang("Public_ViewEvent.thank_you_for_your_order")</h1>
             <h2>
-                Your <a title="Download Tickets" class="ticket_download_link" href="{{route('showOrderTickets', ['order_reference' => $order->order_reference])}}?download=1">tickets</a> and a confirmation email have been sent to you.
+                @lang("Public_ViewEvent.download_links", ["title" => trans("Public_ViewEvent.download_tickets"), "url"=>route('showOrderTickets', ['order_reference' => $order->order_reference])."?download=1"])
+
             </h2>
         </div>
     </div>
@@ -73,27 +74,27 @@
                 <div class="order_details well">
                     <div class="row">
                         <div class="col-sm-4 col-xs-6">
-                            <b>First Name</b><br> {{$order->first_name}}
+                            <b>@lang("Public_ViewEvent.first_name")</b><br> {{$order->first_name}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>Last Name</b><br> {{$order->last_name}}
+                            <b>@lang("Public_ViewEvent.last_name")</b><br> {{$order->last_name}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>Amount</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount,2)}}
+                            <b>@lang("Public_ViewEvent.amount")</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount,2)}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>Reference</b><br> {{$order->order_reference}}
+                            <b>@lang("Public_ViewEvent.reference")</b><br> {{$order->order_reference}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>Date</b><br> {{$order->created_at->toDateTimeString()}}
+                            <b>@lang("Public_ViewEvent.date")</b><br> {{$order->created_at->toDateTimeString()}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>Email</b><br> {{$order->email}}
+                            <b>@lang("Public_ViewEvent.email")</b><br> {{$order->email}}
                         </div>
                     </div>
                 </div>
@@ -101,10 +102,10 @@
 
                     @if(!$order->is_payment_received)
                         <h3>
-                            Payment Instructions
+                            @lang("Public_ViewEvent.payment_instructions")
                         </h3>
                     <div class="alert alert-info">
-                        This order is awaiting payment. Please read the below instructions on how to make payment.
+                        @lang("Public_ViewEvent.order_awaiting_payment")
                     </div>
                     <div class="offline_payment_instructions well">
                         {!! Markdown::parse($event->offline_payment_instructions) !!}
@@ -113,7 +114,7 @@
                     @endif
 
                 <h3>
-                    Order Items
+                    @lang("Public_ViewEvent.order_items")
                 </h3>
 
                 <div class="table-responsive">
@@ -121,19 +122,19 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Ticket
+                                    @lang("Public_ViewEvent.ticket")
                                 </th>
                                 <th>
-                                    Quantity
+                                    @lang("Public_ViewEvent.quantity_full")
                                 </th>
                                 <th>
-                                    Price
+                                    @lang("Public_ViewEvent.price")
                                 </th>
                                 <th>
-                                    Booking Fee
+                                    @lang("Public_ViewEvent.booking_fee")
                                 </th>
                                 <th>
-                                    Total
+                                    @lang("Public_ViewEvent.total")
                                 </th>
                             </tr>
                         </thead>
@@ -148,7 +149,7 @@
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                            @lang("Public_ViewEvent.free")
                                         @else
                                        {{money($order_item->unit_price, $order->event->currency)}}
                                         @endif
@@ -164,7 +165,7 @@
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                            @lang("Public_ViewEvent.free")
                                         @else
                                         {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                                         @endif
@@ -180,7 +181,7 @@
                                 <td>
                                 </td>
                                 <td>
-                                    <b>Sub Total</b>
+                                    <b>@lang("Public_ViewEvent.sub_total")</b>
                                 </td>
                                 <td colspan="2">
                                     {{money($order->total_amount, $order->event->currency)}}
@@ -195,7 +196,7 @@
                                     <td>
                                     </td>
                                     <td>
-                                        <b>Refunded Amount</b>
+                                        <b>@lang("Public_ViewEvent.refunded_amount")</b>
                                     </td>
                                     <td colspan="2">
                                         {{money($order->amount_refunded, $order->event->currency)}}
@@ -209,7 +210,7 @@
                                     <td>
                                     </td>
                                     <td>
-                                        <b>Total</b>
+                                        <b>@lang("Public_ViewEvent.total")</b>
                                     </td>
                                     <td colspan="2">
                                         {{money($order->total_amount - $order->amount_refunded, $order->event->currency)}}
@@ -222,7 +223,7 @@
                 </div>
 
                 <h3>
-                    Order Attendees
+                    @lang("Public_ViewEvent.order_attendees")
                 </h3>
 
                 <div class="table-responsive">
@@ -240,7 +241,7 @@
                                 </td>
                                 <td>
                                     @if($attendee->is_cancelled)
-                                        Cancelled
+                                        @lang("Public_ViewEvent.attendee_cancelled")
                                     @endif
                                 </td>
                             </tr>

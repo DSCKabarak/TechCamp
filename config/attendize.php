@@ -30,7 +30,7 @@ return [
     'fallback_organiser_logo_url' => '/assets/images/logo-dark.png',
     'cdn_url'                     => '',
 
-    'checkout_timeout_after' => env('CHECKOUT_TIMEOUT_AFTER', 10), #minutes
+    'checkout_timeout_after' => env('CHECKOUT_TIMEOUT_AFTER', 30), #minutes
 
     'ticket_status_before_sale_date' => 3,
     'ticket_status_on_sale'          => 4,
@@ -57,9 +57,9 @@ return [
 
     'default_timezone'           => 30, #Europe/Dublin
     'default_currency'           => 2, #Euro
-    'default_date_format'        => 'j M, Y',
-    'default_date_picker_format' => 'd M, yyyy',
-    'default_datetime_format'    => 'F j, Y, g:i a',
+    'default_date_format'        => 'Y-m-d',
+    'default_date_picker_format' => 'Y-m-d',
+    'default_datetime_format'    => 'Y-m-d, H:i',
     'default_query_cache'        => 120, #Minutes
     'default_locale'             => 'en',
     'default_payment_gateway'    => 1, #Stripe=1 Paypal=2 BitPay=3 MIGS=4

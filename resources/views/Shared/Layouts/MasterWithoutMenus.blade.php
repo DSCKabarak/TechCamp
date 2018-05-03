@@ -75,6 +75,7 @@
         <div style="text-align: center; color: white" >
         </div>
 
+        @include("Shared.Partials.LangScript")
         {!!HTML::script('assets/javascript/backend.js')!!}
     </body>
     @include('Shared.Partials.GlobalFooterJS')

@@ -6,11 +6,11 @@
 @stop
 
 @section('blankslate-title')
-    No Orders Yet
+    @lang("ManageEvent.no_orders_yet")
 @stop
 
 @section('blankslate-text')
-    New orders will appear here as they are created.
+    @lang("ManageEvent.no_orders_yet_text")
 @stop
 
 @section('blankslate-body')

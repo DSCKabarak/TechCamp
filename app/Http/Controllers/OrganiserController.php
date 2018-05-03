@@ -60,11 +60,11 @@ class OrganiserController extends MyBaseController
 
         $organiser->save();
 
-        session()->flash('message', 'Successfully Created Organiser.');
+        session()->flash('message', trans("Controllers.successfully_created_organiser"));
 
         return response()->json([
             'status'      => 'success',
-            'message'     => 'Refreshing..',
+            'message'     => trans("Controllers.refreshing"),
             'redirectUrl' => route('showOrganiserEvents', [
                 'organiser_id' => $organiser->id,
                 'first_run'    => 1

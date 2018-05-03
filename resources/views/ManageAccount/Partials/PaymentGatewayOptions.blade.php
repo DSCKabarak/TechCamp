@@ -13,23 +13,23 @@
 
 {!! Form::model($account, array('url' => route('postEditAccountPayment'), 'class' => 'ajax ')) !!}
 <div class="form-group">
-    {!! Form::label('payment_gateway_id', 'Default Payment Gateway', array('class'=>'control-label ')) !!}
+    {!! Form::label('payment_gateway_id', trans("ManageAccount.default_payment_gateway"), array('class'=>'control-label ')) !!}
     {!! Form::select('payment_gateway_id', $payment_gateways, $account->payment_gateway_id, ['class' => 'form-control gateway_selector']) !!}
 </div>
 
 {{--Stripe--}}
 <section class="payment_gateway_options" id="gateway_{{config('attendize.payment_gateway_stripe')}}">
-    <h4>Stripe Settings</h4>
+    <h4>@lang("ManageAccount.stripe_settings")</h4>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('stripe[apiKey]', 'Stripe Secret Key', array('class'=>'control-label ')) !!}
+                {!! Form::label('stripe[apiKey]', trans("ManageAccount.stripe_secret_key"), array('class'=>'control-label ')) !!}
                 {!! Form::text('stripe[apiKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_stripe'), 'apiKey'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('publishableKey', 'Stripe Publishable Key', array('class'=>'control-label ')) !!}
+                {!! Form::label('publishableKey', trans("ManageAccount.stripe_publishable_key"), array('class'=>'control-label ')) !!}
                 {!! Form::text('stripe[publishableKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_stripe'), 'publishableKey'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -38,18 +38,18 @@
 
 {{--Paypal--}}
 <section class="payment_gateway_options"  id="gateway_{{config('attendize.payment_gateway_paypal')}}">
-    <h4>PayPal Settings</h4>
+    <h4>@lang("ManageAccount.paypal_settings")</h4>
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('paypal[username]', 'PayPal Username', array('class'=>'control-label ')) !!}
+                {!! Form::label('paypal[username]', trans("ManageAccount.paypal_username"), array('class'=>'control-label ')) !!}
                 {!! Form::text('paypal[username]', $account->getGatewayConfigVal(config('attendize.payment_gateway_paypal'), 'username'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('paypal[password]', 'PayPal Password', ['class'=>'control-label ']) !!}
+                {!! Form::label('paypal[password]', trans("ManageAccount.paypal_password"), ['class'=>'control-label ']) !!}
                 {!! Form::text('paypal[password]', $account->getGatewayConfigVal(config('attendize.payment_gateway_paypal'), 'password'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {!! Form::label('paypal[signature]', 'PayPal Signature', array('class'=>'control-label ')) !!}
+                {!! Form::label('paypal[signature]', trans("ManageAccount.paypal_signature"), array('class'=>'control-label ')) !!}
                 {!! Form::text('paypal[signature]', $account->getGatewayConfigVal(config('attendize.payment_gateway_paypal'), 'signature'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -65,10 +65,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    {!! Form::label('paypal[brandName]', 'Branding Name', array('class'=>'control-label ')) !!}
+                    {!! Form::label('paypal[brandName]', trans("ManageAccount.branding_name"), array('class'=>'control-label ')) !!}
                     {!! Form::text('paypal[brandName]', $account->getGatewayConfigVal(config('attendize.payment_gateway_paypal'), 'brandName'),[ 'class'=>'form-control'])  !!}
                     <div class="help-block">
-                        This is the name buyers will see when checking out. Leave this blank if you want the event organiser's name to be used.
+                        @lang("ManageAccount.branding_name_help")
                     </div>
                 </div>
             </div>
@@ -79,11 +79,11 @@
 
 {{--BitPay--}}
 <section class="payment_gateway_options" id="gateway_{{config('attendize.payment_gateway_bitpay')}}">
-    <h4>BitPay Settings</h4>
+    <h4>@lang("ManageAccount.bitpay_settings")</h4>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {!! Form::label('bitpay[apiKey]', 'BitPay Api Key', array('class'=>'control-label ')) !!}
+                {!! Form::label('bitpay[apiKey]', trans("ManageAccount.bitpay_api_key"), array('class'=>'control-label ')) !!}
                 {!! Form::text('bitpay[apiKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_bitpay'), 'apiKey'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -93,18 +93,18 @@
 
 {{--Coinbase--}}
 <section class="payment_gateway_options"  id="gateway_{{config('attendize.payment_gateway_coinbase')}}">
-    <h4>Coinbase Settings</h4>
+    <h4>@lang("ManageAccount.coinbase_settings")</h4>
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('coinbase[apiKey]', 'API Key', array('class'=>'control-label ')) !!}
+                {!! Form::label('coinbase[apiKey]', trans("ManageAccount.api_key"), array('class'=>'control-label ')) !!}
                 {!! Form::text('coinbase[apiKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_coinbase'), 'apiKey'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('coinbase[secret]', 'Secret Code', ['class'=>'control-label ']) !!}
+                {!! Form::label('coinbase[secret]', trans("ManageAccount.secret_code"), ['class'=>'control-label ']) !!}
                 {!! Form::text('coinbase[secret]', $account->getGatewayConfigVal(config('attendize.payment_gateway_coinbase'), 'secret'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -112,7 +112,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {!! Form::label('coinbase[accountId]', 'Account ID', array('class'=>'control-label ')) !!}
+                {!! Form::label('coinbase[accountId]', trans("ManageAccount.account_id"), array('class'=>'control-label ')) !!}
                 {!! Form::text('coinbase[accountId]', $account->getGatewayConfigVal(config('attendize.payment_gateway_coinbase'), 'accountId'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -123,18 +123,18 @@
 
 {{--BDO MIGS--}}
 <section class="payment_gateway_options"  id="gateway_{{config('attendize.payment_gateway_migs')}}">
-    <h4>Mastercard Internet Gateway Service Settings</h4>
+    <h4>@lang("ManageAccount.mastercard_internet_gateway_service_settings")</h4>
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('migs[merchantAccessCode]', 'Merchant Access Code', array('class'=>'control-label ')) !!}
+                {!! Form::label('migs[merchantAccessCode]', trans("ManageAccount.merchant_access_code"), array('class'=>'control-label ')) !!}
                 {!! Form::text('migs[merchantAccessCode]', $account->getGatewayConfigVal(config('attendize.payment_gateway_migs'), 'merchantAccessCode'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('migs[merchantId]', 'Merchant ID', ['class'=>'control-label ']) !!}
+                {!! Form::label('migs[merchantId]', trans("ManageAccount.merchant_id"), ['class'=>'control-label ']) !!}
                 {!! Form::text('migs[merchantId]', $account->getGatewayConfigVal(config('attendize.payment_gateway_migs'), 'merchantId'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -142,7 +142,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {!! Form::label('migs[secureHash]', 'Secure Hash Code', array('class'=>'control-label ')) !!}
+                {!! Form::label('migs[secureHash]', trans("ManageAccount.secure_hash_code"), array('class'=>'control-label ')) !!}
                 {!! Form::text('migs[secureHash]', $account->getGatewayConfigVal(config('attendize.payment_gateway_migs'), 'secureHash'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
@@ -157,7 +157,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel-footer">
-            {!! Form::submit('Save Payment Details', ['class' => 'btn btn-success pull-right']) !!}
+            {!! Form::submit(trans("ManageAccount.save_payment_details_submit"), ['class' => 'btn btn-success pull-right']) !!}
         </div>
     </div>
 </div>

@@ -5,16 +5,16 @@
 @stop
 
 @section('blankslate-title')
-    No Tickets Yet
+    @lang("Ticket.no_tickets_yet")
 @stop
 
 @section('blankslate-text')
-    Create your first ticket by clicking the button below.
+    @lang("Ticket.no_tickets_yet_text")
 @stop
 
 @section('blankslate-body')
     <button data-invoke="modal" data-modal-id='CreateTicket' data-href="{{route('showCreateTicket', array('event_id'=>$event->id))}}" href='javascript:void(0);'  class=' btn btn-success mt5 btn-lg' type="button" >
         <i class="ico-ticket"></i>
-        Create Ticket
+        @lang("Ticket.create_ticket")
     </button>
 @stop

@@ -11,24 +11,25 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart"></i>
-                    Order: <b>{{$order->order_reference}}</b></h3>
+                    @lang("ManageEvent.manage_order_title", ["order_ref"=>$order->order_reference])
+                </h3>
             </div>
             <div class="modal-body">
 
                 @if($order->is_refunded || $order->is_partially_refunded)
                  <div class="alert alert-info">
-                   {{money($order->amount_refunded, $order->event->currency)}} of this order has been refunded.
+                   @lang("ManageEvent.order_refunded", ["money"=>money($order->amount_refunded, $order->event->currency)])
                 </div>
                 @endif
 
                 @if(!$order->is_payment_received)
                     <div class="alert alert-info">
-                        This order is awaiting payment.
+                        @lang("ManageEvent.this_order_is_awaiting_payment")
                     </div>
-                    <a data-id="{{ $order->id }}" data-route="{{ route('postMarkPaymentReceived', ['order_id' => $order->id]) }}" class="btn btn-primary btn-sm markPaymentReceived" href="javascript:void(0);">Mark Payment Received</a>
+                    <a data-id="{{ $order->id }}" data-route="{{ route('postMarkPaymentReceived', ['order_id' => $order->id]) }}" class="btn btn-primary btn-sm markPaymentReceived" href="javascript:void(0);">@lang("ManageEvent.mark_payment_received")</a>
                 @endif
 
-                <h3>Order Overview</h3>
+                <h3>@lang("ManageEvent.order_overwiev")</h3>
                 <style>
                     .order_overview b {
                         text-transform: uppercase;
@@ -40,32 +41,32 @@
                 <div class="p0 well bgcolor-white order_overview">
                     <div class="row">
                         <div class="col-sm-6 col-xs-6">
-                            <b>First Name</b><br> {{$order->first_name}}
+                            <b>@lang("Attendee.first_name")</b><br> {{$order->first_name}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <b>Last Name</b><br> {{$order->last_name}}
-                        </div>
-
-                        <div class="col-sm-6 col-xs-6">
-                            <b>Amount</b><br>{{money($order->total_amount, $order->event->currency)}}
+                            <b>@lang("Attendee.last_name")</b><br> {{$order->last_name}}
                         </div>
 
                         <div class="col-sm-6 col-xs-6">
-                            <b>Reference</b><br> {{$order->order_reference}}
+                            <b>@lang("ManageEvent.amount")</b><br>{{money($order->total_amount, $order->event->currency)}}
+                        </div>
+
+                        <div class="col-sm-6 col-xs-6">
+                            <b>@lang("Order.order_ref")</b><br> {{$order->order_reference}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <b>Date</b><br> {{$order->created_at->toDateTimeString()}}
+                            <b>@lang("Order.date")</b><br> {{$order->created_at->toDateTimeString()}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <b>Email</b><br> {{$order->email}}
+                            <b>@lang("Order.email")</b><br> {{$order->email}}
                         </div>
 
                         @if($order->transaction_id)
                         <div class="col-sm-6 col-xs-6">
-                            <b>Transaction ID</b><br> {{$order->transaction_id}}
+                            <b>@lang("Order.transaction_id")</b><br> {{$order->transaction_id}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <b>Payment Gateway</b><br> <a href="{{ $order->payment_gateway->provider_url }}" target="_blank">{{$order->payment_gateway->provider_name}}</a>
+                            <b>@lang("Order.payment_gateway")</b><br> <a href="{{ $order->payment_gateway->provider_url }}" target="_blank">{{$order->payment_gateway->provider_name}}</a>
                         </div>
                         @endif
 
@@ -78,19 +79,19 @@
                         <table class="table table-hover" >
                             <thead>
                             <th>
-                                Ticket
+                                @lang("Order.ticket")
                             </th>
                             <th>
-                                Quantity
+                                @lang("Order.quantity")
                             </th>
                             <th>
-                                Price
+                                @lang("Order.price")
                             </th>
                             <th>
-                                Booking Fee
+                                @lang("Order.booking_fee")
                             </th>
                             <th>
-                                Total
+                                @lang("Order.total")
                             </th>
                             </thead>
                             <tbody>
@@ -104,7 +105,7 @@
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                            @lang("Order.free")
                                         @else
                                        {{money($order_item->unit_price, $order->event->currency)}}
                                         @endif
@@ -120,7 +121,7 @@
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                            @lang("Order.free")
                                         @else
                                         {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                                         @endif
@@ -136,7 +137,7 @@
                                     <td>
                                     </td>
                                     <td>
-                                        <b>Sub Total</b>
+                                        <b>@lang("Order.sub_total")</b>
                                     </td>
                                     <td colspan="2">
                                         {{money($order->total_amount, $order->event->currency)}}
@@ -149,7 +150,7 @@
                 </div>
 
                 <h3>
-                    Order Attendees
+                    @lang("Order.order_attendees")
                 </h3>
                 <div class="well nopad bgcolor-white p0">
 
@@ -161,12 +162,12 @@
                                     <td>
                                         @if($attendee->is_cancelled)
                                         <span class="label label-warning">
-                                            Cancelled
+                                            @lang("Order.attendee_cancelled")
                                         </span>
                                         @endif
                                         @if($attendee->is_refunded)
                                             <span class="label label-danger">
-                                                Refunded
+                                                @lang("Order.attendee_refunded")
                                             </span>
                                         @endif
                                         {{$attendee->first_name}}
@@ -189,11 +190,11 @@
 
             <div class="modal-footer">
                 <a href="javascript:void(0);" data-modal-id="edit-order-{{ $order->id }}" data-href="{{route('showEditOrder', ['order_id'=>$order->id])}}" title="Edit Order" class="btn btn-info loadModal">
-                    Edit
+                    @lang("Order.edit")
                 </a>
-                <a class="btn btn-primary" target="_blank" href="{{route('showOrderTickets', ['order_reference' => $order->order_reference])}}?download=1">Print Tickets</a>
-                <span class="pauseTicketSales btn btn-success" data-id="{{$order->id}}" data-route="{{route('resendOrder', ['order_id'=>$order->id])}}">Resend Tickets</span>
-               {!! Form::button('Close', ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
+                <a class="btn btn-primary" target="_blank" href="{{route('showOrderTickets', ['order_reference' => $order->order_reference])}}?download=1">@lang("ManageEvent.print_tickets")</a>
+                <span class="pauseTicketSales btn btn-success" data-id="{{$order->id}}" data-route="{{route('resendOrder', ['order_id'=>$order->id])}}">@lang("ManageEvent.resend_tickets")</span>
+               {!! Form::button(trans("ManageEvent.close"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
             </div>
         </div><!-- /end modal content-->
     </div>

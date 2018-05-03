@@ -42,13 +42,13 @@ Form::macro('styledFile', function ($name, $multiple = false) {
         <div class="input-group">
             <span class="input-group-btn">
                 <span class="btn btn-primary btn-file ">
-                    Browse&hellip; <input name="' . $name . '" type="file" ' . ($multiple ? 'multiple' : '') . '>
+                    '.trans("basic.browse").'&hellip; <input name="' . $name . '" type="file" ' . ($multiple ? 'multiple' : '') . '>
                 </span>
             </span>
             <input type="text" class="form-control" readonly>
             <span style="display: none;" class="input-group-btn btn-upload-file">
                 <span class="btn btn-success ">
-                    Upload
+                    '.trans("basic.upload").'
                 </span>
             </span>
         </div>
