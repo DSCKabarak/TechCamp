@@ -6,7 +6,7 @@
 
             @if(count($events))
 
-                @foreach($events as $event)
+                @foreach($events->where('is_live', 1) as $event)
                     <li>
                         <time datetime="{{ $event->start_date }}">
                             <span class="day">{{ $event->start_date->format('d') }}</span>
