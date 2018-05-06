@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="organiser_logo">
                 <div class="thumbnail">
-                    <img src="{{$organiser->full_logo_path}}" />
+                    <img src="{{URL::to($organiser->full_logo_path)}}" />
                 </div>
             </div>
             <h1>{{$organiser->name}}</h1>
