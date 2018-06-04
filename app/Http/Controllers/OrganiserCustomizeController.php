@@ -50,6 +50,9 @@ class OrganiserCustomizeController extends MyBaseController
         $organiser->enable_organiser_page = $request->get('enable_organiser_page');
         $organiser->facebook              = $request->get('facebook');
         $organiser->twitter               = $request->get('twitter');
+        $organiser->taxname               = $request->get('taxname');
+        $organiser->taxvalue              = $request->get('taxvalue');
+        $organiser->taxid                 = $request->get('taxid');
 
         if ($request->get('remove_current_image') == '1') {
             $organiser->logo_path = '';

@@ -85,7 +85,14 @@
                             <h4>Attendee Ref.</h4>
                             {{$attendee->reference}}
                             <h4>Price</h4>
-                            {{money($attendee->ticket->total_price, $order->event->currency)}} (inc. {{money($attendee->ticket->total_booking_fee, $order->event->currency)}} Fees)
+							@php
+                            	// Calculating grand total including tax
+				                $grand_total = $attendee->ticket->total_price;
+				                $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
+				                $grand_total = $tax_amt + $grand_total;
+                            @endphp
+                            {{money($grand_total, $order->event->currency)}} (inc. {{money($attendee->ticket->total_booking_fee, $order->event->currency)}} Fees) (inc. {{money($tax_amt, $order->event->currency)}} {{$event->organiser->taxname}})
+                            <br><br>{{$event->organiser->taxname}} ID: {{ $event->organiser->taxid }}
                         </div>
 
                         <div class="barcode">
@@ -108,3 +115,4 @@
         </div>
     </body>
 </html>
+

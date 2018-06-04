@@ -93,6 +93,28 @@
                                                 'rows' => 4
                                                 ))  !!}
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {!! Form::label('taxid', 'Tax ID', array('class'=>'control-label required')) !!}
+                                {!! Form::text('taxid', Input::old('taxid'), array('class'=>'form-control', 'placeholder'=>'Tax ID'))  !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {!! Form::label('taxname', 'Tax name', array('class'=>'control-label required')) !!}
+                                {!! Form::text('taxname', Input::old('taxname'), array('class'=>'form-control', 'placeholder'=>'Tax name'))  !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {!! Form::label('taxvalue', 'Tax value', array('class'=>'control-label required')) !!}
+                                {!! Form::text('taxvalue', Input::old('taxvalue'), array('class'=>'form-control', 'placeholder'=>'Tax Value'))  !!}
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         {!! Form::label('google_analytics_code', 'Google Analytics Code', array('class'=>'control-label')) !!}
                         {!!  Form::text('google_analytics_code', Input::old('google_analytics_code'),
@@ -213,5 +235,3 @@
             </div>
         </div>
 @stop
-
-
