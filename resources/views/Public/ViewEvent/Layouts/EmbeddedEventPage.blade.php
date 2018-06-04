@@ -70,10 +70,14 @@
     <body class="attendize">
         @yield('content')
 
+        @include("Shared.Partials.LangScript")
         {!!HTML::script('assets/javascript/frontend.js')!!}
 
         @if(isset($secondsToExpire))
-        <script>if ($('#countdown')) {setCountdown($('#countdown'), {{$secondsToExpire}}); }</script>
+        <script>
+            // TODO: hardcoded english phrases
+            if ($('#countdown')) {setCountdown($('#countdown'), {{$secondsToExpire}}); }
+        </script>
         @endif
 
         @include('Shared.Partials.GlobalFooterJS')

@@ -69,27 +69,40 @@
 
 }
 
+.ticket .layout_even {
+    position:absolute;
+    top:50%;
+    height:300px;
+    left: 175px;
+    width: 400px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
 .ticket .event_details, .ticket .attendee_details {
     position: absolute;
-    top: 15px;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
 }
 
 .ticket .event_details {
-    left: 175px;
+    left: 0px;
     overflow: hidden;
-    max-width: 210px;
-    white-space: nowrap;
+    max-width: 200px;
     text-overflow: ellipsis;
-    top: 50px;
 }
 
 .ticket .attendee_details {
-    left: 390px;
+    left: 200px;
     overflow: hidden;
     max-width: 195px;
-    white-space: nowrap;
     text-overflow: ellipsis;
-    top: 50px;
 }
 
 .ticket .logo {
@@ -105,4 +118,12 @@
 
 .ticket .logo img {
     max-width: 110px;
+}
+
+.ticket .foot {
+    position: absolute;
+    bottom: 0;
+    font-size: 9px;
+    width: 100%;
+    text-align: center;
 }

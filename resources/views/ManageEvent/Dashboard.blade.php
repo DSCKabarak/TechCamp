@@ -2,7 +2,7 @@
 
 @section('title')
     @parent
-    Dashboard
+    @lang("basic.dashboard")
 @stop
 
 
@@ -10,7 +10,7 @@
     @include('ManageEvent.Partials.TopNav')
 @stop
 
-@section('page_title', '<i class="ico-home2"></i>&nbsp;Event Dashboard')
+@section('page_title', '<i class="ico-home2"></i>&nbsp;'.trans("basic.event_dashboard"))
 
 @section('menu')
     @include('ManageEvent.Partials.Sidebar')
@@ -40,25 +40,25 @@
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ money($event->sales_volume + $event->organiser_fees_volume, $event->currency) }}</h3>
-                <span>Sales Volume</span>
+                <span>@lang("Dashboard.sales_volume")</span>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ $event->orders->count() }}</h3>
-                <span>Orders</span>
+                <span>@lang("Dashboard.orders")</span>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ $event->tickets->sum('quantity_sold') }}</h3>
-                <span>Tickets Sold</span>
+                <span>@lang("Dashboard.tickets_sold")</span>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ $event->stats->sum('views') }}</h3>
-                <span>Event Views</span>
+                <span>@lang("Dashboard.event_views")</span>
             </div>
         </div>
 
@@ -79,9 +79,9 @@
                     <div class="panel">
                         <div class="panel-heading panel-default">
                             <h3 class="panel-title">
-                                Tickets Sold
+                                @lang("Dashboard.tickets_sold")
                         <span style="color: green; float: right;">
-                            {{$event->tickets->sum('quantity_sold')}} Total
+                            {{$event->tickets->sum('quantity_sold')}} @lang("basic.total")
                         </span>
                             </h3>
                         </div>
@@ -96,10 +96,10 @@
                     <div class="panel">
                         <div class="panel-heading panel-default">
                             <h3 class="panel-title">
-                                Ticket Sales Volume
+                                @lang("Dashboard.ticket_sales_volume")
                                 <span style="color: green; float: right;">
                                     {{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}
-                                    Total
+                                    @lang("basic.total")
                                 </span>
                             </h3>
                         </div>
@@ -119,9 +119,9 @@
                     <div class="panel">
                         <div class="panel-heading panel-default">
                             <h3 class="panel-title">
-                                Event Page Visits
+                                @lang("Dashboard.event_page_visits")
                                 <span style="color: green; float: right;">
-                                    {{$event->stats->sum('views')}} Total
+                                    {{$event->stats->sum('views')}} @lang("basic.total")
                                 </span>
                             </h3>
                         </div>
@@ -136,7 +136,7 @@
                     <div class="panel">
                         <div class="panel-heading panel-default">
                             <h3 class="panel-title">
-                                Registrations By Ticket
+                                @lang("Dashboard.registrations_by_ticket")
                             </h3>
                         </div>
                         <div class="panel-body">
@@ -154,7 +154,7 @@
                 <div class="panel-body">
                     <i class="ico ico-clock"></i>
                     @if($event->happening_now)
-                        This event is on now
+                        @lang("Dashboard.this_event_is_on_now")
                     @else
                         <span id="countdown"></span>
                     @endif
@@ -164,7 +164,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="ico-link mr5 ellipsis"></i>
-                        Event URL
+                        @lang("Dashboard.event_url")
                     </h3>
                 </div>
 
@@ -177,7 +177,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="ico-share mr5 ellipsis"></i>
-                        Share Event
+                        @lang("Dashboard.share_event")
                     </h3>
                 </div>
 
@@ -196,7 +196,7 @@
                                       c-0.408,0-0.884,0.492-0.884,1.236v1.836h4.609v4.608h-4.609v10.446h4.916c2.422,0,4.608-2.188,4.608-4.608V4.783z"/>
                                 </svg>
                             </span>
-                                <span class="rrssb-text">facebook</span>
+                                <span class="rrssb-text">@lang("Social.facebook")</span>
                             </a>
                         </li>
                         <li class="rrssb-linkedin">
@@ -214,7 +214,7 @@
                                       C8.054,3.593,7.019,2.501,5.343,2.501H5.348z M2.867,24.334h4.897V9.603H2.867V24.334z"/>
                                 </svg>
                             </span>
-                                <span class="rrssb-text">linkedin</span>
+                                <span class="rrssb-text">@lang("Social.linkedin")</span>
                             </a>
                         </li>
                         <li class="rrssb-twitter">
@@ -233,7 +233,7 @@
                                       C26.275,7.229,25.39,8.196,24.253,8.756z"/>
                                 </svg>
                             </span>
-                                <span class="rrssb-text">twitter</span>
+                                <span class="rrssb-text">@lang("Social.twitter")</span>
                             </a>
                         </li>
 
@@ -263,7 +263,7 @@
                                 </g>
                                 </svg>
                             </span>
-                                <span class="rrssb-text">google+</span>
+                                <span class="rrssb-text">@lang("Social.g+")</span>
                             </a>
                         </li>
 
@@ -279,7 +279,7 @@
                                         <path d="M20.111 26.147c-2.336 1.051-4.361 1.401-7.125 1.401c-6.462 0-12.146-4.633-12.146-12.265 c0-7.94 5.762-14.833 14.561-14.833c6.853 0 11.8 4.7 11.8 11.252c0 5.684-3.194 9.265-7.399 9.3 c-1.829 0-3.153-0.934-3.347-2.997h-0.077c-1.208 1.986-2.96 2.997-5.023 2.997c-2.532 0-4.361-1.868-4.361-5.062 c0-4.749 3.504-9.071 9.111-9.071c1.713 0 3.7 0.4 4.6 0.973l-1.169 7.203c-0.388 2.298-0.116 3.3 1 3.4 c1.673 0 3.773-2.102 3.773-6.58c0-5.061-3.27-8.994-9.303-8.994c-5.957 0-11.175 4.673-11.175 12.1 c0 6.5 4.2 10.2 10 10.201c1.986 0 4.089-0.43 5.646-1.245L20.111 26.147z M16.646 10.1 c-0.311-0.078-0.701-0.155-1.207-0.155c-2.571 0-4.595 2.53-4.595 5.529c0 1.5 0.7 2.4 1.9 2.4 c1.441 0 2.959-1.828 3.311-4.087L16.646 10.068z"/>
                                     </g></svg>
                             </span>
-                                <span class="rrssb-text">email</span>
+                                <span class="rrssb-text">@lang("Social.email")</span>
                             </a>
                         </li>
                     </ul>
@@ -292,26 +292,26 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="ico-link mr5 ellipsis"></i>
-                        Quick Links
+                        @lang("Dashboard.quick_links")
                     </h3>
                 </div>
 
                 <div class="panel-body">
 
                     <a href="" class="btn-link btn">
-                        Edit Event Page Design <i class="ico ico-arrow-right3"></i>
+                        @lang("Dashboard.edit_event_page_design") <i class="ico ico-arrow-right3"></i>
                     </a>
                     <a href="" class="btn-link btn">
-                        Create Tickets <i class="ico ico-arrow-right3"></i>
+                        @lang("Dashboard.create_tickets") <i class="ico ico-arrow-right3"></i>
                     </a>
                     <a href="" class="btn-link btn">
-                        Website Embed Code <i class="ico ico-arrow-right3"></i>
+                        @lang("Dashboard.website_embed_code") <i class="ico ico-arrow-right3"></i>
                     </a>
                     <a href="" class="btn-link btn">
-                        Generate Affiliate Link <i class="ico ico-arrow-right3"></i>
+                        @lang("Dashboard.generate_affiliate_link") <i class="ico ico-arrow-right3"></i>
                     </a>
                     <a href="" class="btn-link btn">
-                        Edit Organiser Fees <i class="ico ico-arrow-right3"></i>
+                        @lang("Dashboard.edit_organiser_fees") <i class="ico ico-arrow-right3"></i>
                     </a>
                 </div>
 
@@ -336,7 +336,7 @@
             data: chartData,
             xkey: 'date',
             ykeys: ['sales_volume'],
-            labels: ['Sales Volume'],
+            labels: ["@lang("Dashboard.sales_volume")"],
             xLabels: 'day',
             xLabelAngle: 30,
             yLabelFormat: function (x) {
@@ -353,7 +353,7 @@
             //ykeys: ['views', 'unique_views'],
             //labels: ['Event Page Views', 'Unique views'],
             ykeys: ['views'],
-            labels: ['Event Page Views'],
+            labels: ["@lang("Dashboard.event_views")"],
             xLabels: 'day',
             xLabelAngle: 30,
             xLabelFormat: function (x) {
@@ -365,7 +365,7 @@
             data: chartData,
             xkey: 'date',
             ykeys: ['tickets_sold'],
-            labels: ['Tickets sold'],
+            labels: ["@lang("Dashboard.tickets_sold")"],
             xLabels: 'day',
             xLabelAngle: 30,
             lineColors: ['#0390b5', '#0066ff'],
@@ -374,11 +374,10 @@
             }
         });
         function formatDate(x) {
-            var m_names = new Array("Jan", "Feb", "Mar",
-                    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-                    "Oct", "Nov", "Dec");
+            var m_names = <?=json_encode(explode("|", trans("basic.months_short")))?>;
             var sup = "",
                     curr_date = x.getDate();
+            <?php if(Lang::locale()=="en") { ?>
             if (curr_date == 1 || curr_date == 21 || curr_date == 31) {
                 sup = "st";
             }
@@ -391,15 +390,17 @@
             else {
                 sup = "th";
             }
+            <?php } ?>
+            /*  {{Lang::locale()}} */
 
             return curr_date + sup + ' ' + m_names[x.getMonth()];
         }
 
-        var target_date = new Date("{{$event->start_date->format('M')}} {{$event->start_date->format('d')}}, {{$event->start_date->format('Y')}} {{$event->start_date->format('H')}}:{{$event->start_date->format('i')}} ").getTime();
+        var target_date = new Date("{{$event->start_date->format('M d, Y H:i')}} ").getTime();
         var now = new Date();
         var countdown = document.getElementById("countdown");
         if (target_date < now) {
-            countdown.innerHTML = 'This event has started.';
+            countdown.innerHTML = "@lang("Dashboard.this_event_has_started")";
         } else {
 
             var days, hours, minutes, seconds;
@@ -417,7 +418,7 @@
                 seconds_left = seconds_left % 3600;
                 minutes = parseInt(seconds_left / 60);
                 // format countdown string + set tag value
-                countdown.innerHTML = (days > 0 ? '<b>' + days + "</b> days<b> " : '') + (hours > 0 ? hours + " </b>hours<b> " : '') + (minutes > 0 ? minutes + "</b> minutes" : '');
+                countdown.innerHTML = (days > 0 ? '<b>' + days + "</b> @lang("basic.days")<b> " : '') + (hours > 0 ? hours + " </b>@lang("basic.hours")<b> " : '') + (minutes > 0 ? minutes + "</b> @lang("basic.minutes")" : '');
             }
         }
 

@@ -103,7 +103,7 @@ class EventController extends MyBaseController
                 'organiser_email' => ['required', 'email'],
             ];
             $messages = [
-                'organiser_name.required' => 'You must give a name for the event organiser.',
+                'organiser_name.required' => trans("Controllers.no_organiser_name_error"),
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -128,7 +128,7 @@ class EventController extends MyBaseController
         } else { /* Somethings gone horribly wrong */
             return response()->json([
                 'status'   => 'error',
-                'messages' => 'There was an issue finding the organiser.',
+                'messages' => trans("Controllers.organiser_other_error"),
             ]);
         }
 
@@ -165,7 +165,7 @@ class EventController extends MyBaseController
 
             return response()->json([
                 'status'   => 'error',
-                'messages' => 'Whoops! There was a problem creating your event. Please try again.',
+                'messages' => trans("Controllers.event_create_exception"),
             ]);
         }
 
@@ -307,7 +307,7 @@ class EventController extends MyBaseController
         return response()->json([
             'status'      => 'success',
             'id'          => $event->id,
-            'message'     => 'Event Successfully Updated',
+            'message'     => trans("Controllers.event_successfully_updated"),
             'redirectUrl' => '',
         ]);
     }
@@ -342,7 +342,7 @@ class EventController extends MyBaseController
             }
 
             return response()->json([
-                'error' => 'There was a problem uploading your image.',
+                'error' => trans("Controllers.image_upload_error"),
             ]);
         }
     }

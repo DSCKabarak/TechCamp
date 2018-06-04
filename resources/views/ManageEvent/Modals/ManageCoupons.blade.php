@@ -1,3 +1,4 @@
+<?php /* This template seems to be unfinished, not translating */ ?>
 <div role="dialog"  class="modal fade " style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">

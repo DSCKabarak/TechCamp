@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>
-        Check In: {{$event->title}}
+        @lang("Attendee.check_in", ["event"=>$event->title])
     </title>
 
     {!! HTML::script('vendor/vue/dist/vue.min.js') !!}
@@ -49,7 +49,7 @@
                             'v-model' => 'searchTerm',
                             '@keyup' => 'fetchAttendees | debounce 500',
                             '@keyup.esc' => 'clearSearch',
-                            'placeholder' => 'Search by Attendee Name, Order Reference, Attendee Reference... '
+                            'placeholder' => trans("ManageEvent.checkin_search_placeholder")
                 ])  !!}
 
 
@@ -70,17 +70,16 @@
                 <div class="attendee_list">
                     <h4 class="attendees_title">
                         <span v-if="!searchTerm">
-                            All Attendees
+                            @lang("ManageEvent.all_attendees")
                         </span>
                         <span v-else v-cloak>
-                            @{{searchResultsCount}} @{{searchResultsCount | pluralize 'Result'}}
-                            for <b>@{{ searchTerm }}</b>
+                            @{{searchResultsCount}} @lang("ManageEvent.result_for") <b>@{{ searchTerm }}</b>
                         </span>
                     </h4>
 
                     <div style="margin: 10px;" v-if="searchResultsCount == 0 && searchTerm" class="alert alert-info"
                          v-cloak>
-                        No Attendees matching <b>@{{ searchTerm }}</b>
+                        @lang("ManageEvent.no_attendees_matching") <b>@{{ searchTerm }}</b>
                     </div>
 
                     <ul v-if="searchResultsCount > 0" class="list-group" id="attendee_list" v-cloak>
@@ -90,11 +89,11 @@
                         class="at list-group-item"
                         :class = "{arrived : attendee.has_arrived || attendee.has_arrived == '1'}"
                         >
-                        Name: <b>@{{ attendee.first_name }} @{{ attendee.last_name }} </b> &nbsp; <span v-if="!attendee.is_payment_received" class="label label-danger">Awaiting Payment</span>
+                            @lang("Attendee.name"): <b>@{{ attendee.first_name }} @{{ attendee.last_name }} </b> &nbsp; <span v-if="!attendee.is_payment_received" class="label label-danger">@lang("Order.awaiting_payment")</span>
                         <br>
-                        Reference: <b>@{{ attendee.order_reference + '-' + attendee.reference_index }}</b>
+                            @lang("Order.reference"): <b>@{{ attendee.order_reference + '-' + attendee.reference_index }}</b>
                         <br>
-                        Ticket: <b>@{{ attendee.ticket }}</b>
+                            @lang("Order.ticket"): <b>@{{ attendee.ticket }}</b>
                         <a href="" class="ci btn btn-successfulQrRead">
                             <i class="ico-checkmark"></i>
                         </a>
@@ -127,7 +126,7 @@
 
         <div class="scannerButtons">
                     <a @click="initScanner" v-show="!isScanning" href="javascript:void(0);">
-                    Scan another ticket
+                    @lang("Attendee.scan_another_ticket")
                     </a>
         </div>
         <div v-if="isScanning" class="scannerAimer">
@@ -143,7 +142,7 @@
                         @{{{ scanResultMessage }}}
                     </span>
                     <span v-else>
-                        <div id="scanning-ellipsis">Scanning<span>.</span><span>.</span><span>.</span></div>
+                        <div id="scanning-ellipsis">@lang("Attendee.scanning")<span>.</span><span>.</span><span>.</span></div>
                     </span>
         </div>
         <canvas id="QrCanvas" width="800" height="600"></canvas>
@@ -155,6 +154,7 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
 </script>
 
+@include("Shared.Partials.LangScript")
 {!! HTML::script('vendor/qrcode-scan/llqrcode.js') !!}
 {!! HTML::script('assets/javascript/check_in.js') !!}
 </body>

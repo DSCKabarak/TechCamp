@@ -738,6 +738,11 @@ class EventCheckoutController extends Controller
         if (!$order) {
             abort(404);
         }
+        $images = [];
+        $imgs = $order->event->images;
+        foreach ($imgs as $img) {
+            $images[] = base64_encode(file_get_contents(public_path($img->image_path)));
+        }
 
         $data = [
             'order'     => $order,
@@ -746,7 +751,7 @@ class EventCheckoutController extends Controller
             'attendees' => $order->attendees,
             'css'       => file_get_contents(public_path('assets/stylesheet/ticket.css')),
             'image'     => base64_encode(file_get_contents(public_path($order->event->organiser->full_logo_path))),
-
+            'images'    => $images,
         ];
 
         if ($request->get('download') == '1') {

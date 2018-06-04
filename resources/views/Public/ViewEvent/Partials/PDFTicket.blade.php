@@ -58,42 +58,46 @@
                     <div class="ticket">
 
                         <div class='logo'>
-				<img alt="{{$event->organiser->full_logo_path}}" src="data:image/png;base64, {{$image}}" />
+                            <img alt="{{$event->organiser->full_logo_path}}" src="data:image/png;base64, {{$image}}" />
+                            @if(count($images)>0)
+                                @foreach($images as $img)
+                                    <BR><img src="data:image/png;base64, {{$img}}" />
+                                @endforeach
+                            @endif
                         </div>
+                        <div class="layout_even">
+                            <div class="event_details">
+                                <h4>@lang("Ticket.event")</h4>
+                                {{$event->title}}
+                                <h4>@lang("Ticket.organiser")</h4>
+                                {{$event->organiser->name}}
+                                <h4>@lang("Ticket.venue")</h4>
+                                {{$event->venue_name}}
+                                <h4>@lang("Ticket.start_date_time")</h4>
+                                {{$event->start_date->format('Y-m-d H:i')}}
+                                <h4>@lang("Ticket.end_date_time")</h4>
+                                {{$event->end_date->format('Y-m-d H:i')}}
+                            </div>
 
-                        <div class="event_details">
-                            <h4>Event</h4>
-                            {{$event->title}}
-                            <h4>Organiser</h4>
-                            {{$event->organiser->name}}
-                            <h4>Venue</h4>
-                            {{$event->venue_name}}
-                            <h4>Start Date / Time</h4>
-                            {{$event->start_date->format('M dS g:iA')}}
-                            <h4>End Date / Time</h4>
-                            {{$event->end_date->format('M dS g:iA')}}
-                        </div>
-
-                        <div class="attendee_details">
-                            <h4>Name</h4>
-                            {{$attendee->first_name.' '.$attendee->last_name}}
-
-                            <h4>Ticket Type</h4>
-                            {{$attendee->ticket->title}}
-                            <h4>Order Ref.</h4>
-                            {{$order->order_reference}}
-                            <h4>Attendee Ref.</h4>
-                            {{$attendee->reference}}
-                            <h4>Price</h4>
-							@php
-                            	// Calculating grand total including tax
-				                $grand_total = $attendee->ticket->total_price;
-				                $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
-				                $grand_total = $tax_amt + $grand_total;
-                            @endphp
-                            {{money($grand_total, $order->event->currency)}} (inc. {{money($attendee->ticket->total_booking_fee, $order->event->currency)}} Fees) (inc. {{money($tax_amt, $order->event->currency)}} {{$event->organiser->taxname}})
-                            <br><br>{{$event->organiser->taxname}} ID: {{ $event->organiser->taxid }}
-                        </div>
+                            <div class="attendee_details">
+                                <h4>@lang("Ticket.name")</h4>
+                                {{$attendee->first_name.' '.$attendee->last_name}}
+                                <h4>@lang("Ticket.ticket_type")</h4>
+                            	{{$attendee->ticket->title}}
+                                <h4>@lang("Ticket.order_ref")</h4>
+                            	{{$order->order_reference}}
+                                <h4>@lang("Ticket.attendee_ref")</h4>
+                            	{{$attendee->reference}}
+                                <h4>@lang("Ticket.price")</h4>
+								@php
+	                            	// Calculating grand total including tax
+					                $grand_total = $attendee->ticket->total_price;
+					                $tax_amt = ($grand_total * $event->organiser->taxvalue) / 100;
+					                $grand_total = $tax_amt + $grand_total;
+	                            @endphp
+	                            {{money($grand_total, $order->event->currency)}} (inc. {{money($attendee->ticket->total_booking_fee, $order->event->currency)}} @lang("Public_ViewEvent.inc_fees") (inc. {{money($tax_amt, $order->event->currency)}} {{$event->organiser->taxname}})
+	                            <br><br>{{$event->organiser->taxname}} ID: {{ $event->organiser->taxid }}
+                            </div>
 
                         <div class="barcode">
                             {!! DNS2D::getBarcodeSVG($attendee->private_reference_number, "QRCODE", 6, 6) !!}
@@ -103,6 +107,9 @@
                             {!! DNS1D::getBarcodeSVG($attendee->private_reference_number, "C39+", 1, 50) !!}
                         </div>
                         @endif
+                        <div class="foot">
+                            @lang("Ticket.footer")
+                        </div>
                     </div>
                 @endif
             @endforeach

@@ -2,7 +2,7 @@
     <div class="panel-heading" data-style="background-color: {{{$event->bg_color}}};background-image: url({{{$event->bg_image_url}}}); background-size: cover;">
         <div class="event-date">
             <div class="month">
-                {{strtoupper($event->start_date->format('M'))}}
+                {{strtoupper(explode("|", trans("basic.months_short"))[$event->start_date->format('n')])}}
             </div>
             <div class="day">
                 {{$event->start_date->format('d')}}
@@ -26,14 +26,14 @@
             <li>
                 <div class="section">
                     <h4 class="nm">{{$event->tickets->sum('quantity_sold')}}</h4>
-                    <p class="nm text-muted">Tickets Sold</p>
+                    <p class="nm text-muted">@lang("Event.tickets_sold")</p>
                 </div>
             </li>
 
             <li>
                 <div class="section">
                     <h4 class="nm">{{{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}}</h4>
-                    <p class="nm text-muted">Revenue</p>
+                    <p class="nm text-muted">@lang("Event.revenue")</p>
                 </div>
             </li>
         </ul>
@@ -42,13 +42,13 @@
         <ul class="nav nav-section nav-justified">
             <li>
                 <a href="{{route('showEventCustomize', ['event_id' => $event->id])}}">
-                    <i class="ico-edit"></i> Edit
+                    <i class="ico-edit"></i> @lang("basic.edit")
                 </a>
             </li>
 
             <li>
                 <a href="{{route('showEventDashboard', ['event_id' => $event->id])}}">
-                    <i class="ico-cog"></i> Manage
+                    <i class="ico-cog"></i> @lang("basic.manage")
                 </a>
             </li>
         </ul>

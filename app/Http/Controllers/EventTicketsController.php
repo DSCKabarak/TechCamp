@@ -22,11 +22,11 @@ class EventTicketsController extends MyBaseController
     public function showTickets(Request $request, $event_id)
     {
         $allowed_sorts = [
-            'created_at'    => 'Creation date',
-            'title'         => 'Ticket title',
-            'quantity_sold' => 'Quantity sold',
-            'sales_volume'  => 'Sales volume',
-            'sort_order'  => 'Custom Sort Order',
+            'created_at'    => trans("Controllers.sort.created_at"),
+            'title'         => trans("Controllers.sort.title"),
+            'quantity_sold' => trans("Controllers.sort.quantity_sold"),
+            'sales_volume'  => trans("Controllers.sort.sales_volume"),
+            'sort_order'  => trans("Controllers.sort.sort_order"),
         ];
 
         // Getting get parameters.
@@ -118,7 +118,7 @@ class EventTicketsController extends MyBaseController
         return response()->json([
             'status'      => 'success',
             'id'          => $ticket->id,
-            'message'     => 'Refreshing...',
+            'message'     => trans("Controllers.refreshing"),
             'redirectUrl' => route('showEventTickets', [
                 'event_id' => $event_id,
             ]),
@@ -142,7 +142,7 @@ class EventTicketsController extends MyBaseController
         if ($ticket->save()) {
             return response()->json([
                 'status'  => 'success',
-                'message' => 'Ticket Successfully Updated',
+                'message' => trans("Controllers.ticket_successfully_updated"),
                 'id'      => $ticket->id,
             ]);
         }
@@ -154,7 +154,7 @@ class EventTicketsController extends MyBaseController
         return response()->json([
             'status'  => 'error',
             'id'      => $ticket->id,
-            'message' => 'Whoops! Looks like something went wrong. Please try again.',
+            'message' => trans("Controllers.whoops"),
         ]);
     }
 
@@ -176,7 +176,7 @@ class EventTicketsController extends MyBaseController
         if ($ticket->quantity_sold > 0) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Sorry, you can\'t delete this ticket as some have already been sold',
+                'message' => trans("Controllers.cant_delete_ticket_when_sold"),
                 'id'      => $ticket->id,
             ]);
         }
@@ -184,7 +184,7 @@ class EventTicketsController extends MyBaseController
         if ($ticket->delete()) {
             return response()->json([
                 'status'  => 'success',
-                'message' => 'Ticket Successfully Deleted',
+                'message' => trans("Controllers.ticket_successfully_deleted"),
                 'id'      => $ticket->id,
             ]);
         }
@@ -196,7 +196,7 @@ class EventTicketsController extends MyBaseController
         return response()->json([
             'status'  => 'error',
             'id'      => $ticket->id,
-            'message' => 'Whoops! Looks like something went wrong. Please try again.',
+            'message' => trans("Controllers.whoops"),
         ]);
     }
 
@@ -219,7 +219,7 @@ class EventTicketsController extends MyBaseController
             'integer',
             'min:' . ($ticket->quantity_sold + $ticket->quantity_reserved)
         ];
-        $validation_messages['quantity_available.min'] = 'Quantity available can\'t be less the amount sold or reserved.';
+        $validation_messages['quantity_available.min'] = trans("Controllers.quantity_min_error");
 
         $ticket->rules = $validation_rules + $ticket->rules;
         $ticket->messages = $validation_messages + $ticket->messages;
@@ -248,7 +248,7 @@ class EventTicketsController extends MyBaseController
         return response()->json([
             'status'      => 'success',
             'id'          => $ticket->id,
-            'message'     => 'Refreshing...',
+            'message'     => trans("Controllers.refreshing"),
             'redirectUrl' => route('showEventTickets', [
                 'event_id' => $event_id,
             ]),
@@ -275,7 +275,7 @@ class EventTicketsController extends MyBaseController
 
         return response()->json([
             'status'  => 'success',
-            'message' => 'Ticket Order Successfully Updated',
+            'message' => trans("Controllers.ticket_order_successfully_updated"),
         ]);
     }
 }

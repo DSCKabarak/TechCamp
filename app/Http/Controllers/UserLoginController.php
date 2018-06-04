@@ -54,13 +54,13 @@ class UserLoginController extends Controller
 
         if (empty($email) || empty($password)) {
             return Redirect::back()
-                ->with(['message' => 'Please fill in your email and password', 'failed' => true])
+                ->with(['message' => trans("Controllers.fill_email_and_password"), 'failed' => true])
                 ->withInput();
         }
 
         if ($this->auth->attempt(['email' => $email, 'password' => $password], true) === false) {
             return Redirect::back()
-                ->with(['message' => 'Your username/password combination was incorrect', 'failed' => true])
+                ->with(['message' => trans("Controllers.login_password_incorrect"), 'failed' => true])
                 ->withInput();
         }
 

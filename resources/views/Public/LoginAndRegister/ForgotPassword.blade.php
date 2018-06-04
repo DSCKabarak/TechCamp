@@ -1,7 +1,7 @@
 @extends('Shared.Layouts.MasterWithoutMenus')
 
 @section('title')
-Forgot Password
+@lang("User.forgot_password")
 @stop
 
 @section('content')
@@ -15,32 +15,32 @@ Forgot Password
                 <div class="logo">
                    {!!HTML::image('assets/images/logo-dark.png')!!}
                 </div>
-                <h2>Forgot Password</h2>
+                <h2>@lang("User.forgot_password")</h2>
 
                 @if (Session::has('status'))
                 <div class="alert alert-info">
-                    An email with the password reset has been sent to your email.
+                    @lang("User.password_already_sent")
                 </div>
                 @else
 
                 @if(Session::has('error'))
-                <h4 class="text-danger mt0">Whoops! </h4>
+                <h4 class="text-danger mt0">@lang("basic.whoops")</h4>
                 <ul class="list-group">
                     <li class="list-group-item">{{Session::get('error')}}</li>
                 </ul>
                 @endif
 
                 <div class="form-group">
-                   {!! Form::label('email', 'Your Email') !!}
+                   {!! Form::label('email', trans("User.your_email")) !!}
                    {!! Form::text('email', null, ['class' => 'form-control', 'autofocus' => true]) !!}
                 </div>
 
                 <div class="form-group nm">
-                    <button type="submit" class="btn btn-block btn-success">Submit</button>
+                    <button type="submit" class="btn btn-block btn-success">@lang("basic.submit")</button>
                 </div>
                 <div class="signup">
                     <a class="semibold" href="{{route('login')}}">
-                        <i class="ico ico-arrow-left"></i> Back to login
+                        <i class="ico ico-arrow-left"></i> @lang("basic.back_to_login")
                     </a>
                 </div>
             </div>

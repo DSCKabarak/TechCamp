@@ -3,7 +3,7 @@
 @section('title')
 @parent
 
-Event Orders
+@lang("Event.event_orders")
 @stop
 
 @section('top_nav')
@@ -16,9 +16,9 @@ Event Orders
 
 @section('page_title')
 <i class='ico-cart mr5'></i>
-Event Orders
+@lang("Event.event_orders")
 <span class="page_title_sub_title hide">
-    Showing 30 orders out of <b>{{\App\Models\Order::scope()->count()}}</b> Total
+    @lang("Event.showing_num_of_orders", [30, \App\Models\Order::scope()->count()])
 </span>
 @stop
 
@@ -32,13 +32,13 @@ Event Orders
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group btn-group btn-group-responsive">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                <i class="ico-users"></i> Export <span class="caret"></span>
+                <i class="ico-users"></i> @lang("basic.export") <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">Excel (XLSX)</a></li>
-                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'xls'])}}">Excel (XLS)</a></li>
-                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'csv'])}}">CSV</a></li>
-                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'html'])}}">HTML</a></li>
+                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">@lang("File_format.Excel_xlsx")</a></li>
+                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'xls'])}}">@lang("File_format.Excel_xls")</a></li>
+                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'csv'])}}">@lang("File_format.csv")</a></li>
+                <li><a href="{{route('showExportOrders', ['event_id'=>$event->id,'export_as'=>'html'])}}">@lang("File_format.html")</a></li>
             </ul>
         </div>
     </div>
@@ -72,22 +72,22 @@ Event Orders
                     <thead>
                         <tr>
                             <th>
-                               {!! Html::sortable_link('Order Ref.', $sort_by, 'order_reference', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Order.order_ref"), $sort_by, 'order_reference', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th>
-                               {!! Html::sortable_link('Order Date', $sort_by, 'created_at', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Order.order_date"), $sort_by, 'created_at', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th>
-                               {!! Html::sortable_link('Name', $sort_by, 'first_name', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Attendee.name"), $sort_by, 'first_name', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th>
-                               {!! Html::sortable_link('Email', $sort_by, 'email', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Attendee.email"), $sort_by, 'email', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th>
-                               {!! Html::sortable_link('Amount', $sort_by, 'amount', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Order.amount"), $sort_by, 'amount', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th>
-                               {!! Html::sortable_link('Status', $sort_by, 'order_status_id', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
+                               {!! Html::sortable_link(trans("Order.status"), $sort_by, 'order_status_id', $sort_order, ['q' => $q , 'page' => $orders->currentPage()]) !!}
                             </th>
                             <th></th>
                         </tr>
@@ -97,7 +97,7 @@ Event Orders
                         @foreach($orders as $order)
                         <tr>
                             <td>
-                                <a href='javascript:void(0);' data-modal-id='view-order-{{ $order->id }}' data-href="{{route('showManageOrder', ['order_id'=>$order->id])}}" title="View Order #{{$order->order_reference}}" class="loadModal">
+                                <a href='javascript:void(0);' data-modal-id='view-order-{{ $order->id }}' data-href="{{route('showManageOrder', ['order_id'=>$order->id])}}" title="@lang("Order.view_order_num", ["num"=>$order->order_reference])" class="loadModal">
                                     {{$order->order_reference}}
                                 </a>
                             </td>
@@ -114,7 +114,7 @@ Event Orders
                                 > {{$order->email}}</a>
                             </td>
                             <td>
-                                <a href="#" class="hint--top" data-hint="{{money($order->amount, $event->currency)}} + {{money($order->organiser_booking_fee, $event->currency)}} Organiser Booking Fee">
+                                <a href="#" class="hint--top" data-hint="{{money($order->amount, $event->currency)}} + {{money($order->organiser_booking_fee, $event->currency)}} @lang("Order.organiser_booking_fees")">
                                     {{money($order->amount + $order->organiser_booking_fee, $event->currency)}}
                                     @if($order->is_refunded || $order->is_partially_refunded)
 
@@ -127,10 +127,10 @@ Event Orders
                                 </span>
                             </td>
                             <td class="text-center">
-                                <a href="javascript:void(0);" data-modal-id="cancel-order-{{ $order->id }}" data-href="{{route('showCancelOrder', ['order_id'=>$order->id])}}" title="Cancel Order" class="btn btn-xs btn-danger loadModal">
-                                                Refund / Cancel
+                                <a href="javascript:void(0);" data-modal-id="cancel-order-{{ $order->id }}" data-href="{{route('showCancelOrder', ['order_id'=>$order->id])}}" title="@lang("Order.cancel_order")" class="btn btn-xs btn-danger loadModal">
+                                                @lang("Order.refund/cancel")
                                             </a>
-                                <a data-modal-id="view-order-{{ $order->id }}" data-href="{{route('showManageOrder', ['order_id'=>$order->id])}}" title="View Order" class="btn btn-xs btn-primary loadModal">Details</a>
+                                <a data-modal-id="view-order-{{ $order->id }}" data-href="{{route('showManageOrder', ['order_id'=>$order->id])}}" title="@lang("Order.view_order")" class="btn btn-xs btn-primary loadModal">@lang("Order.details")</a>
                             </td>
                         </tr>
                         @endforeach
