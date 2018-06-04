@@ -18,22 +18,32 @@
         {!! HTML::image(asset($image_path)) !!}
     </div>
 
-    <div class="event_details">
-        <h4>Event</h4>Demo Event<h4>Organiser</h4>Demo Organiser<h4>Venue</h4>Demo Location<h4>Start Date / Time</h4>
-        Mar 18th 4:08PM
-        <h4>End Date / Time</h4>
-        Mar 18th 5:08PM
-    </div>
+    <div class="layout_even">
+        <div class="event_details">
+            <h4>@lang("Ticket.event")</h4>
+            @lang("Ticket.demo_event")
+            <h4>@lang("Ticket.organiser")</h4>
+            @lang("Ticket.demo_organiser")
+            <h4>@lang("Ticket.venue")</h4>
+            @lang("Ticket.demo_venue")
+            <h4>@lang("Ticket.start_date_time")</h4>
+            @lang("Ticket.demo_start_date_time")
+            <h4>@lang("Ticket.end_date_time")</h4>
+            @lang("Ticket.demo_end_date_time")
+        </div>
 
-    <div class="attendee_details">
-        <h4>Name</h4>Bill Blogs<h4>Ticket Type</h4>
-        General Admission
-        <h4>Order Ref.</h4>
-        #YLY9U73
-        <h4>Attendee Ref.</h4>
-        #YLY9U73-1
-        <h4>Price</h4>
-        €XX.XX
+        <div class="attendee_details">
+            <h4>@lang("Ticket.name")</h4>
+            @lang("Ticket.demo_name")
+            <h4>@lang("Ticket.ticket_type")</h4>
+            @lang("Ticket.demo_ticket_type")
+            <h4>@lang("Ticket.order_ref")</h4>
+            @lang("Ticket.demo_order_ref")
+            <h4>@lang("Ticket.attendee_ref")</h4>
+            @lang("Ticket.demo_attendee_ref")
+            <h4>@lang("Ticket.price")</h4>
+            @lang("Ticket.demo_price")
+        </div>
     </div>
 
     <div class="barcode">
@@ -44,4 +54,7 @@
             {!! DNS1D::getBarcodeSVG(12211221, "C39+", 1, 50) !!}
         </div>
     @endif
+    <div class="foot">
+        @lang("Ticket.footer")
+    </div>
 </div>

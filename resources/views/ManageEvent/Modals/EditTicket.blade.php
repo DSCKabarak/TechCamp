@@ -6,37 +6,49 @@
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h3 class="modal-title">
                     <i class="ico-ticket"></i>
-                    Edit Ticket: <em>{{$ticket->title}}</em></h3>
+                    @lang("ManageEvent.edit_ticket", ["title"=>$ticket->title])</h3>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    {!! Form::label('title', 'Ticket Title', ['class'=>'control-label required']) !!}
+                    {!! Form::label('title', trans("ManageEvent.ticket_title"), array('class'=>'control-label required')) !!}
                     {!!  Form::text('title', null,['class'=>'form-control', 'placeholder'=>'E.g: General Admission']) !!}
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            {!! Form::label('price', 'Ticket Price', ['class'=>'control-label required']) !!}
-                            {!!  Form::text('price', null,['class' => 'form-control', 'placeholder' => 'E.g: 25.99']) !!}
+                            {!! Form::label('price', trans("ManageEvent.ticket_price"), array('class'=>'control-label required')) !!}
+                            {!!  Form::text('price', null,
+                                        array(
+                                        'class'=>'form-control',
+                                        'placeholder'=>trans("ManageEvent.price_placeholder")
+                                        ))  !!}
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            {!! Form::label('quantity_available', 'Quantity Available', ['class'=>' control-label']) !!}
-                            {!!  Form::text('quantity_available', null, ['class' => 'form-control', 'placeholder' => 'E.g: 100 (Leave blank for unlimited)']) !!}
+                            {!! Form::label('quantity_available', trans("ManageEvent.quantity_available"), array('class'=>' control-label')) !!}
+                            {!!  Form::text('quantity_available', null,
+                                        array(
+                                        'class'=>'form-control',
+                                        'placeholder'=>trans("ManageEvent.quantity_available_placeholder")
+                                        )
+                                        )  !!}
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group more-options">
-                    {!! Form::label('description', 'Ticket Description', ['class'=>'control-label']) !!}
-                    {!!  Form::text('description', null,['class'=>'form-control']) !!}
+                    {!! Form::label('description', trans("ManageEvent.ticket_description"), array('class'=>'control-label')) !!}
+                    {!!  Form::text('description', null,
+                                array(
+                                'class'=>'form-control'
+                                ))  !!}
                 </div>
 
                 <div class="row more-options">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            {!! Form::label('start_sale_date', 'Start Sale On', ['class'=>' control-label']) !!}
+                            {!! Form::label('start_sale_date', trans("ManageEvent.start_sale_on"), array('class'=>' control-label')) !!}
 
                             {!!  Form::text('start_sale_date', $ticket->getFormattedDate('start_sale_date'),
                                 [
@@ -51,7 +63,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            {!!  Form::label('end_sale_date', 'End Sale On',
+                            {!!  Form::label('end_sale_date', trans("ManageEvent.end_sale_on"),
                                         [
                                     'class'=>' control-label '
                                 ])  !!}
@@ -70,13 +82,13 @@
                 <div class="row more-options">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {!! Form::label('min_per_person', 'Minimum Tickets Per Order', ['class'=>' control-label']) !!}
+                            {!! Form::label('min_per_person', trans("ManageEvent.minimum_tickets_per_order"), array('class'=>' control-label')) !!}
                            {!! Form::selectRange('min_per_person', 1, 100, null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {!! Form::label('max_per_person', 'Maximum Tickets Per Order', ['class'=>' control-label']) !!}
+                            {!! Form::label('max_per_person', trans("ManageEvent.maximum_tickets_per_order"), array('class'=>' control-label')) !!}
                            {!! Form::selectRange('max_per_person', 1, 100, null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
@@ -86,19 +98,19 @@
                         <div class="form-group">
                             <div class="custom-checkbox">
                                 {!! Form::checkbox('is_hidden', null, null, ['id' => 'is_hidden']) !!}
-                                {!! Form::label('is_hidden', 'Hide this ticket', array('class'=>' control-label')) !!}
+                                {!! Form::label('is_hidden', trans("ManageEvent.hide_this_ticket"), array('class'=>' control-label')) !!}
                             </div>
 
                         </div>
                     </div>
                 </div>
                 <a href="javascript:void(0);" class="show-more-options">
-                    More Options
+                    @lang("ManageEvent.more_options")
                 </a>
             </div> <!-- /end modal body-->
             <div class="modal-footer">
-               {!! Form::button('Close', ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
-                {!! Form::submit('Save Ticket', ['class'=>"btn btn-success"]) !!}
+                {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
+                {!! Form::submit(trans("ManageEvent.save_ticket"), ['class'=>"btn btn-success"]) !!}
             </div>
         </div><!-- /end modal content-->
        {!! Form::close() !!}

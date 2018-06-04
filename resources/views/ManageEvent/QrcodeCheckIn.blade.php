@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>
-      Attendize QRCode Check In: {{ $event->title }}
+      @lang("ManageEvent.attendize_qrcode_check_in"): {{ $event->title }}
   </title>
 
     {!! HTML::style('assets/stylesheet/application.css') !!}
@@ -35,7 +35,7 @@
 <body>
   <div id="main">
     <header id="header">
-      <h2 class="text-center"><img style="width: 40px;" class="logo" alt="Attendize" src="{{ asset('/assets/images/logo-dark.png') }}"/><br><span style="font-size: 0.7em;">Check In: <strong>{{ $event->title }}</strong></span></h2>
+      <h2 class="text-center"><img style="width: 40px;" class="logo" alt="Attendize" src="{{ asset('/assets/images/logo-dark.png') }}"/><br><span style="font-size: 0.7em;">@lang("ManageEvent.check-in"): <strong>{{ $event->title }}</strong></span></h2>
     </header>
 
     <hr>
@@ -46,7 +46,7 @@
             <div class="col-md-6 col-md-offset-3 col-xs-12">
                 <div class="alert alert-success alert-dismissible text-center" role="alert">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <p><strong>Success</strong>: {{ session('success_message') }}</p>
+                    <p><strong>@lang("basic.success")</strong>: {{ session('success_message') }}</p>
                 </div>
             </div>
         </div>
@@ -69,12 +69,12 @@
         </tr>
         <tr>
           <td colspan="3" align="center">
-            <p id="help-text">Put the QR code in front of your Camera (Not too close)</p>
+            <p id="help-text">@lang("ManageEvent.qr_instructions")</p>
           </td>
         </tr>
         <tr>
           <td colspan="3" align="center">
-            <p style="position: relative; bottom: -2em;"><a onclick="event.preventDefault(); workingAway = false; load();" href="{{ Request::url() }}"><i class="fa fa-refresh"></i> Scan another ticket</a></p>
+            <p style="position: relative; bottom: -2em;"><a onclick="event.preventDefault(); workingAway = false; load();" href="{{ Request::url() }}"><i class="fa fa-refresh"></i> @lang("ManageEvent.scan_another_ticket")</a></p>
             <div id="result"></div>
           </td>
         </tr>
@@ -84,7 +84,7 @@
     <footer id="footer">
       <br>
       <br>
-      <h5 align="center" style="color: #6D717A;">Powered By <a href="https://www.attendize.com/">Attendize</a> </h5>
+      <h5 align="center" style="color: #6D717A;">@include("Shared.Partials.PoweredBy")</h5>
     </footer>
   </div>
 

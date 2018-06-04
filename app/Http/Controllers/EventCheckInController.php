@@ -115,7 +115,7 @@ class EventCheckInController extends MyBaseController
         return response()->json([
             'status'  => 'success',
             'checked' => $checking,
-            'message' => 'Attendee Successfully Checked ' . (($checking == 'in') ? 'In' : 'Out'),
+            'message' =>  (($checking == 'in') ? trans("Controllers.attendee_successfully_checked_in") : trans("Controllers.attendee_successfully_checked_out")),
             'id'      => $attendee->id,
         ]);
     }
@@ -153,7 +153,7 @@ class EventCheckInController extends MyBaseController
         if (is_null($attendee)) {
             return response()->json([
                 'status'  => 'error',
-                'message' => "Invalid Ticket! Please try again."
+                'message' => trans("Controllers.invalid_ticket_error")
             ]);
         }
 
@@ -177,7 +177,7 @@ class EventCheckInController extends MyBaseController
         if ($attendee->has_arrived) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Attendee already checked in at ' . $attendee->arrival_time->format('H:i A, F j') . $appendedText
+                'message' => trans("Controllers.attendee_already_checked_in", ["time"=> $attendee->arrival_time->format(env("DEFAULT_DATETIME_FORMAT"))]) . $appendedText
             ]);
         }
 
@@ -185,7 +185,7 @@ class EventCheckInController extends MyBaseController
 
         return response()->json([
             'status'  => 'success',
-            'message' => 'Success !<br>Name: ' . $attendee->first_name . ' ' . $attendee->last_name . '<br>Reference: ' . $attendee->reference . '<br>Ticket: ' . $attendee->ticket . '.' . $appendedText
+            'message' => trans("Controllers.attendee_check_in_success", ["name"=>$attendee->first_name." ".$attendee->last_name, "ref"=>$attendee->reference, "ticket"=>$attendee->ticket]).$appendedText
         ]);
     }
 
@@ -208,7 +208,7 @@ class EventCheckInController extends MyBaseController
         ]);
 
         return response()->json([
-            'message' => $updateRowsCount . ' Attendee(s) Checked in.'
+            'message' => trans("Controllers.num_attendees_checked_in", ["num"=>$updateRowsCount])
         ]);
     }
 

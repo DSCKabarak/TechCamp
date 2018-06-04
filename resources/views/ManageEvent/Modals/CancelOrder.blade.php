@@ -29,13 +29,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart2"></i>
-                    Cancel Order: <b>#{{$order->order_reference}}</b></h3>
+                    @lang("ManageEvent.cancel_order_:ref", ["ref"=>$order->order_reference])</h3>
             </div>
             <div class="modal-body">
 
                 @if($attendees->count())
                     <div class="help-block">
-                        Select any attendee tickets you wish to cancel.
+                        @lang("ManageEvent.select_attendee_to_cancel")
                     </div>
 
                     <div class="well bgcolor-white p0">
@@ -59,7 +59,7 @@
                                         </div>
                                     </td>
                                     <td colspan="3">
-                                        Select All
+                                        @lang("ManageEvent.select_all")
                                     </td>
                                 </tr>
                                 @foreach($attendees as $attendee)
@@ -90,7 +90,7 @@
 
                 @else
                     <div class="alert alert-info cancelOrderOption">
-                        All attendees in this order have been cancelled.
+                        @lang("ManageEvent.all_attendees_cancelled")
                     </div>
                 @endif
 
@@ -105,7 +105,7 @@
                                 <div class="checkbox">
                                     <label>
                                         {!!Form::checkbox('refund_order', 'on')!!}
-                                        Refund this order?
+                                        @lang("ManageEvent.refund_this_order?")
                                     </label>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-11">
-                                            <b>Issue full refund</b>
+                                            <b>@lang("ManageEvent.issue_full_refund")</b>
 
                                             <div class="help-text">
                                                 Refund the
@@ -138,12 +138,12 @@
                                             </div>
                                         </div>
                                         <div class="col-md-11">
-                                            <b>Issue partial refund</b>
+                                            <b>@lang("ManageEvent.issue_partial_refund")</b>
 
                                             <div class="refund_amount">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        Refund amount:
+                                                        @lang("ManageEvent.refund_amount"):
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="refund_amount" class="form-control"
@@ -161,15 +161,14 @@
                     @else
 
                         <div class="alert alert-info">
-                            All {{money($order->amount, $order->event->currency)}} of this order has been
-                            refunded.
+                            @lang("ManageEvent.all_order_refunded", ["money"=>money($order->amount, $order->event->currency)])
                         </div>
 
                     @endif
                 </div>
                         @else
                         <div class="alert alert-info">
-                            Sorry, you can't refund <b>{{ $order->payment_gateway->provider_name }}</b> payments here. You will have to do it on their website.
+                            @lang("ManageEvent.cant_refund_here", ["gateway"=>$order->payment_gateway->provider_name])
                         </div>
                         @endif
 
@@ -179,8 +178,8 @@
 
             @if($attendees->count() || !$order->is_refunded)
                 <div class="modal-footer">
-                    {!! Form::button('Cancel', ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
-                    {!! Form::submit('Confirm Order Cancel', ['class'=>"btn btn-primary"]) !!}
+                    {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
+                    {!! Form::submit(trans("ManageEvent.confirm_order_cancel"), ['class'=>"btn btn-primary"]) !!}
                 </div>
             @endif
         </div>

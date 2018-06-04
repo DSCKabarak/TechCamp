@@ -2,11 +2,11 @@
 
 @section('title')
     @parent
-    Organiser Events
+    @lang("Organiser.organiser_events")
 @stop
 
 @section('page_title')
-    {{$organiser->name}} Events
+    @lang("Organiser.organiser_name_events", ["name"=>$organiser->name])
 @stop
 
 @section('top_nav')
@@ -14,7 +14,7 @@
 @stop
 
 @section('head')
-    {!!HTML::script('https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places')!!}
+    {!! HTML::script('https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
     {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js')!!}
 @stop
 
@@ -26,7 +26,7 @@
     <div class="col-md-9">
         <div class="btn-toolbar">
             <div class="btn-group btn-group-responsive">
-                <a href="#" data-modal-id="CreateEvent" data-href="{{route('showCreateEvent', ['organiser_id' => @$organiser->id])}}" class="btn btn-success loadModal"><i class="ico-plus"></i> Create Event</a>
+                <a href="#" data-modal-id="CreateEvent" data-href="{{route('showCreateEvent', ['organiser_id' => @$organiser->id])}}" class="btn btn-success loadModal"><i class="ico-plus"></i> @lang("Event.create_event")</a>
             </div>
         </div>
     </div>
@@ -50,16 +50,16 @@
             <div class="col-md-3 col-xs-6">
                 <div class="order_options">
                     <span class="event_count">
-                        {{$organiser->events->count()}} events
+                        @lang("Event.num_events", ["num"=>$organiser->events->count()])
                     </span>
                 </div>
             </div>
             <div class="col-md-2 col-xs-6 col-md-offset-7">
                 <div class="order_options">
                     {!!Form::select('sort_by_select', [
-                        'start_date' => 'Start date',
-                        'created_at' => 'Created',
-                        'title' => 'Event title'
+                        'start_date' => trans("Controllers.sort.start_date"),
+                        'created_at' => trans("Controllers.sort.created_at"),
+                        'title' => trans("Controllers.sort.event_title")
 
                         ], $search['sort_by'], ['class' => 'form-control pull right'])!!}
                 </div>

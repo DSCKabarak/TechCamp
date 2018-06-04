@@ -2,13 +2,13 @@
 
 @section('title')
 @parent
-Event Attendees
+@lang("Attendee.event_attendees")
 @stop
 
 
 @section('page_title')
 <i class="ico-users"></i>
-Attendees
+@lang("Attendee.attendees")
 @stop
 
 @section('top_nav')
@@ -29,36 +29,36 @@ Attendees
 <div class="col-md-9">
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group btn-group-responsive">
-            <button data-modal-id="InviteAttendee" href="javascript:void(0);"  data-href="{{route('showInviteAttendee', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-user-plus"></i> Invite Attendee</button>
+            <button data-modal-id="InviteAttendee" href="javascript:void(0);"  data-href="{{route('showInviteAttendee', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-user-plus"></i> @lang("ManageEvent.invite_attendee")</button>
         </div>
         
         <div class="btn-group btn-group-responsive">
-            <button data-modal-id="ImportAttendees" href="javascript:void(0);"  data-href="{{route('showImportAttendee', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-file"></i> Invite Attendees</button>
+            <button data-modal-id="ImportAttendees" href="javascript:void(0);"  data-href="{{route('showImportAttendee', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-file"></i> @lang("ManageEvent.invite_attendees")</button>
         </div>
         
         <div class="btn-group btn-group-responsive">
-            <a class="btn btn-success" href="{{route('showPrintAttendees', ['event_id'=>$event->id])}}" target="_blank" ><i class="ico-print"></i> Print Attendee List</a>
+            <a class="btn btn-success" href="{{route('showPrintAttendees', ['event_id'=>$event->id])}}" target="_blank" ><i class="ico-print"></i> @lang("ManageEvent.print_attendee_list")</a>
         </div>
         <div class="btn-group btn-group-responsive">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                <i class="ico-users"></i> Export <span class="caret"></span>
+                <i class="ico-users"></i> @lang("ManageEvent.export") <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">Excel (XLSX)</a></li>
-                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xls'])}}">Excel (XLS)</a></li>
-                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'csv'])}}">CSV</a></li>
-                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'html'])}}">HTML</a></li>
+                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">@lang("File_format.Excel_xlsx")</a></li>
+                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xls'])}}">@lang("File_format.Excel_xls")</a></li>
+                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'csv'])}}">@lang("File_format.csv")</a></li>
+                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'html'])}}">@lang("File_format.html")</a></li>
             </ul>
         </div>
         <div class="btn-group btn-group-responsive">
-            <button data-modal-id="MessageAttendees" href="javascript:void(0);" data-href="{{route('showMessageAttendees', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-envelope"></i> Message</button>
+            <button data-modal-id="MessageAttendees" href="javascript:void(0);" data-href="{{route('showMessageAttendees', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-envelope"></i> @lang("ManageEvent.message_attendees")</button>
         </div>
     </div>
 </div>
 <div class="col-md-3">
    {!! Form::open(array('url' => route('showEventAttendees', ['event_id'=>$event->id,'sort_by'=>$sort_by]), 'method' => 'get')) !!}
     <div class="input-group">
-        <input name="q" value="{{$q or ''}}" placeholder="Search Attendees.." type="text" class="form-control" />
+        <input name="q" value="{{$q or ''}}" placeholder="@lang("Attendee.search_attendees")" type="text" class="form-control" />
         <span class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="ico-search"></i></button>
         </span>
@@ -80,16 +80,16 @@ Attendees
                     <thead>
                         <tr>
                             <th>
-                               {!!Html::sortable_link('Name', $sort_by, 'first_name', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
+                               {!!Html::sortable_link(trans("Attendee.name"), $sort_by, 'first_name', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
                             </th>
                             <th>
-                               {!!Html::sortable_link('Email', $sort_by, 'email', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
+                               {!!Html::sortable_link(trans("Attendee.email"), $sort_by, 'email', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
                             </th>
                             <th>
-                               {!!Html::sortable_link('Ticket', $sort_by, 'ticket_id', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
+                               {!!Html::sortable_link(trans("ManageEvent.ticket"), $sort_by, 'ticket_id', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
                             </th>
                             <th>
-                               {!!Html::sortable_link('Order Ref.', $sort_by, 'order_reference', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
+                               {!!Html::sortable_link(trans("Order.order_ref"), $sort_by, 'order_reference', $sort_order, ['q' => $q , 'page' => $attendees->currentPage()])!!}
                             </th>
                             <th></th>
                         </tr>
@@ -113,7 +113,7 @@ Attendees
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
+                                    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@lang("basic.action") <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @if($attendee->email)
                                         <li><a
@@ -121,17 +121,17 @@ Attendees
                                             href="javascript:void(0);"
                                             data-href="{{route('showMessageAttendee', ['attendee_id'=>$attendee->id])}}"
                                             class="loadModal"
-                                            > Message</a></li>
+                                            > @lang("basic.message")</a></li>
                                         @endif
                                         <li><a
                                             data-modal-id="ResendTicketToAttendee"
                                             href="javascript:void(0);"
                                             data-href="{{route('showResendTicketToAttendee', ['attendee_id'=>$attendee->id])}}"
                                             class="loadModal"
-                                            > Resend Ticket</a></li>
+                                            > @lang("ManageEvent.resend_ticket")</a></li>
                                         <li><a
                                             href="{{route('showExportTicket', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
-                                            >Download PDF Ticket</a></li>
+                                            >@lang("ManageEvent.download_pdf_ticket")</a></li>
                                     </ul>
                                 </div>
 
@@ -140,14 +140,14 @@ Attendees
                                     href="javascript:void(0);"
                                     data-href="{{route('showEditAttendee', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
                                     class="loadModal btn btn-xs btn-primary"
-                                    > Edit</a>
+                                    > @lang("basic.edit")</a>
 
                                 <a
                                     data-modal-id="CancelAttendee"
                                     href="javascript:void(0);"
                                     data-href="{{route('showCancelAttendee', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
                                     class="loadModal btn btn-xs btn-danger"
-                                    > Cancel</a>
+                                    > @lang("basic.cancel")</a>
                             </td>
                         </tr>
                         @endforeach

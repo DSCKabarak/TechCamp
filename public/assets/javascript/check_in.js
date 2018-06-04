@@ -31,6 +31,7 @@ var checkinApp = new Vue({
             this.$http.post(Attendize.checkInSearchRoute, {q: this.searchTerm}).then(function (res) {
                 this.attendees = res.data;
                 this.searchResultsCount = (Object.keys(res.data).length);
+                console.log('Succesfully fetched attendees')
             }, function () {
                 console.log('Failed to fetch attendees')
             });
@@ -81,7 +82,7 @@ var checkinApp = new Vue({
                 this.scanResultType = res.data.status;
 
             }, function (response) {
-                this.scanResultMessage = 'Something went wrong! Refresh the page and try again';
+                this.scanResultMessage = lang("whoops2");
             });
         },
 
@@ -113,16 +114,18 @@ var checkinApp = new Vue({
             navigator.getUserMedia({video: true, audio: false}, function (stream) {
 
                 that.stream = stream;
-
-                if (window.webkitURL) {
-                    that.videoElement.src = window.webkitURL.createObjectURL(stream);
-                } else {
+                console.log(stream);
+                if (that.videoElement.mozSrcObject !== undefined) { // works on firefox now
                     that.videoElement.mozSrcObject = stream;
-                }
+                } else if(window.URL) { // and chrome, but must use https
+                    var objectURL = window.URL.createObjectURL(stream);
+                    that.videoElement.src = objectURL || stream;
+                };
 
                 that.videoElement.play();
 
             }, function () { /* error*/
+                alert(lang("checkin_init_error"));
             });
 
             this.isInit = true;

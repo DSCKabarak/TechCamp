@@ -75,7 +75,7 @@ class InstallerController extends Controller
      * Attempts to install the system
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|array
      */
     public function postInstaller(Request $request)
     {
@@ -106,39 +106,61 @@ class InstallerController extends Controller
             if ($is_db_valid === 'yes') {
                 return [
                     'status'  => 'success',
-                    'message' => 'Success, Your connection works!',
+                    'message' => trans("Installer.connection_success"),
                     'test'    => 1,
                 ];
             }
 
             return [
                 'status'  => 'error',
-                'message' => 'Unable to connect! Please check your settings',
+                'message' => trans("Installer.connection_failure"),
                 'test'    => 1,
             ];
         }
 
-        $config = "APP_ENV=production\n" .
-            "APP_DEBUG=false\n" .
-            "APP_URL={$app_url}\n" .
-            "APP_KEY={$app_key}\n" .
-            "DB_TYPE={$database['type']}\n" .
-            "DB_HOST={$database['host']}\n" .
-            "DB_DATABASE={$database['name']}\n" .
-            "DB_USERNAME={$database['username']}\n" .
-            "DB_PASSWORD={$database['password']}\n\n" .
-            "MAIL_DRIVER={$mail['driver']}\n" .
-            "MAIL_PORT={$mail['port']}\n" .
-            "MAIL_ENCRYPTION={$mail['encryption']}\n" .
-            "MAIL_HOST={$mail['host']}\n" .
-            "MAIL_USERNAME={$mail['username']}\n" .
-            "MAIL_FROM_NAME=\"{$mail['from_name']}\"\n" .
-            "MAIL_FROM_ADDRESS={$mail['from_address']}\n" .
-            "WKHTML2PDF_BIN_FILE=wkhtmltopdf-amd64\n" .
-            "MAIL_PASSWORD={$mail['password']}\n\n";
+        $config_string = file_get_contents(base_path() . '/.env.example');
+        $config_temp = explode("\n", $config_string);
+        foreach($config_temp as $key=>$row)
+            $config_temp[$key] = explode("=", $row, 2);
+        $config = [
+            "APP_ENV" => "production",
+            "APP_DEBUG" => "false",
+            "APP_URL" => $app_url,
+            "APP_KEY" => $app_key,
+            "DB_TYPE" => $database['type'],
+            "DB_HOST" => $database['host'],
+            "DB_DATABASE" => $database['name'],
+            "DB_USERNAME" => $database['username'],
+            "DB_PASSWORD" => $database['password'],
+            "MAIL_DRIVER" => $mail['driver'],
+            "MAIL_PORT" => $mail['port'],
+            "MAIL_ENCRYPTION" => $mail['encryption'],
+            "MAIL_HOST" => $mail['host'],
+            "MAIL_USERNAME" => $mail['username'],
+            "MAIL_FROM_NAME" => $mail['from_name'],
+            "MAIL_FROM_ADDRESS" => $mail['from_address'],
+            "MAIL_PASSWORD" => $mail['password'],
+        ];
+        foreach($config as $key=>$val) {
+            $set = false;
+            foreach($config_temp as $rownum=>$row) {
+                if($row[0]==$key) {
+                    $config_temp[$rownum][1] = $val;
+                    $set = true;
+                }
+            }
+            if(!$set)
+                $config_temp[] = [$key, $val];
+        }
+        $config_string = "";
+        foreach($config_temp as $row)
+            if(count($row)>1)
+                $config_string .= implode("=", $row)."\n";
+            else
+                $config_string .= implode("", $row)."\n";
 
         $fp = fopen(base_path() . '/.env', 'w');
-        fwrite($fp, $config);
+        fwrite($fp, $config_string);
         fclose($fp);
 
         Config::set('database.default', $database['type']);
