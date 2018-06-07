@@ -51,7 +51,7 @@
         <h5 class="heading">@lang("ManageEvent.event_tools")</h5>
         <ul id="nav_event" class="topmenu">
             <li class="{{ Request::is('*check_in*') ? 'active' : '' }}">
-                <a href="{{route('showChechIn', array('event_id' => $event->id))}}">
+                <a href="{{route('showCheckIn', array('event_id' => $event->id))}}">
                     <span class="figure"><i class="ico-checkbox-checked"></i></span>
                     <span class="text">@lang("ManageEvent.check-in")</span>
                 </a>
