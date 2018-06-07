@@ -673,7 +673,7 @@ Route::group(
              * -------
              */
             Route::get('{event_id}/check_in', [
-                'as'   => 'showChechIn',
+                'as'   => 'showCheckIn',
                 'uses' => 'EventCheckInController@showCheckIn',
             ]);
             Route::post('{event_id}/check_in/search', [
