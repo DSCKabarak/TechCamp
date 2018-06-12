@@ -112,6 +112,7 @@ return array (
   'ticket_successfully_deleted' => 'Ticket Successfully Deleted',
   'ticket_successfully_resent' => 'Ticket Successfully Resent!',
   'ticket_successfully_updated' => 'Ticket Successfully Updated!',
+  'tickets_for_event' => 'Your tickets for the event',
   'whoops' => 'Whoops! Looks like something went wrong. Please try again.',
   'your_password_reset_link' => 'Your Password Reset Link',
 );
