@@ -122,7 +122,7 @@
         <a @click="closeScanner"  class="closeScanner" href="javascript:void(0);">
         <i class="ico-close"></i>
         </a>
-        <video id="scannerVideo" autoplay></video>
+        <video id="scannerVideo" playsinline autoplay></video>
 
         <div class="scannerButtons">
                     <a @click="initScanner" v-show="!isScanning" href="javascript:void(0);">
