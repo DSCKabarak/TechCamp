@@ -70,7 +70,7 @@ Contribution
 
 Feel free to fork and contribute. I could use the help!
 
-Docker dev environment
+Docker dev environment (not yet stable)
 ---
 
 To run a docker dev entionment do the following:
