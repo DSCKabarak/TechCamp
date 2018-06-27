@@ -112,7 +112,7 @@ return array (
     'ticket_successfully_deleted' => 'Bilet zaktualizowany pomyślnie.',
     'ticket_successfully_resent' => 'Bilet wysłano ponownie pomyślnie!',
     'ticket_successfully_updated' => 'Bilet zaktualizowany pomyślnie!',
-    'tickets_for_event' => 'Your tickets for the event',
+    'tickets_for_event' => 'Twoje bilety na wydarzenie :event.',
     'whoops' => 'Ups! Coś poszło nie tak. Spróbuj ponownie.',
     'your_password_reset_link' => 'Twój link do resetu hasła',
 );
