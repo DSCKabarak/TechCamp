@@ -111,18 +111,20 @@ var checkinApp = new Vue({
             qrcode.callback = this.QrCheckin;
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-            navigator.getUserMedia({video: true, audio: false}, function (stream) {
+            navigator.getUserMedia({
+                video: {
+                    facingMode: 'environment'
+                },
+                audio: false
+            }, function (stream) {
 
                 that.stream = stream;
-                console.log(stream);
+
                 if (that.videoElement.mozSrcObject !== undefined) { // works on firefox now
                     that.videoElement.mozSrcObject = stream;
                 } else if(window.URL) { // and chrome, but must use https
-                    var objectURL = window.URL.createObjectURL(stream);
-                    that.videoElement.src = objectURL || stream;
+                    that.videoElement.srcObject = stream;
                 };
-
-                that.videoElement.play();
 
             }, function () { /* error*/
                 alert(lang("checkin_init_error"));
@@ -170,4 +172,3 @@ var checkinApp = new Vue({
         }
     }
 });
-
