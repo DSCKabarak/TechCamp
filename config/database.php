@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_TYPE', 'mysql'),
+    'default' => env('DB_TYPE', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ return [
         ],
 
         'mysql' => [
-            'driver'    => 'mysql',
+            'driver'    => 'pgsql',
             'host'      => env('DB_HOST'),
             'port'	=> env('DB_PORT'),
             'database'  => env('DB_DATABASE'),
