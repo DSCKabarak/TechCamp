@@ -25,6 +25,16 @@ services:
       - .:/usr/share/nginx/html/attendize
     networks: 
       - attendizenet
+  composer:
+    build:
+      context: .
+      dockerfile: Dockerfile-composer
+    depends_on:
+      - php
+    volumes:
+      - .:/usr/share/nginx/html/attendize
+    networks:
+      - attendizenet
   php-worker:
     build:
       context: .
@@ -39,13 +49,9 @@ services:
     networks:
       - attendizenet
   db:
-    image: postgres
-    environment:
-      - POSTGRES_USER=attendize
-      - POSTGRES_PASSWORD=attendize
-      - POSTGRES_DB=attendize
+    image: mysql
     ports:
-      - "5433:5432"
+      - "3306:3306"
     volumes:
       - ./docker/pgdata:/var/lib/postgresql/data
     networks:
