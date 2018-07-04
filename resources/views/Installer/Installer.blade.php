@@ -29,7 +29,15 @@
                     </div>
 
                     <h1>@lang("Installer.setup")</h1>
-
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
 
                     <h3>@lang("Installer.php_version_check")</h3>
                     @if (version_compare(phpversion(), '5.5.9', '<'))
@@ -102,6 +110,7 @@
                     </div>
 
                     <h3>@lang("Installer.database_settings")</h3>
+                    <p>@lang("Installer.database_message")</p>
 
                     <div class="form-group">
                         {!! Form::label('database_type', trans("Installer.database_type"), array('class'=>'required control-label ')) !!}
@@ -116,16 +125,18 @@
 
                     <div class="form-group">
                         {!! Form::label('database_host', trans("Installer.database_host"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_host', Input::old('database_host'),
+                        {!!  Form::text('database_host', 'db',
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>''
                                     ))  !!}
+
+
                     </div>
 
                     <div class="form-group">
                         {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('database_name', Input::old('database_name'),
+                        {!!  Form::text('database_name', 'attendize',
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -133,7 +144,7 @@
 
                     <div class="form-group">
                         {!! Form::label('database_username', trans("Installer.database_username"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_username', Input::old('database_username'),
+                        {!!  Form::text('database_username', 'attendize',
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
@@ -141,7 +152,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label ')) !!}
-                        {!!  Form::text('database_password', Input::old('database_password'),
+                        {!!  Form::text('database_password', 'attendize',
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',

@@ -14,16 +14,7 @@ class InstallerController extends Controller
     /**
      * InstallerController constructor.
      */
-    public function __construct()
-    {
-        /**
-         * If we're already installed kill the request
-         * @todo Check if DB is installed etc.
-         */
-        if (file_exists(base_path('installed'))) {
-            abort(403, 'Unauthorized action.');
-        }
-    }
+    public function __construct(){}
 
     /**
      * Show the application installer
@@ -68,6 +59,18 @@ class InstallerController extends Controller
             'pdo_pgsql',
         ];
 
+        /**
+         * If we're already installed display user friendly message and direct them to the appropriate next steps.
+         *
+         * @todo Check if DB is installed etc.
+         * @todo Add some automated checks to see exactly what the state of the install is. Potentially would be nice to
+         *       allow the user to restart the install process
+         */
+        if (file_exists(base_path('installed'))) {
+            return view('Installer.AlreadyInstalled', $data);
+        }
+
+
         return view('Installer.Installer', $data);
     }
 
@@ -86,6 +89,14 @@ class InstallerController extends Controller
         $database['name'] = $request->get('database_name');
         $database['username'] = $request->get('database_username');
         $database['password'] = $request->get('database_password');
+
+        $this->validate($request, [
+            'database_type' => 'required',
+            'database_host' => 'required',
+            'database_name' => 'required',
+            'database_username' => 'required',
+            'database_password' => 'required']);
+
 
         $mail['driver'] = $request->get('mail_driver');
         $mail['port'] = $request->get('mail_port');
