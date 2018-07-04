@@ -1,4 +1,4 @@
-version: '2'
+version: '3.2'
 
 services:
   web:
@@ -49,11 +49,19 @@ services:
     networks:
       - attendizenet
   db:
-    image: mysql
+    image: mysql:5.7.22
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
-      - ./docker/pgdata:/var/lib/postgresql/data
+      - "mysql-data:/var/lib/mysql"
     networks:
     - attendizenet
   maildev:
@@ -70,3 +78,6 @@ services:
 networks:
   attendizenet:
     driver: bridge
+
+volumes:
+    mysql-data:
