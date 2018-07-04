@@ -106,8 +106,8 @@
                     <div class="form-group">
                         {!! Form::label('database_type', trans("Installer.database_type"), array('class'=>'required control-label ')) !!}
                         {!!  Form::select('database_type', array(
-                                  'pgsql' => "Postgres",
                                   'mysql' => "MySQL",
+                                  'pgsql' => "Postgres",
                                     ), Input::old('database_type'),
                                     array(
                                     'class'=>'form-control'
@@ -246,7 +246,7 @@
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
-
+                    {!! csrf_field() !!}
                     @include("Installer.Partials.Footer")
 
                     {!! Form::submit(trans("Installer.install"), ['class'=>" btn-block btn btn-success"]) !!}

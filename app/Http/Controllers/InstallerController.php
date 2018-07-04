@@ -64,8 +64,8 @@ class InstallerController extends Controller
          * Optional PHP extensions
          */
         $data['optional_requirements'] = [
-            'pdo_pgsql',
             'pdo_mysql',
+            'pdo_pgsql',
         ];
 
         return view('Installer.Installer', $data);
