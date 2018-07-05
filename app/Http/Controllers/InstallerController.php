@@ -123,7 +123,6 @@ class InstallerController extends Controller
 
         if ($request->get('test') === 'db') {
             $db_valid = self::testDatabase($database);
-            //var_dump($db_valid);
             if ($db_valid) {
                 return [
                     'status'  => 'success',
