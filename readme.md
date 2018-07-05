@@ -66,13 +66,11 @@ Feel free to fork and contribute. If you are unsure about adding a feature creat
 
 ### Installation
 ---
-To get developing straight away use the pre-configured Docker environment and follow the steps below
-You would need docker installed on your machine for this to work. Follow the Docker installation steps for your environment here https://docs.docker.com/install
+To get developing straight away use the pre-configured Docker environment and follow the steps below.
+Docker needs to be installed on your machine for this to work. Follow the Docker installation steps for your environment here https://docs.docker.com/install
 
 ### Docker dev environment installation steps
 ---
-
-To run a Docker dev environment follow the steps below. Docker needs to be installed first so you can run Attendzie. To download Docker find the install for your environment here
 
 1. Clone the codebase from Github 
 ```git clone https://github.com/Attendize/Attendize```
@@ -90,7 +88,7 @@ To run a Docker dev environment follow the steps below. Docker needs to be insta
 5. Run the docker-compose build command 
 ```docker-compose build```
 
-6. Run composer to pull in the data dependency
+6. Run composer to pull in the various dependencies for the project
 ```docker run --rm -it -v $(pwd):/usr/share/nginx/html/attendize attendize_composer composer install```
 
 7. Run the Laravel generate a key for the app
