@@ -12,7 +12,7 @@ return array(
     'database_name' => 'Database Name',
     'database_password' => 'Database Password',
     'database_settings' => 'Database Settings',
-    'database_message' => 'If you are using the docker environment for development you can simple use the pre-filled values. If you are using your own environment you will need to update the database settings. Use the Test Database Connection to ensure your details are correct. In correct database details will result in installation issues.',
+    'database_message' => 'If you are using the docker environment for development you can simple use the pre-filled values. If you are using your own environment you will need to update the database settings. Use the Test Database Connection to ensure your details are correct. Incorrect database details will result in installation issues.',
     'database_test_connect_failure' => 'Unable to connect. Please check your settings.',
     'database_test_connect_failure_error_message' => 'Error Message',
     'database_test_connect_failure_error_type' => 'Error Type',
