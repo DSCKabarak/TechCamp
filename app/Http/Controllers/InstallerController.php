@@ -7,26 +7,22 @@ use Artisan;
 use Config;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use PhpSpec\Exception\Example\ExampleException;
 
 class InstallerController extends Controller
 {
 
+    private $data;
+
     /**
      * InstallerController constructor.
      */
-    public function __construct(){}
-
-    /**
-     * Show the application installer
-     *
-     * @return mixed
-     */
-    public function showInstaller()
-    {
+    public function __construct() {
         /*
          * Path we need to make sure are writable
          */
-        $data['paths'] = [
+        $this->data['paths'] = [
             storage_path('app'),
             storage_path('framework'),
             storage_path('logs'),
@@ -41,7 +37,7 @@ class InstallerController extends Controller
         /*
          * Required PHP extensions
          */
-        $data['requirements'] = [
+        $this->data['requirements'] = [
             'openssl',
             'pdo',
             'mbstring',
@@ -54,11 +50,19 @@ class InstallerController extends Controller
         /*
          * Optional PHP extensions
          */
-        $data['optional_requirements'] = [
+        $this->data['optional_requirements'] = [
             'pdo_mysql',
             'pdo_pgsql',
         ];
+    }
 
+    /**
+     * Show the application installer
+     *
+     * @return mixed
+     */
+    public function showInstaller()
+    {
         /**
          * If we're already installed display user friendly message and direct them to the appropriate next steps.
          *
@@ -67,11 +71,11 @@ class InstallerController extends Controller
          *       allow the user to restart the install process
          */
         if (file_exists(base_path('installed'))) {
-            return view('Installer.AlreadyInstalled', $data);
+            return view('Installer.AlreadyInstalled', $this->data);
         }
 
 
-        return view('Installer.Installer', $data);
+        return view('Installer.Installer', $this->data);
     }
 
     /**
@@ -90,12 +94,18 @@ class InstallerController extends Controller
         $database['username'] = $request->get('database_username');
         $database['password'] = $request->get('database_password');
 
-        $this->validate($request, [
-            'database_type' => 'required',
-            'database_host' => 'required',
-            'database_name' => 'required',
-            'database_username' => 'required',
-            'database_password' => 'required']);
+        try {
+            $this->validate($request, [
+                'database_type' => 'required',
+                'database_host' => 'required',
+                'database_name' => 'required',
+                'database_username' => 'required',
+                'database_password' => 'required'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Please enter all app settings. ' . $e->getMessage());
+            return view('Installer.Installer', $this->data);
+        }
 
 
         $mail['driver'] = $request->get('mail_driver');
@@ -112,9 +122,9 @@ class InstallerController extends Controller
         $version = file_get_contents(base_path('VERSION'));
 
         if ($request->get('test') === 'db') {
-            $is_db_valid = self::testDatabase($database);
-
-            if ($is_db_valid === 'yes') {
+            $db_valid = self::testDatabase($database);
+            //var_dump($db_valid);
+            if ($db_valid) {
                 return [
                     'status'  => 'success',
                     'message' => trans("Installer.connection_success"),
@@ -128,6 +138,16 @@ class InstallerController extends Controller
                 'test'    => 1,
             ];
         }
+
+        //if a user doesn't use the default database details, enters incorrect values in the form, and then proceeds
+        //the installation fails miserably. Rather check if the database connection details are valid and fail
+        //gracefully
+        $db_valid = self::testDatabase($database);
+        if (!$db_valid) {
+            return view('Installer.Installer', $this->data)->withErrors(
+                new MessageBag(['Database connection failed. Please check the details you have entered and try again.']));
+        }
+
 
         $config_string = file_get_contents(base_path() . '/.env.example');
         $config_temp = explode("\n", $config_string);
@@ -152,7 +172,8 @@ class InstallerController extends Controller
             "MAIL_FROM_ADDRESS" => $mail['from_address'],
             "MAIL_PASSWORD" => $mail['password'],
         ];
-        foreach($config as $key=>$val) {
+
+        foreach($config as $key => $val) {
             $set = false;
             foreach($config_temp as $rownum=>$row) {
                 if($row[0]==$key) {
@@ -206,13 +227,19 @@ class InstallerController extends Controller
         Config::set("database.connections.{$database['type']}.username", $database['username']);
         Config::set("database.connections.{$database['type']}.password", $database['password']);
 
+        $databaseConnectionValid = FALSE;
+
         try {
             DB::reconnect();
-            $success = DB::connection()->getDatabaseName() ? 'yes' : 'no';
-        } catch (Exception $e) {
-            return $e->getMessage();
+            $pdo = DB::connection()->getPdo();
+            if(!empty($pdo)) {
+                $databaseConnectionValid = TRUE;
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Database connection details invalid' . $e->getMessage());
         }
 
-        return $success;
+        return $databaseConnectionValid;
     }
 }
