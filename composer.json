@@ -25,6 +25,7 @@
         "omnipay/paypal": "*",
         "omnipay/bitpay": "dev-master",
         "omnipay/coinbase": "dev-master",
+        "omnipay/dummy": "~2.2",
         "laracasts/utilities": "^2.1",
         "predis/predis": "~1.0",
         "guzzlehttp/guzzle": "^6.2",
