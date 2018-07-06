@@ -125,7 +125,7 @@
 
                     <div class="form-group">
                         {!! Form::label('database_host', trans("Installer.database_host"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_host', 'db',
+                        {!!  Form::text('database_host', $value = env("DB_HOST") ,
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>''
@@ -133,10 +133,9 @@
 
 
                     </div>
-
                     <div class="form-group">
-                        {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('database_name', 'attendize',
+                        {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label required')) !!}
+                        {!!  Form::text('database_name', $value = env("DB_DATABASE") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -144,15 +143,15 @@
 
                     <div class="form-group">
                         {!! Form::label('database_username', trans("Installer.database_username"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_username', 'attendize',
+                        {!!  Form::text('database_username', $value = env("DB_USERNAME"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
                                     ))  !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label ')) !!}
-                        {!!  Form::text('database_password', 'attendize',
+                        {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label required')) !!}
+                        {!!  Form::text('database_password', $value = env("DB_PASSWORD"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
@@ -197,14 +196,14 @@
 
                     <div class="form-group">
                         {!! Form::label('mail_from_address', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_address', Input::old('mail_from_address'),
+                        {!!  Form::text('mail_from_address', $value = env("MAIL_FROM_ADDRESS") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_from_name', trans("Installer.mail_from_name"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_name', Input::old('mail_from_name'),
+                        {!!  Form::text('mail_from_name', $value = env("MAIL_FROM_NAME") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -238,7 +237,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_host', trans("Installer.mail_host"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_host', Input::old('mail_host'),
+                        {!!  Form::text('mail_host', $value = env("MAIL_HOST"),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
