@@ -210,7 +210,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_driver', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_driver', Input::old('mail_driver'),
+                        {!!  Form::text('mail_driver', $value = env("MAIL_DRIVER"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder' => 'mail'
@@ -222,7 +222,7 @@
 
                     <div class="form-group">
                         {!! Form::label('mail_port', trans("Installer.mail_port"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_port', Input::old('mail_port'),
+                        {!!  Form::text('mail_port', $value = env("MAIL_PORT"),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
