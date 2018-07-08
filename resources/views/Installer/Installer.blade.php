@@ -29,7 +29,15 @@
                     </div>
 
                     <h1>@lang("Installer.setup")</h1>
-
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
 
                     <h3>@lang("Installer.php_version_check")</h3>
                     @if (version_compare(phpversion(), '5.5.9', '<'))
@@ -102,12 +110,13 @@
                     </div>
 
                     <h3>@lang("Installer.database_settings")</h3>
+                    <p>@lang("Installer.database_message")</p>
 
                     <div class="form-group">
                         {!! Form::label('database_type', trans("Installer.database_type"), array('class'=>'required control-label ')) !!}
                         {!!  Form::select('database_type', array(
-                                  'pgsql' => "Postgres",
                                   'mysql' => "MySQL",
+                                  'pgsql' => "Postgres",
                                     ), Input::old('database_type'),
                                     array(
                                     'class'=>'form-control'
@@ -116,16 +125,17 @@
 
                     <div class="form-group">
                         {!! Form::label('database_host', trans("Installer.database_host"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_host', Input::old('database_host'),
+                        {!!  Form::text('database_host', $value = env("DB_HOST") ,
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>''
                                     ))  !!}
-                    </div>
 
+
+                    </div>
                     <div class="form-group">
-                        {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('database_name', Input::old('database_name'),
+                        {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label required')) !!}
+                        {!!  Form::text('database_name', $value = env("DB_DATABASE") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -133,15 +143,15 @@
 
                     <div class="form-group">
                         {!! Form::label('database_username', trans("Installer.database_username"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_username', Input::old('database_username'),
+                        {!!  Form::text('database_username', $value = env("DB_USERNAME"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
                                     ))  !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label ')) !!}
-                        {!!  Form::text('database_password', Input::old('database_password'),
+                        {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label required')) !!}
+                        {!!  Form::text('database_password', $value = env("DB_PASSWORD"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
@@ -186,21 +196,21 @@
 
                     <div class="form-group">
                         {!! Form::label('mail_from_address', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_address', Input::old('mail_from_address'),
+                        {!!  Form::text('mail_from_address', $value = env("MAIL_FROM_ADDRESS") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_from_name', trans("Installer.mail_from_name"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_name', Input::old('mail_from_name'),
+                        {!!  Form::text('mail_from_name', $value = env("MAIL_FROM_NAME") ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_driver', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_driver', Input::old('mail_driver'),
+                        {!!  Form::text('mail_driver', $value = env("MAIL_DRIVER"),
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder' => 'mail'
@@ -212,7 +222,7 @@
 
                     <div class="form-group">
                         {!! Form::label('mail_port', trans("Installer.mail_port"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_port', Input::old('mail_port'),
+                        {!!  Form::text('mail_port', $value = env("MAIL_PORT"),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -227,7 +237,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_host', trans("Installer.mail_host"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_host', Input::old('mail_host'),
+                        {!!  Form::text('mail_host', $value = env("MAIL_HOST"),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -246,7 +256,7 @@
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
-
+                    {!! csrf_field() !!}
                     @include("Installer.Partials.Footer")
 
                     {!! Form::submit(trans("Installer.install"), ['class'=>" btn-block btn btn-success"]) !!}
