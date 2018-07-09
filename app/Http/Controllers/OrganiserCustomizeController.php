@@ -55,8 +55,6 @@ class OrganiserCustomizeController extends MyBaseController
         $organiser->tax_id                = $request->get('tax_id');
         $organiser->charge_tax            = ($request->get('charge_tax') == 1) ? 1 : 0;
 
-        //var_dump($organiser->charge_tax);
-
         if ($request->get('remove_current_image') == '1') {
             $organiser->logo_path = '';
         }
