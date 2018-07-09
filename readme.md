@@ -162,10 +162,10 @@ Attendize uses Wkhtml2PDF to generate tickets. If you are getting errors while g
 
 Also make sure the setting for WKHTML2PDF_BIN_FILE is correct in the .env file. The acceptable options are:
 
-wkhtmltopdf-0.12.1-OS-X.i386 - Mac OS X 10.8+ (Carbon), 
-32-bitwkhtmltopdf-amd64 - Linux (Debian Wheezy), 
-64-bit, for recent distributions (i.e. glibc 2.13 or later)
-wkhtmltopdf-i386 - Linux (Debian Wheezy), 32-bit, for recent distributions (i.e. glibc 2.13 or later)
+1. wkhtmltopdf-0.12.1-OS-X.i386 - Mac OS X 10.8+ (Carbon), 
+2. 32-bitwkhtmltopdf-amd64 - Linux (Debian Wheezy), 
+3. 64-bit, for recent distributions (i.e. glibc 2.13 or later)
+4. wkhtmltopdf-i386 - Linux (Debian Wheezy), 32-bit, for recent distributions (i.e. glibc 2.13 or later)
 
 #### TokenMismatchException error
 This error can occur when the session expires, try refreshing the page.
