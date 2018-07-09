@@ -52,10 +52,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
                     <div class="form-group">
                         {!! Form::label('about', trans("Organiser.organiser_description"), array('class'=>'control-label ')) !!}
                         {!!  Form::textarea('about', Input::old('about'),
@@ -65,26 +61,33 @@
                                     'rows' => 4
                                     ))  !!}
                     </div>
+                    <div class="form-group">
+                        <p>Do you want to Charge Tax at your Events?</p>
+                        {!! Form::label('Yes', 'Yes', array('class'=>'control-label', 'id' => 'charge_yes')) !!}
+                        {{ Form::radio('charge_tax', 'Yes' , false) }}
+                        {!! Form::label('No', 'No', array('class'=>'control-label','id' => 'charge_no')) !!}
+                        {{ Form::radio('charge_tax', 'No' , true) }}
+                    </div>
 
-                    <div class="row">
+                    <div id="tax_fields" class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::label('taxid', 'Tax ID', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxid', Input::old('taxid'), array('class'=>'form-control', 'placeholder'=>'Tax ID'))  !!}
+                                {!! Form::label('tax_id', 'Tax ID', array('class'=>'control-label required')) !!}
+                                {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID'))  !!}
                             </div>
                         </div>
                         
                         <div class="col-md-3">
                             <div class="form-group">
-                                {!! Form::label('taxname', 'Tax name', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxname', Input::old('taxname'), array('class'=>'form-control', 'placeholder'=>'Tax name'))  !!}
+                                {!! Form::label('tax_name', 'Tax name', array('class'=>'control-label required')) !!}
+                                {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name'))  !!}
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                {!! Form::label('taxvalue', 'Tax value', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxvalue', Input::old('taxvalue'), array('class'=>'form-control', 'placeholder'=>'Tax Value'))  !!}
+                                {!! Form::label('tax_value', 'Tax value', array('class'=>'control-label required')) !!}
+                                {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value'))  !!}
                             </div>
                         </div>
                     </div>
