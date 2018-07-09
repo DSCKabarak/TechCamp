@@ -73,34 +73,46 @@ Docker needs to be installed on your machine for this to work. Follow the Docker
 ---
 
 1. Clone the codebase from Github 
+
 ```git clone https://github.com/Attendize/Attendize```
 
 2. Change directory to the cloned codebase
+
 ```cd Attendize```
 
 3. Make a copy of the laravel environment file. It can be useful to set APP_DEBUG=true to help you debug any issues you might have
+
 ```cp .env.example .env```
 
 4. Set permissions correctly on storage and public/user_content folders
+
 ```chmod -R a+w storage```
 ```chmod -R a+w public/user_content```
 
 5. Run the docker-compose build command 
+
 ```docker-compose build```
 
 6. Run composer to pull in the various dependencies for the project
+
 ```docker run --rm -it -v $(pwd):/usr/share/nginx/html/attendize attendize_composer composer install```
 
 7. Run the Laravel generate a key for the app
+
 ```docker run --rm -it -v $(pwd):/usr/share/nginx/html/attendize attendize_php php artisan key:generate```
 
 8. Run docker-compose up to create the development environment. You can drop the -d flag to see output from the containers which is useful for debugging. 
+
 ```docker-compose up -d```
 
-At this point you should be able to browse to `http://localhost:8080`. You can follow the web instructions to continue installing Attendize. If you are comfortable
-on the command line you can run Step 9 below. 
+At this point you should be able to browse to 
+
+```http://localhost:8080```.
+ 
+You can follow the web instructions to continue installing Attendize. If you are comfortableon the command line you can run Step 9 below. 
 
 9. Run the command to create the various database tables
+
 ```  
 docker-compose run php php artisan attendize:install
 ```
@@ -150,9 +162,10 @@ Attendize uses Wkhtml2PDF to generate tickets. If you are getting errors while g
 
 Also make sure the setting for WKHTML2PDF_BIN_FILE is correct in the .env file. The acceptable options are:
 
-wkhtmltopdf-0.12.1-OS-X.i386 - Mac OS X 10.8+ (Carbon), 32-bit
-wkhtmltopdf-amd64 - Linux (Debian Wheezy), 64-bit, for recent distributions (i.e. glibc 2.13 or later)
-wkhtmltopdf-i386 - Linux (Debian Wheezy), 32-bit, for recent distributions (i.e. glibc 2.13 or later)
+1. wkhtmltopdf-0.12.1-OS-X.i386 - Mac OS X 10.8+ (Carbon), 
+2. 32-bitwkhtmltopdf-amd64 - Linux (Debian Wheezy), 
+3. 64-bit, for recent distributions (i.e. glibc 2.13 or later)
+4. wkhtmltopdf-i386 - Linux (Debian Wheezy), 32-bit, for recent distributions (i.e. glibc 2.13 or later)
 
 #### TokenMismatchException error
 This error can occur when the session expires, try refreshing the page.

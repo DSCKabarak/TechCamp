@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use PhpSpec\Exception\Example\ExampleException;
+use Log;
 
 class InstallerController extends Controller
 {
@@ -102,11 +103,23 @@ class InstallerController extends Controller
                 'database_username' => 'required',
                 'database_password' => 'required'
             ]);
+            $connectionDetailsValid = true;
         } catch (\Exception $e) {
-            \Log::error('Please enter all app settings. ' . $e->getMessage());
-            return view('Installer.Installer', $this->data);
+            Log::error('Please enter all app settings. ' . $e->getMessage());
+            $connectionDetailsValid = false;
         }
 
+        if (!$connectionDetailsValid) {
+
+            if ($request->get('test') === 'db') {
+                return [
+                    'status'  => 'error',
+                    'message' => trans("Installer.connection_failure"),
+                    'test'    => 1,
+                ];
+            }
+            return view('Installer.Installer', $this->data);
+        }
 
         $mail['driver'] = $request->get('mail_driver');
         $mail['port'] = $request->get('mail_port');
@@ -123,7 +136,6 @@ class InstallerController extends Controller
 
         if ($request->get('test') === 'db') {
             $db_valid = self::testDatabase($database);
-            //var_dump($db_valid);
             if ($db_valid) {
                 return [
                     'status'  => 'success',
@@ -237,7 +249,7 @@ class InstallerController extends Controller
             }
 
         } catch (\Exception $e) {
-            \Log::error('Database connection details invalid' . $e->getMessage());
+            Log::error('Database connection details invalid' . $e->getMessage());
         }
 
         return $databaseConnectionValid;

@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-nginx
+    env_file:
+      - ./.env
     ports:
     - "8080:80"
     networks:
@@ -55,6 +57,7 @@ services:
       - ./.env
     environment:
       MYSQL_ROOT_PASSWORD: "yes"
+      MYSQL_HOST: ${DB_HOST}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
