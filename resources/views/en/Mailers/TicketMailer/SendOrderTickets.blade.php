@@ -86,6 +86,36 @@ Order Email: <b>{{$order->email}}</b><br>
                {{money($order->amount + $order->order_fee, $order->event->currency)}}
             </td>
         </tr>
+        @if($order->event->organiser->charge_tax == 1)
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <b>{{$order->event->organiser->tax_name}}</b>
+            </td>
+            <td colspan="2">
+                {{$orderService->getTaxAmount(true)}}
+            </td>
+        </tr>
+        @endif
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <b>Total</b>
+            </td>
+            <td colspan="2">
+                {{$orderService->getGrandTotal(true)}}
+            </td>
+        </tr>
     </table>
 
     <br><br>

@@ -3,6 +3,7 @@
 namespace App\Mailers;
 
 use App\Models\Order;
+use App\Services\Order as OrderService;
 use Log;
 use Mail;
 
@@ -23,10 +24,13 @@ class OrderMailer
 
     public function sendOrderTickets($order)
     {
+        $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
+        $orderService->calculateFinalCosts();
 
         Log::info("Sending ticket to: " . $order->email);
         $data = [
             'order' => $order,
+            'orderService' => $orderService
         ];
 
         Mail::send('Mailers.TicketMailer.SendOrderTickets', $data, function ($message) use ($order) {
