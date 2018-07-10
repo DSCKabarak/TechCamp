@@ -74,7 +74,7 @@ class Order
     public function getOrderTotalWithBookingFee($currencyFormatted = false) {
 
         if ($currencyFormatted == false ) {
-            return number_format($this->grandTotal, 2, '.', '');
+            return number_format($this->orderTotalWithBookingFee, 2, '.', '');
         }
 
         return money($this->orderTotalWithBookingFee, $this->event->currency);
@@ -87,7 +87,7 @@ class Order
     public function getTaxAmount($currencyFormatted = false) {
 
         if ($currencyFormatted == false ) {
-            return number_format($this->grandTotal, 2, '.', '');
+            return number_format($this->taxAmount, 2, '.', '');
         }
 
         return money($this->taxAmount, $this->event->currency);
