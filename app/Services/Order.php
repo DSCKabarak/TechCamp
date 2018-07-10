@@ -2,20 +2,116 @@
 
 namespace App\Services;
 
+use App\Models\Event;
+
 class Order
 {
 
-    public function calculateFinalCosts($orderTotal, $totalBookingFee, $event)
-    {
-        $orderTotalWithBookingFee = $orderTotal + $totalBookingFee;
-        $taxAmount = ($event->organiser->charge_tax == 1) ? ($orderTotalWithBookingFee * $event->organiser->tax_value)/100
-                                                         : 0;
+    /**
+     * @var float
+     */
+    private $orderTotal;
 
-        $grandTotal = $orderTotalWithBookingFee + $taxAmount;
+    /**
+     * @var float
+     */
+    private $totalBookingFee;
 
-        return ['orderTotalWithBookingFee' => money($orderTotalWithBookingFee, $event->currency),
-                'taxAmount' => money($taxAmount, $event->currency),
-                'grandTotal' => money($grandTotal, $event->currency )];
+    /**
+     * @var Event
+     */
+    private $event;
+
+    /**
+     * @var float
+     */
+    public $orderTotalWithBookingFee;
+
+    /**
+     * @var float
+     */
+    public $taxAmount;
+
+    /**
+     * @var float
+     */
+    public $grandTotal;
+
+    /**
+     * Order constructor.
+     * @param $orderTotal
+     * @param $totalBookingFee
+     * @param $event
+     */
+    public function __construct($orderTotal, $totalBookingFee, $event) {
+
+        $this->orderTotal = $orderTotal;
+        $this->totalBookingFee = $totalBookingFee;
+        $this->event = $event;
     }
 
+
+    /**
+     * Calculates the final costs for an event and sets the various totals
+     */
+    public function calculateFinalCosts()
+    {
+        $this->orderTotalWithBookingFee = $this->orderTotal + $this->totalBookingFee;
+
+        if ($this->event->organiser->charge_tax == 1) {
+            $this->taxAmount = ($this->orderTotalWithBookingFee * $this->event->organiser->tax_value)/100;
+        } else {
+            $this->taxAmount = 0;
+        }
+
+        $this->grandTotal = $this->orderTotalWithBookingFee + $this->taxAmount;
+    }
+
+    /**
+     * @param bool $currencyFormatted
+     * @return float|string
+     */
+    public function getOrderTotalWithBookingFee($currencyFormatted = false) {
+
+        if ($currencyFormatted == false ) {
+            return $this->orderTotalWithBookingFee;
+        }
+
+        return money($this->orderTotalWithBookingFee, $this->event->currency);
+    }
+
+    /**
+     * @param bool $currencyFormatted
+     * @return float|string
+     */
+    public function getTaxAmount($currencyFormatted = false) {
+
+        if ($currencyFormatted == false ) {
+            return $this->taxAmount;
+        }
+
+        return money($this->taxAmount, $this->event->currency);
+    }
+
+    /**
+     * @param bool $currencyFormatted
+     * @return float|string
+     */
+    public function getGrandTotal($currencyFormatted = false) {
+
+        if ($currencyFormatted == false ) {
+            return $this->grandTotal;
+        }
+
+        return money($this->grandTotal, $this->event->currency);
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatFormattedInBrackets() {
+        return "(+" . $this->getTaxAmount(true) . " " . $this->event->organiser->tax_name . ")";
+    }
+    
 }

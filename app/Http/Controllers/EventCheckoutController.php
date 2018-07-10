@@ -248,16 +248,14 @@ class EventCheckoutController extends Controller
 
         $event = Event::findorFail($order_session['event_id']);
 
-        $order = new OrderService();
-        $orderCosts = $order->calculateFinalCosts($order_session['order_total'],
-                                                  $order_session['total_booking_fee'],
-                                                  $event);
+        $orderService = new OrderService($order_session['order_total'], $order_session['total_booking_fee'], $event);
+        $orderService->calculateFinalCosts();
 
         $data = $order_session + [
                 'event'           => $event,
                 'secondsToExpire' => $secondsToExpire,
                 'is_embedded'     => $this->is_embedded,
-                'order_costs'     => $orderCosts
+                'orderService'           => $orderService
                 ];
 
         if ($this->is_embedded) {
@@ -333,13 +331,12 @@ class EventCheckoutController extends Controller
                         'testMode' => config('attendize.enable_test_payments'),
                     ]);
 
-                // Calculating grand total including tax
-                $grand_total = $ticket_order['order_total'] + $ticket_order['organiser_booking_fee'];
-                $tax_amt = ($grand_total * $event->organiser->tax_value) / 100;
-                $grand_total = $tax_amt + $grand_total;
+                $order = new OrderService($ticket_order['order_total'], $ticket_order['organiser_booking_fee'], $event);
+                $order->calculateFinalCosts();
+
 
                 $transaction_data = [
-                        'amount'      => $grand_total,
+                        'amount'      => $order->getGrandTotal(),
                         'currency'    => $event->currency->code,
                         'description' => 'Order for customer: ' . $request->get('order_email'),
                     ];
@@ -541,10 +538,10 @@ class EventCheckoutController extends Controller
             $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
 
             // Calculating grand total including tax
-            $grand_total = $ticket_order['order_total'] + $ticket_order['organiser_booking_fee'];
-            $tax_amt = ($grand_total * $event->organiser->tax_value) / 100;
+            $orderService = new OrderService($ticket_order['order_total'], $ticket_order['organiser_booking_fee'], $event);
+            $orderService->calculateFinalCosts();
 
-            $order->taxamt = $tax_amt;
+            $order->taxamt = $orderService->getTaxAmount();
             $order->save();
 
             /*
@@ -719,11 +716,15 @@ class EventCheckoutController extends Controller
             abort(404);
         }
 
+        $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
+        $orderService->calculateFinalCosts();
+
         $data = [
-            'order'       => $order,
-            'event'       => $order->event,
-            'tickets'     => $order->event->tickets,
-            'is_embedded' => $this->is_embedded,
+            'order'        => $order,
+            'orderService' => $orderService,
+            'event'        => $order->event,
+            'tickets'      => $order->event->tickets,
+            'is_embedded'  => $this->is_embedded,
         ];
 
         if ($this->is_embedded) {

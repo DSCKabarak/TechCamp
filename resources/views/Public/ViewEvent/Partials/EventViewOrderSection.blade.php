@@ -82,8 +82,10 @@
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>@lang("Public_ViewEvent.amount")</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount,2)}}
-                            <small>{{ ($event->organiser->taxname && $event->organiser->taxvalue) ? '(+'.money(($order->total_amount*($event->organiser->taxvalue)/100), $event->currency).' '.$event->organiser->taxname.')' : '' }}</small>
+                            <b>@lang("Public_ViewEvent.amount")</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount, 2)}}
+                            @if($event->organiser->charge_tax)
+                            <small>{{ $orderService->getVatFormattedInBrackets() }}</small>
+                            @endif
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
@@ -185,9 +187,10 @@
                                     <b>@lang("Public_ViewEvent.sub_total")</b>
                                 </td>
                                 <td colspan="2">
-                                    {{money($order->total_amount, $order->event->currency)}}
+                                    {{ $orderService->getOrderTotalWithBookingFee(true) }}
                                 </td>
                             </tr>
+                            @if($event->organiser->charge_tax)
                             <tr>
                                 <td>
                                 </td>
@@ -196,12 +199,13 @@
                                 <td>
                                 </td>
                                 <td>
-                                    {{$event->organiser->taxname}}
+                                    {{$event->organiser->tax_name}}
                                 </td>
                                 <td colspan="2">
-                                   {{money(($order->total_amount*($event->organiser->taxvalue)/100), $event->currency)}}
+                                    {{ $orderService->getTaxAmount(true) }}
                                 </td>
                             </tr>
+                            @endif
                             <tr>
                                 <td>
                                 </td>
@@ -213,7 +217,7 @@
                                     <b>Total</b>
                                 </td>
                                 <td colspan="2">
-                                   {{money($order->total_amount+($order->total_amount*($event->organiser->taxvalue)/100), $event->currency)}}
+                                   {{ $orderService->getGrandTotal(true) }}
                                 </td>
                             </tr>
                             @if($order->is_refunded || $order->is_partially_refunded)
