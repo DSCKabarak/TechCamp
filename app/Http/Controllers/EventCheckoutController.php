@@ -255,7 +255,7 @@ class EventCheckoutController extends Controller
                 'event'           => $event,
                 'secondsToExpire' => $secondsToExpire,
                 'is_embedded'     => $this->is_embedded,
-                'orderService'           => $orderService
+                'orderService'    => $orderService
                 ];
 
         if ($this->is_embedded) {
@@ -331,12 +331,11 @@ class EventCheckoutController extends Controller
                         'testMode' => config('attendize.enable_test_payments'),
                     ]);
 
-                $order = new OrderService($ticket_order['order_total'], $ticket_order['organiser_booking_fee'], $event);
-                $order->calculateFinalCosts();
-
+                $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
+                $orderService->calculateFinalCosts();
 
                 $transaction_data = [
-                        'amount'      => $order->getGrandTotal(),
+                        'amount'      => $orderService->getGrandTotal(),
                         'currency'    => $event->currency->code,
                         'description' => 'Order for customer: ' . $request->get('order_email'),
                     ];
@@ -538,7 +537,7 @@ class EventCheckoutController extends Controller
             $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
 
             // Calculating grand total including tax
-            $orderService = new OrderService($ticket_order['order_total'], $ticket_order['organiser_booking_fee'], $event);
+            $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
             $orderService->calculateFinalCosts();
 
             $order->taxamt = $orderService->getTaxAmount();
@@ -716,7 +715,7 @@ class EventCheckoutController extends Controller
             abort(404);
         }
 
-        $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
+        $orderService = new OrderService($order->amount, $order->organiser_booking_fee, $order->event);
         $orderService->calculateFinalCosts();
 
         $data = [
