@@ -41,10 +41,10 @@ class OrganiserController extends MyBaseController
         $organiser = Organiser::createNew(false, false, true);
 
         $chargeTax = $request->get('charge_tax');
-
-        if ($chargeTax == 'Yes') {
+        if ($chargeTax == 1) {
             $organiser->addExtraValidationRules();
         }
+
         if (!$organiser->validate($request->all())) {
             return response()->json([
                 'status'   => 'error',
@@ -62,7 +62,7 @@ class OrganiserController extends MyBaseController
         $organiser->tax_name = $request->get('tax_name');
         $organiser->tax_value = round($request->get('tax_value'),2);
         $organiser->tax_id = $request->get('tax_id');
-        $organiser->charge_tax = ($chargeTax == 'Yes') ? 1 : 0;
+        $organiser->charge_tax = ($chargeTax == 1) ? 1 : 0;
 
         if ($request->hasFile('organiser_logo')) {
             $organiser->setLogo($request->file('organiser_logo'));

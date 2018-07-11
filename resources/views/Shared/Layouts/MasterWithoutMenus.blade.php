@@ -7,8 +7,6 @@
 
         @include('Shared.Partials.GlobalMeta')
 
-        @yield('head')
-
         <!--JS-->
        {!! HTML::script('vendor/jquery/dist/jquery.min.js') !!}
         <!--/JS-->
@@ -16,6 +14,8 @@
         <!--Style-->
        {!!HTML::style('assets/stylesheet/application.css')!!}
         <!--/Style-->
+
+        @yield('head')
 
         <style>
 

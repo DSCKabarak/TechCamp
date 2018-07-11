@@ -36,6 +36,11 @@ class OrganiserCustomizeController extends MyBaseController
     {
         $organiser = Organiser::scope()->find($organiser_id);
 
+        $chargeTax = $request->get('charge_tax');
+        if ($chargeTax == 1) {
+            $organiser->addExtraValidationRules();
+        }
+
         if (!$organiser->validate($request->all())) {
             return response()->json([
                 'status'   => 'error',
@@ -50,6 +55,7 @@ class OrganiserCustomizeController extends MyBaseController
         $organiser->enable_organiser_page = $request->get('enable_organiser_page');
         $organiser->facebook              = $request->get('facebook');
         $organiser->twitter               = $request->get('twitter');
+
         $organiser->tax_name              = $request->get('tax_name');
         $organiser->tax_value             = $request->get('tax_value');
         $organiser->tax_id                = $request->get('tax_id');

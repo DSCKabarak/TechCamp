@@ -31,24 +31,7 @@
 
         });
 
-        $(document).ready(function(){
-            var charge_tax = $("input[type=radio][name='charge_tax']:checked").val();
-            if (charge_tax == 1) {
-                $('#tax_fields').show();
-            } else {
-                $('#tax_fields').hide();
-            }
-
-            $('input[type=radio][name=charge_tax]').change(function() {
-                if (this.value == 1) {
-                    $('#tax_fields').show();
-                }
-                else {
-                    $('#tax_fields').hide();
-                }
-            });
-        });
-
+        @include('ManageOrganiser.Partials.OrganiserCreateAndEditJS')
     </script>
 @stop
 
@@ -115,31 +98,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <p>Do you want to Charge Tax at your Events?</p>
-                                <label for="Yes" class="control-label" id="charge_yes">Yes</label>
-                                <input name="charge_tax" type="radio" value="1" {{ $organiser->charge_tax == 1 ? 'checked' : '' }}>
-                                <label for="No" class="control-label" id="charge_no">No</label>
-                                <input name="charge_tax" type="radio" value="0" {{ $organiser->charge_tax == 0 ? 'checked' : '' }}>
+                                <p class="control-label">{!! trans("Organiser.organiser_tax_prompt") !!}</p>
+                                <label for="Yes" class="control-label" id="charge_yes">{!! trans("Organiser.yes") !!}</label>
+                                <input id="charge_yes" name="charge_tax" type="radio" value="1" {{ $organiser->charge_tax == 1 ? 'checked' : '' }}>
+                                <label for="No" class="control-label" id="charge_no">{!! trans("Organiser.no") !!}</label>
+                                <input id="charge_yes" name="charge_tax" type="radio" value="0" {{ $organiser->charge_tax == 0 ? 'checked' : '' }}>
                             </div>
                         </div>
                         <div id="tax_fields">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {!! Form::label('tax_id', 'Tax ID', array('class'=>'control-label required')) !!}
+                                    {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label required')) !!}
                                     {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID')) !!}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('tax_name', 'Tax name', array('class'=>'control-label required')) !!}
+                                    {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label required')) !!}
                                     {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name')) !!}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('tax_value', 'Tax value', array('class'=>'control-label required')) !!}
+                                    {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label required')) !!}
                                     {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value')) !!}
                                 </div>
                             </div>

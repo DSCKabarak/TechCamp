@@ -47,6 +47,7 @@ return array (
   'total' => 'total',
   'whoops' => 'Whoops!',
   'yes' => 'Yes',
+  'no' => 'No',
     /*
      * Lines below will turn obsolete in localization helper, it is declared in app/Helpers/macros.
      * If you run it, it will break file input fields.
