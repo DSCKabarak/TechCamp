@@ -11,8 +11,12 @@ class OrderMailer
 {
     public function sendOrderNotification(Order $order)
     {
+        $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
+        $orderService->calculateFinalCosts();
+
         $data = [
-            'order' => $order
+            'order' => $order,
+            'orderService' => $orderService
         ];
 
         Mail::send('Emails.OrderNotification', $data, function ($message) use ($order) {
@@ -22,7 +26,7 @@ class OrderMailer
 
     }
 
-    public function sendOrderTickets($order)
+    public function sendOrderTickets(Order $order)
     {
         $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
         $orderService->calculateFinalCosts();

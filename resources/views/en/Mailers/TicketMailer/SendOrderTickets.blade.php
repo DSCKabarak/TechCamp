@@ -83,7 +83,7 @@ Order Email: <b>{{$order->email}}</b><br>
                 <b>Sub Total</b>
             </td>
             <td colspan="2">
-               {{money($order->amount + $order->order_fee, $order->event->currency)}}
+                {{$orderService->getOrderTotalWithBookingFee(true)}}
             </td>
         </tr>
         @if($order->event->organiser->charge_tax == 1)

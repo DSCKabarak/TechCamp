@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="col-sm-6 col-xs-6">
-                            <b>@lang("ManageEvent.amount")</b><br>{{money($order->total_amount, $order->event->currency)}}
+                            <b>@lang("ManageEvent.amount")</b><br>{{ $orderService->getGrandTotal(true) }}
                         </div>
 
                         <div class="col-sm-6 col-xs-6">
@@ -141,6 +141,36 @@
                                     </td>
                                     <td colspan="2">
                                         {{money($order->total_amount, $order->event->currency)}}
+                                    </td>
+                                </tr>
+                                @if($order->event->organiser->charge_tax)
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <b>{{$order->event->organiser->tax_name}}</b>
+                                    </td>
+                                    <td colspan="2">
+                                        {{ $orderService->getTaxAmount(true) }}
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <b>Total</b>
+                                    </td>
+                                    <td colspan="2">
+                                        {{ $orderService->getGrandTotal(true) }}
                                     </td>
                                 </tr>
                             </tbody>
