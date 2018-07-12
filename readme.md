@@ -119,6 +119,13 @@ docker-compose run php php artisan attendize:install
 
 Attendize should now be available at `http://localhost:8080` and maildev at `http://localhost:1080`
 
+### Enabling Dummy Payment Gateway for testing purposes ###
+
+To be able to test the journey of buying and paying for tickets from the event page you need to have a payment gateway enabled else you can't complete the journey. To enable the dummy gateway that allows you to go through the journey
+end to end change the configuration option enable_dummy_payment_gateway in ./config/attendize.php to true
+```
+'enable_dummy_payment_gateway'  => true
+```
 
 ### Manual Installation
 ---

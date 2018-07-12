@@ -7,12 +7,18 @@ return [
     'ticket_status_sold_out'        => 1,
     'ticket_status_after_sale_date' => 2,//
     'enable_test_payments'          => env('ENABLE_TEST_PAYMENTS', false),
-
+    'enable_dummy_payment_gateway'  => false,
+    'payment_gateway_dummy'    => 0,
     'payment_gateway_stripe'   => 1,
     'payment_gateway_paypal'   => 2,
     'payment_gateway_coinbase' => 3,
 	'payment_gateway_migs'     => 4,
-
+    'fake_card_data' => [
+        'number' => '4242424242424242',
+        'expiryMonth' => '6',
+        'expiryYear' => '2030',
+        'cvv' => '123'
+    ],
     'outgoing_email_noreply' => env('MAIL_FROM_ADDRESS'),
     'outgoing_email'         => env('MAIL_FROM_ADDRESS'),
     'outgoing_email_name'    => env('MAIL_FROM_NAME'),
