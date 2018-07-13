@@ -26,9 +26,6 @@ WORKDIR $PROJECT_PATH
 # Composer
 RUN composer install --no-interaction
 
-#RUN php artisan key:generate
-
-
 # Folder permissions
 RUN chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP .
 RUN chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP storage/
