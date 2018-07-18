@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89a6668b4e954f6a6e229978385a9ea0",
+    "content-hash": "bc984acdaa88e1c595e84d770d60d57a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2407,6 +2407,63 @@
                 "purchase"
             ],
             "time": "2016-11-07T06:10:23+00:00"
+        },
+        {
+            "name": "omnipay/dummy",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/omnipay-dummy.git",
+                "reference": "0ced02379aff446011ccde1392e641d9da436442"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-dummy/zipball/0ced02379aff446011ccde1392e641d9da436442",
+                "reference": "0ced02379aff446011ccde1392e641d9da436442",
+                "shasum": ""
+            },
+            "require": {
+                "omnipay/common": "~2.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Omnipay\\Dummy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Macneil",
+                    "email": "adrian@adrianmacneil.com"
+                },
+                {
+                    "name": "Omnipay Contributors",
+                    "homepage": "https://github.com/thephpleague/omnipay-dummy/contributors"
+                }
+            ],
+            "description": "Dummy driver for the Omnipay payment processing library",
+            "homepage": "https://github.com/thephpleague/omnipay-dummy",
+            "keywords": [
+                "Dummy",
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment"
+            ],
+            "time": "2018-04-17T09:57:18+00:00"
         },
         {
             "name": "omnipay/migs",
