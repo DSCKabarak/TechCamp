@@ -32,15 +32,15 @@
         "omnipay/migs": "^2.1",
         "mcamara/laravel-localization": "^1.2",
         "potsky/laravel-localization-helpers": "2.3.*",
-        "doctrine/dbal": "~2.3"
+        "doctrine/dbal": "~2.3",
+        "barryvdh/laravel-ide-helper": "^2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
         "fzaninotto/faker": "^1.5",
         "symfony/dom-crawler": "~3.0",
-        "symfony/css-selector": "~3.0",
-        "barryvdh/laravel-ide-helper": "^2.4"
+        "symfony/css-selector": "~3.0"
     },
 
     "autoload": {
