@@ -76,12 +76,13 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                Sub Total
+                <b>Sub Total</b>
             </td>
             <td colspan="2">
-               {{money($order->amount + $order->order_fee, $order->event->currency)}}
+                {{$orderService->getOrderTotalWithBookingFee(true)}}
             </td>
         </tr>
+        @if($order->event->organiser->charge_tax == 1)
         <tr>
             <td>
             </td>
@@ -90,12 +91,13 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                {{$event->organiser->taxname}}
+                <b>{{$order->event->organiser->tax_name}}</b>
             </td>
             <td colspan="2">
-               {{money(($order->amount*($event->organiser->taxvalue)/100), $event->currency)}}
+                {{$orderService->getTaxAmount(true)}}
             </td>
         </tr>
+        @endif
         <tr>
             <td>
             </td>
@@ -107,7 +109,7 @@ Order Email: <b>{{$order->email}}</b><br>
                 <b>Total</b>
             </td>
             <td colspan="2">
-               {{money($order->amount+($order->amount*($event->organiser->taxvalue)/100), $event->currency)}}
+                {{$orderService->getGrandTotal(true)}}
             </td>
         </tr>
     </table>
