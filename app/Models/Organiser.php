@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Str;
 use Image;
 
-class Organiser extends MyBaseModel
+class Organiser extends MyBaseModel implements AuthenticatableContract
 {
+    use Authenticatable;
     /**
      * The validation rules for the model.
      *
@@ -16,10 +19,13 @@ class Organiser extends MyBaseModel
     protected $rules = [
         'name'           => ['required'],
         'email'          => ['required', 'email'],
-        'taxname'        => ['required','max:15'],
-        'taxvalue'       => ['required','numeric'],
-        'taxid'          => ['required','max:100'],
         'organiser_logo' => ['mimes:jpeg,jpg,png', 'max:10000'],
+    ];
+
+    protected $extra_rules = [
+        'tax_name'        => ['required','max:15'],
+        'tax_value'       => ['required','numeric'],
+        'tax_id'          => ['required','max:100'],
     ];
 
     /**
@@ -28,9 +34,9 @@ class Organiser extends MyBaseModel
      * @var array $attributes
      */
     protected $attributes = [
-        'taxname'        => 'Tax Name',
-        'taxvalue'       => 'Tax Rate',
-        'taxid'          => 'Tax ID',
+        'tax_name'        => 'Tax Name',
+        'tax_value'       => 'Tax Rate',
+        'tax_id'          => 'Tax ID',
     ];
 
     /**
@@ -160,6 +166,13 @@ class Organiser extends MyBaseModel
         if (file_exists($absolutePath)) {
             $this->logo_path = $relativePath;
         }
+    }
+
+    /**
+     * Adds extra validator rules to the organiser object depending on whether tax is required or not
+     */
+    public function addExtraValidationRules() {
+        $this->rules = $this->rules + $this->extra_rules;
     }
 }
 

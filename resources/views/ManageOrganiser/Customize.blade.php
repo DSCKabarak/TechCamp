@@ -30,6 +30,8 @@
             });
 
         });
+
+        @include('ManageOrganiser.Partials.OrganiserCreateAndEditJS')
     </script>
 @stop
 
@@ -94,24 +96,35 @@
                                                 ))  !!}
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                {!! Form::label('taxid', 'Tax ID', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxid', Input::old('taxid'), array('class'=>'form-control', 'placeholder'=>'Tax ID'))  !!}
+                                <p class="control-label">{!! trans("Organiser.organiser_tax_prompt") !!}</p>
+                                <label for="Yes" class="control-label" id="charge_yes">{!! trans("Organiser.yes") !!}</label>
+                                <input id="charge_yes" name="charge_tax" type="radio" value="1" {{ $organiser->charge_tax == 1 ? 'checked' : '' }}>
+                                <label for="No" class="control-label" id="charge_no">{!! trans("Organiser.no") !!}</label>
+                                <input id="charge_yes" name="charge_tax" type="radio" value="0" {{ $organiser->charge_tax == 0 ? 'checked' : '' }}>
                             </div>
                         </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                {!! Form::label('taxname', 'Tax name', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxname', Input::old('taxname'), array('class'=>'form-control', 'placeholder'=>'Tax name'))  !!}
+                        <div id="tax_fields">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label required')) !!}
+                                    {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID')) !!}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                {!! Form::label('taxvalue', 'Tax value', array('class'=>'control-label required')) !!}
-                                {!! Form::text('taxvalue', Input::old('taxvalue'), array('class'=>'form-control', 'placeholder'=>'Tax Value'))  !!}
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label required')) !!}
+                                    {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name')) !!}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label required')) !!}
+                                    {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value')) !!}
+                                </div>
                             </div>
                         </div>
                     </div>

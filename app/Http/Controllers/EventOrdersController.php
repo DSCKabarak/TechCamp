@@ -8,6 +8,7 @@ use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
 use App\Models\Order;
+use App\Services\Order as OrderService;
 use DB;
 use Excel;
 use Illuminate\Http\Request;
@@ -78,8 +79,14 @@ class EventOrdersController extends MyBaseController
      */
     public function manageOrder(Request $request, $order_id)
     {
+        $order = Order::scope()->find($order_id);
+
+        $orderService = new OrderService($order->amount, $order->booking_fee, $order->event);
+        $orderService->calculateFinalCosts();
+
         $data = [
-            'order' => Order::scope()->find($order_id),
+            'order' => $order,
+            'orderService' => $orderService
         ];
 
         return view('ManageEvent.Modals.ManageOrder', $data);
