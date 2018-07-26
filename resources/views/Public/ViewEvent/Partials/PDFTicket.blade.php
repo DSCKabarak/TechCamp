@@ -98,7 +98,7 @@
 	                            {{money($grand_total, $order->event->currency)}} (inc. {{money($attendee->ticket->total_booking_fee, $order->event->currency)}} @lang("Public_ViewEvent.inc_fees") (inc. {{money($tax_amt, $order->event->currency)}} {{$event->organiser->tax_name}})
 	                            <br><br>{{$event->organiser->tax_name}} ID: {{ $event->organiser->tax_id }}
                             </div>
-
+			</div>
                         <div class="barcode">
                             {!! DNS2D::getBarcodeSVG($attendee->private_reference_number, "QRCODE", 6, 6) !!}
                         </div>
