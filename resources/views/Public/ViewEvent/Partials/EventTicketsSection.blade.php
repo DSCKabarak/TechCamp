@@ -5,9 +5,9 @@
         </h1>
     </div>
 
-    @if($event->start_date->isPast())
+    @if($event->end_date->isPast())
         <div class="alert alert-boring">
-            @lang("Public_ViewEvent.event_already", ["started" => $event->end_date->isFuture() ? trans("Public_ViewEvent.event_already_started"):trans("Public_ViewEvent.event_already_ended")])
+            @lang("Public_ViewEvent.event_already", ['started' => trans('Public_ViewEvent.event_already_ended')])
         </div>
     @else
 
