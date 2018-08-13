@@ -11,9 +11,10 @@ return array (
   'organiser_copy' => '[Kopia Organizatora]',
   'refund_from_name' => 'Otrzymaleś refundację od :name',
   'your_ticket_cancelled' => 'Twój bilet został anulowany',
+  'your_ticket_for_event' => 'Twój bilet na wydarzenie :event',
   //================================== Obsolete strings ==================================//
   'LLH:obsolete' => 
   array (
-    'your_ticket_for_event' => 'Twój bilet na wydarzenie :event',
+
   ),
 );

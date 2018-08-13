@@ -11,9 +11,10 @@ return array (
   'organiser_copy' => '[Organiser Copy]',
   'refund_from_name' => 'You have received a refund from :name',
   'your_ticket_cancelled' => 'Your ticket has been cancelled',
-  //================================== Obsolete strings ==================================//
+  'your_ticket_for_event' => 'Your ticket for the event :event',
+    //================================== Obsolete strings ==================================//
   'LLH:obsolete' => 
   array (
-    'your_ticket_for_event' => 'Your ticket for the event :event',
+
   ),
 );
