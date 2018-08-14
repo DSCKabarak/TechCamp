@@ -32,7 +32,7 @@ return array (
   'n_attendees_for_event' => '<b>:num</b> Attendee(s) for event: <b>:name</b> (:date)',
   'no_events_yet' => 'No Event Yet!',
   'no_events_yet_text' => 'Looks like you have yet to create an event. You can create one by clicking the button below.',
-  'num_events' => 'num_events',
+  'num_events' => ':num Events',
   'or(manual/existing_venue)' => 'or',
   'post_code' => 'Post Code',
   'post_code_placeholder' => 'E.g: 94568.',
