@@ -12,6 +12,7 @@ use App\Models\EventStats;
 use App\Models\Message;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\Order as OrderService;
 use App\Models\Ticket;
 use Auth;
 use Config;
@@ -131,6 +132,7 @@ class EventAttendeesController extends MyBaseController
         }
 
         $ticket_id = $request->get('ticket_id');
+        $event = Event::findOrFail($event_id);
         $ticket_price = 0;
         $attendee_first_name = $request->get('first_name');
         $attendee_last_name = $request->get('last_name');
@@ -152,6 +154,13 @@ class EventAttendeesController extends MyBaseController
             $order->amount = $ticket_price;
             $order->account_id = Auth::user()->account_id;
             $order->event_id = $event_id;
+
+            // Calculating grand total including tax
+            $orderService = new OrderService($ticket_price, 0, $event);
+            $orderService->calculateFinalCosts();
+
+            $order->taxamt = $orderService->getTaxAmount();
+
             $order->save();
 
             /*
@@ -859,3 +868,4 @@ class EventAttendeesController extends MyBaseController
     }
 
 }
+
