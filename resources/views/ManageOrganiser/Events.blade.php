@@ -50,7 +50,7 @@
             <div class="col-md-3 col-xs-6">
                 <div class="order_options">
                     <span class="event_count">
-                        @lang("Event.num_events", ["num"=>$organiser->events->count()])
+                        @lang("Event.num_events", ["num" => $organiser->events->count()])
                     </span>
                 </div>
             </div>
