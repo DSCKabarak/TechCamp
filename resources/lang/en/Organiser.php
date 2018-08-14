@@ -39,7 +39,7 @@ return array (
   'organiser_details' => 'Organiser Details',
   'organiser_email' => 'Organiser Email',
   'organiser_email_placeholder' => '',
-  'organiser_events' => 'organiser_events',
+  'organiser_events' => 'Organiser Events',
   'organiser_facebook' => 'Organiser Facebook',
   'organiser_facebook_placeholder' => 'E.g http://www.facebook.com/MyFaceBookPage',
   'organiser_logo' => 'Organiser Logo',
