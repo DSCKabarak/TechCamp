@@ -233,7 +233,7 @@ class Event extends MyBaseModel
             'Attendee Name',
             'Attendee Email',
             'Attendee Ticket'
-        ], $this->questions->lists('title')->toArray());
+        ], $this->questions->pluck('title')->toArray());
 
         $attendees = $this->attendees()->has('answers')->get();
 

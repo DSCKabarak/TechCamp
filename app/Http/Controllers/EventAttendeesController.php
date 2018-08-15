@@ -98,7 +98,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.InviteAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -252,7 +252,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.ImportAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -474,7 +474,7 @@ class EventAttendeesController extends MyBaseController
     {
         $data = [
             'event'   => Event::scope()->find($event_id),
-            'tickets' => Event::scope()->find($event_id)->tickets()->lists('title', 'id')->toArray(),
+            'tickets' => Event::scope()->find($event_id)->tickets()->pluck('title', 'id')->toArray(),
         ];
 
         return view('ManageEvent.Modals.MessageAttendees', $data);
@@ -621,7 +621,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.EditAttendee', $data);
@@ -684,7 +684,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.CancelAttendee', $data);

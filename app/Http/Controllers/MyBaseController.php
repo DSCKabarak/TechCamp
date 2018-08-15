@@ -13,6 +13,11 @@ class MyBaseController extends Controller
 {
     public function __construct()
     {
+
+        if (empty(Auth::user())) {
+            return redirect()->to('/login');
+        }
+
         /*
          * Set up JS across all views
          */
@@ -29,7 +34,6 @@ class MyBaseController extends Controller
             'DateTimeFormat'      => 'dd-MM-yyyy hh:mm',
             'GenericErrorMessage' => trans("Controllers.whoops"),
         ]);
-
         /*
          * Share the organizers across all views
          */

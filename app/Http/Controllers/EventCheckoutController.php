@@ -200,7 +200,7 @@ class EventCheckoutController extends Controller
         /*
          * The 'ticket_order_{event_id}' session stores everything we need to complete the transaction.
          */
-        session()->set('ticket_order_' . $event->id, [
+        session()->put('ticket_order_' . $event->id, [
             'validation_rules'        => $validation_rules,
             'validation_messages'     => $validation_messages,
             'event_id'                => $event->id,
