@@ -11,8 +11,6 @@ return [
     'payment_gateway_dummy'    => 0,
     'payment_gateway_stripe'   => 1,
     'payment_gateway_paypal'   => 2,
-    'payment_gateway_coinbase' => 3,
-	'payment_gateway_migs'     => 4,
     'fake_card_data' => [
         'number' => '4242424242424242',
         'expiryMonth' => '6',

@@ -372,7 +372,6 @@ class EventCheckoutController extends Controller
                         ];
                         break;
                     case config('attendize.payment_gateway_paypal'):
-                    case config('attendize.payment_gateway_coinbase'):
 
                         $transaction_data += [
                             'cancelUrl' => route('showEventCheckoutPaymentReturn', [
@@ -394,20 +393,6 @@ class EventCheckoutController extends Controller
                             'token'         => $token,
                             'receipt_email' => $request->get('order_email'),
                         ];
-                        break;
-                    case config('attendize.payment_gateway_migs'):
-                        $transaction_data += [
-                            'transactionId' => $event_id . date('YmdHis'),       // TODO: Where to generate transaction id?
-                            'returnUrl' => route('showEventCheckoutPaymentReturn', [
-                                'event_id'              => $event_id,
-                                'is_payment_successful' => 1
-                            ]),
-
-                        ];
-
-                        // Order description in MIGS is only 34 characters long; so we need a short description
-                        $transaction_data['description'] = "Ticket sales " . $transaction_data['transactionId'];
-
                         break;
                     default:
                         Log::error('No payment gateway configured.');
