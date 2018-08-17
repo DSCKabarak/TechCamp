@@ -671,18 +671,6 @@ class EventCheckoutController extends Controller
                 }
             }
 
-            /*
-             * Kill the session
-             */
-            session()->forget('ticket_order_' . $event->id);
-
-            /*
-             * Queue up some tasks - Emails to be sent, PDFs etc.
-             */
-            Log::info('Firing the event');
-            event(new OrderCompletedEvent($order));
-
-
         } catch (Exception $e) {
 
             Log::error($e);
@@ -694,8 +682,15 @@ class EventCheckoutController extends Controller
             ]);
 
         }
-
+        //save the order to the database
         DB::commit();
+        //forget the order in the session
+        session()->forget('ticket_order_' . $event->id);
+
+        // Queue up some tasks - Emails to be sent, PDFs etc.
+        Log::info('Firing the event');
+        event(new OrderCompletedEvent($order));
+
 
         if ($return_json) {
             return response()->json([
