@@ -161,7 +161,7 @@
                     @else
 
                         <div class="alert alert-info">
-                            @lang("ManageEvent.all_order_refunded", ["money"=>money($order->amount, $order->event->currency)])
+                            @lang("ManageEvent.all_order_refunded", ["money"=>money($order->amount_refunded, $order->event->currency)])
                         </div>
 
                     @endif
