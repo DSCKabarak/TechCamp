@@ -73,56 +73,43 @@ Docker needs to be installed on your machine for this to work. Follow the Docker
 ---
 
 1. Clone the codebase from Github 
-
 ```git clone https://github.com/Attendize/Attendize```
 
 2. Change directory to the cloned codebase
-
 ```cd Attendize```
 
 3. Make a copy of the laravel environment file. It can be useful to set APP_DEBUG=true to help you debug any issues you might have
-
 ```cp .env.example .env```
 
 4. Set permissions correctly on storage and public/user_content folders
-
 ```chmod -R a+w storage```
 ```chmod -R a+w public/user_content```
 
 5. Run the docker-compose build command 
-
 ```docker-compose build```
 
 6. Run composer to pull in the various dependencies for the project
-
 ```docker run --rm -it -v $(pwd):/usr/share/nginx/html/attendize attendize_composer composer install```
 
 7. Run the Laravel generate a key for the app
-
 ```docker run --rm -it -v $(pwd):/usr/share/nginx/html/attendize attendize_php php artisan key:generate```
 
 8. Run docker-compose up to create the development environment. You can drop the -d flag to see output from the containers which is useful for debugging. 
-
 ```docker-compose up -d```
 
 At this point you should be able to browse to 
-
 ```http://localhost:8080```.
  
-You can follow the web instructions to continue installing Attendize. If you are comfortableon the command line you can run Step 9 below. 
+You can follow the web instructions to continue installing Attendize. If you are comfortable on the command line you can run Step 9 below. 
 
 9. Run the command to create the various database tables
-
-```  
-docker-compose run php php artisan attendize:install
-```
+```  docker-compose run php php artisan attendize:install```
 
 Attendize should now be available at `http://localhost:8080` and maildev at `http://localhost:1080`
 
 ### Enabling Dummy Payment Gateway for testing purposes ###
 
-To be able to test the journey of buying and paying for tickets from the event page you need to have a payment gateway enabled else you can't complete the journey. To enable the dummy gateway that allows you to go through the journey
-end to end change the configuration option enable_dummy_payment_gateway in ./config/attendize.php to true
+To be able to test the journey of buying and paying for tickets from the event page you need to have a payment gateway enabled else you can't complete the journey. To enable the dummy gateway that allows you to go through the journey end to end change the configuration option enable_dummy_payment_gateway in ./config/attendize.php to true
 ```
 'enable_dummy_payment_gateway'  => true
 ```
@@ -148,11 +135,9 @@ MySQL version 5.6 and 5.7 have been tested
 ##### Apache and Nginx
 Most versions should work. Check the troubleshooting guide below for correct Nginx and Apache configurations. 
 
-### Troubleshooting
+#### Troubleshooting
 
-#### If you have an old version of Attendize installed you can destroy your old environments using the commands below. Please take note that if you have a pre-existing MySQL 
-
-#### Most problems can be fixed my making sure the following files and folders are writable:
+##### Most problems can be fixed my making sure the following files and folders are writable:
 
 Storage/app/
 Storage/framework/
