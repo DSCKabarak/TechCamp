@@ -523,10 +523,9 @@ class EventAttendeesController extends MyBaseController
     }
 
     /**
-     * Downloads the ticket of an attendee as PDF
-     *
      * @param $event_id
      * @param $attendee_id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function showExportTicket($event_id, $attendee_id)
     {
@@ -566,8 +565,7 @@ class EventAttendeesController extends MyBaseController
                 ->setCompany(config('attendize.app_name'));
 
             $excel->sheet('attendees_sheet_1', function ($sheet) use ($event_id) {
-
-                DB::connection()->setFetchMode(\PDO::FETCH_ASSOC);
+                DB::connection();
                 $data = DB::table('attendees')
                     ->where('attendees.event_id', '=', $event_id)
                     ->where('attendees.is_cancelled', '=', 0)
@@ -585,6 +583,10 @@ class EventAttendeesController extends MyBaseController
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
                         'attendees.arrival_time',
                     ])->get();
+
+                $data = array_map(function($object) {
+                    return (array)$object;
+                }, $data->toArray());
 
                 $sheet->fromArray($data);
                 $sheet->row(1, [
