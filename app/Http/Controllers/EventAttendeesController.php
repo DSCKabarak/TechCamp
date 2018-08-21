@@ -98,7 +98,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.InviteAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -255,7 +255,7 @@ class EventAttendeesController extends MyBaseController
 
         return view('ManageEvent.Modals.ImportAttendee', [
             'event'   => $event,
-            'tickets' => $event->tickets()->lists('title', 'id'),
+            'tickets' => $event->tickets()->pluck('title', 'id'),
         ]);
     }
 
@@ -477,7 +477,7 @@ class EventAttendeesController extends MyBaseController
     {
         $data = [
             'event'   => Event::scope()->find($event_id),
-            'tickets' => Event::scope()->find($event_id)->tickets()->lists('title', 'id')->toArray(),
+            'tickets' => Event::scope()->find($event_id)->tickets()->pluck('title', 'id')->toArray(),
         ];
 
         return view('ManageEvent.Modals.MessageAttendees', $data);
@@ -526,10 +526,9 @@ class EventAttendeesController extends MyBaseController
     }
 
     /**
-     * Downloads the ticket of an attendee as PDF
-     *
      * @param $event_id
      * @param $attendee_id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function showExportTicket($event_id, $attendee_id)
     {
@@ -569,8 +568,7 @@ class EventAttendeesController extends MyBaseController
                 ->setCompany(config('attendize.app_name'));
 
             $excel->sheet('attendees_sheet_1', function ($sheet) use ($event_id) {
-
-                DB::connection()->setFetchMode(\PDO::FETCH_ASSOC);
+                DB::connection();
                 $data = DB::table('attendees')
                     ->where('attendees.event_id', '=', $event_id)
                     ->where('attendees.is_cancelled', '=', 0)
@@ -588,6 +586,10 @@ class EventAttendeesController extends MyBaseController
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
                         'attendees.arrival_time',
                     ])->get();
+
+                $data = array_map(function($object) {
+                    return (array)$object;
+                }, $data->toArray());
 
                 $sheet->fromArray($data);
                 $sheet->row(1, [
@@ -624,7 +626,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.EditAttendee', $data);
@@ -687,7 +689,7 @@ class EventAttendeesController extends MyBaseController
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
-            'tickets'  => $attendee->event->tickets->lists('title', 'id'),
+            'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
         ];
 
         return view('ManageEvent.Modals.CancelAttendee', $data);

@@ -170,8 +170,7 @@ return [
         MaxHoffmann\Parsedown\ParsedownServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
-        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
-        Potsky\LaravelLocalizationHelpers\LaravelLocalizationHelpersServiceProvider::class,
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class
     ],
 
     /*

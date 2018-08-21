@@ -10,7 +10,10 @@
     @include('ManageEvent.Partials.TopNav')
 @stop
 
-@section('page_title', '<i class="ico-home2"></i>&nbsp;'.trans("basic.event_dashboard"))
+@section('page_title')
+<i class="ico-home2"></i>
+@lang("basic.event_dashboard")
+@endsection
 
 @section('menu')
     @include('ManageEvent.Partials.Sidebar')

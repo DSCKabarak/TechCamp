@@ -29,9 +29,9 @@ class ManageAccountController extends MyBaseController
     {
         $data = [
             'account'                  => Account::find(Auth::user()->account_id),
-            'timezones'                => Timezone::lists('location', 'id'),
-            'currencies'               => Currency::lists('title', 'id'),
-            'payment_gateways'         => PaymentGateway::lists('provider_name', 'id'),
+            'timezones'                => Timezone::pluck('location', 'id'),
+            'currencies'               => Currency::pluck('title', 'id'),
+            'payment_gateways'         => PaymentGateway::pluck('provider_name', 'id'),
             'account_payment_gateways' => AccountPaymentGateway::scope()->get(),
             'version_info'             => $this->getVersionInfo(),
         ];

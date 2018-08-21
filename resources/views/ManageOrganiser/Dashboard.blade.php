@@ -3,7 +3,7 @@
 @section('title')
     @parent
     @lang("Organiser.dashboard")
-@stop
+@endsection
 
 @section('top_nav')
     @include('ManageOrganiser.Partials.TopNav')

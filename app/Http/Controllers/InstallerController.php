@@ -222,7 +222,6 @@ class InstallerController extends Controller
         if (Timezone::count() == 0) {
             Artisan::call('db:seed', ['--force' => true]);
         }
-        Artisan::call('optimize', ['--force' => true]);
 
         $fp = fopen(base_path() . '/installed', 'w');
         fwrite($fp, $version);
