@@ -79,7 +79,7 @@ class AttendeeMailer extends Mailer
             'attendee' => $attendee,
         ];
 
-        Mail::queue('Mailers.TicketMailer.SendAttendeeInvite', $data, function ($message) use ($attendee) {
+        Mail::send('Mailers.TicketMailer.SendAttendeeInvite', $data, function ($message) use ($attendee) {
             $message->to($attendee->email);
             $message->subject(trans("Email.your_ticket_for_event", ["event" => $attendee->order->event->title]));
 
