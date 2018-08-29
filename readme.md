@@ -135,22 +135,30 @@ MySQL version 5.6 and 5.7 have been tested
 ##### Apache and Nginx
 Most versions should work. Check the troubleshooting guide below for correct Nginx and Apache configurations. 
 
-#### Troubleshooting
+### Troubleshooting
 
-##### Most problems can be fixed my making sure the following files and folders are writable:
+##### Enabling debugging
 
-Storage/app/
-Storage/framework/
-Storage/logs/
-Storage/cache/
-public/user_content/
-bootstrap/cache/
+In the .env file set APP_DEBUG=true. The log files contained in storage/logs should contain a useful error message.   
+
+**Most problems can be fixed my making sure the following files and folders are writable by your webserver user:**
+
+storage/app/<br/>
+storage/framework/<br/>
+storage/logs/<br/>
+storage/cache/<br/>
+public/user_content/<br/>
+bootstrap/cache/<br/>
 .env
-Always check the log in Storage/logs as it will likely show you what the problem is.
+
+Always check the logfile in storage/logs as it will likely show you what the problem is.
 
 #### Trouble generating PDF tickets? / Checkout failing
 
-Attendize uses Wkhtml2PDF to generate tickets. If you are getting errors while generating PDFs make sure all the driver files in vendor\nitmedia\wkhtml2pdf\src\Nitmedia\Wkhtml2pdf\lib executable.
+1. Attendize needs to be configured to send email using SMTP. If it can't send email it will log the exception in storage/logs if APP_DEBUG=true is set in the .env file.
+   The SMTP settings can be found in the .env. 
+
+2. Attendize uses Wkhtml2PDF to generate tickets. If you are getting errors while generating PDFs make sure all the driver files in vendor\nitmedia\wkhtml2pdf\src\Nitmedia\Wkhtml2pdf\lib executable.
 
 Also make sure the setting for WKHTML2PDF_BIN_FILE is correct in the .env file. The acceptable options are:
 
