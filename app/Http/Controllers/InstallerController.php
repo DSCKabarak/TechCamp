@@ -121,6 +121,7 @@ class InstallerController extends Controller
             return view('Installer.Installer', $this->data);
         }
 
+
         $mail['driver'] = $request->get('mail_driver');
         $mail['port'] = $request->get('mail_port');
         $mail['username'] = $request->get('mail_username');
@@ -131,7 +132,7 @@ class InstallerController extends Controller
         $mail['host'] = $request->get('mail_host');
 
         $app_url = $request->get('app_url');
-        $app_key = str_random(16);
+        $app_key = str_random(32);
         $version = file_get_contents(base_path('VERSION'));
 
         if ($request->get('test') === 'db') {
@@ -144,11 +145,11 @@ class InstallerController extends Controller
                 ];
             }
 
-            return [
+            return response()->json([
                 'status'  => 'error',
                 'message' => trans("Installer.connection_failure"),
                 'test'    => 1,
-            ];
+            ]);
         }
 
         //if a user doesn't use the default database details, enters incorrect values in the form, and then proceeds
