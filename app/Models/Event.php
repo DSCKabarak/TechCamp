@@ -243,7 +243,7 @@ class Event extends MyBaseModel
 
             foreach ($this->questions as $question) {
 
-                if (in_array($question->id, $attendee->answers->lists('question_id')->toArray())) {
+                if (in_array($question->id, $attendee->answers->pluck('question_id')->toArray())) {
                     $answers[] = $attendee->answers->where('question_id', $question->id)->first()->answer_text;
                 } else {
                     $answers[] = null;
