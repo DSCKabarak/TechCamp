@@ -40,13 +40,13 @@
                     @endif
 
                     <h3>@lang("Installer.php_version_check")</h3>
-                    @if (version_compare(phpversion(), '5.5.9', '<'))
+                    @if (version_compare(phpversion(), '7.1.3', '<'))
                         <div class="alert alert-warning">
-                            @lang("Installer.php_too_low", ["requires"=>"5.5.9", "has"=>phpversion()])
+                            {!! @trans("Installer.php_too_low", ["requires"=>"7.1.3", "has"=>phpversion()]) !!}
                         </div>
                     @else
                         <div class="alert alert-success">
-                            @lang("Installer.php_enough", ["requires"=>"5.5.9", "has"=>phpversion()])
+                            {!! @trans("Installer.php_enough", ["requires"=>"7.1.3", "has"=>phpversion()]) !!}
                         </div>
                     @endif
 
@@ -55,11 +55,11 @@
 
                         @if(!File::isWritable($path))
                             <div class="alert alert-danger">
-                                @lang("Installer.path_not_writable", ["path"=>$path])
+                            {!! @trans("Installer.path_not_writable", ["path"=>$path]) !!}
                             </div>
                         @else
                             <div class="alert alert-success">
-                                @lang("Installer.path_writable", ["path"=>$path])
+                            {!! @trans("Installer.path_writable", ["path"=> $path]) !!}
                             </div>
                         @endif
 
@@ -70,11 +70,11 @@
 
                         @if(!extension_loaded($requirement))
                             <div class="alert alert-danger">
-                                @lang("Installer.requirement_not_met", ["requirement"=>$requirement])
+                                {!! @trans("Installer.requirement_not_met", ["requirement"=>$requirement]) !!}
                             </div>
                         @else
                             <div class="alert alert-success">
-                                @lang("Installer.requirement_met", ["requirement"=>$requirement])
+                                {!! @trans("Installer.requirement_met", ["requirement"=>$requirement]) !!}
                             </div>
                         @endif
 
@@ -86,11 +86,11 @@
 
                         @if(!extension_loaded($optional_requirement))
                             <div class="alert alert-warning">
-                                @lang("Installer.optional_requirement_not_met", ["requirement"=>$optional_requirement])
+                                {!! @trans("Installer.optional_requirement_not_met", ["requirement"=>$optional_requirement]) !!}
                             </div>
                         @else
                             <div class="alert alert-success">
-                                @lang("Installer.requirement_met", ["requirement"=>$optional_requirement])
+                                {!! @trans("Installer.requirement_met", ["requirement"=>$optional_requirement]) !!}
                             </div>
                         @endif
 
