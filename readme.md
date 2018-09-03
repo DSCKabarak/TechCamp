@@ -52,7 +52,7 @@ Feel free to fork and contribute. If you are unsure about adding a feature creat
 
 ### Installation
 ---
-To get developing straight away use the [Pre-configured Docker Environment](http://www.attendize.com/getting_started.html#running-attendize-in-docker-for-development)
+To get developing straight away use the [Pre-configured Docker Environment](http://www.attendize.com/getting_started.html#running-attendize-in-docker-for-development)<br />
 To do a manual installation use the [Manual Installation Steps](http://www.attendize.com/getting_started.html#manual-installation)
 
 ### Troubleshooting
