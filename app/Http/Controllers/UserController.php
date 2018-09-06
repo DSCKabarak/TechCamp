@@ -37,8 +37,8 @@ class UserController extends Controller
                 'email',
                 'unique:users,email,' . Auth::user()->id . ',id,account_id,' . Auth::user()->account_id
             ],
-            'new_password' => ['min:5', 'confirmed', 'required_with:password'],
             'password'     => 'passcheck',
+            'new_password' => ['min:8', 'confirmed', 'required_with:password'],
             'first_name'   => ['required'],
             'last_name'    => ['required'],
         ];
