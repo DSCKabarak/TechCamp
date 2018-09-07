@@ -9,9 +9,10 @@
         If you are using shared hosting please ask your host if they support the Attendize requirements before requesting support.
     </p>
     <p>
-        If you still need help you can ask a question in the <a href="https://attendize.com/forum/">support forum</a>. Please include as much detail as possible, including any errors in the log file.
+        If you still need help you can <a href="https://github.com/Attendize/Attendize/issues">raise an issue</a>. Please include as much detail as possible, including any errors in the log file.
+        Also take a look at the <a href="http://www.attendize.com/troubleshooting.html">troubleshooting guide</a>
     </p>
     <p>
-        Please also  <a style="text-decoration: underline;" target="_blank" href="https://attendize.com/licence.php?from_installer">read the licence</a> before installing Attendize.
+        Please also  <a style="text-decoration: underline;" target="_blank" href="http://www.attendize.com/license.html">read the licence</a> before installing Attendize.
     </p>
 </div>
