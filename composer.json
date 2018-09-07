@@ -2,7 +2,7 @@
     "name": "attendize/attendize",
     "description": "A free and open-source event management and ticket selling application.",
     "keywords": ["event management", "ticket selling", "tickets", "events"],
-    "license": "Attribution Assurance License",
+    "license": "AAL",
     "type": "project",
     "homepage" : "https://www.attendize.com",
     "require": {
