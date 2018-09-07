@@ -19,6 +19,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-php
+    env_file:
+      - ./.env
     depends_on:
       - db
       - maildev
@@ -51,7 +53,7 @@ services:
     networks:
       - attendizenet
   db:
-    image: mysql:5.7.22
+    image: mysql:5.7.23
     restart: always
     env_file:
       - ./.env
