@@ -216,7 +216,7 @@
                                     'placeholder' => 'mail'
                                     ))  !!}
                         <div class="help-block">
-                            @lang("Installer.mail_from_help")
+                           {!! @trans("Installer.mail_from_help") !!}
                         </div>
                     </div>
 

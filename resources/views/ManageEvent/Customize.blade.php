@@ -422,7 +422,7 @@
                     <h4>@lang("Fees.organiser_fees")</h4>
 
                     <div class="well">
-                        @lang("Fees.organiser_fees_text")
+                        {!! @trans("Fees.organiser_fees_text") !!}
                     </div>
 
                     <div class="form-group">
@@ -432,7 +432,7 @@
                             'placeholder' => trans("Fees.service_fee_percentage_placeholder")
                         ])  !!}
                         <div class="help-block">
-                            @lang("Fees.service_fee_percentage_help")
+                            {!! @trans("Fees.service_fee_percentage_help") !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -442,7 +442,7 @@
                             'placeholder' => trans("Fees.service_fee_fixed_price_placeholder")
                         ])  !!}
                         <div class="help-block">
-                            @lang("Fees.service_fee_fixed_price_help", ["cur"=>$event->currency_symbol])
+                            {!! @trans("Fees.service_fee_fixed_price_help", ["cur"=>$event->currency_symbol]) !!}
                         </div>
                     </div>
                     <div class="panel-footer mt15 text-right">
