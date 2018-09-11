@@ -561,7 +561,7 @@ class EventCheckoutController extends Controller
             /*
              * Update the event sales volume
              */
-            $event->increment('sales_volume', $order->amount);
+            $event->increment('sales_volume', $orderService->getGrandTotal());
             $event->increment('organiser_fees_volume', $order->organiser_booking_fee);
 
             /*
