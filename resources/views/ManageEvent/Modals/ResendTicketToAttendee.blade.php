@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <div class="help-block">
-                    @lang("ManageEvent.resend_ticket_help", ["email"=>$attendee->email])
+                    {!! @trans("ManageEvent.resend_ticket_help", ["email"=>$attendee->email]) !!}
                 </div>
             </div> <!-- /end modal body-->
             <div class="modal-footer">

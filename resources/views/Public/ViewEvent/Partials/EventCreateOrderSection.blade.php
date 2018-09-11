@@ -53,7 +53,7 @@
 
             </div>
             <div class="help-block">
-                @lang("Public_ViewEvent.time", ["time"=>"<span id='countdown'></span>"])
+                {!! @trans("Public_ViewEvent.time", ["time"=>"<span id='countdown'></span>"]) !!}
             </div>
         </div>
         <div class="col-md-8 col-md-pull-4">

@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="help-block">
-                    @lang("ManageEvent.order_contact_will_receive_instructions", ["email"=>$order->event->organiser->email])
+                    {!! @trans("ManageEvent.order_contact_will_receive_instructions", ["email"=>$order->event->organiser->email]) !!}
                 </div>
 
             </div> <!-- /end modal body-->

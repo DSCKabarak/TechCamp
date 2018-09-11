@@ -119,9 +119,9 @@
                             <p class="list-group-text">
                                 <a href="{{ route('showEventOrders', ['event_id' => $order->event_id, 'q' => $order->order_reference]) }}">
                                     <b>#{{ $order->order_reference }}</b></a> -
-                                @lang("Order.user_registered_n_tickets", ["name"=>$order->full_name,
+                                {!! @trans("Order.user_registered_n_tickets", ["name"=>$order->full_name,
                                 "url"=>route('showEventAttendees', ['event_id'=>$order->event->id,'q'=>$order->order_reference]),
-                                 "n"=>$order->attendees()->withTrashed()->count()])
+                                 "n"=>$order->attendees()->withTrashed()->count()]) !!}
                             </p>
                             <h6>
                                 {{ $order->created_at->diffForHumans() }} &bull; <span

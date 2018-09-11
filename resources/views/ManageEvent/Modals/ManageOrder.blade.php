@@ -11,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart"></i>
-                    @lang("ManageEvent.manage_order_title", ["order_ref"=>$order->order_reference])
+                    {!! @trans("ManageEvent.manage_order_title", ["order_ref"=>$order->order_reference]) !!}
                 </h3>
             </div>
             <div class="modal-body">
@@ -29,7 +29,7 @@
                     <a data-id="{{ $order->id }}" data-route="{{ route('postMarkPaymentReceived', ['order_id' => $order->id]) }}" class="btn btn-primary btn-sm markPaymentReceived" href="javascript:void(0);">@lang("ManageEvent.mark_payment_received")</a>
                 @endif
 
-                <h3>@lang("ManageEvent.order_overwiev")</h3>
+                <h3>@lang("ManageEvent.order_overview")</h3>
                 <style>
                     .order_overview b {
                         text-transform: uppercase;

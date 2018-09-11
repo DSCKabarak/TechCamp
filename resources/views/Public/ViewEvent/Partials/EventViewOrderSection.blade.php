@@ -53,10 +53,9 @@
             <span class="massive-icon">
                 <i class="ico ico-checkmark-circle"></i>
             </span>
-            <h1>@lang("Public_ViewEvent.thank_you_for_your_order")</h1>
+            <h1>{!! @trans("Public_ViewEvent.thank_you_for_your_order") !!}</h1>
             <h2>
-                @lang("Public_ViewEvent.download_links", ["title" => trans("Public_ViewEvent.download_tickets"), "url"=>route('showOrderTickets', ['order_reference' => $order->order_reference])."?download=1"])
-
+                {!! @trans("Public_ViewEvent.download_links", ["title" => trans("Public_ViewEvent.download_tickets"), "url"=>route('showOrderTickets', ['order_reference' => $order->order_reference])."?download=1"]) !!}
             </h2>
         </div>
     </div>

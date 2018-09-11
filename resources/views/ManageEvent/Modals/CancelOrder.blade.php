@@ -29,7 +29,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart2"></i>
-                    @lang("ManageEvent.cancel_order_:ref", ["ref"=>$order->order_reference])</h3>
+                    {!! @trans("ManageEvent.cancel_order_:ref", ["ref"=>$order->order_reference]) !!}</h3>
             </div>
             <div class="modal-body">
 
@@ -168,7 +168,7 @@
                 </div>
                         @else
                         <div class="alert alert-info">
-                            @lang("ManageEvent.cant_refund_here", ["gateway"=>$order->payment_gateway->provider_name])
+                            {!! @trans("ManageEvent.cant_refund_here", ["gateway"=>$order->payment_gateway->provider_name]) !!}
                         </div>
                         @endif
 

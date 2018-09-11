@@ -58,7 +58,7 @@ return array (
   'no_orders_yet_text' => 'Nowe zamówienia pojawią się, jak tylko zostaną złożone.',
   'order_contact_will_receive_instructions' => 'Kontakt z zamówienia zostanie poinformowany o możliwości odpowiedzi na email <b>:email</b>',
   'order_details' => 'Szczegóły Zamówienia',
-  'order_overwiev' => 'Przegląd Zamówienia',
+  'order_overview' => 'Przegląd Zamówienia',
   'order_ref' => 'Zamówienie: #:order_ref',
   'order_refunded' => ':money z tego zamówienia zostało zwróconych.',
   'price_placeholder' => 'Np.: 25.99',

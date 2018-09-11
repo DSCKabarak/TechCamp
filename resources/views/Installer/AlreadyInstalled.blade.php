@@ -13,7 +13,7 @@
                     </div>
 
                     <h1>@lang("Installer.setup_completed")</h1>
-                    <p>@lang("Installer.setup_completed_already_message")</p>
+                    <p>{!! @trans("Installer.setup_completed_already_message") !!}</p>
                 </div>
             </div>
         </div>

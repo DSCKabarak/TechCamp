@@ -6,7 +6,7 @@
             }
         </style>
         <div class="alert alert-warning top_of_page_alert">
-            @lang("ManageEvent.event_not_live_with_activate", ["url"=>route('MakeEventLive', ['event_id' => $event->id])]) .
+            {!! @trans("ManageEvent.event_not_live_with_activate", ["url"=>route('MakeEventLive', ['event_id' => $event->id])]) !!} .
         </div>
     @endif
 @stop

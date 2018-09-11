@@ -79,7 +79,7 @@
                    {!! Form::submit(trans("User.sign_up"), array('class'=>"btn btn-block btn-success")) !!}
                 </div>
                     <div class="signup">
-                        <span>@lang("User.already_have_account", ["url"=>route("login")])</span>
+                        <span>{!! @trans("User.already_have_account", ["url"=>route("login")]) !!}</span>
                     </div>
             </div>
             {!! Form::close() !!}
