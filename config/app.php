@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,8 +91,8 @@ return [
     |
     */
 
-    'key'    => env('APP_KEY', 'SomeRandomString'),
-    'cipher' => env('APP_CIPHER', 'MCRYPT_RIJNDAEL_128'),
+    'key'    => env('APP_KEY'),
+    'cipher' => env('APP_CIPHER', 'AES-256-CBC'),
 
     /*
     |--------------------------------------------------------------------------
