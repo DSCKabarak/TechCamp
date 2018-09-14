@@ -385,18 +385,6 @@ Route::group(
             ]);
 
             /*
-             * Ticket questions
-             */
-            Route::get('{event_id}/tickets/questions', [
-                'as'   => 'showTicketQuestions',
-                'uses' => 'EventTicketQuestionsController@showQuestions',
-            ]);
-            Route::post('{event_id}/tickets/questions/create', [
-                'as'   => 'postCreateQuestion',
-                'uses' => 'EventTicketQuestionsController@postCreateQuestion',
-            ]);
-
-            /*
              * -------
              * Attendees
              * -------
