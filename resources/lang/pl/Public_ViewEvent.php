@@ -1,9 +1,9 @@
 <?php
 /*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/18 16:27:47 
+ Generated via "php artisan localization:missing" at 2018/04/18 16:27:47
 *************************************************************************/
 
-return array (
+return [
   //==================================== Translations ====================================//
   'Contact' => 'Kontakt',
   'DETAILS' => 'SZCZEGÓŁY',
@@ -40,7 +40,7 @@ return array (
   'expiry_year' => 'Rok ważności karty',
   'first_name' => 'Imię',
   'free' => 'GRATIS',
-  'inc_fees' => '(uwzgl. opłaty: :fees)',
+  'inc_fees' => 'Opłaty za rezerwację',
   'last_name' => 'Nazwisko',
   'offline_payment_instructions' => 'Instrukcje płatności offline',
   'offline_payment_methods_available' => 'Płatności offline dostępne',
@@ -78,4 +78,4 @@ return array (
   'your_information' => 'Twoje dane',
   'your_message' => 'Twoja wiadomość',
   'your_name' => 'Twoje imię',
-);
+];

@@ -1,9 +1,9 @@
 <?php
 /*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/18 16:27:47 
+ Generated via "php artisan localization:missing" at 2018/04/18 16:27:47
 *************************************************************************/
 
-return array (
+return [
   //==================================== Translations ====================================//
   'Contact' => 'Contact',
   'DETAILS' => 'DETAILS',
@@ -40,7 +40,7 @@ return array (
   'expiry_year' => 'Expiry year',
   'first_name' => 'First name',
   'free' => 'FREE',
-  'inc_fees' => '(inc. :fees Fees)',
+  'inc_fees' => 'Booking Fees',
   'last_name' => 'Last name',
   'offline_payment_instructions' => 'Offline payment instructions',
   'offline_payment_methods_available' => 'Offline Payment Methods Available',
@@ -78,4 +78,4 @@ return array (
   'your_information' => 'Your information',
   'your_message' => 'Your message',
   'your_name' => 'Your name',
-);
+];
