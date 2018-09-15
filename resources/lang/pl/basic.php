@@ -30,7 +30,7 @@ return array (
   'manage' => 'Zarządzaj',
   'message' => 'Wiadomość',
   'minutes' => 'minuty',
-  'months_short' => 'Sty|Lut|Mar|Kwi|Maj|Cze|Lip|Sie|Wrz|Paź|Lis|Gru',
+  'months_short' => '|Sty|Lut|Mar|Kwi|Maj|Cze|Lip|Sie|Wrz|Paź|Lis|Gru|',
   'no' => 'Nie',
   'order_form' => 'Formularz Zamówienia',
   'orders' => 'Zamówienia',
