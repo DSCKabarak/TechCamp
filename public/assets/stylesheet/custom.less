@@ -2,7 +2,7 @@
 
 /*
 -----------------------------------------------------
-MANAGE ORGANISERS 
+MANAGE ORGANISERS
 -----------------------------------------------------
 */
 
@@ -56,7 +56,7 @@ MANAGE ORGANISERS
 
 /*
 -----------------------------------------------------
-MANAGE EVENT 
+MANAGE EVENT
 -----------------------------------------------------
 */
 
@@ -69,8 +69,8 @@ MANAGE EVENT
                 }
             }
         }
-    } 
-} 
+    }
+}
 
 
 
@@ -241,7 +241,7 @@ GLOBAL
         .btn {
             width: 100%;
             padding-left: 0;
-            padding-right: 0;      
+            padding-right: 0;
             margin-bottom: 10px;
         }
         .pull-left, .pull-right {
@@ -302,7 +302,7 @@ label.required::after {
 
 .dtpicker-header .dtpicker-value {
     padding: .8em .2em .2em .2em;
-    color: @primary; 
+    color: @primary;
     text-align: center;
     font-size: 1.4em;
 }
@@ -314,7 +314,7 @@ label.required::after {
 }
 
 .dtpicker-content {
-    border-radius: @border-radius; 
+    border-radius: @border-radius;
 }
 
 
@@ -436,4 +436,9 @@ html.working {
     left: 15px;
     cursor: move;
     z-index: 10;
+}
+
+// Fix the editor fullscreen mode
+.editor-toolbar.fullscreen, .CodeMirror-fullscreen {
+    z-index: 10000 !important;
 }
