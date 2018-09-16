@@ -12,6 +12,6 @@
         Jeżeli potrzebujesz pomocy i posługujesz się językiem angielski, zadaj pytanie na <a href="https://attendize.com/forum/">forum wsparcia</a>. Uwzględnij jak najwięcej szczegółów jak to tylko możliwe, Upewnij się, że przekazujesz właściwe logi z serwera.
     </p>
     <p>
-        Przeczytaj również <a style="text-decoration: underline;" target="_blank" href="https://attendize.com/licence.php?from_installer">licencję</a> zanim zainstalujesz Attendize.
+        Przeczytaj również <a style="text-decoration: underline;" target="_blank" href="https://attendize.com/licence.html?from_installer">licencję</a> zanim zainstalujesz Attendize.
     </p>
 </div>

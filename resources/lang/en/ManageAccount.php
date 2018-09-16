@@ -24,7 +24,7 @@ return array (
   'general' => 'General',
   'last_name' => 'Last name',
   'licence_info' => 'Licence info',
-  'licence_info_description' => 'Attendize is licenced under the <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. This licence requires the <b>\'Powered By Attendize\'</b> notice to be kept in place on any Attendize installation. If you wish to remove references to Attendize you must purchase one of the white-label licences <b><a target="_blank" href="https://attendize.com/licence.php">listed here</a></b>.',
+  'licence_info_description' => 'Attendize is licenced under the <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. This licence requires the <b>\'Powered By Attendize\'</b> notice to be kept in place on any Attendize installation. If you wish to remove references to Attendize you must purchase one of the white-label licences <b><a target="_blank" href="https://attendize.com/licence.html">listed here</a></b>.',
   'mastercard_internet_gateway_service_settings' => 'Mastercard Internet Gateway Service Settings',
   'merchant_access_code' => 'Merchant access code',
   'merchant_id' => 'Merchant ID',

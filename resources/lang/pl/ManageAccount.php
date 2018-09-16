@@ -24,7 +24,7 @@ return array (
   'general' => 'Ogólne',
   'last_name' => 'Nazwisko',
   'licence_info' => 'Informacje licencyjne',
-  'licence_info_description' => 'Attendize jest dystrybuowany w ramach licencji <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. Ta licencja wymaga użycia klauzuli <b>\'Powered By Attendize\'</b> w każdej kopii Attendize. Jeżeli chcesz ją usunąć, musisz wykupić osobną licencję <b><a target="_blank" href="https://attendize.com/licence.php">znajdującą się tutaj</a></b>.',
+  'licence_info_description' => 'Attendize jest dystrybuowany w ramach licencji <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. Ta licencja wymaga użycia klauzuli <b>\'Powered By Attendize\'</b> w każdej kopii Attendize. Jeżeli chcesz ją usunąć, musisz wykupić osobną licencję <b><a target="_blank" href="https://attendize.com/licence.html">znajdującą się tutaj</a></b>.',
   'mastercard_internet_gateway_service_settings' => 'Ustawienia Serwisu Internetowej Bramki Mastercard',
   'merchant_access_code' => 'Merchant access code',
   'merchant_id' => 'Merchant ID',
