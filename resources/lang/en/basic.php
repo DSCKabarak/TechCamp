@@ -30,7 +30,7 @@ return array (
   'manage' => 'Manage',
   'message' => 'Message',
   'minutes' => 'minutes',
-  'months_short' => 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec',
+  'months_short' => '|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|',
   'no' => 'No',
   'order_form' => 'Order Form',
   'orders' => 'Orders',
