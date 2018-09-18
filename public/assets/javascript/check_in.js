@@ -168,6 +168,7 @@ var checkinApp = new Vue({
             this.showScannerModal = false;
             track = this.stream.getTracks()[0];
             track.stop();
+            this.isInit = false;
             this.fetchAttendees();
         }
     }
