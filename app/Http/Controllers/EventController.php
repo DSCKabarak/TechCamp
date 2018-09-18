@@ -6,7 +6,6 @@ use App\Models\Event;
 use App\Models\EventImage;
 use App\Models\Organiser;
 use Auth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Image;
 use Log;
@@ -50,8 +49,7 @@ class EventController extends MyBaseController
 
         $event->title = $request->get('title');
         $event->description = strip_tags($request->get('description'));
-        $event->start_date = $request->get('start_date') ? Carbon::createFromFormat('d-m-Y H:i',
-            $request->get('start_date')) : null;
+        $event->start_date = $request->get('start_date');
 
         /*
          * Venue location info (Usually auto-filled from google maps)
@@ -83,8 +81,7 @@ class EventController extends MyBaseController
             $event->location_is_manual = 1;
         }
 
-        $event->end_date = $request->get('end_date') ? Carbon::createFromFormat('d-m-Y H:i',
-            $request->get('end_date')) : null;
+        $event->end_date = $request->get('end_date');
 
         $event->currency_id = Auth::user()->account->currency_id;
         //$event->timezone_id = Auth::user()->account->timezone_id;
@@ -122,7 +119,6 @@ class EventController extends MyBaseController
             $organiser->twitter = $request->get('organiser_twitter');
             $organiser->save();
             $event->organiser_id = $organiser->id;
-
         } elseif ($request->get('organiser_id')) {
             $event->organiser_id = $request->get('organiser_id');
         } else { /* Somethings gone horribly wrong */
@@ -226,8 +222,7 @@ class EventController extends MyBaseController
         $event->is_live = $request->get('is_live');
         $event->title = $request->get('title');
         $event->description = strip_tags($request->get('description'));
-        $event->start_date = $request->get('start_date') ? Carbon::createFromFormat('d-m-Y H:i',
-            $request->get('start_date')) : null;
+        $event->start_date = $request->get('start_date');
 
         /*
          * If the google place ID is the same as before then don't update the venue
@@ -268,8 +263,7 @@ class EventController extends MyBaseController
             }
         }
 
-        $event->end_date = $request->get('end_date') ? Carbon::createFromFormat('d-m-Y H:i',
-            $request->get('end_date')) : null;
+        $event->end_date = $request->get('end_date');
 
         if ($request->get('remove_current_image') == '1') {
             EventImage::where('event_id', '=', $event->id)->delete();

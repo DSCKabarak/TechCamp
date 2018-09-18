@@ -11,6 +11,8 @@ class Event extends MyBaseModel
 {
     use SoftDeletes;
 
+    protected $dates = ['start_date', 'end_date', 'on_sale_date'];
+
     /**
      * The validation rules.
      *
@@ -36,7 +38,7 @@ class Event extends MyBaseModel
         'title.required'                       => 'You must at least give a title for your event.',
         'organiser_name.required_without'      => 'Please create an organiser or select an existing organiser.',
         'event_image.mimes'                    => 'Please ensure you are uploading an image (JPG, PNG, JPEG)',
-        'event_image.max'                      => 'Pleae ensure the image is not larger then 3MB',
+        'event_image.max'                      => 'Please ensure the image is not larger then 3MB',
         'location_venue_name.required_without' => 'Please enter a venue for your event',
         'venue_name_full.required_without'     => 'Please enter a venue for your event',
     ];
@@ -192,6 +194,26 @@ class Event extends MyBaseModel
     }
 
     /**
+     * Parse start_date to a Carbon instance
+     *
+     * @param string $date DateTime
+     */
+    public function setStartDateAttribute($date)
+    {
+        $this->attributes['start_date'] = Carbon::parse($date);
+    }
+
+    /**
+     * Parse end_date to a Carbon instance
+     *
+     * @param string $date DateTime
+     */
+    public function setEndDateAttribute($date)
+    {
+        $this->attributes['end_date'] = Carbon::parse($date);
+    }
+
+    /**
      * Indicates whether the event is currently happening.
      *
      * @return bool
@@ -238,17 +260,14 @@ class Event extends MyBaseModel
         $attendees = $this->attendees()->has('answers')->get();
 
         foreach ($attendees as $attendee) {
-
             $answers = [];
 
             foreach ($this->questions as $question) {
-
                 if (in_array($question->id, $attendee->answers->pluck('question_id')->toArray())) {
                     $answers[] = $attendee->answers->where('question_id', $question->id)->first()->answer_text;
                 } else {
                     $answers[] = null;
                 }
-
             }
 
             $rows[] = array_merge([
@@ -257,7 +276,6 @@ class Event extends MyBaseModel
                 $attendee->email,
                 $attendee->ticket->title
             ], $answers);
-
         }
 
         return $rows;
@@ -338,8 +356,8 @@ class Event extends MyBaseModel
         $siteUrl = URL::to('/');
         $eventUrl = $this->getEventUrlAttribute();
 
-        $start_date = new Carbon($this->start_date);
-        $end_date = new Carbon($this->end_date);
+        $start_date = $this->start_date;
+        $end_date = $this->end_date;
         $timestamp = new Carbon();
 
         $icsTemplate = <<<ICSTemplate
