@@ -1,12 +1,12 @@
 <?php
 /*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/26 10:21:11 
+ Generated via "php artisan localization:missing" at 2018/04/26 10:21:11
 *************************************************************************/
 
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
-  'sort' => 
+  'sort' =>
   array (
     'event_title' => 'Event Title',
     'start_date' => 'Start Date',
@@ -22,7 +22,6 @@ return array (
   'addInviteError' => 'You need to create a ticket before you can invite an attendee.',
   'attendee_already_cancelled' => 'Attendee Already Cancelled',
   'attendee_already_checked_in' => 'Attendee already checked in at :time ',
-  'attendee_check_in_success' => 'Success !<br>Name: :name <br>Reference: :ref<br>Ticket: :ticket.',
   'attendee_exception' => 'An error occurred while inviting this attendee. Please try again.',
   'attendee_successfully_checked_in' => 'Attendee Succesfully Checked In',
   'attendee_successfully_checked_out' => 'Attendee Succesfully Checked Out',
@@ -31,31 +30,31 @@ return array (
   'check_in_all_tickets' => 'Check in all tickets associated to this order',
   'confirmation_malformed' => 'The confirmation code is missing or malformed.',
   'confirmation_successful' => 'Success! Your email is now verified. You can now login.',
-  'error' => 
+  'error' =>
   array (
-    'email' => 
+    'email' =>
     array (
       'email' => 'Please enter a valid E-mail address.',
       'required' => 'E-mail address is required.',
       'unique' => 'E-mail already in use for this account.',
     ),
-    'first_name' => 
+    'first_name' =>
     array (
       'required' => 'Please enter your first name.',
     ),
-    'last_name' => 
+    'last_name' =>
     array (
       'required' => 'Please enter your last name.',
     ),
-    'page_bg_color' => 
+    'page_bg_color' =>
     array (
       'required' => 'Please enter a background color.',
     ),
-    'page_header_bg_color' => 
+    'page_header_bg_color' =>
     array (
       'required' => 'Please enter a header background color.',
     ),
-    'password' => 
+    'password' =>
     array (
       'passcheck' => 'This password is incorrect.',
     ),

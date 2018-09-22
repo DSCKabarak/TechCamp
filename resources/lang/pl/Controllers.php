@@ -7,7 +7,7 @@ return array (
     //============================== New strings to translate ==============================//
     // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
     'sort' =>
-        array (
+    array (
             'event_title' => 'Nazwa Wydarzenia',
             'start_date' => 'Data Rozpoczęcia',
             'created_at' => 'Data Utworzenia',
@@ -22,7 +22,6 @@ return array (
     'addInviteError' => 'Musisz utworzyć bilet zanim utworzysz uczestnika.',
     'attendee_already_cancelled' => 'Uczestnik już anulowany',
     'attendee_already_checked_in' => 'Uczestnik już wszedł w tym momencie: :time ',
-    'attendee_check_in_success' => 'Sukces !<br>Imię: :name <br>Zamówienie: :ref<br>Bilet: :ticket.',
     'attendee_exception' => 'Wystąpił błąd w trakcie zapraszania tego uczestnika. Spróbuj ponownie.',
     'attendee_successfully_checked_in' => 'Uczestnik oznaczony',
     'attendee_successfully_checked_out' => 'Uczestnik odznaczony',

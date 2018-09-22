@@ -132,16 +132,21 @@
         <div v-if="isScanning" class="scannerAimer">
         </div>
 
-        <div v-if="scanResult" class="scannerResult @{{ scanResultType }}">
-            <i v-if="scanResultType == 'success'" class="ico-checkmark"></i>
-            <i v-if="scanResultType == 'error'" class="ico-close"></i>
+        <div v-if="scanResult" class="scannerResult @{{ scanResultObject.status }}">
+            <i v-if="scanResultObject.status == 'success'" class="ico-checkmark"></i>
+            <i v-if="scanResultObject.status == 'error'" class="ico-close"></i>
         </div>
 
         <div class="ScanResultMessage">
-                    <span class="message" v-if="!isScanning">
-                        @{{{ scanResultMessage }}}
+                    <span class="message" v-if="scanResultObject.status == 'error'">
+                        @{{ scanResultObject.message }}
                     </span>
-                    <span v-else>
+                    <span class="message" v-if="scanResultObject.status == 'success'">
+                        <span class="uppercase">@lang("Attendee.name")</span>: @{{ scanResultObject.name }}<br>
+                        <span class="uppercase">@lang("Attendee.reference")</span>: @{{scanResultObject.reference }}<br>
+                        <span class="uppercase">@lang("Attendee.ticket")</span>: @{{scanResultObject.ticket }}
+                    </span>
+                    <span v-if="isScanning">
                         <div id="scanning-ellipsis">@lang("Attendee.scanning")<span>.</span><span>.</span><span>.</span></div>
                     </span>
         </div>
