@@ -165,10 +165,6 @@ class EventCheckInController extends MyBaseController
                 'has_arrived' => false
             ])->count();
 
-        if ($relatedAttendesCount >= 1) {
-            $confirmOrderTicketsRoute = route('confirmCheckInOrderTickets', [$event->id, $attendee->order_id]);
-        }
-
         if ($attendee->has_arrived) {
             return response()->json([
                 'status'  => 'error',
@@ -181,29 +177,6 @@ class EventCheckInController extends MyBaseController
         return response()->json([
             'status'  => 'success',
             'message' => trans("Controllers.attendee_check_in_success", ["name"=>$attendee->first_name." ".$attendee->last_name, "ref"=>$attendee->reference, "ticket"=>$attendee->ticket])
-        ]);
-    }
-
-    /**
-     * Confirm tickets of same order.
-     *
-     * @param $event_id
-     * @param $order_id
-     * @return \Illuminate\Http\Response
-     */
-    public function confirmOrderTicketsQr($event_id, $order_id)
-    {
-        $updateRowsCount = Attendee::scope()->where([
-            'event_id'    => $event_id,
-            'order_id'    => $order_id,
-            'has_arrived' => 0,
-        ])->update([
-            'has_arrived'  => 1,
-            'arrival_time' => Carbon::now(),
-        ]);
-
-        return response()->json([
-            'message' => trans("Controllers.num_attendees_checked_in", ["num"=>$updateRowsCount])
         ]);
     }
 }
