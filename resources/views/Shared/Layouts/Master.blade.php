@@ -12,7 +12,7 @@
     -->
     <title>
         @section('title')
-            Attendize ::
+            Attendize -
         @show
     </title>
 
@@ -130,7 +130,7 @@
     $(function () {
         $.ajaxSetup({
             headers: {
-                'X-CSRF-Token': "<?php echo csrf_token() ?>"
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
     });
