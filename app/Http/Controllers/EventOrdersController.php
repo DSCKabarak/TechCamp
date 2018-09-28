@@ -434,7 +434,7 @@ class EventOrdersController extends MyBaseController
             ]);
         }
 
-        $order = Attendee::scope()->findOrFail($order_id);
+        $order = Order::scope()->findOrFail($order_id);
 
         $data = [
             'order'           => $order,
