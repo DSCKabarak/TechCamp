@@ -19,7 +19,7 @@
     </head>
     <body style="background-color: #FFFFFF;" onload="window.print();">
         <div class="well" style="border:none; margin: 0;">
-            {!! @trans("Event.n_attendees_for_event", ["num"=>$attendees->count(), "name"=>$event->title, "date"=>$event->start_date->toDayDateTimeString()]) !!}
+            {{ @trans("Event.n_attendees_for_event", ["num"=>$attendees->count(), "name"=>$event->title, "date"=>$event->start_date->toDayDateTimeString()]) }}
             <br>
         </div>
 

@@ -4,10 +4,7 @@
 *************************************************************************/
 
 return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Modals\\CreateEvent.blade.php
   'address_details' => 'Address Details',
-  //==================================== Translations ====================================//
   'address_line_1' => 'Address Line 1',
   'address_line_1_placeholder' => 'E.g: 45 Grafton St.',
   'address_line_2' => 'Address Line 2',
@@ -29,7 +26,7 @@ return array (
   'event_title' => 'Event Title',
   'event_title_placeholder' => 'E.g: :name\'s Interational Conference',
   'event_visibility' => 'Event Visibility',
-  'n_attendees_for_event' => '<b>:num</b> Attendee(s) for event: <b>:name</b> (:date)',
+  'n_attendees_for_event' => ':num Attendee(s) for event: :name (:date)',
   'no_events_yet' => 'No Event Yet!',
   'no_events_yet_text' => 'Looks like you have yet to create an event. You can create one by clicking the button below.',
   'num_events' => ':num Events',
@@ -40,7 +37,7 @@ return array (
   'promote_event' => 'Promote Event',
   'revenue' => 'Revenue',
   'save_changes' => 'Save Changes',
-  'showing_num_of_orders' => 'Showing :0 orders out of <b>:1</b> Total',
+  'showing_num_of_orders' => 'Showing :0 orders out of :1 Total',
   'tickets_sold' => 'Tickets Sold',
   'venue_name' => 'Venue Name',
   'venue_name_placeholder' => 'E.g: The Crab Shack',

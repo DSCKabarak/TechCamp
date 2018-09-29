@@ -134,8 +134,8 @@ class EventAttendeesController extends MyBaseController
         $ticket_id = $request->get('ticket_id');
         $event = Event::findOrFail($event_id);
         $ticket_price = 0;
-        $attendee_first_name = $request->get('first_name');
-        $attendee_last_name = $request->get('last_name');
+        $attendee_first_name = strip_tags($request->get('first_name'));
+        $attendee_last_name = strip_tags($request->get('last_name'));
         $attendee_email = $request->get('email');
         $email_attendee = $request->get('email_ticket');
 
@@ -300,8 +300,8 @@ class EventAttendeesController extends MyBaseController
             foreach ($the_file as $rows) {
                 if (!empty($rows['first_name']) && !empty($rows['last_name']) && !empty($rows['email'])) {
                     $num_added++;
-                    $attendee_first_name = $rows['first_name'];
-                    $attendee_last_name = $rows['last_name'];
+                    $attendee_first_name = strip_tags($rows['first_name']);
+                    $attendee_last_name = strip_tags($rows['last_name']);
                     $attendee_email = $rows['email'];
 
                     error_log($ticket_id . ' ' . $ticket_price . ' ' . $email_attendee);

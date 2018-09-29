@@ -6,10 +6,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-envelope"></i>
-                    @lang("ManageEvent.message_order", ["order"=>$order->full_name])
+                    {{ @trans("ManageEvent.message_order", ["order"=>$order->full_name]) }}
                     <br>
                     <span style="font-size: 17px;">
-                        @lang("ManageEvent.order_ref", ["order_ref"=>$order->reference])
+                    {{ @trans("ManageEvent.order_ref", ["order_ref"=>$order->reference]) }}
                     </span>
                 </h3>
             </div>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="help-block">
-                    {!! @trans("ManageEvent.order_contact_will_receive_instructions", ["email"=>$order->event->organiser->email]) !!}
+                    {{ @trans("ManageEvent.order_contact_will_receive_instructions", ["email"=>$order->event->organiser->email]) }}
                 </div>
 
             </div> <!-- /end modal body-->

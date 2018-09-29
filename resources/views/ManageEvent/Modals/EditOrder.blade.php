@@ -15,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart"></i>
-                    {!! @trans("ManageEvent.edit_order_title", ["order_ref"=>$order->order_reference]) !!}
+                    {{ @trans("ManageEvent.edit_order_title", ["order_ref"=>$order->order_reference]) }}
                 </h3>
             </div>
             <div class="modal-body">

@@ -14,8 +14,9 @@ class Ticket extends MyBaseModel
      * @var array $rules
      */
     public $rules = [
-        'title'              => ['required'],
+        'title'              => ['required','alpha_dash'],
         'price'              => ['required', 'numeric', 'min:0'],
+        'description'        => ['alpha_dash'],
         'start_sale_date'    => ['date'],
         'end_sale_date'      => ['date', 'after:start_sale_date'],
         'quantity_available' => ['integer', 'min:0'],

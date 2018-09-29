@@ -4,10 +4,7 @@
 *************************************************************************/
 
 return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Modals\\CreateEvent.blade.php
   'address_details' => 'Dokładny Adres',
-  //==================================== Translations ====================================//
   'address_line_1' => 'Adres 1',
   'address_line_1_placeholder' => 'Np.: ul. Kwiatowa 21',
   'address_line_2' => 'Adres 2',
@@ -29,7 +26,7 @@ return array (
   'event_title' => 'Tytuł Wydarzenia',
   'event_title_placeholder' => 'Np.: Międzynarodowa Konferencja :name',
   'event_visibility' => 'Widoczność Wydarzenia',
-  'n_attendees_for_event' => '<b>:num</b> uczetnik(ów) wydarzenia: <b>:name</b> (:date)',
+  'n_attendees_for_event' => ':num uczetnik(ów) wydarzenia: :name (:date)',
   'no_events_yet' => 'Brak Wydarzeń',
   'no_events_yet_text' => 'Wygląda na to, że jeszcze nie ma utworzonych wydarzeń. Możesz je utworzyć klikając przycisk niżej.',
   'num_events' => ':num Wydarzeń',
@@ -40,7 +37,7 @@ return array (
   'promote_event' => 'Promuj Wydarzenie',
   'revenue' => 'Zysk',
   'save_changes' => 'Zapisz Zmiany',
-  'showing_num_of_orders' => 'Wyświetlam :0/<b>:1</b> zamówień',
+  'showing_num_of_orders' => 'Wyświetlam :0/:1 zamówień',
   'tickets_sold' => 'Sprzedanych Biletów',
   'venue_name' => 'Nazwa lokalu',
   'venue_name_placeholder' => 'Np.: Krabowa Chata',

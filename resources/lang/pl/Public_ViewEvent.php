@@ -1,10 +1,6 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/18 16:27:47 
-*************************************************************************/
 
 return array (
-  //==================================== Translations ====================================//
   'Contact' => 'Kontakt',
   'DETAILS' => 'SZCZEGÓŁY',
   'Facebook' => 'Facebook',
@@ -22,11 +18,11 @@ return array (
   'booking_fees' => 'Opłaty rezerwacyjne',
   'card_number' => 'Numer karty',
   'checkout_submit' => 'Podsumowanie',
+  'confirmation_email' => 'i e-mail z potwierdzeniem został wysłany do ciebie.',
   'copy_buyer' => 'Przekopiuj dane kupującego na wszystkie bilety',
   'currently_not_on_sale' => 'Aktualnie nie w sprzedaży',
   'cvc_number' => 'Numer CVC',
   'date' => 'Data',
-  'download_links' => 'Twoje <a title=":title" class="ticket_download_link" href=":url">bilety</a> i email z potwierdzeniem zostały wysłane.',
   'download_tickets' => 'Pobierz bilety',
   'email' => 'Email',
   'email_address' => 'Adres email',
@@ -78,4 +74,5 @@ return array (
   'your_information' => 'Twoje dane',
   'your_message' => 'Twoja wiadomość',
   'your_name' => 'Twoje imię',
+  'your' => 'Twój',
 );

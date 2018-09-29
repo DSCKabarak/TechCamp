@@ -1,9 +1,13 @@
 @if(!$event->is_live)
 <section id="goLiveBar">
     <div class="container">
-                @if(!$event->is_live)
-                    @lang("ManageEvent.event_not_live_with_activate", ["style"=>'style="background-color: green; border-color: green;" class="btn btn-success btn-xs"', "url"=>route('MakeEventLive' , ['event_id' => $event->id])])
-                @endif
+        @if(!$event->is_live)
+
+        {{ @trans("ManageEvent.event_not_live") }}
+        <a href="{{ route('MakeEventLive' , ['event_id' => $event->id]) }}"
+           style="background-color: green; border-color: green;"
+        class="btn btn-success btn-xs">{{ @trans("ManageEvent.publish_it") }}</a>
+        @endif
     </div>
 </section>
 @endif
