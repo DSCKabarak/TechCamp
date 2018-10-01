@@ -31,7 +31,7 @@ var checkinApp = new Vue({
             this.$http.post(Attendize.checkInSearchRoute, {q: this.searchTerm}).then(function (res) {
                 this.attendees = res.data;
                 this.searchResultsCount = (Object.keys(res.data).length);
-                console.log('Succesfully fetched attendees')
+                console.log('Successfully fetched attendees')
             }, function () {
                 console.log('Failed to fetch attendees')
             });
