@@ -53,9 +53,12 @@
             <span class="massive-icon">
                 <i class="ico ico-checkmark-circle"></i>
             </span>
-            <h1>{!! @trans("Public_ViewEvent.thank_you_for_your_order") !!}</h1>
+            <h1>{{ @trans("Public_ViewEvent.thank_you_for_your_order") }}</h1>
             <h2>
-                {!! @trans("Public_ViewEvent.download_links", ["title" => trans("Public_ViewEvent.download_tickets"), "url"=>route('showOrderTickets', ['order_reference' => $order->order_reference])."?download=1"]) !!}
+                {{ @trans("Public_ViewEvent.your") }}
+                <a class="ticket_download_link"
+                   href="{{ route('showOrderTickets', ['order_reference' => $order->order_reference] ).'?download=1' }}">
+                    {{ @trans("Public_ViewEvent.tickets") }}</a> {{ @trans("Public_ViewEvent.confirmation_email") }}
             </h2>
         </div>
     </div>

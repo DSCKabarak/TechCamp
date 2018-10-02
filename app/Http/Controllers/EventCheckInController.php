@@ -176,7 +176,9 @@ class EventCheckInController extends MyBaseController
 
         return response()->json([
             'status'  => 'success',
-            'message' => trans("Controllers.attendee_check_in_success", ["name"=>$attendee->first_name." ".$attendee->last_name, "ref"=>$attendee->reference, "ticket"=>$attendee->ticket])
+            'name' => $attendee->first_name." ".$attendee->last_name,
+            'reference' => $attendee->reference,
+            'ticket' => $attendee->ticket
         ]);
     }
 }

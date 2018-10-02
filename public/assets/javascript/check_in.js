@@ -15,8 +15,7 @@ var checkinApp = new Vue({
         canvasContext: $('canvas#QrCanvas')[0].getContext('2d'),
         successBeep: new Audio('/mp3/beep.mp3'),
         scanResult: false,
-        scanResultMessage: '',
-        scanResultType: null
+        scanResultObject: {}
     },
 
     created: function () {
@@ -78,11 +77,10 @@ var checkinApp = new Vue({
             this.$http.post(Attendize.qrcodeCheckInRoute, {attendee_reference: attendeeReferenceCode}).then(function (res) {
                 this.successBeep.play();
                 this.scanResult = true;
-                this.scanResultMessage = res.data.message;
-                this.scanResultType = res.data.status;
+                this.scanResultObject = res.data;
 
             }, function (response) {
-                this.scanResultMessage = lang("whoops2");
+                this.scanResultObject.message = lang("whoops2");
             });
         },
 

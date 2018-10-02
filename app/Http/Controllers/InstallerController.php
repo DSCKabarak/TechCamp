@@ -87,6 +87,10 @@ class InstallerController extends Controller
      */
     public function postInstaller(Request $request)
     {
+        if (file_exists(base_path('installed'))) {
+            abort(404);
+        }
+
         set_time_limit(300);
 
         $database['type'] = $request->get('database_type');

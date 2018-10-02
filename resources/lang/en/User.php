@@ -1,13 +1,7 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/25 09:06:13 
-*************************************************************************/
 
 return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\Public\\LoginAndRegister\\Signup.blade.php
   'already_have_account' => 'Already have account? <a class="semibold" href=":url">Sign In</a>',
-  //==================================== Translations ====================================//
   'after_welcome' => 'Before you continue please update your account with your name and a new password.',
   'change_password' => 'Change Password',
   'confirm_new_password' => 'Confirm New Password',

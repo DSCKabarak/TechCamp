@@ -1,17 +1,9 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/25 15:38:13 
-*************************************************************************/
 
 return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'amount_refunded' => 'amount_refunded',
-  // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'fully_refunded' => 'fully_refunded',
-  // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'partially_refunded' => 'partially_refunded',
-  //==================================== Translations ====================================//
+  'amount_refunded' => 'amount refunded',
+  'fully_refunded' => 'fully refunded',
+  'partially_refunded' => 'partially refunded',
   'after_order' => 'Message to display to attendees after they have completed their order.',
   'after_order_help' => 'This message will be displayed to attendees once they have successfully completed the checkout process.',
   'amount' => 'Amount',
@@ -44,12 +36,13 @@ return array (
   'recent_orders' => 'Recent Orders',
   'reference' => 'Reference',
   'refund/cancel' => 'Refund / Cancel',
+  'registered' => 'registered',
   'status' => 'Status',
   'sub_total' => 'Sub Total',
   'ticket' => 'Ticket',
+  'tickets' => 'tickets(s)',
   'total' => 'Total',
   'transaction_id' => 'Transaction ID',
-  'user_registered_n_tickets' => '<a href=":url">:name</a> registered :n ticket(s).',
   'view_order' => 'View Order',
   'view_order_num' => 'View Order #:num',
 );
