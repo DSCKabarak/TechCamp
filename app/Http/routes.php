@@ -79,9 +79,7 @@ Route::group(
          * Reset Password
          */
         Route::get('login/reset-password/{token}', [
-            'as'   => 'showResetPassword',
             'uses' => 'RemindersController@getReset',
-        ]);
         ])->name('password.reset');
 
         Route::post('login/reset-password', [
