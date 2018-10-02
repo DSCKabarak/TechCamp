@@ -9,6 +9,7 @@ services:
       - ./.env
     ports:
     - "8080:80"
+    - "8081:443"
     networks:
       - attendizenet
     volumes:
