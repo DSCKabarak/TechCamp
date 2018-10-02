@@ -82,6 +82,7 @@ Route::group(
             'as'   => 'showResetPassword',
             'uses' => 'RemindersController@getReset',
         ]);
+        ])->name('password.reset');
 
         Route::post('login/reset-password', [
             'as'   => 'postResetPassword',

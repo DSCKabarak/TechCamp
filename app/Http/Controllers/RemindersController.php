@@ -59,9 +59,7 @@ class RemindersController extends Controller
     {
         $this->validate($request, ['email' => 'required']);
 
-        $response = $this->passwords->sendResetLink($request->only('email'), function ($m) {
-            $m->subject($this->getEmailSubject());
-        });
+        $response = $this->passwords->sendResetLink($request->only('email'));
 
         switch ($response) {
             case PasswordBroker::RESET_LINK_SENT:
