@@ -1,5 +1,6 @@
-<div role="dialog"  class="modal fade" style="display: none;">
-   {!! Form::open(array('url' => route('postMessageAttendee', array('attendee_id' => $attendee->id)), 'class' => 'ajax reset closeModalAfter')) !!}
+<div role="dialog" class="modal fade" style="display: none;">
+    {!! Form::open(array('url' => route('postMessageAttendee', array('attendee_id' => $attendee->id)), 'class' => 'ajax
+    reset closeModalAfter')) !!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -13,39 +14,43 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            {!! Form::label('subject', trans("Message.subject"), array('class'=>'control-label required')) !!}
-                            {!!  Form::text('subject', Input::old('subject'),
-                                        array(
-                                        'class'=>'form-control'
-                                        ))  !!}
+                            {!! Form::label('subject', trans("Message.subject"), array('class'=>'control-label
+                            required')) !!}
+                            {!! Form::text('subject', Input::old('subject'),
+                            array(
+                            'class'=>'form-control'
+                            )) !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('message', trans("Message.content"), array('class'=>'control-label required')) !!}
+                            {!! Form::label('message', trans("Message.content"), array('class'=>'control-label
+                            required')) !!}
 
-                            {!!  Form::textarea('message', Input::old('message'),
-                                        array(
-                                        'class'=>'form-control',
-                                        'rows' => '5'
-                                        ))  !!}
+                            {!! Form::textarea('message', Input::old('message'),
+                            array(
+                            'class'=>'form-control',
+                            'rows' => '5'
+                            )) !!}
                         </div>
 
                         <div class="form-group">
                             <div class="custom-checkbox">
                                 <input type="checkbox" name="send_copy" id="send_copy" value="1">
-                                <label for="send_copy">&nbsp;&nbsp;@lang("Message.send_a_copy_to", ["organiser"=>$attendee->event->organiser->email])</label>
+                                <label for="send_copy">&nbsp;&nbsp;{{ @trans("Message.send_a_copy_to",
+                                    ["organiser"=>$attendee->event->organiser->email]) }}</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="help-block">
-                    {!! @trans("Message.before_send_message", ["organiser"=>$attendee->event->organiser->email]) !!}
+                    {{ @trans("Message.before_send_message", ["organiser"=>$attendee->event->organiser->email]) }}
                 </div>
             </div> <!-- /end modal body-->
             <div class="modal-footer">
-               {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
-               {!! Form::submit(trans("Message.send_message"), ['class'=>"btn btn-success"]) !!}
+                {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal'])
+                !!}
+                {!! Form::submit(trans("Message.send_message"), ['class'=>"btn btn-success"]) !!}
             </div>
         </div><!-- /end modal content-->
         {!! Form::close() !!}

@@ -16,6 +16,7 @@ class Ticket extends MyBaseModel
     public $rules = [
         'title'              => ['required'],
         'price'              => ['required', 'numeric', 'min:0'],
+        'description'        => [],
         'start_sale_date'    => ['date'],
         'end_sale_date'      => ['date', 'after:start_sale_date'],
         'quantity_available' => ['integer', 'min:0'],

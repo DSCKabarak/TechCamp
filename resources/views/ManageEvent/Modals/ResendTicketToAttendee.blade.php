@@ -6,12 +6,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-envelope"></i>
-                    @lang("ManageEvent.resend_ticket_to_attendee", ["attendee"=>$attendee->full_name])
+                    {{ @trans("ManageEvent.resend_ticket_to_attendee", ["attendee" => $attendee->full_name]) }}
                 </h3>
             </div>
             <div class="modal-body">
                 <div class="help-block">
-                    {!! @trans("ManageEvent.resend_ticket_help", ["email"=>$attendee->email]) !!}
+                    {{ @trans("ManageEvent.resend_ticket_help", ["email" => $attendee->email]) }}
                 </div>
             </div> <!-- /end modal body-->
             <div class="modal-footer">

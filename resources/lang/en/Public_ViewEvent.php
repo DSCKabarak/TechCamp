@@ -1,10 +1,6 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/18 16:27:47 
-*************************************************************************/
 
 return array (
-  //==================================== Translations ====================================//
   'Contact' => 'Contact',
   'DETAILS' => 'DETAILS',
   'Facebook' => 'Facebook',
@@ -22,11 +18,11 @@ return array (
   'booking_fees' => 'Booking Fees',
   'card_number' => 'Card number',
   'checkout_submit' => 'Checkout',
+  'confirmation_email' => 'and a confirmation email have been sent to you.',
   'copy_buyer' => 'Copy buyer details to all ticket holders',
   'currently_not_on_sale' => 'Currently Not On Sale',
   'cvc_number' => 'CVC number',
   'date' => 'Date',
-  'download_links' => 'Your <a title=":title" class="ticket_download_link" href=":url">tickets</a> and a confirmation email have been sent to you.',
   'download_tickets' => 'Download Tickets',
   'email' => 'Email',
   'email_address' => 'Email address',
@@ -70,7 +66,7 @@ return array (
   'ticket_holder_information' => 'Ticket Holder Information',
   'ticket_holder_n' => 'Ticket Holder :n Details',
   'ticket_price' => 'Ticket Price',
-  'tickets' => 'Tickets',
+  'tickets' => 'Ticket(s)',
   'tickets_are_currently_unavailable' => 'Tickets are currently unavailable',
   'time' => 'Please note you only have :time to complete this transaction before your tickets are re-released.',
   'total' => 'Total',
@@ -78,4 +74,5 @@ return array (
   'your_information' => 'Your information',
   'your_message' => 'Your message',
   'your_name' => 'Your name',
+  'your' => 'Your'
 );
