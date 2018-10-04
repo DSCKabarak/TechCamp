@@ -11,56 +11,56 @@ class TimezoneSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\DateTimeFormat::create([
-            'format' => 'd/M/Y g:i a',
-            'picker_format' => '',
-            'label' => '10/Mar/2016'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'd-M-Y g:i a',
-            'picker_format' => '',
-            'label' => '10-Mar-2016'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'd/F/Y g:i a',
-            'picker_format' => '',
-            'label' => '10/March/2016'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'd-F-Y g:i a',
-            'picker_format' => '',
-            'label' => '10-March-2016'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'M j, Y g:i a',
-            'picker_format' => '',
-            'label' => 'Mar 10, 2016 6:15 pm'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'F j, Y g:i a',
-            'picker_format' => '',
-            'label' => 'March 10, 2016 6:15 pm'
-        ]);
-        \App\Models\DateTimeFormat::create([
-            'format' => 'D M jS, Y g:ia',
-            'picker_format' => '',
-            'label' => 'Mon March 10th, 2016 6:15 pm'
-        ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'd/M/Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => '10/Mar/2016'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'd-M-Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => '10-Mar-2016'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'd/F/Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => '10/March/2016'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'd-F-Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => '10-March-2016'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'M j, Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => 'Mar 10, 2016 6:15 pm'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'F j, Y g:i a',
+        //     'picker_format' => '',
+        //     'label' => 'March 10, 2016 6:15 pm'
+        // ]);
+        // \App\Models\DateTimeFormat::create([
+        //     'format' => 'D M jS, Y g:ia',
+        //     'picker_format' => '',
+        //     'label' => 'Mon March 10th, 2016 6:15 pm'
+        // ]);
 
-        \App\Models\DateFormat::create([
-            'format' => 'd/M/Y', 'picker_format' => 'dd/M/yyyy', 'label' => '10/Mar/2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'd-M-Y', 'picker_format' => 'dd-M-yyyy', 'label' => '10-Mar-2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'd/F/Y', 'picker_format' => 'dd/MM/yyyy', 'label' => '10/March/2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'd-F-Y', 'picker_format' => 'dd-MM-yyyy', 'label' => '10-March-2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'M j, Y', 'picker_format' => 'M d, yyyy', 'label' => 'Mar 10, 2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'F j, Y', 'picker_format' => 'MM d, yyyy', 'label' => 'March 10, 2013']);
-        \App\Models\DateFormat::create([
-            'format' => 'D M j, Y', 'picker_format' => 'D MM d, yyyy', 'label' => 'Mon March 10, 2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'd/M/Y', 'picker_format' => 'dd/M/yyyy', 'label' => '10/Mar/2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'd-M-Y', 'picker_format' => 'dd-M-yyyy', 'label' => '10-Mar-2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'd/F/Y', 'picker_format' => 'dd/MM/yyyy', 'label' => '10/March/2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'd-F-Y', 'picker_format' => 'dd-MM-yyyy', 'label' => '10-March-2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'M j, Y', 'picker_format' => 'M d, yyyy', 'label' => 'Mar 10, 2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'F j, Y', 'picker_format' => 'MM d, yyyy', 'label' => 'March 10, 2013']);
+        // \App\Models\DateFormat::create([
+        //     'format' => 'D M j, Y', 'picker_format' => 'D MM d, yyyy', 'label' => 'Mon March 10, 2013']);
 
 
         $timezones = [

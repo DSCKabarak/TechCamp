@@ -118,9 +118,13 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      *
      * @return bool|null|string
      */
-    public function getFormattedDate($field, $format = 'd-m-Y H:i')
+    public function getFormattedDate($field, $format = false)
     {
-        return $this->$field === null ? null : date($format, strtotime($this->$field));
+        if (!$format) {
+            $format = config('attendize.default_datetime_format');
+        }
+
+        return $this->$field === null ? null : $this->$field->format($format);
     }
 
     /**

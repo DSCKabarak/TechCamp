@@ -58,36 +58,36 @@
                     <div class="ticket">
 
                         <div class='logo'>
-                            <img alt="{{$event->organiser->full_logo_path}}" src="data:image/png;base64, {{$image}}" />
-                            @if(count($images)>0)
+				<img alt="{{$event->organiser->full_logo_path}}" src="data:image/png;base64, {{$image}}" />
+                            @if(isset($images) && count($images) > 0)
                                 @foreach($images as $img)
                                     <BR><img src="data:image/png;base64, {{$img}}" />
                                 @endforeach
                             @endif
                         </div>
                         <div class="layout_even">
-                            <div class="event_details">
+                        <div class="event_details">
                                 <h4>@lang("Ticket.event")</h4>
-                                {{$event->title}}
+                            {{$event->title}}
                                 <h4>@lang("Ticket.organiser")</h4>
-                                {{$event->organiser->name}}
+                            {{$event->organiser->name}}
                                 <h4>@lang("Ticket.venue")</h4>
-                                {{$event->venue_name}}
+                            {{$event->venue_name}}
                                 <h4>@lang("Ticket.start_date_time")</h4>
-                                {{$event->start_date->format('Y-m-d H:i')}}
+                                {{$event->startDateFormatted()}}
                                 <h4>@lang("Ticket.end_date_time")</h4>
-                                {{$event->end_date->format('Y-m-d H:i')}}
-                            </div>
+                                {{$event->endDateFormatted()}}
+                        </div>
 
-                            <div class="attendee_details">
+                        <div class="attendee_details">
                                 <h4>@lang("Ticket.name")</h4>
-                                {{$attendee->first_name.' '.$attendee->last_name}}
+                            {{$attendee->first_name.' '.$attendee->last_name}}
                                 <h4>@lang("Ticket.ticket_type")</h4>
-                            	{{$attendee->ticket->title}}
+                            {{$attendee->ticket->title}}
                                 <h4>@lang("Ticket.order_ref")</h4>
-                            	{{$order->order_reference}}
+                            {{$order->order_reference}}
                                 <h4>@lang("Ticket.attendee_ref")</h4>
-                            	{{$attendee->reference}}
+                            {{$attendee->reference}}
                                 <h4>@lang("Ticket.price")</h4>
 								@php
 	                            	// Calculating grand total including tax
@@ -99,7 +99,7 @@
 	                            <br><br>{{$event->organiser->tax_name}} ID: {{ $event->organiser->tax_id }}
                                 @endif
                             </div>
-			</div>
+                        </div>
                         <div class="barcode">
                             {!! DNS2D::getBarcodeSVG($attendee->private_reference_number, "QRCODE", 6, 6) !!}
                         </div>

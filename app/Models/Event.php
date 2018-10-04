@@ -23,8 +23,8 @@ class Event extends MyBaseModel
         'description'         => ['required'],
         'location_venue_name' => ['required_without:venue_name_full'],
         'venue_name_full'     => ['required_without:location_venue_name'],
-        'start_date'          => ['required'],
-        'end_date'            => ['required'],
+        'start_date'          => ['required|date'],
+        'end_date'            => ['required|date'],
         'organiser_name'      => ['required_without:organiser_id'],
         'event_image'         => ['mimes:jpeg,jpg,png', 'max:3000'],
     ];
@@ -204,6 +204,15 @@ class Event extends MyBaseModel
     }
 
     /**
+     * Format start date from user preferences
+     * @return String Formatted date
+     */
+    public function startDateFormatted()
+    {
+        return $this->start_date->format(config('attendize.default_datetime_format'));
+    }
+
+    /**
      * Parse end_date to a Carbon instance
      *
      * @param string $date DateTime
@@ -211,6 +220,15 @@ class Event extends MyBaseModel
     public function setEndDateAttribute($date)
     {
         $this->attributes['end_date'] = Carbon::parse($date);
+    }
+
+    /**
+     * Format end date from user preferences
+     * @return String Formatted date
+     */
+    public function endDateFormatted()
+    {
+        return $this->end_date->format(config('attendize.default_datetime_format'));
     }
 
     /**
