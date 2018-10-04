@@ -1,13 +1,13 @@
 @if(!$event->is_live)
 <section id="goLiveBar">
     <div class="container">
-                @if(!$event->is_live)
+        @if(!$event->is_live)
 
         {{ @trans("ManageEvent.event_not_live") }}
         <a href="{{ route('MakeEventLive' , ['event_id' => $event->id]) }}"
            style="background-color: green; border-color: green;"
         class="btn btn-success btn-xs">{{ @trans("ManageEvent.publish_it") }}</a>
-                @endif
+        @endif
     </div>
 </section>
 @endif
@@ -32,7 +32,7 @@
                 </span>
                 -
                 <span property="endDate" content="{{ $event->end_date->toIso8601String() }}">
-                     @if($event->start_date->diffInHours($event->end_date) <= 12)
+                     @if($event->start_date->diffInDays($event->end_date) == 0)
                         {{ $event->end_date->format('H:i') }}
                      @else
                         {{ $event->endDateFormatted() }}

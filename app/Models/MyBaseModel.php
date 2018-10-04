@@ -86,7 +86,8 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      */
     public function validate($data)
     {
-        $v = Validator::make($data, $this->rules, $this->messages, $this->attributes);
+        $rules = $this->rules ? is_array($rules = $this->rules) : $rules = $this->rules();
+        $v = Validator::make($data, $rules, $this->messages, $this->attributes);
 
         if ($v->fails()) {
             $this->errors = $v->messages();

@@ -16,18 +16,22 @@ class Event extends MyBaseModel
     /**
      * The validation rules.
      *
-     * @var array $rules
+     * @return array $rules
      */
-    protected $rules = [
-        'title'               => ['required'],
-        'description'         => ['required'],
-        'location_venue_name' => ['required_without:venue_name_full'],
-        'venue_name_full'     => ['required_without:location_venue_name'],
-        'start_date'          => ['required|date'],
-        'end_date'            => ['required|date'],
-        'organiser_name'      => ['required_without:organiser_id'],
-        'event_image'         => ['mimes:jpeg,jpg,png', 'max:3000'],
-    ];
+    public function rules()
+    {
+        $format = config('attendize.default_datetime_format');
+        return [
+                'title'               => 'required',
+                'description'         => 'required',
+                'location_venue_name' => 'required_without:venue_name_full',
+                'venue_name_full'     => 'required_without:location_venue_name',
+                'start_date'          => 'required|date_format:"'.$format.'"',
+                'end_date'            => 'required|date_format:"'.$format.'"',
+                'organiser_name'      => 'required_without:organiser_id',
+                'event_image'         => 'mimes:jpeg,jpg,png|max:3000',
+            ];
+    }
 
     /**
      * The validation error messages.
@@ -200,7 +204,8 @@ class Event extends MyBaseModel
      */
     public function setStartDateAttribute($date)
     {
-        $this->attributes['start_date'] = Carbon::parse($date);
+        $format = config('attendize.default_datetime_format');
+        $this->attributes['start_date'] = Carbon::createFromFormat($format, $date);
     }
 
     /**
@@ -219,7 +224,8 @@ class Event extends MyBaseModel
      */
     public function setEndDateAttribute($date)
     {
-        $this->attributes['end_date'] = Carbon::parse($date);
+        $format = config('attendize.default_datetime_format');
+        $this->attributes['end_date'] = Carbon::createFromFormat($format, $date);
     }
 
     /**

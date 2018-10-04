@@ -28,6 +28,7 @@ class MyBaseController extends Controller
                 'is_confirmed' => Auth::user()->is_confirmed,
             ],
             'DateTimeFormat'      => config('attendize.default_date_picker_format'),
+            'DateSeparator'       => config('attendize.default_date_picker_seperator'),
             'GenericErrorMessage' => trans("Controllers.whoops"),
         ]);
         /*

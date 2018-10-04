@@ -15,16 +15,21 @@ class Ticket extends MyBaseModel
     /**
      * The rules to validate the model.
      *
-     * @var array $rules
+     * @return array $rules
      */
-    public $rules = [
-        'title'              => ['required'],
-        'price'              => ['required', 'numeric', 'min:0'],
-        'description'        => [],
-        'start_sale_date'    => ['date'],
-        'end_sale_date'      => ['date', 'after:start_sale_date'],
-        'quantity_available' => ['integer', 'min:0'],
-        ];
+    public function rules()
+    {
+        $format = config('attendize.default_datetime_format');
+        return [
+            'title'              => 'required',
+            'price'              => 'required|numeric|min:0',
+            'description'        => '',
+            'start_sale_date'    => 'date_format:"'.$format.'"',
+            'end_sale_date'      => 'date_format:"'.$format.'"|after:start_sale_date',
+            'quantity_available' => 'integer|min:0',
+    ];
+    }
+
     /**
      * The validation error messages.
      *
@@ -84,7 +89,10 @@ class Ticket extends MyBaseModel
         if (!$date) {
             $this->attributes['start_sale_date'] = Carbon::now();
         } else {
-            $this->attributes['start_sale_date'] = Carbon::parse($date);
+            $this->attributes['start_sale_date'] = Carbon::createFromFormat(
+                config('attendize.default_datetime_format'),
+                $date
+            );
         }
     }
 
@@ -98,7 +106,10 @@ class Ticket extends MyBaseModel
         if (!$date) {
             $this->attributes['end_sale_date'] = null;
         } else {
-            $this->attributes['end_sale_date'] = Carbon::parse($date);
+            $this->attributes['end_sale_date'] = Carbon::createFromFormat(
+                config('attendize.default_datetime_format'),
+                $date
+            );
         }
     }
 
