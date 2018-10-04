@@ -211,15 +211,9 @@ class EventTicketsController extends MyBaseController
         $ticket = Ticket::scope()->findOrFail($ticket_id);
 
         /*
-         * Override some validation rules
+         * Add validation message
          */
-        $validation_rules['quantity_available'] = [
-            'integer',
-            'min:' . ($ticket->quantity_sold + $ticket->quantity_reserved)
-        ];
         $validation_messages['quantity_available.min'] = trans("Controllers.quantity_min_error");
-
-        $ticket->rules = $validation_rules + $ticket->rules;
         $ticket->messages = $validation_messages + $ticket->messages;
 
         if (!$ticket->validate($request->all())) {

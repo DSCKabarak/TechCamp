@@ -26,8 +26,8 @@ class Ticket extends MyBaseModel
             'description'        => '',
             'start_sale_date'    => 'date_format:"'.$format.'"',
             'end_sale_date'      => 'date_format:"'.$format.'"|after:start_sale_date',
-            'quantity_available' => 'integer|min:0',
-    ];
+            'quantity_available' => 'integer|min:'.($this->quantity_sold + $this->quantity_reserved)
+        ];
     }
 
     /**
