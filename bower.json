@@ -16,7 +16,6 @@
   ],
   "dependencies": {
     "bootstrap": "~3.2.0",
-    "curioussolutions-datetimepicker": "~0.1.26",
     "chartjs": "~2.0.0-beta2",
     "humane-js": "~3.2.0",
     "geocomplete": "~1.6.4",
@@ -32,7 +31,8 @@
     "vue": "^1.0.24",
     "vue-resource": "^0.7.0",
     "html.sortable": "^0.3.1",
-    "jquery.payment": "^1.4.2"
+    "jquery.payment": "^1.4.2",
+    "datetimepicker": "flat-datetimepicker#^0.1.38"
   },
   "resolutions": {
     "jquery": ">=1.5",
