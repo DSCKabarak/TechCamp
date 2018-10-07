@@ -53,7 +53,7 @@ return array (
 		),
 	    'page_header_bg_color' => 
 		array (
-		    'required' => 'Merci de saisir une couleur de font pour l\'en-tête.',
+		    'required' => 'Merci de saisir une couleur de fond pour l\'en-tête.',
 		),
 	    'password' => 
 		array (
@@ -72,7 +72,7 @@ return array (
     'no_organiser_name_error' => 'Vous devez indiquer un nom pour l\'organisateur de l\'événement.',
     'nothing_to_do' => 'Rien à faire',
     'nothing_to_refund' => 'Rien à rembourser.',
-    'num_attendees_checked_in' => ':num participant(s) enregistrés.',
+    'num_attendees_checked_in' => ':num participant(s) enregistré(s).',
     'order_already_refunded' => 'La commande a déjà été remboursée !',
     'order_cant_be_refunded' => 'La commande ne peut être remboursée!',
     'order_page_successfully_updated' => 'Page de commande mise à jour avec succès.',
@@ -85,7 +85,7 @@ return array (
     'quantity_min_error' => 'La quantité disponible ne peut être inférieure à la quantité vendue ou réservée.',
     'refreshing' => 'Rafraîchissement...',
     'refund_exception' => 'Il y a eu un problème lors de votre remboursement. Merci de vérifier vos informations et de réessayer.',
-    'refund_only_numbers_error' => 'Ce champ d\'autorise que des chiffres.',
+    'refund_only_numbers_error' => 'Ce champ n\'autorise que des chiffres.',
     'social_settings_successfully_updated' => 'Les paramètres sociaux ont correctement été mis à jour !',
     'stripe_error' => 'Il y a eu une erreur lors de la connexion à votre compte Stripe, merci de réessayer.',
     'stripe_success' => 'Vous avez correctement associé votre compte Stripe.',

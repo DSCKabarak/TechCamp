@@ -25,7 +25,7 @@ return array(
     'install' => 'Installer Attendize',
     'mail_encryption' => 'Chiffrement du courriel',
     'mail_from_address' => 'Courriel de l\'expéditeur (champ From)',
-    'mail_from_help' => 'Pour utiliser la fonction <a target="_blank" href="http://php.net/manual/en/function.mail.php">mail</a> de PHP, saisissez <b>mail</b> dans ce champ et laissez les champs ci-dessous vides.',
+    'mail_from_help' => 'Pour utiliser la fonction <a target="_blank" href="http://php.net/manual/fr/function.mail.php">mail</a> de PHP, saisissez <b>mail</b> dans ce champ et laissez les champs ci-dessous vides.',
     'mail_from_name' => 'Nom de l\'expéditeur',
     'mail_host' => 'Hôte de messagerie',
     'mail_password' => 'Mot de passe pour la messagerie',
