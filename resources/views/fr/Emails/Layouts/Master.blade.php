@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>
         @section('subject')
-            Attendize.com Email
+            Message Attendize.com
         @show
     </title>
 </head>
@@ -51,8 +51,8 @@
                 <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;width: 100%">
                     <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6">
                         <td align="center" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6">
-                            {{--Attendize is provided free of charge on the condition the below hyperlink is left in place.--}}
-                            {{--See https://www.attendize.com/licence.html for more information.--}}
+                            {{--Attendize est fourni gratuitement à condition que le lien ci-dessous soit laissé à sa place.--}}
+                            {{--Voir https://www.attendize.com/licence.html pour plus d'information.--}}
                             <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;color: #666;margin-bottom: 10px;font-weight: normal">Powered By <a href="https://www.attendize.com/?email_footer_powered_by" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;color: #999">Attendize.com</a>.
                             </p>
                             @yield('footer')

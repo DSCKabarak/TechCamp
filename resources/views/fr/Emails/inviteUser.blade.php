@@ -2,20 +2,20 @@
 
 @section('message_content')
 
-<p>Hello</p>
+<p>Bonjour</p>
 <p>
-    You have been added to an {{ config('attendize.app_name') }} account by {{$inviter->first_name.' '.$inviter->last_name}}.
+    Vous avec été ajouté au compte de {{ config('attendize.app_name') }} par {{$inviter->first_name.' '.$inviter->last_name}}.
 </p>
 
 <p>
-    You can log in using the following details.<br><br>
+    Vous pouvez vous connecter avec les informations ci-dessous.<br><br>
     
-    Username: <b>{{$user->email}}</b> <br>
-    Password: <b>{{$temp_password}}</b>
+    Utilisateur : <b>{{$user->email}}</b> <br>
+    Mot de passe : <b>{{$temp_password}}</b>
 </p>
 
 <p>
-    You can change your temporary password once you have logged.
+    Vous pouvez changer votre mot de passe temporaire une fois connecté.
 </p>
 
 <div style="padding: 5px; border: 1px solid #ccc;" >
@@ -23,10 +23,10 @@
 </div>
 <br><br>
 <p>
-    If you have any questions please reply to this email.
+    Si vous avez la moindre question, merci de répondre à ce message.
 </p>
 <p>
-    Thank you
+    Merci
 </p>
 
 @stop

@@ -3,9 +3,9 @@
 @section('message_content')
     <div>
         Hello,<br><br>
-        To reset your password, complete this form: {{ route('showResetPassword', ['token' => $token]) }}.
+        Pour réinitialiser votre mot de passe, remplissez ce formulaure : {{ route('showResetPassword', ['token' => $token]) }}.
         <br><br><br>
-        Thank you,<br>
-        Team Attendize
+        Merci,<br>
+        L'équipe Attendize
     </div>
 @stop
