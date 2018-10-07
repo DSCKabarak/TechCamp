@@ -2,7 +2,7 @@
 
 @section('message_content')
     <div>
-        Hello,<br><br>
+        Bonjour,<br><br>
         Pour réinitialiser votre mot de passe, remplissez ce formulaire : {{ route('showResetPassword', ['token' => $token]) }}.
         <br><br><br>
         Merci,<br>
