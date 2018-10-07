@@ -87,7 +87,7 @@ return [
 
     'custom' => [
         'terms_agreed' => [
-            'required' => 'Merge d\'accepter nos conditions générales d\'utilisation.'
+            'required' => 'Merci d\'accepter nos conditions générales d\'utilisation.'
         ]
     ],
 
