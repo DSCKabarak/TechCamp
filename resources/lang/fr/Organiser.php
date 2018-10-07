@@ -6,7 +6,7 @@
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Customize.blade.php
-  'save_organiser' => 'Save Organiser',
+  'save_organiser' => 'Sauvegarder l'organisateur',
   //==================================== Translations ====================================//
   'additional_organiser_options' => 'Options organisateur supplémentaires',
   'background_color' => 'Couleur de fond',

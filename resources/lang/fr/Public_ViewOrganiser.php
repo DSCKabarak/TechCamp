@@ -11,7 +11,7 @@ return array (
   'tickets' => 'Billets',
   //==================================== Translations ====================================//
   'no_events' => 'Pas de :panel_title à afficher.',
-  'organiser_dashboard' => 'Tableau de bord de l'organisateur',
+  'organiser_dashboard' => 'Tableau de bord de l\'organisateur',
   'past_events' => 'Événements passés',
   'upcoming_events' => 'Événements à venir',
 );
