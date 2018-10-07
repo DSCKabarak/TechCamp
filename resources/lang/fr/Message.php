@@ -3,9 +3,9 @@
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Modals\\MessageAttendees.blade.php
-  'new_message' => 'New Message',
+  'new_message' => 'Nouveau message',
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Modals\\MessageAttendees.blade.php
-  'sent_messages' => 'Sent Messages',
+  'sent_messages' => 'Messages envoyés',
   //==================================== Translations ====================================//
   'all_event_attendees' => 'Tous les participants de l\'événement',
   'attendees_with_ticket_type' => 'Participants avec un billet de type',
