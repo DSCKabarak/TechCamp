@@ -1,40 +1,39 @@
 @extends('en.Emails.Layouts.Master')
 
 @section('message_content')
-Hello,<br><br>
+Bonjour,<br><br>
 
-You have received a new order for the event <b>{{$order->event->title}}</b>.<br><br>
+Vous avez reçu une nouvelle commande poour l'événement <b>{{$order->event->title}}</b>.<br><br>
 
 @if(!$order->is_payment_received)
-    <b>Please note: This order still requires payment.</b>
+    <b>Note : cette commande attend encore d'être réglée.</b>
     <br><br>
 @endif
 
 
-Order Summary:
+Résumé de la commande :
 <br><br>
-Order Reference: <b>{{$order->order_reference}}</b><br>
-Order Name: <b>{{$order->full_name}}</b><br>
-Order Date: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
-Order Email: <b>{{$order->email}}</b><br>
+Référence de la commande : <b>{{$order->order_reference}}</b><br>
+Nom de la commande : <b>{{$order->full_name}}</b><br>
+Date de la commande : <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Courriel de la commande : <b>{{$order->email}}</b><br>
 
-
-<h3>Order Items</h3>
+<h3>Éléments de la commande</h3>
 <div style="padding:10px; background: #F9F9F9; border: 1px solid #f1f1f1;">
 
     <table style="width:100%; margin:10px;">
         <tr>
             <th>
-                Ticket
+                Billet
             </th>
             <th>
-                Quantity
+                Quantité
             </th>
             <th>
-                Price
+                Prix
             </th>
             <th>
-                Booking Fee
+                Frais de réservation
             </th>
             <th>
                 Total
@@ -50,7 +49,7 @@ Order Email: <b>{{$order->email}}</b><br>
             </td>
             <td>
                 @if((int)ceil($order_item->unit_price) == 0)
-                FREE
+                GRATUIT
                 @else
                 {{money($order_item->unit_price, $order->event->currency)}}
                 @endif
@@ -66,7 +65,7 @@ Order Email: <b>{{$order->email}}</b><br>
             </td>
             <td>
                 @if((int)ceil($order_item->unit_price) == 0)
-                FREE
+                GRATUIT
                 @else
                 {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                 @endif
@@ -82,7 +81,7 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                <b>Sub Total</b>
+                <b>Sous-total</b>
             </td>
             <td colspan="2">
                 {{$orderService->getOrderTotalWithBookingFee(true)}}
@@ -122,9 +121,9 @@ Order Email: <b>{{$order->email}}</b><br>
 
 
     <br><br>
-    You can manage this order at: {{route('showEventOrders', ['event_id' => $order->event->id, 'q'=>$order->order_reference])}}
+    Vous pouvez gérer cette commande sur : {{route('showEventOrders', ['event_id' => $order->event->id, 'q'=>$order->order_reference])}}
     <br><br>
 </div>
 <br><br>
-Thank you
+Merci
 @stop

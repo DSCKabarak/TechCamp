@@ -1,38 +1,38 @@
 @extends('en.Emails.Layouts.Master')
 
 @section('message_content')
-Hello,<br><br>
+Bonjour,<br><br>
 
-Your order for the event <b>{{$order->event->title}}</b> was successful.<br><br>
+Votre commande pour l'événement <b>{{$order->event->title}}</b> s'est bien passée.<br><br>
 
-Your tickets are attached to this email. You can also view you order details and download your tickets at: {{route('showOrderDetails', ['order_reference' => $order->order_reference])}}
+Vos billets sont joints à ce message. Vous pouvez aussi voir les détails de votre commande et télécharger vos billets ici : {{route('showOrderDetails', ['order_reference' => $order->order_reference])}}
 
 @if(!$order->is_payment_received)
 <br><br>
-<b>Please note: This order still requires payment. Instructions on how to make payment can be found on your order page: {{route('showOrderDetails', ['order_reference' => $order->order_reference])}}</b>
+<b>Notez que cette commande demande encore d'être payée.  Les instructions sur la manière de payer sont sur la page de commande : {{route('showOrderDetails', ['order_reference' => $order->order_reference])}}</b>
 <br><br>
 @endif
-<h3>Order Details</h3>
-Order Reference: <b>{{$order->order_reference}}</b><br>
-Order Name: <b>{{$order->full_name}}</b><br>
-Order Date: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
-Order Email: <b>{{$order->email}}</b><br>
-<a href="{!! route('downloadCalendarIcs', ['event_id' => $order->event->id]) !!}">Add To Calendar</a>
-<h3>Order Items</h3>
+<h3>Détails</h3>
+Référence de la commande : <b>{{$order->order_reference}}</b><br>
+Nom de la commande : <b>{{$order->full_name}}</b><br>
+Date de la commande : <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Courriel de la commande : <b>{{$order->email}}</b><br>
+<a href="{!! route('downloadCalendarIcs', ['event_id' => $order->event->id]) !!}">Ajouter au calendrier</a>
+<h3>Éléments de la commande</h3>
 <div style="padding:10px; background: #F9F9F9; border: 1px solid #f1f1f1;">
     <table style="width:100%; margin:10px;">
         <tr>
             <td>
-                <b>Ticket</b>
+                <b>Billet</b>
             </td>
             <td>
-                <b>Qty.</b>
+                <b>Qté.</b>
             </td>
             <td>
-                <b>Price</b>
+                <b>Prix</b>
             </td>
             <td>
-                <b>Fee</b>
+                <b>Frais</b>
             </td>
             <td>
                 <b>Total</b>
@@ -48,7 +48,7 @@ Order Email: <b>{{$order->email}}</b><br>
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                        GRATUIT
                                         @else
                                        {{money($order_item->unit_price, $order->event->currency)}}
                                         @endif
@@ -64,7 +64,7 @@ Order Email: <b>{{$order->email}}</b><br>
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
-                                        FREE
+                                        GRATUIT
                                         @else
                                         {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                                         @endif
@@ -80,7 +80,7 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                <b>Sub Total</b>
+                <b>Sous-total</b>
             </td>
             <td colspan="2">
                 {{$orderService->getOrderTotalWithBookingFee(true)}}
@@ -121,5 +121,5 @@ Order Email: <b>{{$order->email}}</b><br>
     <br><br>
 </div>
 <br><br>
-Thank you
+Merci
 @stop
