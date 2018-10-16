@@ -6,11 +6,11 @@
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'amount_refunded' => 'amount_refunded',
+  'amount_refunded' => 'montant remboursé',
   // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'fully_refunded' => 'fully_refunded',
+  'fully_refunded' => 'entièrement remboursé',
   // Defined in file C:\\wamp\\www\\attendize\\app\\Http\\Controllers\\EventOrdersController.php
-  'partially_refunded' => 'partially_refunded',
+  'partially_refunded' => 'partiellement remboursé',
   //==================================== Translations ====================================//
   'after_order' => 'Message à afficher aux participants une fois qu\'ils ont terminé leur commande.',
   'after_order_help' => 'Ce message sera affiché aux participants une fois qu\'ils auront terminé la procédure d\'enregistrement.',
