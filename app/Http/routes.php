@@ -384,18 +384,6 @@ Route::group(
             ]);
 
             /*
-             * Ticket questions
-             */
-            Route::get('{event_id}/tickets/questions', [
-                'as'   => 'showTicketQuestions',
-                'uses' => 'EventTicketQuestionsController@showQuestions',
-            ]);
-            Route::post('{event_id}/tickets/questions/create', [
-                'as'   => 'postCreateQuestion',
-                'uses' => 'EventTicketQuestionsController@postCreateQuestion',
-            ]);
-
-            /*
              * -------
              * Attendees
              * -------
@@ -694,27 +682,6 @@ Route::group(
                 'uses' => 'EventCheckInController@confirmOrderTicketsQr',
             ]);
 
-
-            /*
-             * -------
-             * QRCode Check In App
-             * -------
-
-            Route::get('{event_id}/qrcode_check_in', [
-                'as'   => 'showQRCodeChechIn',
-                'uses' => 'EventQrcodeCheckInController@showCheckIn',
-            ]);
-
-            Route::post('{event_id}/qrcode_check_in', [
-                'as'   => 'postQRCodeCheckInAttendee',
-                'uses' => 'EventQrcodeCheckInController@postCheckInAttendee',
-            ]);
-
-            Route::match(['PUT', 'PATCH'], '{event_id}/confirm_order_tickets/{order_id}', [
-                'as'   => 'confirmCheckInOrderTickets',
-                'uses' => 'EventQrcodeCheckInController@confirmOrderTickets',
-            ]);
-            */
 
             /*
              * -------

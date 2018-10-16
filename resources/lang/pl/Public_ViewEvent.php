@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'Contact' => 'Kontakt',
   'DETAILS' => 'SZCZEGÓŁY',
   'Facebook' => 'Facebook',
@@ -36,7 +36,7 @@ return array (
   'expiry_year' => 'Rok ważności karty',
   'first_name' => 'Imię',
   'free' => 'GRATIS',
-  'inc_fees' => '(uwzgl. opłaty: :fees)',
+  'inc_fees' => 'Opłaty za rezerwację',
   'last_name' => 'Nazwisko',
   'offline_payment_instructions' => 'Instrukcje płatności offline',
   'offline_payment_methods_available' => 'Płatności offline dostępne',
@@ -75,4 +75,4 @@ return array (
   'your_message' => 'Twoja wiadomość',
   'your_name' => 'Twoje imię',
   'your' => 'Twój',
-);
+];

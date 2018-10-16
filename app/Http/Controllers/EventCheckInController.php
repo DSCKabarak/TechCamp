@@ -19,7 +19,6 @@ class EventCheckInController extends MyBaseController
      */
     public function showCheckIn($event_id)
     {
-
         $event = Event::scope()->findOrFail($event_id);
 
         $data = [
@@ -59,8 +58,11 @@ class EventCheckInController extends MyBaseController
                 $query->where('attendees.event_id', '=', $event_id);
             })->where(function ($query) use ($searchQuery) {
                 $query->orWhere('attendees.first_name', 'like', $searchQuery . '%')
-                    ->orWhere(DB::raw("CONCAT_WS(' ', attendees.first_name, attendees.last_name)"), 'like',
-                        $searchQuery . '%')
+                    ->orWhere(
+                        DB::raw("CONCAT_WS(' ', attendees.first_name, attendees.last_name)"),
+                        'like',
+                        $searchQuery . '%'
+                    )
                     //->orWhere('attendees.email', 'like', $searchQuery . '%')
                     ->orWhere('orders.order_reference', 'like', $searchQuery . '%')
                     ->orWhere('attendees.last_name', 'like', $searchQuery . '%');
@@ -163,21 +165,10 @@ class EventCheckInController extends MyBaseController
                 'has_arrived' => false
             ])->count();
 
-        if ($relatedAttendesCount >= 1) {
-            $confirmOrderTicketsRoute = route('confirmCheckInOrderTickets', [$event->id, $attendee->order_id]);
-
-            /*
-             * @todo Incorporate this feature into the new design
-             */
-            //$appendedText = '<br><br><form class="ajax" action="' . $confirmOrderTicketsRoute . '" method="POST">' . csrf_field() . '<button class="btn btn-primary btn-sm" type="submit"><i class="ico-ticket"></i> Check in all tickets associated to this order</button></form>';
-        } else {
-            $appendedText = '';
-        }
-
         if ($attendee->has_arrived) {
             return response()->json([
                 'status'  => 'error',
-                'message' => trans("Controllers.attendee_already_checked_in", ["time"=> $attendee->arrival_time->format(env("DEFAULT_DATETIME_FORMAT"))]) . $appendedText
+                'message' => trans("Controllers.attendee_already_checked_in", ["time"=> $attendee->arrival_time->format(env("DEFAULT_DATETIME_FORMAT"))])
             ]);
         }
 
@@ -190,28 +181,4 @@ class EventCheckInController extends MyBaseController
             'ticket' => $attendee->ticket
         ]);
     }
-
-    /**
-     * Confirm tickets of same order.
-     *
-     * @param $event_id
-     * @param $order_id
-     * @return \Illuminate\Http\Response
-     */
-    public function confirmOrderTicketsQr($event_id, $order_id)
-    {
-        $updateRowsCount = Attendee::scope()->where([
-            'event_id'    => $event_id,
-            'order_id'    => $order_id,
-            'has_arrived' => 0,
-        ])->update([
-            'has_arrived'  => 1,
-            'arrival_time' => Carbon::now(),
-        ]);
-
-        return response()->json([
-            'message' => trans("Controllers.num_attendees_checked_in", ["num"=>$updateRowsCount])
-        ]);
-    }
-
 }

@@ -265,20 +265,6 @@ footer {
     }
 }
 
-
-#ScanVideoOutter {
-    min-width: 100%;
-    min-height: 300px;
-    position: relative;
-    background: #999;
-    background: url(http://dev.attendize.com/assets/images/background.png) repeat;
-    background-color: #2E3254;
-}
-
-#qr-file {
-
-}
-
 #QrCanvas{
     display:none;
 }
@@ -317,10 +303,6 @@ video#scannerVideo {
     padding-bottom:15px;
     border-radius:20px;
 }
-
-
-
-
 
 @-webkit-keyframes opacity {
     0% {

@@ -1,8 +1,9 @@
 @if(session()->get('message'))
     <script>showMessage('{{\Session::get('message')}}');</script>
 @endif
+
+@if(env('GOOGLE_ANALYTICS_ID'))
 <script>
-    @if(env('GOOGLE_ANALYTICS_ID'))
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
@@ -18,5 +19,5 @@
         ga('create', '{{env('GOOGLE_ANALYTICS_ID')}}', 'auto');
         ga('require', 'displayfeatures');
         ga('send', 'pageview');
-    @endif
 </script>
+@endif

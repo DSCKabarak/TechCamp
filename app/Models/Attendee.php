@@ -44,7 +44,7 @@ class Attendee extends MyBaseModel
         parent::boot();
 
         static::creating(function ($order) {
-            $order->private_reference_number = str_pad(rand(0, pow(10, 9) - 1), 9, '0', STR_PAD_LEFT);
+            $order->private_reference_number = str_pad(random_int(0, pow(10, 9) - 1), 9, '0', STR_PAD_LEFT);
         });
     }
 
