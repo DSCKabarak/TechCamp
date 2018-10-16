@@ -26,6 +26,7 @@ return array (
   'event_title' => 'Event Title',
   'event_title_placeholder' => 'E.g: :name\'s Interational Conference',
   'event_visibility' => 'Event Visibility',
+  'go_live' => 'Event Successfully Made Live! You can undo this action in event settings page.',
   'n_attendees_for_event' => ':num Attendee(s) for event: :name (:date)',
   'no_events_yet' => 'No Event Yet!',
   'no_events_yet_text' => 'Looks like you have yet to create an event. You can create one by clicking the button below.',
