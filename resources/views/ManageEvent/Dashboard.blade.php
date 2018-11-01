@@ -377,9 +377,10 @@
             }
         });
         function formatDate(x) {
-            var m_names = <?=json_encode(explode("|", trans("basic.months_short")))?>;
-            var sup = "",
-                    curr_date = x.getDate();
+            var m_names = <?=json_encode(array_filter(explode("|", trans("basic.months_short")))); ?>;
+            var sup = "";
+            var curr_date = x.getDate();
+
             <?php if(Lang::locale()=="en") { ?>
             if (curr_date == 1 || curr_date == 21 || curr_date == 31) {
                 sup = "st";
@@ -394,18 +395,14 @@
                 sup = "th";
             }
             <?php } ?>
-            /*  {{Lang::locale()}} */
 
-            return curr_date + sup + ' ' + m_names[x.getMonth()];
+            return curr_date + sup + ' ' + m_names[x.getMonth() + 1];
         }
 
         var target_date = new Date("{{$event->start_date->format('M d, Y H:i')}} ").getTime();
         var now = new Date();
         var countdown = document.getElementById("countdown");
-        if (target_date < now) {
-            countdown.innerHTML = "@lang("Dashboard.this_event_has_started")";
-        } else {
-
+        if (target_date > now) {
             var days, hours, minutes, seconds;
             setCountdown();
             setInterval(function () {
