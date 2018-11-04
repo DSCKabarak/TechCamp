@@ -48,7 +48,11 @@ class AttendeeMailer extends Mailer
                 $message_object->account_id)->get();
 
         foreach ($attendees as $attendee) {
-
+            
+            if ($attendee->is_cancelled) {
+               continue;
+            }
+            
             $data = [
                 'attendee'        => $attendee,
                 'event'           => $event,
