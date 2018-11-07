@@ -12,7 +12,7 @@ return array(
     'customize'                               => 'Personalizar',
     'dashboard'                               => 'Panel de control',
     'delete_logo?'                            => '¿Borrar Logotipo?',
-    'enable_public_organiser_page'            => 'Habilitar: página de organizador visible públicamente',
+    'enable_public_organiser_page'            => 'Página de organizador visible públicamente',
     'event'                                   => 'Evento',
     'event_calendar'                          => 'Calendario de Eventos',
     'events'                                  => 'Eventos',
