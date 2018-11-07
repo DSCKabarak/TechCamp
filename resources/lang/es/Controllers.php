@@ -102,7 +102,7 @@ return array(
     'ticket_not_exists_error'                   => 'La entrada que ha seleccionado no existe',
     'ticket_order_successfully_updated'         => 'El pedido de la entre ha sido actualizado correctamente',
     'ticket_successfully_deleted'               => 'Entrada borrada con éxito',
-    'ticket_successfully_resent'                => '¡La entrada se ha resentido correctamente!',
+    'ticket_successfully_resent'                => '¡La entrada se ha reenviado correctamente!',
     'ticket_successfully_updated'               => '¡La entrada se ha actualizado correctamente!',
     'tickets_for_event'                         => 'Sus entradas para el evento :event.',
     'whoops'                                    => '¡Ups! Parece que algo salió mal. Por favor, inténtalo de nuevo.',
