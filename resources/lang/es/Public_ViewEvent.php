@@ -46,7 +46,7 @@ return [
     'pay_using_offline_methods'         => 'Paga usando métodos fuera de línea',
     'payment_information'               => 'Información sobre el pago',
     'payment_instructions'              => 'Instrucciones de pago',
-    'presents'                          => 'regalos',
+    'presents'                          => 'presenta',
     'price'                             => 'Precio',
     'quantity_full'                     => 'Cantidad',
     'reference'                         => 'Referencia',
