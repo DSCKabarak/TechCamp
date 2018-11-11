@@ -73,4 +73,5 @@ Contributors
 * James Campbell ([Github](https://github.com/jncampbell))
 * JapSeyz ([Github](https://github.com/JapSeyz))
 * Mark Walet ([Github](https://github.com/markwalet))
-* Jeremy Quinton ([Github](https://github.com/jeremyquinton)
+* Jeremy Quinton ([Github](https://github.com/jeremyquinton))
+* Sebastian Schmidt ([Github](https://github.com/publicarray))
