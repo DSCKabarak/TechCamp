@@ -27,11 +27,8 @@ class MyBaseController extends Controller
                 'email'        => Auth::user()->email,
                 'is_confirmed' => Auth::user()->is_confirmed,
             ],
-            /*
-             * @todo These should be user selectable
-             */
-            'DateFormat'          => 'dd-MM-yyyy',
-            'DateTimeFormat'      => 'dd-MM-yyyy hh:mm',
+            'DateTimeFormat'      => config('attendize.default_date_picker_format'),
+            'DateSeparator'       => config('attendize.default_date_picker_seperator'),
             'GenericErrorMessage' => trans("Controllers.whoops"),
         ]);
         /*

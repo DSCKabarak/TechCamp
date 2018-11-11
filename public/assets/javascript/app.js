@@ -12,7 +12,8 @@ $(function () {
         var $div = $("<div>", {id: "DatePicker"});
         $("body").append($div);
         $div.DateTimePicker({
-            dateTimeFormat: Attendize.DateTimeFormat
+            dateTimeFormat: Attendize.DateTimeFormat,
+            dateSeparator: Attendize.DateSeparator
         });
 
     });
@@ -505,7 +506,7 @@ function toggleSubmitDisabled($submitButton) {
 }
 
 /**
- * 
+ *
  * @returns {{}}
  */
 $.fn.serializeObject = function()

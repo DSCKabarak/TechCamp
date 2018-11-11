@@ -28,14 +28,14 @@
             <h1 property="name">{{$event->title}}</h1>
             <div class="event_venue">
                 <span property="startDate" content="{{ $event->start_date->toIso8601String() }}">
-                    {{ $event->start_date->format('d.m H:i') }}
+                    {{ $event->startDateFormatted() }}
                 </span>
                 -
                 <span property="endDate" content="{{ $event->end_date->toIso8601String() }}">
-                     @if($event->start_date->diffInHours($event->end_date) <= 12)
+                     @if($event->start_date->diffInDays($event->end_date) == 0)
                         {{ $event->end_date->format('H:i') }}
                      @else
-                        {{ $event->end_date->format('d.m H:i') }}
+                        {{ $event->endDateFormatted() }}
                      @endif
                 </span>
                 @lang("Public_ViewEvent.at")

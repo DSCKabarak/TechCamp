@@ -86,7 +86,8 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      */
     public function validate($data)
     {
-        $v = Validator::make($data, $this->rules, $this->messages, $this->attributes);
+        $rules = (method_exists($this, 'rules') ? $this->rules() : $this->rules);
+        $v = Validator::make($data, $rules, $this->messages, $this->attributes);
 
         if ($v->fails()) {
             $this->errors = $v->messages();
@@ -118,9 +119,13 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      *
      * @return bool|null|string
      */
-    public function getFormattedDate($field, $format = 'd-m-Y H:i')
+    public function getFormattedDate($field, $format = false)
     {
-        return $this->$field === null ? null : date($format, strtotime($this->$field));
+        if (!$format) {
+            $format = config('attendize.default_datetime_format');
+        }
+
+        return $this->$field === null ? null : $this->$field->format($format);
     }
 
     /**
