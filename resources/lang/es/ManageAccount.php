@@ -23,7 +23,7 @@ return array(
     'general'                                      => 'General',
     'last_name'                                    => 'Apellidos',
     'licence_info'                                 => 'Información de licencia',
-    'licence_info_description'                     => 'Attendize está licenciado bajo la <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. Esta licencia requiere que la notificación <b>\'Powered By Attendize\'</b> se mantenga en su lugar en cualquier instalación de Attendize. Si desea eliminar las referencias a Attendize, debe adquirir una de las licencias de marca blanca <b><a target="_blank" href="https://attendize.com/licence.html">enumeradas aquí</a></b>.',
+    'licence_info_description'                     => 'Attendize está licenciado bajo la <b><a target="_blank" href="https://tldrlegal.com/license/attribution-assurance-license-(aal)#summary">Attribution Assurance Licence (AAL)</a></b>. Esta licencia requiere que la notificación <b>\'Powered By Attendize\'</b> se mantenga en su lugar en cualquier instalación de Attendize. Si desea eliminar las referencias a Attendize, debe adquirir una de las licencias de marca blanca <b><a target="_blank" href="https://attendize.com/license.html">enumeradas aquí</a></b>.',
     'mastercard_internet_gateway_service_settings' => 'Configuración del servicio pasarela de Internet Mastercard',
     'merchant_access_code'                         => 'Código de acceso del comerciante',
     'merchant_id'                                  => 'ID de comerciante',
