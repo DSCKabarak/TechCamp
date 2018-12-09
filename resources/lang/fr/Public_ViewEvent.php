@@ -54,7 +54,7 @@ return array (
   'pay_using_offline_methods' => 'Payer via une méthode hors ligne',
   'payment_information' => 'Information du paiement',
   'payment_instructions' => 'Instructions pour le paiement',
-  'presents' => 'cadeaux',
+  'presents' => 'vous propose',
   'price' => 'Prix',
   'quantity_full' => 'Quantité',
   'reference' => 'Référence',
