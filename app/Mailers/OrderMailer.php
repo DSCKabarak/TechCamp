@@ -21,7 +21,7 @@ class OrderMailer
 
         Mail::send('Emails.OrderNotification', $data, function ($message) use ($order) {
             $message->to($order->account->email);
-            $message->subject('New order received on the event ' . $order->event->title . ' [' . $order->order_reference . ']');
+            $message->subject(trans("Controllers.new_order_received", ["event"=> $order->event->title, "order" => $order->order_reference]));
         });
 
     }
