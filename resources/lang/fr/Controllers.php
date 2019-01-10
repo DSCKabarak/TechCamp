@@ -70,6 +70,7 @@ return array (
     'maximum_refund_amount' => 'Le montant maximum que vous pouvez rembourser est :money',
     'message_successfully_sent' => 'Message envoyé avec succès !',
     'no_organiser_name_error' => 'Vous devez indiquer un nom pour l\'organisateur de l\'événement.',
+    'new_order_received' => 'Nouvelle commande reçue pour l\'événement :event [:order]',
     'nothing_to_do' => 'Rien à faire',
     'nothing_to_refund' => 'Rien à rembourser.',
     'num_attendees_checked_in' => ':num participant(s) enregistré(s).',

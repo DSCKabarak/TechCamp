@@ -68,6 +68,7 @@ return array (
   'login_password_incorrect' => 'Your username/password combination was incorrect',
   'maximum_refund_amount' => 'The maximum amount you can refund is :money',
   'message_successfully_sent' => 'Message Successfully Sent!',
+  'new_order_received' => 'New order received on the event :event [:order]',
   'no_organiser_name_error' => 'You must give a name for the event organiser.',
   'nothing_to_do' => 'Nothing to do',
   'nothing_to_refund' => 'Nothing to refund.',
