@@ -222,7 +222,7 @@ class InstallerController extends Controller
 
         //force laravel to regenerate a new key (see key:generate sources)
         Config::set('app.key', $app_key);
-        Artisan::call('key:generate');
+        Artisan::call('key:generate', ['--force' => true]);
         Artisan::call('migrate', ['--force' => true]);
         if (Timezone::count() == 0) {
             Artisan::call('db:seed', ['--force' => true]);
