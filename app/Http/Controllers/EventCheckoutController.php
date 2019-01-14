@@ -183,10 +183,17 @@ class EventCheckoutController extends Controller
         if (config('attendize.enable_dummy_payment_gateway') == TRUE) {
             $activeAccountPaymentGateway = new AccountPaymentGateway();
             $activeAccountPaymentGateway->fill(['payment_gateway_id' => config('attendize.payment_gateway_dummy')]);
-            $paymentGateway= $activeAccountPaymentGateway;
+            $paymentGateway = $activeAccountPaymentGateway;
         } else {
-            $activeAccountPaymentGateway = $event->account->active_payment_gateway->count() ? $event->account->active_payment_gateway->firstOrFail() : false;
-            $paymentGateway = $event->account->active_payment_gateway->count() ? $event->account->active_payment_gateway->payment_gateway : false;
+            $activeAccountPaymentGateway = $event->account->getGateway($event->account->payment_gateway_id);
+            //if no payment gateway configured don't go to the next step and show user error
+            if (empty($activeAccountPaymentGateway)) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'No payment gateway configured',
+                ]);
+            }
+            $paymentGateway = $activeAccountPaymentGateway->payment_gateway;
         }
 
         /*
