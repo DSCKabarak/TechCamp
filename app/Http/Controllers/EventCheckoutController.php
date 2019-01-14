@@ -666,6 +666,11 @@ class EventCheckoutController extends Controller
         //forget the order in the session
         session()->forget('ticket_order_' . $event->id);
 
+        /*
+         * Remove any tickets the user has reserved after they have been ordered for the user
+         */
+        ReservedTickets::where('session_id', '=', session()->getId())->delete();
+
         // Queue up some tasks - Emails to be sent, PDFs etc.
         Log::info('Firing the event');
         event(new OrderCompletedEvent($order));
