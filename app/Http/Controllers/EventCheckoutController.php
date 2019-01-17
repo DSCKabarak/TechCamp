@@ -183,10 +183,17 @@ class EventCheckoutController extends Controller
         if (config('attendize.enable_dummy_payment_gateway') == TRUE) {
             $activeAccountPaymentGateway = new AccountPaymentGateway();
             $activeAccountPaymentGateway->fill(['payment_gateway_id' => config('attendize.payment_gateway_dummy')]);
-            $paymentGateway= $activeAccountPaymentGateway;
+            $paymentGateway = $activeAccountPaymentGateway;
         } else {
-            $activeAccountPaymentGateway = $event->account->active_payment_gateway ? $event->account->active_payment_gateway->firstOrFail() : false;
-            $paymentGateway = $event->account->active_payment_gateway ? $event->account->active_payment_gateway->payment_gateway : false;
+            $activeAccountPaymentGateway = $event->account->getGateway($event->account->payment_gateway_id);
+            //if no payment gateway configured and no offline pay, don't go to the next step and show user error
+            if (empty($activeAccountPaymentGateway) && !$event->enable_offline_payments) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'No payment gateway configured',
+                ]);
+            }
+            $paymentGateway = $activeAccountPaymentGateway ? $activeAccountPaymentGateway->payment_gateway : false;
         }
 
         /*
@@ -331,17 +338,11 @@ class EventCheckoutController extends Controller
                 $gateway = Omnipay::create('Dummy');
                 $gateway->initialize();
 
-            } elseif ($ticket_order['payment_gateway']) {
+            } else {
                 $gateway = Omnipay::create($ticket_order['payment_gateway']->name);
                 $gateway->initialize($ticket_order['account_payment_gateway']->config + [
                         'testMode' => config('attendize.enable_test_payments'),
                     ]);
-            } else {
-                Log::error('No payment gateway configured.');
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'No payment gateway configured.'
-                ]);
             }
 
             $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
@@ -671,6 +672,11 @@ class EventCheckoutController extends Controller
         DB::commit();
         //forget the order in the session
         session()->forget('ticket_order_' . $event->id);
+
+        /*
+         * Remove any tickets the user has reserved after they have been ordered for the user
+         */
+        ReservedTickets::where('session_id', '=', session()->getId())->delete();
 
         // Queue up some tasks - Emails to be sent, PDFs etc.
         Log::info('Firing the event');

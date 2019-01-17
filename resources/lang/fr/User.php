@@ -33,4 +33,4 @@ return array (
   'terms_and_conditions' => '&nbsp;&nbsp;J\'accepte <a target="_blank" href=":url"> la charte d\'utilisation </a>',
   'welcome_to_app' => 'Bienvenue sur :app !',
   'your_email' => 'Votre email',
-;
+);

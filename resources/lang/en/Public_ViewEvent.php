@@ -36,6 +36,7 @@ return [
   'expiry_year' => 'Expiry year',
   'first_name' => 'First name',
   'free' => 'FREE',
+  'has_unlock_codes' => 'Do you have an unlock code?',
   'inc_fees' => 'Booking Fees',
   'last_name' => 'Last name',
   'offline_payment_instructions' => 'Offline payment instructions',

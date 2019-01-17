@@ -22,6 +22,7 @@ return array (
   'booking_fees' => 'Frais de réservation',
   'card_number' => 'Numéro de carte',
   'checkout_submit' => 'Enregistrer',
+  'confirmation_email' => 'et un message de confirmation vous a été envoyé.',
   'copy_buyer' => 'Copier les détails de l\'acheteur pour tous ceux qui ont des billets',
   'currently_not_on_sale' => 'Pas en vente pour l\'instant',
   'cvc_number' => 'Numéro CVC',
@@ -53,7 +54,7 @@ return array (
   'pay_using_offline_methods' => 'Payer via une méthode hors ligne',
   'payment_information' => 'Information du paiement',
   'payment_instructions' => 'Instructions pour le paiement',
-  'presents' => 'cadeaux',
+  'presents' => 'vous propose',
   'price' => 'Prix',
   'quantity_full' => 'Quantité',
   'reference' => 'Référence',
@@ -78,4 +79,5 @@ return array (
   'your_information' => 'Vos informations',
   'your_message' => 'Votre message',
   'your_name' => 'Votre nom',
+  'your' => 'Vos',
 );

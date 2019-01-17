@@ -70,17 +70,22 @@ module.exports = function (grunt) {
                 }
             },
         },
-        phpunit: {
-            classes: {},
-            options: {}
-        },
+        watch: {
+            scripts: {
+                files: ['./public/assets/**/*.js'],
+                tasks: ['default'],
+                options: {
+                    spawn: false,
+                },
+            },
+        }
     });
 
     // Plugin loading
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    //grunt.loadNpmTasks('grunt-phpunit');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     // Task definition
     grunt.registerTask('default', ['less', 'concat']);
     grunt.registerTask('deploy', ['less', 'concat', 'uglify']);

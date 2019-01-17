@@ -5,6 +5,7 @@
 
 return array (
   //==================================== Translations ====================================//
+  'apply' => 'Apply',
   'action' => 'Action',
   'affiliates' => 'Affiliates',
   'attendees' => 'Attendees',
@@ -42,21 +43,21 @@ return array (
   'submit' => 'Submit',
   'success' => 'Success',
   'ticket_design' => 'Ticket Design',
+  'access_codes' => 'Access Codes',
   'tickets' => 'Tickets',
-    'TOP' => 'TOP',
+  'TOP' => 'TOP',
   'total' => 'total',
   'whoops' => 'Whoops!',
   'yes' => 'Yes',
   'no' => 'No',
-    /*
-     * Lines below will turn obsolete in localization helper, it is declared in app/Helpers/macros.
-     * If you run it, it will break file input fields.
-    */
-    'upload' => 'Upload',
-    'browse' => 'Browse',
+  /*
+   * Lines below will turn obsolete in localization helper, it is declared in app/Helpers/macros.
+   * If you run it, it will break file input fields.
+  */
+  'upload' => 'Upload',
+  'browse' => 'Browse',
   //================================== Obsolete strings ==================================//
-  'LLH:obsolete' => 
-  array (
+  'LLH:obsolete' => [
     'months_long' => 'January|February|March|April|May|June|July|August|September|October|November|December',
-  ),
+  ],
 );
