@@ -32,8 +32,8 @@ class EventViewController extends Controller
         }
 
         $data = [
-            'event'       => $event,
-            'tickets'     => $event->tickets()->where('is_hidden', 0)->orderBy('sort_order', 'asc')->get(),
+            'event' => $event,
+            'tickets' => $event->tickets()->orderBy('sort_order', 'asc')->get(),
             'is_embedded' => 0,
         ];
         /*
@@ -135,5 +135,47 @@ class EventViewController extends Controller
             'Content-Type' => 'application/octet-stream',
             'Content-Disposition' => 'attachment; filename="event.ics'
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $event_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postShowHiddenTickets(Request $request, $event_id)
+    {
+        $event = Event::findOrFail($event_id);
+
+        $accessCode = $request->get('access_code');
+        if (!$accessCode) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'A valid access code is required',
+            ]);
+        }
+
+        $unlockedHiddenTickets = $event->tickets()
+            ->where('is_hidden', true)
+            ->orderBy('sort_order', 'asc')
+            ->get()
+            ->filter(function($ticket) use ($accessCode) {
+                // Only return the hidden tickets that match the access code
+                return ($ticket->event_access_codes()->where('code', $accessCode)->get()->count() > 0);
+            });
+
+        if ($unlockedHiddenTickets->count() === 0) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No Tickets matched to your unlock code',
+            ]);
+        }
+
+        $data = [
+            'event' => $event,
+            'tickets' => $unlockedHiddenTickets,
+            'is_embedded' => 0,
+        ];
+
+        return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', $data);
     }
 }

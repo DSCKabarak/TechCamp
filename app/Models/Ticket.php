@@ -73,6 +73,19 @@ class Ticket extends MyBaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    function event_access_codes()
+    {
+        return $this->belongsToMany(
+            EventAccessCodes::class,
+            'ticket_event_access_code',
+            'ticket_id',
+            'event_access_code_id'
+        )->withTimestamps();
+    }
+
+    /**
      * TODO:implement the reserved method.
      */
     public function reserved()

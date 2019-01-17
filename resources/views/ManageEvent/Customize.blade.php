@@ -201,6 +201,8 @@
                     class="{{$tab == 'fees' ? 'active' : ''}}"><a href="#fees" data-toggle="tab">@lang("basic.service_fees")</a></li>
                 <li data-route="{{route('showEventCustomizeTab', ['event_id' => $event->id, 'tab' => 'ticket_design'])}}"
                     class="{{$tab == 'ticket_design' ? 'active' : ''}}"><a href="#ticket_design" data-toggle="tab">@lang("basic.ticket_design")</a></li>
+                <li data-route="{{route('showEventCustomizeTab', ['event_id' => $event->id, 'tab' => 'access_codes'])}}"
+                    class="{{$tab == 'access_codes' ? 'active' : ''}}"><a href="#access_codes" data-toggle="tab">@lang("basic.access_codes")</a></li>
 
             </ul>
             <!--/ tab -->
@@ -587,6 +589,50 @@
 
                 </div>
 
+                <div class="tab-pane {{$tab == 'access_codes' ? 'active' : ''}}" id="access_codes">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group btn-group-responsive">
+                                    <button data-modal-id='CreateAccessCode'
+                                            data-href="{{route('showCreateEventAccessCode', [ 'event_id' => $event->id ])}}"
+                                            class='loadModal btn btn-success' type="button"><i class="ico-ticket"></i> @lang("EventAccessCode.create_access_code")
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"><div class="col-md-12">&nbsp;</div></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if($event->access_codes->count())
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>@lang("EventAccessCode.access_codes_code")</th>
+                                            <th>@lang("EventAccessCode.access_codes_created_at")</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        @foreach($event->access_codes as $access_code)
+                                            <tr>
+                                                <td><strong>{{ $access_code->code }}</strong></td>
+                                                <td>{{ $access_code->created_at }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <div class="alert alert-info">
+                                    @lang("EventAccessCode.no_access_codes_yet")
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--/ tab content -->
         </div>

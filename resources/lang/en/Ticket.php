@@ -43,6 +43,7 @@ return array (
   'ticket_background_color' => 'Ticket Background Color',
   'ticket_border_color' => 'Ticket Border Color',
   'ticket_design' => 'Ticket Design',
+  'access_codes' => 'Access Codes',
   'ticket_preview' => 'Ticket Preview',
   'ticket_sales_paused' => 'Sales Paused',
   'ticket_sub_text_color' => 'Ticket Sub Text Color',
