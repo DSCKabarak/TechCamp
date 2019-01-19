@@ -16,7 +16,6 @@ use Log;
 use Mail;
 use Omnipay;
 use Validator;
-use Illuminate\Database\Events\StatementPrepare;
 
 class EventOrdersController extends MyBaseController
 {
