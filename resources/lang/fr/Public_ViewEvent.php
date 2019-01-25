@@ -31,7 +31,7 @@ return array (
   'download_tickets' => 'Télécharger les billets',
   'email' => 'Courriel',
   'email_address' => 'Adresse de courriel',
-  'event_already' => 'L\'événement a :started.',
+  'event_already' => 'L\'événement est :started.',
   'event_already_ended' => 'fini',
   'event_already_started' => 'déjà commencé',
   'event_dashboard' => 'Tableau de bord de l\'événement',
