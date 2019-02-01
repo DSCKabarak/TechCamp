@@ -11,7 +11,7 @@ Twoje bilety są dołączone do tego emaila. Możesz przejrzeć szczegóły dot.
 <h3>Podsumowanie zamówienia</h3>
 Identyfikator zamówienia: <b>{{$order->order_reference}}</b><br>
 Imię i Nazwisko: <b>{{$order->full_name}}</b><br>
-Data: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Data: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Email: <b>{{$order->email}}</b><br>
 
 <h3>Przedmioty zamówienia</h3>

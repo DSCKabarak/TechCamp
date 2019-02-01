@@ -15,7 +15,7 @@ Podsumowanie zamówienia:
 <br><br>
 Identyfikator zamówienia: <b>{{$order->order_reference}}</b><br>
 Nazwa: <b>{{$order->full_name}}</b><br>
-Data: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Data: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Email: <b>{{$order->email}}</b><br>
 
 

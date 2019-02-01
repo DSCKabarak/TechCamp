@@ -15,7 +15,7 @@ Twoje bilety zostały dołączone do tego emaila. Możesz przejrzeć szczegóły
 <h3>Szczegóły zamówienia</h3>
 Identyfikator zamówienia: <b>{{$order->order_reference}}</b><br>
 Nazwa: <b>{{$order->full_name}}</b><br>
-Data: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Data: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Email: <b>{{$order->email}}</b><br>
 <a href="{!! route('downloadCalendarIcs', ['event_id' => $order->event->id]) !!}">Dodaj do kalendarza</a>
 <h3>Przedmioty zamówienia</h3>
