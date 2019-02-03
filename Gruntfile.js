@@ -7,6 +7,7 @@ module.exports = function (grunt) {
             development: {
                 options: {
                     compress: true,
+                    javascriptEnabled: true,
                 },
                 files: {
                     "./public/assets/stylesheet/application.css": "./public/assets/stylesheet/application.less",
