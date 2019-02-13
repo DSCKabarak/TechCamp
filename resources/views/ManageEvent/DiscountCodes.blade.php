@@ -43,15 +43,17 @@
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>@lang("DiscountCodes.discount_codes_code")</th>
-                                            <th class="has-text-right">@lang("DiscountCodes.discount_codes_created_at")</th>
+                                            <th width="70%">@lang("DiscountCodes.discount_codes_code")</th>
+                                            <th width="10%" class="has-text-center">@lang("DiscountCodes.discount_codes_usage_count")</th>
+                                            <th width="20%" class="has-text-center">@lang("DiscountCodes.discount_codes_created_at")</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($event->access_codes as $access_code)
+                                        @foreach($event->access_codes as $discountCode)
                                             <tr>
-                                                <td><strong>{{ $access_code->code }}</strong></td>
-                                                <td class="has-text-right">{{ $access_code->created_at }}</td>
+                                                <td><strong>{{ $discountCode->code }}</strong></td>
+                                                <td class="has-text-center"><strong>{{ $discountCode->usage_count }}</strong></td>
+                                                <td class="has-text-center">{{ $discountCode->created_at }}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>

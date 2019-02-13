@@ -12,4 +12,5 @@ return [
     'valid_code_required' => 'A valid discount code is required',
     'no_tickets_matched' => 'No Tickets matched to your discount code',
     'select_discount_code' => 'Select Discount Codes',
+    'discount_codes_usage_count' => 'Usage Count',
 ];
