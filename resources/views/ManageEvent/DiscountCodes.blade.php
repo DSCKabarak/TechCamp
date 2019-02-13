@@ -2,8 +2,7 @@
 
 @section('title')
     @parent
-
-    @lang("Widgets.event_widgets")
+    @lang('DiscountCodes.title')
 @stop
 
 @section('top_nav')
@@ -16,19 +15,8 @@
 
 @section('page_title')
     <i class='ico-money mr5'></i>
-    @lang("DiscountCodes.title")
+    @lang('DiscountCodes.title')
 @stop
-
-@section('head')
-
-@stop
-
-@section('page_header')
-    <style>
-        .page-header {display: none;}
-    </style>
-@stop
-
 
 @section('content')
     <div class="row">
@@ -59,7 +47,6 @@
                                             <th class="has-text-right">@lang("DiscountCodes.discount_codes_created_at")</th>
                                         </tr>
                                         </thead>
-
                                         <tbody>
                                         @foreach($event->access_codes as $access_code)
                                             <tr>
