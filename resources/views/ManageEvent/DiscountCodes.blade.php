@@ -41,7 +41,7 @@
                                 <div class="btn-group btn-group-responsive">
                                     <button data-modal-id='CreateAccessCode'
                                             data-href="{{route('showCreateEventAccessCode', [ 'event_id' => $event->id ])}}"
-                                            class='loadModal btn btn-success' type="button"><i class="ico-ticket"></i> @lang("EventAccessCode.create_access_code")
+                                            class='loadModal btn btn-success' type="button"><i class="ico-ticket"></i> @lang("DiscountCodes.create_discount_code")
                                     </button>
                                 </div>
                             </div>
@@ -55,8 +55,8 @@
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>@lang("EventAccessCode.access_codes_code")</th>
-                                            <th>@lang("EventAccessCode.access_codes_created_at")</th>
+                                            <th>@lang("DiscountCodes.discount_codes_code")</th>
+                                            <th>@lang("DiscountCodes.discount_codes_created_at")</th>
                                         </tr>
                                         </thead>
 
@@ -72,7 +72,7 @@
                                 </div>
                             @else
                                 <div class="alert alert-info">
-                                    @lang("EventAccessCode.no_access_codes_yet")
+                                    @lang("DiscountCodes.no_discount_codes_yet")
                                 </div>
                             @endif
                         </div>

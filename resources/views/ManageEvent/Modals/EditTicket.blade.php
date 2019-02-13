@@ -124,7 +124,7 @@
                                 @endforeach
                             @else
                                 <div class="alert alert-info">
-                                    @lang("EventAccessCode.no_access_codes_yet")
+                                    @lang("DiscountCodes.no_discount_codes_yet")
                                 </div>
                             @endif
                         </div>

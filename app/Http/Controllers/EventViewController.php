@@ -146,11 +146,11 @@ class EventViewController extends Controller
     {
         $event = Event::findOrFail($event_id);
 
-        $accessCode = $request->get('access_code');
-        if (!$accessCode) {
+        $discountCode = $request->get('access_code');
+        if (!$discountCode) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'A valid access code is required',
+                'message' => trans('DiscountCodes.valid_code_required'),
             ]);
         }
 
@@ -158,24 +158,22 @@ class EventViewController extends Controller
             ->where('is_hidden', true)
             ->orderBy('sort_order', 'asc')
             ->get()
-            ->filter(function($ticket) use ($accessCode) {
+            ->filter(function($ticket) use ($discountCode) {
                 // Only return the hidden tickets that match the access code
-                return ($ticket->event_access_codes()->where('code', $accessCode)->get()->count() > 0);
+                return ($ticket->event_access_codes()->where('code', $discountCode)->get()->count() > 0);
             });
 
         if ($unlockedHiddenTickets->count() === 0) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No Tickets matched to your unlock code',
+                'message' => trans('DiscountCodes.no_tickets_matched'),
             ]);
         }
 
-        $data = [
+        return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', [
             'event' => $event,
             'tickets' => $unlockedHiddenTickets,
             'is_embedded' => 0,
-        ];
-
-        return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', $data);
+        ]);
     }
 }
