@@ -24,6 +24,7 @@ return array (
   'create_attendees' => 'Create Attendees',
   'create_ticket' => 'Create Ticket',
   'download_pdf_ticket' => 'Download PDF Ticket',
+  'discount_codes' => 'Discount Codes',
   'edit_attendee' => 'Edit Attendee',
   'edit_attendee_title' => 'Edit :attendee',
   'edit_order_title' => 'Order: :order_ref',

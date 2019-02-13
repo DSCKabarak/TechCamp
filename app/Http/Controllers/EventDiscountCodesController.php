@@ -3,32 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Illuminate\Http\Request;
 
 /*
   Attendize.com   - Event Management & Ticketing
  */
 
-class EventWidgetsController extends MyBaseController
+class EventDiscountCodesController extends MyBaseController
 {
 
     /**
-     * Show the event widgets page
-     *
-     * @param Request $request
      * @param $event_id
      * @return mixed
      */
-    public function showEventWidgets(Request $request, $event_id)
+    public function show($event_id)
     {
         $event = Event::scope()->findOrFail($event_id);
-
-        $data = [
+        return view('ManageEvent.DiscountCodes', [
             'event' => $event,
-        ];
-
-        return view('ManageEvent.Widgets', $data);
+        ]);
     }
-
-
 }

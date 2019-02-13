@@ -589,6 +589,26 @@ Route::group(
                 'uses' => 'EventCustomizeController@postEditEventFees',
             ]);
 
+            /*
+             * -------
+             * Event Widget page
+             * -------
+             */
+            Route::get('{event_id}/widgets', [
+                'as'   => 'showEventWidgets',
+                'uses' => 'EventWidgetsController@showEventWidgets',
+            ]);
+
+            /*
+             * -------
+             * Event Discount Codes page
+             * -------
+             */
+            Route::get('{event_id}/discount_codes', [
+                'as'   => 'showEventDiscountCodes',
+                'uses' => 'EventDiscountCodesController@show',
+            ]);
+
             /**
              * Event access codes
              */
@@ -600,16 +620,6 @@ Route::group(
             Route::post('{event_id}/access_codes/create', [
                 'as'   => 'postCreateEventAccessCode',
                 'uses' => 'EventAccessCodesController@postCreate',
-            ]);
-
-            /*
-             * -------
-             * Event Widget page
-             * -------
-             */
-            Route::get('{event_id}/widgets', [
-                'as'   => 'showEventWidgets',
-                'uses' => 'EventWidgetsController@showEventWidgets',
             ]);
 
             /*

@@ -68,5 +68,12 @@
                     <span class="text">@lang("ManageEvent.widgets")</span>
                 </a>
             </li>
+            <li class="{{ Request::is('*discount_codes*') ? 'active' : '' }}">
+                <a href="{{ route('showEventDiscountCodes', [ 'event_id' => $event->id ]) }}">
+                    <span class="figure"><i class="ico-money"></i></span>
+                    <span class="text">@lang("ManageEvent.discount_codes")</span>
+                </a>
+            </li>
+        </ul>
     </section>
 </aside>

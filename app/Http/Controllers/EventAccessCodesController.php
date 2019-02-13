@@ -44,13 +44,10 @@ class EventAccessCodesController extends MyBaseController
         session()->flash('message', 'Successfully Created Access Code');
 
         return response()->json([
-            'status'      => 'success',
-            'id'          => $eventAccessCode->id,
-            'message'     => trans("Controllers.refreshing"),
-            'redirectUrl' => route('showEventCustomize', [
-                'event_id' => $event_id,
-                '#access_codes',
-            ]),
+            'status' => 'success',
+            'id' => $eventAccessCode->id,
+            'message' => trans("Controllers.refreshing"),
+            'redirectUrl' => route('showEventDiscountCodes', [ 'event_id' => $event_id ]),
         ]);
     }
 }
