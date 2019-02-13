@@ -614,12 +614,12 @@ Route::group(
              */
             Route::get('{event_id}/access_codes/create', [
                 'as'   => 'showCreateEventAccessCode',
-                'uses' => 'EventAccessCodesController@showCreate',
+                'uses' => 'EventDiscountCodesController@showCreate',
             ]);
 
             Route::post('{event_id}/access_codes/create', [
                 'as'   => 'postCreateEventAccessCode',
-                'uses' => 'EventAccessCodesController@postCreate',
+                'uses' => 'EventDiscountCodesController@postCreate',
             ]);
 
             /*
