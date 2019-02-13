@@ -49,14 +49,14 @@
                     </div>
                     <div class="row"><div class="col-md-12">&nbsp;</div></div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             @if($event->access_codes->count())
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                         <tr>
                                             <th>@lang("DiscountCodes.discount_codes_code")</th>
-                                            <th>@lang("DiscountCodes.discount_codes_created_at")</th>
+                                            <th class="has-text-right">@lang("DiscountCodes.discount_codes_created_at")</th>
                                         </tr>
                                         </thead>
 
@@ -64,7 +64,7 @@
                                         @foreach($event->access_codes as $access_code)
                                             <tr>
                                                 <td><strong>{{ $access_code->code }}</strong></td>
-                                                <td>{{ $access_code->created_at }}</td>
+                                                <td class="has-text-right">{{ $access_code->created_at }}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
