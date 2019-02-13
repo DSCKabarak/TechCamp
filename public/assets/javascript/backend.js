@@ -9628,6 +9628,10 @@ $.cf = {
                     showMessage(data.message);
                 }
 
+                if (typeof data.redirectUrl !== 'undefined') {
+                    window.location.href = data.redirectUrl;
+                }
+
                 switch (data.status) {
                     case 'success':
                         $('#' + deleteType + '_' + deleteId).fadeOut();

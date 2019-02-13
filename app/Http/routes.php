@@ -609,17 +609,19 @@ Route::group(
                 'uses' => 'EventDiscountCodesController@show',
             ]);
 
-            /**
-             * Event access codes
-             */
             Route::get('{event_id}/access_codes/create', [
-                'as'   => 'showCreateEventAccessCode',
+                'as' => 'showCreateEventAccessCode',
                 'uses' => 'EventDiscountCodesController@showCreate',
             ]);
 
             Route::post('{event_id}/access_codes/create', [
-                'as'   => 'postCreateEventAccessCode',
+                'as' => 'postCreateEventAccessCode',
                 'uses' => 'EventDiscountCodesController@postCreate',
+            ]);
+
+            Route::post('{event_id}/access_codes/{access_code_id}/delete', [
+                'as' => 'postDeleteEventAccessCode',
+                'uses' => 'EventDiscountCodesController@postDelete',
             ]);
 
             /*

@@ -3,6 +3,8 @@
 return [
     'title' => 'Discount Codes',
     'success_message' => 'Successfully Created Discount Code',
+    'delete_message' => 'Successfully Removed Discount Code',
+    'cannot_delete_used_code' => 'Cannot Delete a Used Code',
     'discount_codes_code' => 'Discount Code',
     'discount_codes_created_at' => 'Created At',
     'no_discount_codes_yet' => 'No Discount Codes yet!',

@@ -67,4 +67,36 @@ class EventDiscountCodesController extends MyBaseController
             'redirectUrl' => route('showEventDiscountCodes', [ 'event_id' => $event_id ]),
         ]);
     }
+
+    /**
+     * @param integer $event_id
+     * @param integer $access_code_id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function postDelete($event_id, $access_code_id)
+    {
+        /** @var Event $event */
+        $event = Event::scope()->findOrFail($event_id);
+
+        if ($event->hasAccessCode($access_code_id)) {
+            /** @var EventAccessCodes $accessCode */
+            $accessCode = EventAccessCodes::find($access_code_id);
+            if ($accessCode->usage_count > 0) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => trans('DiscountCodes.cannot_delete_used_code'),
+                ]);
+            }
+            $accessCode->delete();
+        }
+
+        session()->flash('message', trans('DiscountCodes.delete_message'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => trans("Controllers.refreshing"),
+            'redirectUrl' => route('showEventDiscountCodes', [ 'event_id' => $event_id ]),
+        ]);
+    }
 }
