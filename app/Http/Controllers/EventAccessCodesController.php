@@ -41,7 +41,7 @@ class EventAccessCodesController extends MyBaseController
         $eventAccessCode->code = strtoupper(strip_tags($request->get('code')));
         $eventAccessCode->save();
 
-        session()->flash('message', 'Successfully Created Access Code');
+        session()->flash('message', trans('DiscountCodes.success_message'));
 
         return response()->json([
             'status' => 'success',
