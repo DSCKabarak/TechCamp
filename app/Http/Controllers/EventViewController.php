@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendize\Utils;
 use App\Models\Affiliate;
 use App\Models\Event;
+use App\Models\EventAccessCodes;
 use App\Models\EventStats;
 use Auth;
 use Cookie;
@@ -146,7 +147,7 @@ class EventViewController extends Controller
     {
         $event = Event::findOrFail($event_id);
 
-        $discountCode = $request->get('access_code');
+        $discountCode = strtoupper(strip_tags($request->get('access_code')));
         if (!$discountCode) {
             return response()->json([
                 'status' => 'error',
@@ -169,6 +170,9 @@ class EventViewController extends Controller
                 'message' => trans('DiscountCodes.no_tickets_matched'),
             ]);
         }
+
+        // Bump usage count
+        EventAccessCodes::logUsage($event_id, $discountCode);
 
         return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', [
             'event' => $event,

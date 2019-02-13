@@ -9,6 +9,18 @@ class EventAccessCodes extends MyBaseModel
     use SoftDeletes;
 
     /**
+     * @param integer $event_id
+     * @param string $discountCode
+     * @return void
+     */
+    public static function logUsage($event_id, $discountCode)
+    {
+        (new static)::where('event_id', $event_id)
+            ->where('code', $discountCode)
+            ->increment('usage_count');
+    }
+
+    /**
      * The validation rules.
      *
      * @return array $rules
