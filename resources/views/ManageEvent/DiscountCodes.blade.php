@@ -40,12 +40,13 @@
                         <div class="col-md-12">
                             @if($event->access_codes->count())
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="event_discount_codes">
                                         <thead>
                                         <tr>
-                                            <th width="70%">@lang("DiscountCodes.discount_codes_code")</th>
+                                            <th width="65%">@lang("DiscountCodes.discount_codes_code")</th>
                                             <th width="10%" class="has-text-center">@lang("DiscountCodes.discount_codes_usage_count")</th>
                                             <th width="20%" class="has-text-center">@lang("DiscountCodes.discount_codes_created_at")</th>
+                                            <th width="5%"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -54,6 +55,9 @@
                                                 <td><strong>{{ $discountCode->code }}</strong></td>
                                                 <td class="has-text-center"><strong>{{ $discountCode->usage_count }}</strong></td>
                                                 <td class="has-text-center">{{ $discountCode->created_at }}</td>
+                                                @if ($discountCode->usage_count === 0) {{-- Can only remove if haven't been used before--}}
+                                                <td><a href="" class="remove" data-url="{{ $discountCode->id }}">Remove</a></td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                         </tbody>
