@@ -151,7 +151,7 @@ class EventViewController extends Controller
         if (!$accessCode) {
             return response()->json([
                 'status' => 'error',
-                'message' => trans('DiscountCodes.valid_code_required'),
+                'message' => trans('AccessCodes.valid_code_required'),
             ]);
         }
 
@@ -167,7 +167,7 @@ class EventViewController extends Controller
         if ($unlockedHiddenTickets->count() === 0) {
             return response()->json([
                 'status' => 'error',
-                'message' => trans('DiscountCodes.no_tickets_matched'),
+                'message' => trans('AccessCodes.no_tickets_matched'),
             ]);
         }
 
