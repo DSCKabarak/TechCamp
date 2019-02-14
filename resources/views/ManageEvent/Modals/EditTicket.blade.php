@@ -104,7 +104,7 @@
                     </div>
                     @if ($ticket->is_hidden)
                         <div class="col-md-12">
-                            <h4>{{ __('DiscountCodes.select_discount_code') }}</h4>
+                            <h4>{{ __('AccessCodes.select_access_code') }}</h4>
                             @if($ticket->event->access_codes->count())
                                 <?php
                                 $isSelected = false;
@@ -124,7 +124,7 @@
                                 @endforeach
                             @else
                                 <div class="alert alert-info">
-                                    @lang("DiscountCodes.no_discount_codes_yet")
+                                    @lang("AccessCodes.no_access_codes_yet")
                                 </div>
                             @endif
                         </div>

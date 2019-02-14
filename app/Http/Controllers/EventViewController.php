@@ -147,8 +147,8 @@ class EventViewController extends Controller
     {
         $event = Event::findOrFail($event_id);
 
-        $discountCode = strtoupper(strip_tags($request->get('access_code')));
-        if (!$discountCode) {
+        $accessCode = strtoupper(strip_tags($request->get('access_code')));
+        if (!$accessCode) {
             return response()->json([
                 'status' => 'error',
                 'message' => trans('DiscountCodes.valid_code_required'),
@@ -159,9 +159,9 @@ class EventViewController extends Controller
             ->where('is_hidden', true)
             ->orderBy('sort_order', 'asc')
             ->get()
-            ->filter(function($ticket) use ($discountCode) {
+            ->filter(function($ticket) use ($accessCode) {
                 // Only return the hidden tickets that match the access code
-                return ($ticket->event_access_codes()->where('code', $discountCode)->get()->count() > 0);
+                return ($ticket->event_access_codes()->where('code', $accessCode)->get()->count() > 0);
             });
 
         if ($unlockedHiddenTickets->count() === 0) {
@@ -172,7 +172,7 @@ class EventViewController extends Controller
         }
 
         // Bump usage count
-        EventAccessCodes::logUsage($event_id, $discountCode);
+        EventAccessCodes::logUsage($event_id, $accessCode);
 
         return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', [
             'event' => $event,

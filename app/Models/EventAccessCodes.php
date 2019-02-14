@@ -10,13 +10,13 @@ class EventAccessCodes extends MyBaseModel
 
     /**
      * @param integer $event_id
-     * @param string $discountCode
+     * @param string $accessCode
      * @return void
      */
-    public static function logUsage($event_id, $discountCode)
+    public static function logUsage($event_id, $accessCode)
     {
         (new static)::where('event_id', $event_id)
-            ->where('code', $discountCode)
+            ->where('code', $accessCode)
             ->increment('usage_count');
     }
 

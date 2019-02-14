@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventAccessCodes;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /*
   Attendize.com   - Event Management & Ticketing
  */
 
-class EventDiscountCodesController extends MyBaseController
+class EventAccessCodesController extends MyBaseController
 {
 
     /**
@@ -20,14 +23,14 @@ class EventDiscountCodesController extends MyBaseController
     public function show($event_id)
     {
         $event = Event::scope()->findOrFail($event_id);
-        return view('ManageEvent.DiscountCodes', [
+        return view('ManageEvent.AccessCodes', [
             'event' => $event,
         ]);
     }
 
     /**
      * @param $event_id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function showCreate($event_id)
     {
@@ -41,7 +44,7 @@ class EventDiscountCodesController extends MyBaseController
      *
      * @param Request $request
      * @param $event_id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function postCreate(Request $request, $event_id)
     {
@@ -49,7 +52,7 @@ class EventDiscountCodesController extends MyBaseController
 
         if (!$eventAccessCode->validate($request->all())) {
             return response()->json([
-                'status'   => 'error',
+                'status' => 'error',
                 'messages' => $eventAccessCode->errors(),
             ]);
         }
@@ -58,20 +61,20 @@ class EventDiscountCodesController extends MyBaseController
         $eventAccessCode->code = strtoupper(strip_tags($request->get('code')));
         $eventAccessCode->save();
 
-        session()->flash('message', trans('DiscountCodes.success_message'));
+        session()->flash('message', trans('AccessCodes.success_message'));
 
         return response()->json([
             'status' => 'success',
             'id' => $eventAccessCode->id,
             'message' => trans("Controllers.refreshing"),
-            'redirectUrl' => route('showEventDiscountCodes', [ 'event_id' => $event_id ]),
+            'redirectUrl' => route('showEventAccessCodes', [ 'event_id' => $event_id ]),
         ]);
     }
 
     /**
      * @param integer $event_id
      * @param integer $access_code_id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Exception
      */
     public function postDelete($event_id, $access_code_id)
@@ -85,18 +88,18 @@ class EventDiscountCodesController extends MyBaseController
             if ($accessCode->usage_count > 0) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => trans('DiscountCodes.cannot_delete_used_code'),
+                    'message' => trans('AccessCodes.cannot_delete_used_code'),
                 ]);
             }
             $accessCode->delete();
         }
 
-        session()->flash('message', trans('DiscountCodes.delete_message'));
+        session()->flash('message', trans('AccessCodes.delete_message'));
 
         return response()->json([
             'status' => 'success',
             'message' => trans("Controllers.refreshing"),
-            'redirectUrl' => route('showEventDiscountCodes', [ 'event_id' => $event_id ]),
+            'redirectUrl' => route('showEventAccessCodes', [ 'event_id' => $event_id ]),
         ]);
     }
 }

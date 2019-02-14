@@ -601,27 +601,27 @@ Route::group(
 
             /*
              * -------
-             * Event Discount Codes page
+             * Event Access Codes page
              * -------
              */
-            Route::get('{event_id}/discount_codes', [
-                'as'   => 'showEventDiscountCodes',
-                'uses' => 'EventDiscountCodesController@show',
+            Route::get('{event_id}/access_codes', [
+                'as'   => 'showEventAccessCodes',
+                'uses' => 'EventAccessCodesController@show',
             ]);
 
             Route::get('{event_id}/access_codes/create', [
                 'as' => 'showCreateEventAccessCode',
-                'uses' => 'EventDiscountCodesController@showCreate',
+                'uses' => 'EventAccessCodesController@showCreate',
             ]);
 
             Route::post('{event_id}/access_codes/create', [
                 'as' => 'postCreateEventAccessCode',
-                'uses' => 'EventDiscountCodesController@postCreate',
+                'uses' => 'EventAccessCodesController@postCreate',
             ]);
 
             Route::post('{event_id}/access_codes/{access_code_id}/delete', [
                 'as' => 'postDeleteEventAccessCode',
-                'uses' => 'EventDiscountCodesController@postDelete',
+                'uses' => 'EventAccessCodesController@postDelete',
             ]);
 
             /*
