@@ -15,4 +15,5 @@ return [
     'no_tickets_matched' => 'No Tickets matched to your access code',
     'select_access_code' => 'Select Access Codes',
     'access_codes_usage_count' => 'Usage Count',
+    'unique_error' => 'Code already used for this event',
 ];

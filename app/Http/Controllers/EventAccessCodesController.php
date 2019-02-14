@@ -57,8 +57,20 @@ class EventAccessCodesController extends MyBaseController
             ]);
         }
 
+        // Checks for no duplicates
+        $newAccessCode = strtoupper(strip_tags($request->get('code')));
+        if (EventAccessCodes::findFromCode($newAccessCode, $event_id)->count() > 0) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => [
+                    'code' => [ trans('AccessCodes.unique_error') ],
+                ],
+            ]);
+        }
+
+        // Saves the new access code if validation and dupe check passed
         $eventAccessCode->event_id = $event_id;
-        $eventAccessCode->code = strtoupper(strip_tags($request->get('code')));
+        $eventAccessCode->code = $newAccessCode;
         $eventAccessCode->save();
 
         session()->flash('message', trans('AccessCodes.success_message'));
