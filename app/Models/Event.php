@@ -412,4 +412,13 @@ ICSTemplate;
 
         return $icsTemplate;
     }
+
+    /**
+     * @param integer $accessCodeId
+     * @return bool
+     */
+    public function hasAccessCode($accessCodeId)
+    {
+        return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
+    }
 }

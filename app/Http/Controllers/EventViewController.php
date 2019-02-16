@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendize\Utils;
 use App\Models\Affiliate;
 use App\Models\Event;
+use App\Models\EventAccessCodes;
 use App\Models\EventStats;
 use Auth;
 use Cookie;
@@ -146,11 +147,11 @@ class EventViewController extends Controller
     {
         $event = Event::findOrFail($event_id);
 
-        $accessCode = $request->get('access_code');
+        $accessCode = strtoupper(strip_tags($request->get('access_code')));
         if (!$accessCode) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'A valid access code is required',
+                'message' => trans('AccessCodes.valid_code_required'),
             ]);
         }
 
@@ -166,16 +167,17 @@ class EventViewController extends Controller
         if ($unlockedHiddenTickets->count() === 0) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No Tickets matched to your unlock code',
+                'message' => trans('AccessCodes.no_tickets_matched'),
             ]);
         }
 
-        $data = [
+        // Bump usage count
+        EventAccessCodes::logUsage($event_id, $accessCode);
+
+        return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', [
             'event' => $event,
             'tickets' => $unlockedHiddenTickets,
             'is_embedded' => 0,
-        ];
-
-        return view('Public.ViewEvent.Partials.EventHiddenTicketsSelection', $data);
+        ]);
     }
 }
