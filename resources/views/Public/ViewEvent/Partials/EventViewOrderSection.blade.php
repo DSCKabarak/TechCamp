@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
-                            <b>@lang("Public_ViewEvent.date")</b><br> {{$order->created_at->toDateTimeString()}}
+                            <b>@lang("Public_ViewEvent.date")</b><br> {{$order->created_at->format(config('attendize.default_datetime_format'))}}
                         </div>
 
                         <div class="col-sm-4 col-xs-6">

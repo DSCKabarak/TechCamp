@@ -102,7 +102,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ $order->created_at->toDayDateTimeString() }}
+                                {{ $order->created_at->format(config('attendize.default_datetime_format')) }}
                             </td>
                             <td>
                                 {{$order->first_name.' '.$order->last_name}}

@@ -15,7 +15,7 @@ Order Summary:
 <br><br>
 Order Reference: <b>{{$order->order_reference}}</b><br>
 Order Name: <b>{{$order->full_name}}</b><br>
-Order Date: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Order Date: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Order Email: <b>{{$order->email}}</b><br>
 
 

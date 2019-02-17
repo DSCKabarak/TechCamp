@@ -15,7 +15,7 @@ Résumé de la commande :
 <br><br>
 Référence de la commande : <b>{{$order->order_reference}}</b><br>
 Nom de la commande : <b>{{$order->full_name}}</b><br>
-Date de la commande : <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+Date de la commande : <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Courriel de la commande : <b>{{$order->email}}</b><br>
 
 <h3>Éléments de la commande</h3>

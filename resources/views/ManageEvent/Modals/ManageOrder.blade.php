@@ -55,7 +55,7 @@
                             <b>@lang("Order.order_ref")</b><br> {{$order->order_reference}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <b>@lang("Order.date")</b><br> {{$order->created_at->toDateTimeString()}}
+                            <b>@lang("Order.date")</b><br> {{$order->created_at->format(config('attendize.default_datetime_format'))}}
                         </div>
                         <div class="col-sm-6 col-xs-6">
                             <b>@lang("Order.email")</b><br> {{$order->email}}

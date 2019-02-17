@@ -10,7 +10,7 @@
     <h3>Resumen del pedido</h3>
     Referencia de pedido: <b>{{$order->order_reference}}</b><br>
     Nombre del pedido: <b>{{$order->full_name}}</b><br>
-    Fecha del pedido: <b>{{$order->created_at->toDayDateTimeString()}}</b><br>
+    Fecha del pedido: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
     Correo electrónico del pedido: <b>{{$order->email}}</b><br>
 
     <h3>Artículos del pedido</h3>
