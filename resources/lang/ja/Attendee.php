@@ -4,20 +4,18 @@
 *************************************************************************/
 
 return array (
-  //============================== New strings to translate ==============================//
-  'scan_another_ticket' => 'Scan Another Ticket',
-  'scanning' => 'Scanning',
-  //==================================== Translations ====================================//
-  'attendees' => 'Attendees',
-  'check_in' => 'Check in: :event',
+  'scan_another_ticket' => '別のチケットをスキャン',
+  'scanning' => 'スキャン中',
+  'attendees' => '出席者',
+  'check_in' => 'チェックイン：：event',
   'email' => 'Email',
-  'email_address' => 'Email Address',
-  'event_attendees' => 'Event Attendees',
-  'first_name' => 'First Name',
-  'last_name' => 'Last Name',
-  'name' => 'Name',
-  'ticket' => 'Ticket',
-  'reference' => 'Reference',
-  'search_attendees' => 'Search Attendees...',
-  'send_invitation_n_ticket_to_attendee' => 'Send invitation & ticket to attendee.',
+  'email_address' => 'メールアドレス',
+  'event_attendees' => 'イベント参加者',
+  'first_name' => '名',
+  'last_name' => '姓',
+  'name' => '名前',
+  'ticket' => 'チケット',
+  'reference' => '参照',
+  'search_attendees' => '参加者の検索...',
+  'send_invitation_n_ticket_to_attendee' => '出席者に招待状とチケットを送ってください。',
 );
