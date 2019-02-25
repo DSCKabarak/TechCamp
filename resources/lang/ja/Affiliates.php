@@ -5,12 +5,12 @@
 
 return array (
   //============================== New strings to translate ==============================//
-  'affiliate_name' => 'Affiliate Name',
-  'affiliate_tracking' => 'Affiliate Tracking',
-  'affiliate_tracking_text' => 'Keeping track of who is generating sales for your event is extremely easy. Simply create a referral link using the box below and share the link with your affiliates / event promoters.',
-  'last_referral' => 'Last Referral',
-  'no_affiliate_referrals_yet' => 'No Affiliate Referrals Yet',
-  'sales_volume_generated' => 'Sales Volume Generated',
-  'ticket_sales_generated' => 'Ticket Sales Generated',
-  'visits_generated' => 'Visits Generated',
+  'affiliate_name' => 'アフィリエイト名',
+  'affiliate_tracking' => 'アフィリエイトトラッキング',
+  'affiliate_tracking_text' => 'あなたのイベントで誰が売り上げを伸ばしているかを追跡することは非常に簡単です。 下のボックスを使用して紹介リンクを作成し、そのリンクをあなたのアフィリエイト/イベントプロモーターと共有するだけです。',
+  'last_referral' => '最後の紹介',
+  'no_affiliate_referrals_yet' => 'まだアフィリエイト紹介はありません',
+  'sales_volume_generated' => '販売量',
+  'ticket_sales_generated' => 'チケット販売収益',
+  'visits_generated' => '訪問数',
 );
