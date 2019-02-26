@@ -19,7 +19,7 @@ return array(
     'addInviteError'                            => '出席者を招待する前にチケットを作成する必要があります。',
     'attendee_already_cancelled'                => '参加者はすでにキャンセルされています',
     'attendee_already_checked_in'               => '出席者はすでに時刻にチェックインしています',
-    'attendee_exception'                        => 'この出席者の招待中にエラーが発生しました。 やり直してください。',
+    'attendee_exception'                        => 'この出席者の招待中にエラーが発生しました。やり直してください。',
     'attendee_successfully_checked_in'          => '出席者のチェックインに成功しました',
     'attendee_successfully_checked_out'         => '参加者は正常にチェックアウトしました',
     'attendee_successfully_invited'             => '出席者が招待しました！',

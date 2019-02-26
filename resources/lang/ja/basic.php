@@ -6,7 +6,7 @@ return array(
     'affiliates'        => 'アフィリエイト',
     'attendees'         => '出席者',
     'back_to_login'     => 'ログインに戻る',
-    'back_to_page'      => '戻る：ページ',
+    'back_to_page'      => '戻る(:page)',
     'cancel'            => 'Cancel',
     'customize'         => 'Customize',
     'dashboard'         => 'ダッシュボード',

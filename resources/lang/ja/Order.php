@@ -18,7 +18,7 @@ return array(
     'date'                         => '日付',
     'details'                      => '詳細',
     'edit'                         => '編集',
-    'email'                        => 'Eメール',
+    'email'                        => 'メールアドレス',
     'enable_offline_payments'      => 'オフライン支払いを有効にする',
     'free'                         => '無料',
     'no_recent_orders'             => '最近の注文がないようです。',
@@ -44,5 +44,5 @@ return array(
     'total'                        => '合計',
     'transaction_id'               => 'トランザクションID',
     'view_order'                   => '注文を見る',
-    'view_order_num'               => '注文を見る＃：num',
+    'view_order_num'               => '注文を見る＃:num',
 );

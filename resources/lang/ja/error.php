@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'back_soon' => 'We\'ll be back soon',
-    'back_soon_description'     => 'We\'re currently making improvements to our website.',
+    'back_soon'             => 'すぐに戻ります',
+    'back_soon_description' => '私達は現在ウェブサイトを改善しています。',
 
 ];

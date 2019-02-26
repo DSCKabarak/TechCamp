@@ -4,7 +4,7 @@ return array(
     'scan_another_ticket'                  => '別のチケットをスキャン',
     'scanning'                             => 'スキャン中',
     'attendees'                            => '出席者',
-    'check_in'                             => 'チェックイン：：event',
+    'check_in'                             => 'チェックイン：:event',
     'email'                                => 'Email',
     'email_address'                        => 'メールアドレス',
     'event_attendees'                      => 'イベント参加者',
