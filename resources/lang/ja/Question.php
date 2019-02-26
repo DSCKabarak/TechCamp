@@ -1,24 +1,21 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/18 16:23:42 
-*************************************************************************/
 
-return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Partials\\SurveyBlankSlate.blade.php
-  'create_question' => 'Create Question',
-  //==================================== Translations ====================================//
-  'Q' => 'Q',
-  'add_another_option' => 'Add Another Option',
-  'answer' => 'Answer',
-  'attendee_details' => 'Attendee Details',
-  'make_this_a_required_question' => 'Make this a required option',
-  'no_answers' => 'Sorry, there are no answers to this question yet.',
-  'no_questions_yet' => 'No Questions Yet',
-  'no_questions_yet_text' => 'Here you can add questions which attendees will be asked to answer during the check-out process.',
-  'question' => 'Question',
-  'question_options' => 'Question Options',
-  'question_placeholder' => 'e.g. Please enter your full address?',
-  'question_type' => 'Question Type',
-  'require_this_question_for_ticket(s)' => 'Require this question for ticket(s)',
+return array(
+    //============================== New strings to translate ==============================//
+    // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Partials\\SurveyBlankSlate.blade.php
+    'create_question'                     => '質問を作成する',
+    //==================================== Translations ====================================//
+    'Q'                                   => 'Q',
+    'add_another_option'                  => '別のオプションを追加',
+    'answer'                              => '答え',
+    'attendee_details'                    => '出席者の詳細',
+    'make_this_a_required_question'       => 'これを必須のオプションにする',
+    'no_answers'                          => 'この質問に対する回答はまだありません。',
+    'no_questions_yet'                    => '質問はまだありません',
+    'no_questions_yet_text'               => 'ここで、チェックアウトプロセス中に出席者に回答を求める質問を追加できます。',
+    'question'                            => '質問',
+    'question_options'                    => '質問オプション',
+    'question_placeholder'                => '例 完全な住所を入力してください。',
+    'question_type'                       => '質問タイプ',
+    'require_this_question_for_ticket(s)' => 'チケットにこの質問を要求する',
 );

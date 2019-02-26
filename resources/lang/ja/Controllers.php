@@ -1,118 +1,115 @@
 <?php
-/*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/26 10:21:11
-*************************************************************************/
 
-return array (
-  //============================== New strings to translate ==============================//
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
-  'sort' =>
-  array (
-    'event_title' => 'Event Title',
-    'start_date' => 'Start Date',
-    'created_at' => 'Creation Date',
-    'quantity_sold' => 'Quantity Sold',
-    'sales_volume' => 'Sales Volume',
-    'sort_order' => 'Custom Sort Order',
-    'title' => 'Ticket Title',
-  ),
-  // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
-  //==================================== Translations ====================================//
-  'account_successfully_updated' => 'Account Successfully Updated',
-  'addInviteError' => 'You need to create a ticket before you can invite an attendee.',
-  'attendee_already_cancelled' => 'Attendee Already Cancelled',
-  'attendee_already_checked_in' => 'Attendee already checked in at :time ',
-  'attendee_exception' => 'An error occurred while inviting this attendee. Please try again.',
-  'attendee_successfully_checked_in' => 'Attendee Successfully Checked In',
-  'attendee_successfully_checked_out' => 'Attendee Successfully Checked Out',
-  'attendee_successfully_invited' => 'Attendee Successfully Invited!',
-  'cant_delete_ticket_when_sold' => 'Sorry, you can\'t delete this ticket as some have already been sold',
-  'check_in_all_tickets' => 'Check in all tickets associated to this order',
-  'confirmation_malformed' => 'The confirmation code is missing or malformed.',
-  'confirmation_successful' => 'Success! Your email is now verified. You can now login.',
-  'error' =>
-  array (
-    'email' =>
-    array (
-      'email' => 'Please enter a valid E-mail address.',
-      'required' => 'E-mail address is required.',
-      'unique' => 'E-mail already in use for this account.',
-    ),
-    'first_name' =>
-    array (
-      'required' => 'Please enter your first name.',
-    ),
-    'last_name' =>
-    array (
-      'required' => 'Please enter your last name.',
-    ),
-    'page_bg_color' =>
-    array (
-      'required' => 'Please enter a background color.',
-    ),
-    'page_header_bg_color' =>
-    array (
-      'required' => 'Please enter a header background color.',
-    ),
-    'password' =>
-    array (
-      'passcheck' => 'This password is incorrect.',
-    ),
-  ),
-  'event_create_exception' => 'Whoops! There was a problem creating your event. Please try again.',
-  'event_page_successfully_updated' => 'Event Page Successfully Updated.',
-  'event_successfully_updated' => 'Event Successfully Updated!',
-  'fill_email_and_password' => 'Please fill in your email and password',
-  'image_upload_error' => 'There was a problem uploading your image.',
-  'invalid_ticket_error' => '"Invalid Ticket! Please try again."',
-  'login_password_incorrect' => 'Your username/password combination was incorrect',
-  'maximum_refund_amount' => 'The maximum amount you can refund is :money',
-  'message_successfully_sent' => 'Message Successfully Sent!',
-  'new_order_received' => 'New order received on the event :event [:order]',
-  'no_organiser_name_error' => 'You must give a name for the event organiser.',
-  'nothing_to_do' => 'Nothing to do',
-  'nothing_to_refund' => 'Nothing to refund.',
-  'num_attendees_checked_in' => ':num Attendee(s) Checked in.',
-  'order_already_refunded' => 'Order has already been refunded!',
-  'order_cant_be_refunded' => 'Order Can\'t Be Refunded!',
-  'order_page_successfully_updated' => 'Order Page Successfully Updated.',
-  'order_payment_status_successfully_updated' => 'Order Payment Status Successfully Updated',
-  'organiser_design_successfully_updated' => 'Organiser Design Successfully Updated!',
-  'organiser_other_error' => 'There was an issue finding the organiser.',
-  'password_successfully_reset' => 'Password Successfully Reset!',
-  'payment_information_successfully_updated' => 'Payment Information Successfully Updated',
-  'please_enter_a_background_color' => 'Please enter the background color.',
-  'quantity_min_error' => 'Quantity available can\'t be less the amount sold or reserved.',
-  'refreshing' => 'Refreshing...',
-  'refund_exception' => 'There has been a problem processing your refund. Please check your information and try again.',
-  'refund_only_numbers_error' => 'Only numbers are allowed in this field.',
-  'social_settings_successfully_updated' => 'Social Settings have been successfully updated!',
-  'stripe_error' => 'There was an error connecting your Stripe account. Please try again.',
-  'stripe_success' => 'You have successfully connected your Stripe account.',
-  'success_name_has_received_instruction' => 'Success! <b>:name</b> has been sent further instructions.',
-  'successfully_cancelled_attendee' => 'Successfully Cancelled Attendee!',
-  'successfully_cancelled_attendees' => 'Successfully Cancelled Attendees!',
-  'successfully_created_organiser' => 'Successfully Created Organiser!',
-  'successfully_created_question' => 'Successfully Created Question',
-  'successfully_deleted_question' => 'Successfully Deleted Question',
-  'successfully_edited_question' => 'Successfully Edited Question',
-  'successfully_refunded_and_cancelled' => 'Successfully Refunded Order And Cancelled Attendees!',
-  'successfully_refunded_order' => 'Successfully Refunded Order!',
-  'successfully_saved_details' => 'Successfully Saved Details!',
-  'successfully_updated_attendee' => 'Successfully Updated Attendee!',
-  'successfully_updated_organiser' => 'Successfully Updated Organiser!',
-  'successfully_updated_question' => 'Question Successfully Updated',
-  'successfully_updated_question_order' => 'Question Order Successfully Updated',
-  'survey_answers' => 'Survey Answers',
-  'the_order_has_been_updated' => 'The Order Has Been Updated',
-  'this_question_cant_be_deleted' => 'This Question Can\'t Be Deleted',
-  'ticket_field_required_error' => 'The ticket field is required. ',
-  'ticket_not_exists_error' => 'The ticket you have selected does not exist',
-  'ticket_order_successfully_updated' => 'Ticket Order Successfully Updated',
-  'ticket_successfully_deleted' => 'Ticket Successfully Deleted',
-  'ticket_successfully_resent' => 'Ticket Successfully Resent!',
-  'ticket_successfully_updated' => 'Ticket Successfully Updated!',
-  'tickets_for_event' => 'Your tickets for the event :event.',
-  'whoops' => 'Whoops! Looks like something went wrong. Please try again.',
-  'your_password_reset_link' => 'Your Password Reset Link',
+return array(
+    //============================== New strings to translate ==============================//
+    // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
+    'sort'                                      =>
+        array(
+            'event_title'   => 'イベントタイトル',
+            'start_date'    => '開始日',
+            'created_at'    => '作成日',
+            'quantity_sold' => '販売数量',
+            'sales_volume'  => '販売量',
+            'sort_order'    => 'カスタムソート順',
+            'title'         => 'チケットのタイトル',
+        ),
+    // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageOrganiser\\Events.blade.php
+    //==================================== Translations ====================================//
+    'account_successfully_updated'              => 'アカウントは正常に更新されました',
+    'addInviteError'                            => '出席者を招待する前にチケットを作成する必要があります。',
+    'attendee_already_cancelled'                => '参加者はすでにキャンセルされています',
+    'attendee_already_checked_in'               => '出席者はすでに時刻にチェックインしています',
+    'attendee_exception'                        => 'この出席者の招待中にエラーが発生しました。 やり直してください。',
+    'attendee_successfully_checked_in'          => '出席者のチェックインに成功しました',
+    'attendee_successfully_checked_out'         => '参加者は正常にチェックアウトしました',
+    'attendee_successfully_invited'             => '出席者が招待しました！',
+    'cant_delete_ticket_when_sold'              => 'すみません、すでに販売済みのため、このチケットを削除できません。',
+    'check_in_all_tickets'                      => 'この注文に関連するすべてのチケットをチェックイン',
+    'confirmation_malformed'                    => '確認コードが見つからないか,形式が正しくありません。',
+    'confirmation_successful'                   => '成功しました。あなたのEメールは確認されました。ログインできます。',
+    'error'                                     =>
+        array(
+            'email'                =>
+                array(
+                    'email'    => '有効なメールアドレスを入力してください。',
+                    'required' => 'メールアドレスは必須です。',
+                    'unique'   => 'この既に使用されているメールアドレスです。',
+                ),
+            'first_name'           =>
+                array(
+                    'required' => '名を入力してください。',
+                ),
+            'last_name'            =>
+                array(
+                    'required' => '姓を入力してください。',
+                ),
+            'page_bg_color'        =>
+                array(
+                    'required' => '背景色を入力してください。',
+                ),
+            'page_header_bg_color' =>
+                array(
+                    'required' => 'ヘッダーの背景色を入力してください。',
+                ),
+            'password'             =>
+                array(
+                    'passcheck' => 'このパスワードは正しくありません。',
+                ),
+        ),
+    'event_create_exception'                    => 'おっと！ 予定の作成中に問題が発生しました。もう一度お試しください',
+    'event_page_successfully_updated'           => 'イベントページは正常に更新されました。',
+    'event_successfully_updated'                => 'イベントが更新されました！',
+    'fill_email_and_password'                   => 'あなたのEメールアドレスとパスワードを入力してください',
+    'image_upload_error'                        => '画像のアップロード中に問題が発生しました。',
+    'invalid_ticket_error'                      => '"無効なチケットです。もう一度やり直してください。"',
+    'login_password_incorrect'                  => 'あなたのユーザー名/パスワードの組み合わせが間違っていました',
+    'maximum_refund_amount'                     => 'あなたが払い戻すことができる最大額は次のとおりです。お金',
+    'message_successfully_sent'                 => 'メッセージが正常に送信されました。',
+    'new_order_received'                        => 'イベントで新しい注文を受け取りました :event [:order]',
+    'no_organiser_name_error'                   => 'イベントオーガナイザーの名前を入力する必要があります。',
+    'nothing_to_do'                             => '何もしない',
+    'nothing_to_refund'                         => '払い戻しはありません。',
+    'num_attendees_checked_in'                  => ':num参加者チェックイン。',
+    'order_already_refunded'                    => '注文は既に払い戻されました！',
+    'order_cant_be_refunded'                    => '注文は返金できません。',
+    'order_page_successfully_updated'           => '注文ページは正常に更新されました。',
+    'order_payment_status_successfully_updated' => '注文の支払いステータスが更新されました',
+    'organiser_design_successfully_updated'     => 'オーガナイザーデザインを更新しました！',
+    'organiser_other_error'                     => '主催者を見つける際に問題がありました。',
+    'password_successfully_reset'               => 'パスワードがリセットされました！',
+    'payment_information_successfully_updated'  => '支払い情報が更新されました',
+    'please_enter_a_background_color'           => '背景色を入力してください。',
+    'quantity_min_error'                        => '利用可能な数量は、販売または予約された金額を下回ることはできません。',
+    'refreshing'                                => '更新中...',
+    'refund_exception'                          => '払い戻しの処理中に問題が発生しました。情報を確認してもう一度やり直してください。',
+    'refund_only_numbers_error'                 => 'このフィールドに入力できるのは数字のみです。',
+    'social_settings_successfully_updated'      => 'ソーシャル設定は正常に更新されました。',
+    'stripe_error'                              => 'あなたのStripeアカウントへの接続中にエラーが発生しました。やり直してください。',
+    'stripe_success'                            => 'あなたのStripeアカウントに正常に接続しました。',
+    'success_name_has_received_instruction'     => '成功! <b>:name</b> さらなる指示が送られました。',
+    'successfully_cancelled_attendee'           => '参加者のキャンセルに成功しました！',
+    'successfully_cancelled_attendees'          => '出席者のキャンセルに成功しました！',
+    'successfully_created_organiser'            => 'オーガナイザーの作成に成功しました。',
+    'successfully_created_question'             => '問題なく作成された質問',
+    'successfully_deleted_question'             => '問題なく削除された質問',
+    'successfully_edited_question'              => '問題なく編集された質問',
+    'successfully_refunded_and_cancelled'       => '注文の払い戻しに成功し,出席者をキャンセルしました！',
+    'successfully_refunded_order'               => '正常に払い戻された注文！',
+    'successfully_saved_details'                => '正常に保存された詳細！',
+    'successfully_updated_attendee'             => '参加者の更新に成功しました！',
+    'successfully_updated_organiser'            => '開催者の更新に成功しました！',
+    'successfully_updated_question'             => '問題なく更新された質問',
+    'successfully_updated_question_order'       => '質問の順番が更新されました',
+    'survey_answers'                            => 'アンケート回答',
+    'the_order_has_been_updated'                => '注文が更新されました',
+    'this_question_cant_be_deleted'             => 'この質問は削除できません',
+    'ticket_field_required_error'               => 'チケットフィールドは必須です。',
+    'ticket_not_exists_error'                   => '選択したチケットは存在しません',
+    'ticket_order_successfully_updated'         => 'チケット注文は正常に更新されました',
+    'ticket_successfully_deleted'               => 'チケットは正常に削除されました',
+    'ticket_successfully_resent'                => 'チケットは正常に再送信されました。',
+    'ticket_successfully_updated'               => 'チケットは正常に更新されました。',
+    'tickets_for_event'                         => 'イベントのチケット：イベント。',
+    'whoops'                                    => 'おっと！ 問題が発生したようです。やり直してください。',
+    'your_password_reset_link'                  => 'あなたのパスワードリセットリンク',
 );
