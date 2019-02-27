@@ -11,7 +11,7 @@ return array(
     'bitpay_api_key'                               => 'BitPay APIキー',
     'bitpay_settings'                              => 'BitPay 設定',
     'branding_name'                                => 'ブランド名',
-    'branding_name_help'                           => '購入者がチェックアウト時に表示する名前です。イベントオーガナイザーの名前を使用する場合は、これを空白のままにしてください。',
+    'branding_name_help'                           => '購入者がチェックアウト時に表示する名前です。イベント主催者の名前を使用する場合は、これを空白のままにしてください。',
     'coinbase_settings'                            => 'コインベース設定',
     'default_currency'                             => 'デフォルト通貨',
     'default_payment_gateway'                      => 'デフォルトの支払いゲートウェイ',

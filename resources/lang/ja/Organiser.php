@@ -10,7 +10,7 @@ return array(
     'create_an_organiser'                     => '主催者の作成',
     'create_new_organiser'                    => '新規主催者を作成',
     'create_organiser'                        => '主催者の作成',
-    'create_organiser_text'                   => 'イベントを作成する前に、オーガナイザーを作成する必要があります。主催者は、単にイベントを開催している人です。人から組織まで、誰でも構いません。',
+    'create_organiser_text'                   => 'イベントを作成する前に、主催者を作成する必要があります。主催者は、単にイベントを開催している人です。人から組織まで、誰でも構いません。',
     'current_logo'                            => '現在のロゴ',
     'customize'                               => 'カスタマイズ',
     'dashboard'                               => 'ダッシュボード',

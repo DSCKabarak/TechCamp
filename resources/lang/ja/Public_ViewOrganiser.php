@@ -8,7 +8,7 @@ return array(
     'tickets'             => 'チケット',
     //==================================== Translations ====================================//
     'no_events'           => '表示する:panel_titleがありません。',
-    'organiser_dashboard' => 'オーガナイザーダッシュボード',
+    'organiser_dashboard' => '主催者ダッシュボード',
     'past_events'         => '過去の出来事',
     'upcoming_events'     => '今後のイベント',
 );
