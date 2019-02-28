@@ -23,6 +23,7 @@ return array (
   'enabled' => 'Enabled',
   'error_404' => 'Looks like the page you are looking for no longer exists or has moved.',
   'event_dashboard' => 'Event Dashboard',
+  'event_menu' => 'Event Menu',
   'event_page_design' => 'Event Page Design',
   'export' => 'Export',
   'general' => 'General',

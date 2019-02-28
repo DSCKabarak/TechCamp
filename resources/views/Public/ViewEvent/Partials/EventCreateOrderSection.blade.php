@@ -44,7 +44,7 @@
                         <span style="float: right;"><b>{{ $orderService->getTaxAmount(true) }}</b></span>
                     </h5>
                     <h5>
-                        <strong>Grand Total:</strong>
+                        <strong>@lang("Public_ViewEvent.grand_total")</strong>
                         <span style="float: right;"><b>{{  $orderService->getGrandTotal(true) }}</b></span>
                     </h5>
                     @endif

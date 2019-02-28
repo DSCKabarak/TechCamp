@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <h3>Order Items</h3>
+                <h3>@lang('Order.order_items')</h3>
                 <div class="well nopad bgcolor-white p0">
                     <div class="table-responsive">
                         <table class="table table-hover" >

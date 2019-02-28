@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>
-            Attendees
+            @lang('Event.print_attendees_title')
         </title>
 
         <!--Style-->

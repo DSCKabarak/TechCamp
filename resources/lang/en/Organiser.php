@@ -65,6 +65,7 @@ return array (
   'yes' => 'Yes',
   'no' => 'No',
   'sales_volume' => 'Sales Volume',
+  'search_placeholder' => 'Search Events..',
   'select_an_organiser' => 'Select An Organiser',
   'select_organiser' => 'Select Organiser',
   'text_color' => 'Text Color',

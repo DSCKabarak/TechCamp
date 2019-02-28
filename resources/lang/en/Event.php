@@ -35,6 +35,7 @@ return array (
   'payment_cancelled' => 'You cancelled your payment. You may try again.',
   'post_code' => 'Post Code',
   'post_code_placeholder' => 'E.g: 94568.',
+  'print_attendees_title' => 'Attendees',
   'promote' => 'Promote',
   'promote_event' => 'Promote Event',
   'revenue' => 'Revenue',
