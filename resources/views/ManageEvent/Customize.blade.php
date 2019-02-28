@@ -28,7 +28,7 @@
 @stop
 
 @section('head')
-    {!! HTML::script('https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
+    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
     {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js') !!}
     <script>
         $(function () {
