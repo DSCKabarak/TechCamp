@@ -341,8 +341,7 @@ Route::group(
                     $event = \App\Models\Event::scope()->findOrFail($event_id);
                     $event->is_live = 1;
                     $event->save();
-                    \Session::flash('message',
-                        'Event Successfully Made Live! You can undo this action in event settings page.');
+                    \Session::flash('message', trans('Event.go_live'));
 
                     return Redirect::route('showEventDashboard', [
                         'event_id' => $event_id,
