@@ -9,7 +9,7 @@
                 </a>
             </li>
         </ul>
-        <h5 class="heading">Event Menu</h5>
+        <h5 class="heading">@lang('basic.event_menu')</h5>
         <ul id="nav_event" class="topmenu">
             <li class="{{ Request::is('*dashboard*') ? 'active' : '' }}">
                 <a href="{{route('showEventDashboard', array('event_id' => $event->id))}}">
