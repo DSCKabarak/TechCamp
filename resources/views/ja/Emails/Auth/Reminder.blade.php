@@ -2,10 +2,10 @@
 
 @section('message_content')
     <div>
-        Hello,<br><br>
-        To reset your password, complete this form: {{ route('password.reset', ['token' => $token]) }}.
+        こんにちは、<br><br>
+        パスワードを再設定するには、次の形式で入力してください: {{ route('password.reset', ['token' => $token]) }}.
         <br><br><br>
-        Thank you,<br>
+        ありがとう、<br>
         Team Attendize
     </div>
 @stop

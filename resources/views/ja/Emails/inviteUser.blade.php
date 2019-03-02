@@ -2,20 +2,20 @@
 
 @section('message_content')
 
-<p>Hello</p>
+<p>こんにちは</p>
 <p>
     You have been added to an {{ config('attendize.app_name') }} account by {{$inviter->first_name.' '.$inviter->last_name}}.
 </p>
 
 <p>
-    You can log in using the following details.<br><br>
+    以下の詳細を使用してログインできます。<br><br>
     
     Username: <b>{{$user->email}}</b> <br>
     Password: <b>{{$temp_password}}</b>
 </p>
 
 <p>
-    You can change your temporary password once you have logged.
+    ログイン後、一時パスワードを変更することができます。
 </p>
 
 <div style="padding: 5px; border: 1px solid #ccc;" >
@@ -23,10 +23,10 @@
 </div>
 <br><br>
 <p>
-    If you have any questions please reply to this email.
+    ご質問がある場合は、このメールに返信してください。
 </p>
 <p>
-    Thank you
+    ありがとう
 </p>
 
 @stop

@@ -2,13 +2,13 @@
 
 @section('message_content')
 
-<p>Hi {{$first_name}}</p>
+<p>こんにちは {{$first_name}}</p>
 <p>
-    Thank you for registering for {{ config('attendize.app_name') }}. We're thrilled to have you on board.
+    {{config（ 'attendize.app_name'）}}に登録していただきありがとうございます。登録していただきとても嬉しいです。
 </p>
 
 <p>
-    You can create you first event and confirm your email using the link below.
+    あなたは最初のイベントを作成し、下記のリンクを使ってあなたのメールアドレスを確認することができます。
 </p>
 
 <div style="padding: 5px; border: 1px solid #ccc;">
@@ -16,10 +16,10 @@
 </div>
 <br><br>
 <p>
-    If you have any questions, feedback or suggestions feel free to reply to this email.
+    ご質問、ご意見、ご提案がありましたら、このメールにお気軽にお問い合わせください。
 </p>
 <p>
-    Thank you
+    ありがとう
 </p>
 
 @stop

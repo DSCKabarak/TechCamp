@@ -2,13 +2,13 @@
 
 @section('message_content')
 
-<p>Hi there,</p>
+<p>こんにちは、</p>
 <p>
-    Your ticket for the event <b>{{{$attendee->event->title}}}</b> has been cancelled.
+    イベント：<b>{{{$attendee->event->title}}}</b>のチケットはキャンセルされました。.
 </p>
 
 <p>
-    You can contact <b>{{{$attendee->event->organiser->name}}}</b> directly at <a href='mailto:{{{$attendee->event->organiser->email}}}'>{{{$attendee->event->organiser->email}}}</a> or by replying to this email should you require any more information.
+    <a href='mailto:{{{$attendee->event->organiser->email}}}'>{{{$attendee->event->organiser->email}}}</a>で直接<b>{{{$attendee->event->organiser->name}}}</b>に連絡することができます。またはこのメールに返信してください。
 </p>
 @stop
 

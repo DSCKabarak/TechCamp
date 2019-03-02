@@ -1,18 +1,19 @@
 <div class="well">
     <p>
-        Installation may make take several minutes to complete. Once you click '<b>Install Attendize</b>' the config settings will be written to this file: <b>{{base_path('.env')}}</b>. You can manually change these settings in the future by editing this file.
+        インストールが完了するまで数分かかる場合があります。 [<b>Attendizeのインストール</b>]をクリックすると、設定が次のファイルに書き込まれます。
+        <b>{{base_path('.env')}}</b>ファイルを編集して、これらの設定を手動で変更することができます。
     </p>
     <p>
-        If the install fails be sure to check the log file in <b>{{storage_path('logs')}}</b>. If there are no errors in the log files also <b>check other log files on your server</b>.
+        インストールに失敗した場合は、<b>{{storage_path('logs')}}</b>のログファイルを確認してください。ログファイルにエラーがない場合は、<b>サーバー上の他のログファイルも確認してください</b>。
     </p>
     <p>
-        If you are using shared hosting please ask your host if they support the Attendize requirements before requesting support.
+        共有ホスティングを使用している場合は、サポートを要求する前に、参加者がAttendizeの要件をサポートしているかどうかをホストに確認してください。
     </p>
     <p>
-        If you still need help you can <a href="https://github.com/Attendize/Attendize/issues">raise an issue</a>. Please include as much detail as possible, including any errors in the log file.
-        Also take a look at the <a href="https://www.attendize.com/troubleshooting.html">troubleshooting guide</a>
+        それでも手助けが必要な場合は、<a href="https://github.com/Attendize/Attendize/issues">Issueを作成</a>してください。ログファイルにエラーがある場合など、できるだけ詳細を含めてください。
+        <a href="https://www.attendize.com/troubleshooting.html">トラブルシューティングガイド</a>もご覧ください。
     </p>
     <p>
-        Please also  <a style="text-decoration: underline;" target="_blank" href="https://www.attendize.com/license.html">read the licence</a> before installing Attendize.
+        Attendizeをインストールする前に、<a style="text-decoration: underline;" target="_blank" href="https://www.attendize.com/license.html">ライセンス</a>を読んでください。
     </p>
 </div>

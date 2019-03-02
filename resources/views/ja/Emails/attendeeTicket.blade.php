@@ -1,10 +1,9 @@
-Hi {{{$attendee->first_name}}},<br><br>
+こんにちは {{{$attendee->first_name}}}、<br><br>
 
-We've attached your tickets to this email.<br><br>
+このメールにチケットを添付しました。<br><br>
 
-You can view your order info and download your tickets at {{route('showOrderDetails', ['order_reference' => $attendee->order->order_reference])}} anytime.<br><br>
+あなたはいつでも注文情報を見て、チケットをダウンロードすることができます。 {{route('showOrderDetails', ['order_reference' => $attendee->order->order_reference])}}<br><br>
 
-Your order reference is <b>{{$attendee->order->order_reference}}</b>.<br>
+ご注文の照合コードは <b>{{$attendee->order->order_reference}}</b>。<br>
 
-Thank you<br>
-
+ありがとう<br>
