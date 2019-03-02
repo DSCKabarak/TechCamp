@@ -53,7 +53,7 @@ return [
     'presents'                          => 'プレゼント',
     'price'                             => '価格',
     'quantity_full'                     => '数量',
-    'reference'                         => '参照',
+    'reference'                         => '照合',
     'refunded_amount'                   => '返金額',
     'register'                          => '購入に進む',
     'sales_have_ended'                  => '売上が終了しました',

@@ -13,7 +13,7 @@ return array(
     'hide_change_password'     => 'パスワード変更を隠す',
     'last_name'                => '姓',
     'login'                    => 'ログイン',
-    'login_fail_msg'           => '詳細を確認してもう一度やり直してください。',
+    'login_fail_msg'           => '入力内容を確認してもう一度やり直してください。',
     'my_profile'               => '私のプロフィール',
     'new_password'             => '新しいパスワード',
     'old_password'             => '旧パスワード',

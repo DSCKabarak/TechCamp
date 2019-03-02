@@ -12,7 +12,7 @@ return array(
     'last_name'                            => '姓',
     'name'                                 => '名前',
     'ticket'                               => 'チケット',
-    'reference'                            => '参照',
+    'reference'                            => '照合',
     'search_attendees'                     => '参加者の検索...',
     'send_invitation_n_ticket_to_attendee' => '出席者に招待状とチケットを送ってください。',
 );

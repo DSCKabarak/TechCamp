@@ -5,7 +5,7 @@ return array(
     // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Tickets.blade.php
     'on_sale'                    => 'On Sale',
     //==================================== Translations ====================================//
-    'attendee_ref'               => '出席者の参照番号',
+    'attendee_ref'               => '出席者照合番号',
     'coupon_codes'               => 'クーポンコード',
     'create_ticket'              => 'チケットの作成',
     'demo_attendee_ref'          => '#YLY9U73-1',

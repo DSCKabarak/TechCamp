@@ -19,7 +19,7 @@ return array(
     'check-in'                                => 'チェックイン',
     'checkin_search_placeholder'              => '参加者名、注文番号、参加者番号で検索...',
     'close'                                   => '閉じる',
-    'confirm_cancel'                          => 'キャンセルキャンセルの確認',
+    'confirm_cancel'                          => 'キャンセルの確認',
     'confirm_order_cancel'                    => '注文キャンセルの確認',
     'create_attendees'                        => '出席者の作成',
     'create_ticket'                           => 'チケットの作成',
