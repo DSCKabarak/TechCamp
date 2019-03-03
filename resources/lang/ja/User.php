@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'already_have_account'     => 'アカウントをお持ちですか？ <a class="semibold" href=":url">サインイン</a>',
+    'already_have_account'     => '既にアカウントをお持ちですか？ <a class="semibold" href=":url">サインイン</a>',
     'after_welcome'            => '続行する前に、あなたの名前と新しいパスワードであなたのアカウントを更新してください。',
     'change_password'          => 'パスワード変更',
     'confirm_new_password'     => '新しいパスワードの確認',
@@ -23,8 +23,8 @@ return array(
     'reset_password'           => 'パスワードのリセット',
     'reset_password_success'   => 'パスワードをリセットしたメールアドレスがあなたのメールアドレスに送信されました。',
     'sign_up'                  => 'サインアップ',
-    'sign_up_first_run'        => 'You\'re almost there. Just create a user account and you\'re ready to go.',
-    'terms_and_conditions'     => '&nbsp;&nbsp; <a target="_blank" href=":url"> 利用規約 </a>に同意します',
+    'sign_up_first_run'        => 'ユーザーアカウントを作成するだけで準備完了です。',
+    'terms_and_conditions'     => '&nbsp;&nbsp; <a target="_blank" href=":url">利用規約</a>に同意します',
     'welcome_to_app'           => ':appへようそこ',
     'your_email'               => 'メールアドレス'
 );

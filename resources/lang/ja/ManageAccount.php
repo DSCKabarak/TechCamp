@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'about'                                        => 'について',
+    'about'                                        => 'About',
     'account'                                      => 'アカウント',
     'account_id'                                   => 'アカウントID',
     'accout_owner'                                 => 'アカウントの所有者',
@@ -15,8 +15,8 @@ return array(
     'coinbase_settings'                            => 'コインベース設定',
     'default_currency'                             => 'デフォルト通貨',
     'default_payment_gateway'                      => 'デフォルトの支払いゲートウェイ',
-    'email'                                        => 'Eメール',
-    'email_address_placeholder'                    => 'Eメールアドレス',
+    'email'                                        => 'メールアドレス',
+    'email_address_placeholder'                    => 'メールアドレス',
     'first_name'                                   => '名',
     'general'                                      => '一般',
     'last_name'                                    => '姓',
@@ -45,5 +45,5 @@ return array(
     'version_out_of_date'                          => 'Your version (<b>:installed</b>) of Attendize is out of date. The latest version (<b>:latest</b>) can be <a href=":url" target="_blank">downloaded here</a>',
     'version_up_to_date'                           => 'Your Attendize version (<b>:installed</b>) is up to date!',
     'account_payment'                              => 'アカウント/支払い',
-    'event_attendees'                              => 'イベント参加者',
+    'event_attendees'                              => 'イベント出席者',
 );

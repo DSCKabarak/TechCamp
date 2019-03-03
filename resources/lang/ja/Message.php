@@ -3,8 +3,8 @@
 return array(
     'new_message'                     => '新着メッセージ',
     'sent_messages'                   => '送信メッセージ',
-    'all_event_attendees'             => '全イベント参加者',
-    'attendees_with_ticket_type'      => 'チケットタイプの参加者',
+    'all_event_attendees'             => '全イベント出席者',
+    'attendees_with_ticket_type'      => 'チケットタイプの出席者',
     'before_send_message'             => '出席者は:organiserに返信を送るように指示されます。',
     'content'                         => '内容',
     'date'                            => '日付',
