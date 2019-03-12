@@ -220,6 +220,7 @@ class EventController extends MyBaseController
         }
 
         $event->is_live = $request->get('is_live');
+        $event->currency_id = $request->get('currency_id');
         $event->title = $request->get('title');
         $event->description = strip_tags($request->get('description'));
         $event->start_date = $request->get('start_date');
