@@ -5,6 +5,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
+          {!! Form::label('currency_id', trans("ManageEvent.default_currency"), array('class'=>'control-label required')) !!}
+          {!! Form::select('currency_id', $currencies, $event->currency_id, ['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::label('is_live', trans("Event.event_visibility"), array('class'=>'control-label required')) !!}
             {!!  Form::select('is_live', [
             '1' => trans("Event.vis_public"),

@@ -463,7 +463,7 @@ class EventCheckoutController extends Controller
     {
 
         if ($request->get('is_payment_cancelled') == '1') {
-            session()->flash('message', 'You cancelled your payment. You may try again.');
+            session()->flash('message', trans('Event.payment_cancelled'));
             return response()->redirectToRoute('showEventCheckout', [
                 'event_id'             => $event_id,
                 'is_payment_cancelled' => 1,

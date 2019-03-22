@@ -14,7 +14,7 @@
 @stop
 
 @section('head')
-    {!! HTML::script('https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
+    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
     {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js')!!}
 @stop
 
@@ -33,7 +33,7 @@
     <div class="col-md-3">
         {!! Form::open(array('url' => route('showOrganiserEvents', ['organiser_id'=>$organiser->id]), 'method' => 'get')) !!}
         <div class="input-group">
-            <input name="q" value="{{$search['q'] or ''}}" placeholder="Search Events.." type="text" class="form-control">
+            <input name="q" value="{{$search['q'] or ''}}" placeholder="@lang('Organiser.search_placeholder')" type="text" class="form-control">
         <span class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="ico-search"></i></button>
         </span>

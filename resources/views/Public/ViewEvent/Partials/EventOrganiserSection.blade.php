@@ -34,7 +34,7 @@
                 </p>
                 <div class="contact_form well well-sm">
                     {!! Form::open(array('url' => route('postContactOrganiser', array('event_id' => $event->id)), 'class' => 'reset ajax')) !!}
-                    <h3>Contact <i>{{$event->organiser->name}}</i></h3>
+                    <h3>@lang("Public_ViewEvent.Contact") <i>{{$event->organiser->name}}</i></h3>
                     <div class="form-group">
                         {!! Form::label(trans("Public_ViewEvent.your_name")) !!}
                         {!! Form::text('name', null,

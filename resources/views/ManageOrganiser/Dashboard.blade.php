@@ -22,7 +22,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js" integrity="sha256-Gk+dzc4kV2rqAZMkyy3gcfW6Xd66BhGYjVWa/FjPu+s=" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js" integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
 
-    {!! HTML::script('https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
+    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
     {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js')!!}
     {!! HTML::script('vendor/moment/moment.js')!!}
     {!! HTML::script('vendor/fullcalendar/dist/fullcalendar.min.js')!!}
@@ -52,7 +52,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="stat-box">
                 <h3>
                     {{$organiser->events->count()}}
@@ -62,23 +62,13 @@
             </span>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="stat-box">
                 <h3>
                     {{$organiser->attendees->count()}}
                 </h3>
             <span>
                 @lang("Organiser.tickets_sold")
-            </span>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="stat-box">
-                <h3>
-                    {{ money($organiser->events->sum('sales_volume') + $organiser->events->sum('organiser_fees_volume'), $organiser->account->currency) }}
-                </h3>
-            <span>
-                @lang("Organiser.sales_volume")
             </span>
             </div>
         </div>
