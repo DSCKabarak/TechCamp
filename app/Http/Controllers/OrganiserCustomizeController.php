@@ -88,7 +88,7 @@ class OrganiserCustomizeController extends MyBaseController
      */
     public function postEditOrganiserPageDesign(Request $request, $organiser_id)
     {
-        $event = Organiser::scope()->findOrFail($organiser_id);
+        $organiser = Organiser::scope()->findOrFail($organiser_id);
 
         $rules = [
             'page_bg_color'        => ['required'],
@@ -109,11 +109,11 @@ class OrganiserCustomizeController extends MyBaseController
             ]);
         }
 
-        $event->page_bg_color        = $request->get('page_bg_color');
-        $event->page_header_bg_color = $request->get('page_header_bg_color');
-        $event->page_text_color      = $request->get('page_text_color');
+        $organiser->page_bg_color        = $request->get('page_bg_color');
+        $organiser->page_header_bg_color = $request->get('page_header_bg_color');
+        $organiser->page_text_color      = $request->get('page_text_color');
 
-        $event->save();
+        $organiser->save();
 
         return response()->json([
             'status'  => 'success',
