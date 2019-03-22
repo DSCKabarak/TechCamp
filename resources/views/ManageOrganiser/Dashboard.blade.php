@@ -52,7 +52,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="stat-box">
                 <h3>
                     {{$organiser->events->count()}}
@@ -62,23 +62,13 @@
             </span>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="stat-box">
                 <h3>
                     {{$organiser->attendees->count()}}
                 </h3>
             <span>
                 @lang("Organiser.tickets_sold")
-            </span>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="stat-box">
-                <h3>
-                    {{ money($organiser->events->sum('sales_volume') + $organiser->events->sum('organiser_fees_volume'), $organiser->account->currency) }}
-                </h3>
-            <span>
-                @lang("Organiser.sales_volume")
             </span>
             </div>
         </div>
