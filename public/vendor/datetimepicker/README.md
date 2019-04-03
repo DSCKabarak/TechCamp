@@ -11,7 +11,7 @@ Users can change values using +/- buttons or type values directly into the textb
 For web, picker can be binded relative to reference element, were it will appear at the bottom of the element. For mobile, the picker can appear as a dialog box covering entire window. 
 
 
-##Browser Support
+## Browser Support
 - Chrome, Firefox, Safari, Opera, IE 6+
 - Android 2.3+, iOS 6+, Windows Phone 8
 
@@ -20,7 +20,7 @@ For web, picker can be binded relative to reference element, were it will appear
 For demo & api documentation visit [Plugin Page](http://nehakadam.github.io/DateTimePicker/)
 
 
-##Build System
+## Build System
 
 - Install devDependencies listed in "package.json" 
 
@@ -36,7 +36,7 @@ Tasks configured in "Gruntfile.js"
 - Minify "src/DateTimePicker.css" to "dist/DateTimePicker.min.css"
 
 
-##Installations
+## Installations
 
 - npm
 
@@ -44,35 +44,39 @@ Tasks configured in "Gruntfile.js"
 
 - bower
 
-    `bower install curioussolutions-datetimepicker`
+    `bower install flat-datetimepicker`
 
-##CDN
+## CDN
 DateTimePicker is hosted on [jsDelivr](http://www.jsdelivr.com).
 
 Files - Latest
 
 ```
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.css" />
-<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/datetimepicker@latest/dist/DateTimePicker.min.css" />
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/datetimepicker@latest/dist/DateTimePicker.min.js"></script>
 ```
 
 Files - Particular Version
 
 ```
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/<version>/DateTimePicker.min.css" />
-<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/<version>/DateTimePicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/datetimepicker@<version>/dist/DateTimePicker.min.css" />
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/datetimepicker@<version>/dist/DateTimePicker.min.js"></script>
 ```
 
-##Authors
+## Authors
 [Neha Kadam](https://github.com/nehakadam): Developer
 
 Special Thanks:
 - [Jean-Christophe Hoelt](https://github.com/j3k0) - NPM packaging. Few customization options.
 - [All Contributors](https://github.com/nehakadam/DateTimePicker/contributors)
 
-Copyright 2017 [Lajpat Shah](https://github.com/lajpatshah)
+
+Copyright 2014-2019 [Lajpat Shah](https://github.com/lajpatshah)
 
 
-##License
+**I can not actively maintain or reply quickly due to time constraints, please consider this point before using plugin.**
+
+
+## License
 
 Licensed under the MIT License
