@@ -1,6 +1,8 @@
 {
   "name": "datetimepicker",
+  
   "description": "Responsive flat design jQuery DateTime Picker plugin for Web & Mobile",
+  
   "keywords": [
     "date",
     "time",
@@ -12,37 +14,30 @@
     "timepicker",
     "input"
   ],
+  
   "version": "0.1.38",
+  
   "homepage": "https://nehakadam.github.io/DateTimePicker/",
-  "main": [
-    "dist/DateTimePicker.min.js",
-    "dist/DateTimePicker.min.css"
-  ],
+  
+  "main": ["dist/DateTimePicker.min.js", "dist/DateTimePicker.min.css"],
+  
   "authors": [
-    {
-      "name": "nehakadam"
-    }
+    {"name": "nehakadam"}
   ],
+  
   "repository": {
     "type": "git",
     "url": "git://github.com:nehakadam/DateTimePicker.git"
   },
+  
   "devDependencies": {
     "jquery": ">=1.0.0"
   },
+  
   "ignore": [
     "**/.*",
     "node_modules",
     "package.json"
-  ],
-  "_release": "0.1.38",
-  "_resolution": {
-    "type": "version",
-    "tag": "0.1.38",
-    "commit": "36d272ac90c93ef45c5b8b228a517a932a0778bd"
-  },
-  "_source": "https://github.com/nehakadam/DateTimePicker.git",
-  "_target": "^0.1.38",
-  "_originalSource": "flat-datetimepicker",
-  "_direct": true
+  ]
+  
 }
