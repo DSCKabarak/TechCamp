@@ -17,7 +17,11 @@ Order Reference: <b>{{$order->order_reference}}</b><br>
 Order Name: <b>{{$order->full_name}}</b><br>
 Order Date: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Order Email: <b>{{$order->email}}</b><br>
-
+@if ($order->is_business)
+Business: <b>{{$order->business_name}}</b><br>
+Tax number: <b>{{$order->business_tax_number}}</b><br>
+Business Address: <b>{{$order->business_address}}</b><br>
+@endif
 
 <h3>Order Items</h3>
 <div style="padding:10px; background: #F9F9F9; border: 1px solid #f1f1f1;">

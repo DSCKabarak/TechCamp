@@ -101,6 +101,17 @@
                         <div class="col-sm-4 col-xs-6">
                             <b>@lang("Public_ViewEvent.email")</b><br> {{$order->email}}
                         </div>
+                        @if ($order->is_business)
+                        <div class="col-sm-4 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_name")</b><br> {{$order->business_name}}
+                        </div>
+                        <div class="col-sm-4 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_tax_number")</b><br> {{$order->business_tax_number}}
+                        </div>
+                        <div class="col-sm-4 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_address")</b><br> {{$order->business_address}}
+                        </div>
+                        @endif
                     </div>
                 </div>
 
