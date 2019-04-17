@@ -97,7 +97,7 @@ Order Email: <b>{{$order->email}}</b><br>
             <td>
             </td>
             <td>
-                <b>{{$order->event->organiser->tax_name}}</b>
+                <strong>{{$order->event->organiser->tax_name}}</strong><em>({{$order->event->organiser->tax_value}}%)</em>
             </td>
             <td colspan="2">
                 {{$orderService->getTaxAmount(true)}}

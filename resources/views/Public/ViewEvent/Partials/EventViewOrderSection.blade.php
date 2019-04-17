@@ -201,7 +201,7 @@
                                 <td>
                                 </td>
                                 <td>
-                                    {{$event->organiser->tax_name}}
+                                    <strong>{{$event->organiser->tax_name}}</strong><em>({{$order->event->organiser->tax_value}}%)</em>
                                 </td>
                                 <td colspan="2">
                                     {{ $orderService->getTaxAmount(true) }}
