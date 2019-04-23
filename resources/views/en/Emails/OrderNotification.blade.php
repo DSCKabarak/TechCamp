@@ -58,15 +58,17 @@ Business Address: <b>{{$order->business_address}}</b><br>
                 @else
                 {{money($order_item->unit_price, $order->event->currency)}}
                 @endif
-
             </td>
             <td>
-                @if((int)ceil($order_item->unit_price) == 0)
-                -
+                @if ((int)ceil($order_item->unit_booking_fee) > 0)
+                    @if((int)ceil($order_item->unit_price) == 0)
+                    -
+                    @else
+                    {{money($order_item->unit_booking_fee, $order->event->currency)}}
+                    @endif
                 @else
-                {{money($order_item->unit_booking_fee, $order->event->currency)}}
+                    -
                 @endif
-
             </td>
             <td>
                 @if((int)ceil($order_item->unit_price) == 0)
