@@ -92,8 +92,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-checkbox">
-                                {!! Form::checkbox('business_tax_registered', 1, null, ['data-toggle' => 'toggle', 'id' => 'business_tax_registered']) !!}
-                                {!! Form::label('business_tax_registered', 'Are you a tax registered business?', ['class' => 'control-label']) !!}
+                                {!! Form::checkbox('is_business', 1, null, ['data-toggle' => 'toggle', 'id' => 'is_business']) !!}
+                                {!! Form::label('is_business', trans("Public_ViewEvent.is_business"), ['class' => 'control-label']) !!}
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,54 @@
                 <div class="row hidden" id="business_details">
                     <div class="col-md-12">
                         <div class="form-group">
-                            Hello
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_name", trans("Public_ViewEvent.business_name")) !!}
+                                        {!! Form::text("business_name", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_tax_number", trans("Public_ViewEvent.business_tax_number")) !!}
+                                        {!! Form::text("business_tax_number", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line1")) !!}
+                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line2")) !!}
+                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_state_province")) !!}
+                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_city")) !!}
+                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_code")) !!}
+                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

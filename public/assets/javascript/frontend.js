@@ -4771,7 +4771,7 @@ function log() {
         });
     });
 
-    $('#business_tax_registered').click(function(e) {
+    $('#is_business').click(function(e) {
         var $isBusiness = $(this);
         var isChecked = $isBusiness.hasClass('checked');
 
