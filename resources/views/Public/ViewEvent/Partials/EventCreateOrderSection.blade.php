@@ -87,7 +87,26 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-checkbox">
+                                {!! Form::checkbox('business_tax_registered', 1, null, ['data-toggle' => 'toggle', 'id' => 'business_tax_registered']) !!}
+                                {!! Form::label('business_tax_registered', 'Are you a tax registered business?', ['class' => 'control-label']) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
+                <div class="row hidden" id="business_details">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            Hello
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
                 <div class="p20 pl0">
                     <a href="javascript:void(0);" class="btn btn-primary btn-xs" id="mirror_buyer_info">
                         @lang("Public_ViewEvent.copy_buyer")
