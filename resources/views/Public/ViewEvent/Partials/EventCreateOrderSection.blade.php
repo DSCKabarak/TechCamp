@@ -106,13 +106,13 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         {!! Form::label("business_name", trans("Public_ViewEvent.business_name")) !!}
-                                        {!! Form::text("business_name", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_name", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         {!! Form::label("business_tax_number", trans("Public_ViewEvent.business_tax_number")) !!}
-                                        {!! Form::text("business_tax_number", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_tax_number", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -120,13 +120,13 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line1")) !!}
-                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line2")) !!}
-                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -134,19 +134,19 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         {!! Form::label("business_address", trans("Public_ViewEvent.business_address_state_province")) !!}
-                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         {!! Form::label("business_address", trans("Public_ViewEvent.business_address_city")) !!}
-                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         {!! Form::label("business_address", trans("Public_ViewEvent.business_address_code")) !!}
-                                        {!! Form::text("business_address[]", null, ['required' => 'required', 'class' => 'form-control']) !!}
+                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
