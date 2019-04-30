@@ -265,6 +265,7 @@ class EventController extends MyBaseController
         }
 
         $event->end_date = $request->get('end_date');
+        $event->event_image_position = $request->get('event_image_position');
 
         if ($request->get('remove_current_image') == '1') {
             EventImage::where('event_id', '=', $event->id)->delete();
