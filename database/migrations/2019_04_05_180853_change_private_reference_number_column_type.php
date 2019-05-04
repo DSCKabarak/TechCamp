@@ -13,9 +13,14 @@ class ChangePrivateReferenceNumberColumnType extends Migration
      */
     public function up()
     {
-        Schema::table('attendees', function ($t) {
-			$t->string('private_reference_number', 15)->change();
-		});
+		
+		/**
+        * Change Private Reference Number from INT to VARCHAR ColumnType
+        */
+        Schema::create('attendees', function (Blueprint $table)
+        {
+            $table->string('private_reference_number', 15)->change();
+        });
     }
 
     /**
