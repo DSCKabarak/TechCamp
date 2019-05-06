@@ -245,7 +245,7 @@
                                         <td>{{ $affiliate->visits }}</td>
                                         <td>{{ $affiliate->tickets_sold }}</td>
                                         <td>{{ money($affiliate->sales_volume, $event->currency) }}</td>
-                                        <td>{{ $affiliate->updated_at->format(env("DEFAULT_DATETIME_FORMAT")) }}</td>
+                                        <td>{{ $affiliate->updated_at->format(config("attendize.default_datetime_format")) }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
