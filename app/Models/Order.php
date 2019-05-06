@@ -5,6 +5,7 @@ namespace App\Models;
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PDF;
+use Illuminate\Support\Str;
 
 class Order extends MyBaseModel
 {
@@ -175,7 +176,14 @@ class Order extends MyBaseModel
         parent::boot();
 
         static::creating(function ($order) {
-            $order->order_reference = strtoupper(str_random(5)) . date('jn');
-        });
+            do {
+                    //generate a random string using Laravel's str_random helper
+                    $token = Str::Random(5) . date('jn');
+            } //check if the token already exists and if it does, try again
+            
+			while (Order::where('order_reference', $token)->first());
+            $order->order_reference = $token;
+        
+		});
     }
 }
