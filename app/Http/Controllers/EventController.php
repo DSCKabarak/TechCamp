@@ -10,7 +10,6 @@ use App\Models\Event;
 use App\Models\Organiser;
 use App\Models\EventImage;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Session\Session;
 use Spatie\GoogleCalendar\Event as GCEvent;
 
 class EventController extends MyBaseController
@@ -353,10 +352,10 @@ class EventController extends MyBaseController
         $event = Event::scope()->findOrFail($event_id);
         $event->is_live = 1;
         $event->save();
-        Session::flash('message', trans('Event.go_live'));
+        \Session::flash('message', trans('Event.go_live'));
 
         return redirect()->action(
-            'EventController@showDashboard', ['event_id' => $event_id]
+            'EventDashboardController@showDashboard', ['event_id' => $event_id]
         );
     }
 }
