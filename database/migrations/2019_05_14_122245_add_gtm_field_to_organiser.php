@@ -14,7 +14,8 @@ class AddGtmFieldToOrganiser extends Migration
     public function up()
     {
         Schema::table('organisers', function (Blueprint $table) {
-            $table->string('gtm_code', 20)->after('logo_path')->nullable();
+            $table->string('google_tag_manager_code', 20)->after('google_analytics_code')
+                ->nullable();
         });
     }
 
@@ -26,7 +27,7 @@ class AddGtmFieldToOrganiser extends Migration
     public function down()
     {
         Schema::table('organisers', function (Blueprint $table) {
-            $table->dropColumn('gtm_code');
+            $table->dropColumn('google_tag_manager_code');
         });
     }
 }
