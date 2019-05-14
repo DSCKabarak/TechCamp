@@ -224,6 +224,7 @@ class EventController extends MyBaseController
         $event->title = $request->get('title');
         $event->description = strip_tags($request->get('description'));
         $event->start_date = $request->get('start_date');
+        $event->google_tag_manager_code = $request->get('google_tag_manager_code');
 
         /*
          * If the google place ID is the same as before then don't update the venue
