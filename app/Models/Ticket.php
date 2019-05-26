@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use function Sodium\add;
+use Superbalist\Money\Money;
 
 class Ticket extends MyBaseModel
 {
@@ -62,8 +64,8 @@ class Ticket extends MyBaseModel
         return $this->belongsToMany(
             Order::class,
             'ticket_order',
-            'order_id',
-            'ticket_id'
+            'ticket_id',
+            'order_id'
         );
     }
 
@@ -266,5 +268,45 @@ class Ticket extends MyBaseModel
         }
 
         return config('attendize.ticket_status_on_sale');
+    }
+
+    /**
+     * Ticket revenue is calculated as:
+     *
+     * Sales Volume + Organiser Booking Fees - Non refunded order tax amounts - Refunds
+     * @return Money
+     */
+    public function getTicketRevenueAmount()
+    {
+        // Get the event currency
+        $eventCurrency = $this->event()->first()->currency()->first();
+
+        // Setup the currency on the event for transformation
+        $currency = new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            ! empty($eventCurrency->symbol_left)
+        );
+
+        // Get the amount that's been refunded on this ticket
+        $refunded = $this->orders()->where('is_refunded', true)->get()
+            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
+
+                // TODO This needs to split it per ticket if there are more than 1 ticket per order :/
+                return (new Money($amountRefunded, $currency))
+                    ->add(new Money($refundedOrder->amount_refunded, $currency));
+            });
+
+        // Get all ticket order tax amounts excluding refunds
+        $taxAmount = $this->orders()->where('is_refunded', false)->get()
+            ->reduce(function($taxAmounts, $order) use ($currency) {
+                return (new Money($taxAmounts, $currency))->add((new Money($order->taxamt, $currency)));
+            });
+
+        $salesVolume = (new Money($this->sales_volume, $currency));
+        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
+
+        return $salesVolume->add($organiserFeesVolume)->subtract($refunded)->subtract($taxAmount);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d0fc1a97c1b0ad040b208289e0da4c4",
+    "content-hash": "c207308dfb89c2bdbfde3ef8963a2bee",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -4487,6 +4487,51 @@
             "time": "2015-10-13T18:44:15+00:00"
         },
         {
+            "name": "superbalist/php-money",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Superbalist/php-money.git",
+                "reference": "248a3a36289765b437a22e71ad3df12f9a61bdf1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Superbalist/php-money/zipball/248a3a36289765b437a22e71ad3df12f9a61bdf1",
+                "reference": "248a3a36289765b437a22e71ad3df12f9a61bdf1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Superbalist\\Money\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Superbalist.com a division of Takealot Online (Pty) Ltd",
+                    "email": "info@superbalist.com"
+                }
+            ],
+            "description": "A money and currency library for handling arbitrary-precision arithmetic",
+            "time": "2017-05-03T13:58:26+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.0",
             "source": {
@@ -5148,7 +5193,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
