@@ -118,7 +118,7 @@
                                     @if($order->is_refunded || $order->is_partially_refunded)
                                         -{{ money($order->amount_refunded, $event->currency) }}
                                     @else
-                                        {{ money($order->amount + $order->organiser_booking_fee, $event->currency) }}
+                                        {{ money($order->amount + $order->organiser_booking_fee + $order->taxamt, $event->currency) }}
                                     @endif
                                 </a>
                             </td>
