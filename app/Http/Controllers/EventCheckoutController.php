@@ -545,12 +545,11 @@ class EventCheckoutController extends Controller
 
             /**
              * We need to attach the ticket ID to an order. There is a case where multiple tickets
-             * can be bought in the same order
+             * can be bought in the same order.
              */
-            collect($ticket_order['tickets'])
-                ->map(function($ticketDetail) use ($order) {
-                    $order->tickets()->attach($ticketDetail['ticket']['id']);
-                });
+            collect($ticket_order['tickets'])->map(function($ticketDetail) use ($order) {
+                $order->tickets()->attach($ticketDetail['ticket']['id']);
+            });
 
             /*
              * Update the event sales volume
