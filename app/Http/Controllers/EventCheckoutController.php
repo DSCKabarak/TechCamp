@@ -515,7 +515,6 @@ class EventCheckoutController extends Controller
             $attendee_increment = 1;
             $ticket_questions = isset($request_data['ticket_holder_questions']) ? $request_data['ticket_holder_questions'] : [];
 
-
             /*
              * Create the order
              */
@@ -543,6 +542,15 @@ class EventCheckoutController extends Controller
 
             $order->taxamt = $orderService->getTaxAmount();
             $order->save();
+
+            /**
+             * We need to attach the ticket ID to an order. There is a case where multiple tickets
+             * can be bought in the same order
+             */
+            collect($ticket_order['tickets'])
+                ->map(function($ticketDetail) use ($order) {
+                    $order->tickets()->attach($ticketDetail['ticket']['id']);
+                });
 
             /*
              * Update the event sales volume

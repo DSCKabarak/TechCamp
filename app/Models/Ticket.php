@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -54,18 +55,22 @@ class Ticket extends MyBaseModel
 
     /**
      * The order associated with the ticket.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function order()
+    public function orders()
     {
-        return $this->belongsToMany(\App\Models\Order::class);
+        return $this->belongsToMany(
+            Order::class,
+            'ticket_order',
+            'order_id',
+            'ticket_id'
+        );
     }
 
     /**
      * The questions associated with the ticket.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions()
     {
@@ -73,7 +78,7 @@ class Ticket extends MyBaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     function event_access_codes()
     {

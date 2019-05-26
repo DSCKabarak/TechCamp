@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use File;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PDF;
 use Illuminate\Support\Str;
@@ -75,12 +77,16 @@ class Order extends MyBaseModel
 
     /**
      * The tickets associated with the order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return BelongsToMany
      */
     public function tickets()
     {
-        return $this->hasMany(\App\Models\Ticket::class);
+        return $this->belongsToMany(
+            Ticket::class,
+            'ticket_order',
+            'order_id',
+            'ticket_id'
+        );
     }
 
 
