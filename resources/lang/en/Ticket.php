@@ -34,7 +34,7 @@ return array (
   'questions' => 'Questions',
   'remaining' => 'Remaining',
   'resume' => 'Resume',
-  'revenue' => 'Revenue',
+  'revenue' => 'Revenue (tax excl.)',
   'search_tickets' => 'Search tickets...',
   'show_1d_barcode' => 'Show 1D barcode on tickets',
   'sold' => 'Sold',
