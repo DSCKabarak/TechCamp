@@ -147,7 +147,7 @@
                                 <li>
                                     <div class="section">
                                         <h4 class="nm hint--top">
-                                            {{-- Sales revenue + organiser fees - refunded - tax --}}
+                                            {{-- Sales revenue + organiser fees --}}
                                             {{ $ticket->getTicketRevenueAmount()->display() }}
                                         </h4>
                                         <p class="nm text-muted">@lang("Ticket.revenue")</p>

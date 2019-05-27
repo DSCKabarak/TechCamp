@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PDF;
 use Illuminate\Support\Str;
+use Superbalist\Money\Money;
 
 class Order extends MyBaseModel
 {
@@ -191,5 +192,43 @@ class Order extends MyBaseModel
             $order->order_reference = $token;
         
 		});
+    }
+
+    public function getOrderDisplayAmount()
+    {
+        // Setup the currency on the event for transformation
+        $currency = $this->getEventCurrency();
+
+        // We need to show if an order has been refunded
+        if ($this->is_refunded) {
+            $taxAmount = (new Money($this->taxamt, $currency));
+            $amountRefunded = (new Money($this->amount_refunded, $currency));
+
+            return $amountRefunded->subtract($taxAmount)->negate();
+        } elseif ($this->is_partially_refunded) {
+            $partiallyRefundedAmount = (new Money($this->amount_refunded, $currency));
+            $orderAmount = (new Money($this->amount, $currency));
+
+            return $orderAmount->subtract($partiallyRefundedAmount);
+        }
+
+        return (new Money($this->amount, $currency));
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    public function getEventCurrency()
+    {
+        // Get the event currency
+        $eventCurrency = $this->event()->first()->currency()->first();
+
+        // Transform the event currency for use in the Money library
+        return new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            !empty($eventCurrency->symbol_left)
+        );
     }
 }

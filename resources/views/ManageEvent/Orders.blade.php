@@ -114,13 +114,7 @@
                                 > {{$order->email}}</a>
                             </td>
                             <td>
-                                <a href="#" class="hint--top" data-hint="{{money($order->amount, $event->currency)}} + {{money($order->organiser_booking_fee, $event->currency)}} @lang("Order.organiser_booking_fees")">
-                                    @if($order->is_refunded || $order->is_partially_refunded)
-                                        -{{ money($order->amount_refunded, $event->currency) }}
-                                    @else
-                                        {{ money($order->amount + $order->organiser_booking_fee + $order->taxamt, $event->currency) }}
-                                    @endif
-                                </a>
+                                <span>{{ $order->getOrderDisplayAmount()->display() }}</span>
                             </td>
                             <td>
                                 <span class="label label-{{(!$order->is_payment_received || $order->is_refunded || $order->is_partially_refunded) ? 'warning' : 'success'}}">

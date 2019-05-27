@@ -8,6 +8,7 @@ use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
 use App\Models\Order;
+use App\Models\Ticket;
 use App\Services\Order as OrderService;
 use DB;
 use Excel;
@@ -220,6 +221,7 @@ class EventOrdersController extends MyBaseController
             ]);
         }
 
+        /** @var Order $order */
         $order = Order::scope()->findOrFail($order_id);
 
         $refund_order = ($request->get('refund_order') === 'on') ? true : false;

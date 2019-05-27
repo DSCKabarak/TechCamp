@@ -289,24 +289,9 @@ class Ticket extends MyBaseModel
             ! empty($eventCurrency->symbol_left)
         );
 
-        // Get the amount that's been refunded on this ticket
-        $refunded = $this->orders()->where('is_refunded', true)->get()
-            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
-
-                // TODO This needs to split it per ticket if there are more than 1 ticket per order :/
-                return (new Money($amountRefunded, $currency))
-                    ->add(new Money($refundedOrder->amount_refunded, $currency));
-            });
-
-        // Get all ticket order tax amounts excluding refunds
-        $taxAmount = $this->orders()->where('is_refunded', false)->get()
-            ->reduce(function($taxAmounts, $order) use ($currency) {
-                return (new Money($taxAmounts, $currency))->add((new Money($order->taxamt, $currency)));
-            });
-
         $salesVolume = (new Money($this->sales_volume, $currency));
         $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
 
-        return $salesVolume->add($organiserFeesVolume)->subtract($refunded)->subtract($taxAmount);
+        return $salesVolume->add($organiserFeesVolume);
     }
 }

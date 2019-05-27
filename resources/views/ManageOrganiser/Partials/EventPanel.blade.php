@@ -25,7 +25,7 @@
         <ul class="nav nav-section nav-justified mt5 mb5">
             <li>
                 <div class="section">
-                    <h4 class="nm">{{$event->tickets->sum('quantity_sold')}}</h4>
+                    <h4 class="nm">{{ $event->tickets->sum('quantity_sold') }}</h4>
                     <p class="nm text-muted">@lang("Event.tickets_sold")</p>
                 </div>
             </li>
