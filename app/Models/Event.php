@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
+use Superbalist\Money\Money;
 use URL;
 
 class Event extends MyBaseModel
@@ -420,5 +421,43 @@ ICSTemplate;
     public function hasAccessCode($accessCodeId)
     {
         return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
+    }
+
+    /**
+     * @return Money
+     */
+    public function getEventRevenueAmount()
+    {
+        $currency = $this->getEventCurrency();
+
+        // Partial refunded orders do not count against overall revenue
+        $partialRefunds = $this->orders()->where('is_partially_refunded', true)->get()
+            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
+                return (new Money($amountRefunded, $currency))
+                    ->add(new Money($refundedOrder->amount_refunded, $currency));
+            });
+
+        $salesVolume = (new Money($this->sales_volume, $currency));
+        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
+
+        return $salesVolume->add($organiserFeesVolume)->subtract($partialRefunds);
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    private function getEventCurrency()
+    {
+        // Get the event currency
+        $eventCurrency = $this->currency()->first();
+
+        // Setup the currency on the event for transformation
+        $currency = new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            !empty($eventCurrency->symbol_left)
+        );
+        return $currency;
     }
 }
