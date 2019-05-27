@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
 use Superbalist\Money\Money;
@@ -71,7 +72,7 @@ class Event extends MyBaseModel
     /**
      * The attendees associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function attendees()
     {
@@ -81,7 +82,7 @@ class Event extends MyBaseModel
     /**
      * The images associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function images()
     {
@@ -101,7 +102,7 @@ class Event extends MyBaseModel
     /**
      * The tickets associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tickets()
     {
@@ -111,17 +112,17 @@ class Event extends MyBaseModel
     /**
      * The stats associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function stats()
     {
-        return $this->hasMany(\App\Models\EventStats::class);
+        return $this->hasMany(EventStats::class);
     }
 
     /**
      * The affiliates associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function affiliates()
     {
@@ -131,7 +132,7 @@ class Event extends MyBaseModel
     /**
      * The orders associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function orders()
     {
@@ -141,7 +142,7 @@ class Event extends MyBaseModel
     /**
      * The access codes associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function access_codes()
     {
@@ -423,24 +424,18 @@ ICSTemplate;
         return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
     }
 
-    /**
-     * @return Money
-     */
     public function getEventRevenueAmount()
     {
         $currency = $this->getEventCurrency();
 
-//        // Partial refunded orders do not count against overall revenue
-//        $partialRefunds = $this->orders()->where('is_partially_refunded', true)->get()
-//            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
-//                return (new Money($amountRefunded, $currency))
-//                    ->add(new Money($refundedOrder->amount_refunded, $currency));
-//            });
+        $eventRevenue = $this->stats()->get()->reduce(function($eventRevenue, $statsEntry) use ($currency) {
+            $salesVolume = (new Money($statsEntry->sales_volume, $currency));
+            $organiserFeesVolume = (new Money($statsEntry->organiser_fees_volume, $currency));
 
-        $salesVolume = (new Money($this->sales_volume, $currency));
-        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
+            return (new Money($eventRevenue, $currency))->add($salesVolume)->add($organiserFeesVolume);
+        });
 
-        return $salesVolume->add($organiserFeesVolume);
+        return (new Money($eventRevenue, $currency));
     }
 
     /**
