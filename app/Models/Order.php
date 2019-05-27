@@ -4,7 +4,6 @@ namespace App\Models;
 
 use File;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PDF;
 use Illuminate\Support\Str;
@@ -201,7 +200,7 @@ class Order extends MyBaseModel
     {
         // We need to show if an order has been refunded
         if ($this->is_refunded) {
-            return $this->getRefundedAmountExcludingTax();
+            return $this->getRefundedAmountExcludingTax()->negate();
         }
 
         return (new Money($this->amount, $this->getEventCurrency()));
@@ -217,7 +216,7 @@ class Order extends MyBaseModel
         $taxAmount = (new Money($this->taxamt, $currency));
         $amountRefunded = (new Money($this->amount_refunded, $currency));
 
-        return $amountRefunded->subtract($taxAmount)->negate();
+        return $amountRefunded->subtract($taxAmount);
     }
 
     /**

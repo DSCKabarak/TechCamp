@@ -43,7 +43,7 @@
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ $event->getEventRevenueAmount()->display() }}</h3>
-                <span>@lang("Dashboard.sales_volume")</span>
+                <span>@lang("Event.revenue")</span>
             </div>
         </div>
         <div class="col-sm-3">

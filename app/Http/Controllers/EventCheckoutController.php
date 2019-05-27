@@ -552,9 +552,9 @@ class EventCheckoutController extends Controller
             });
 
             /*
-             * Update the event sales volume
+             * Update the event sales volume, not including of tax
              */
-            $event->increment('sales_volume', $orderService->getGrandTotal());
+            $event->increment('sales_volume', $orderService->getOrderTotalWithBookingFee());
             $event->increment('organiser_fees_volume', $order->organiser_booking_fee);
 
             /*
