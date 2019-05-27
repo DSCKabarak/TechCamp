@@ -273,10 +273,30 @@ class Ticket extends MyBaseModel
     /**
      * Ticket revenue is calculated as:
      *
-     * Sales Volume + Organiser Booking Fees - Non refunded order tax amounts - Refunds
+     * Sales Volume + Organiser Booking Fees - Partial Refunds
      * @return Money
      */
     public function getTicketRevenueAmount()
+    {
+        $currency = $this->getEventCurrency();
+
+        // Partial refunded orders do not count against overall revenue
+        $partialRefunds = $this->orders()->where('is_partially_refunded', true)->get()
+            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
+                return (new Money($amountRefunded, $currency))
+                    ->add(new Money($refundedOrder->amount_refunded, $currency));
+            });
+
+        $salesVolume = (new Money($this->sales_volume, $currency));
+        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
+
+        return $salesVolume->add($organiserFeesVolume)->subtract($partialRefunds);
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    private function getEventCurrency()
     {
         // Get the event currency
         $eventCurrency = $this->event()->first()->currency()->first();
@@ -286,12 +306,8 @@ class Ticket extends MyBaseModel
             $eventCurrency->code,
             empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
             $eventCurrency->title,
-            ! empty($eventCurrency->symbol_left)
+            !empty($eventCurrency->symbol_left)
         );
-
-        $salesVolume = (new Money($this->sales_volume, $currency));
-        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
-
-        return $salesVolume->add($organiserFeesVolume);
+        return $currency;
     }
 }

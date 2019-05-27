@@ -194,25 +194,46 @@ class Order extends MyBaseModel
 		});
     }
 
-    public function getOrderDisplayAmount()
+    /**
+     * @return Money
+     */
+    public function getOrderAmount()
+    {
+        // We need to show if an order has been refunded
+        if ($this->is_refunded) {
+            return $this->getRefundedAmountExcludingTax();
+        }
+
+        return (new Money($this->amount, $this->getEventCurrency()));
+    }
+
+    /**
+     * @return Money
+     */
+    public function getRefundedAmountExcludingTax()
     {
         // Setup the currency on the event for transformation
         $currency = $this->getEventCurrency();
+        $taxAmount = (new Money($this->taxamt, $currency));
+        $amountRefunded = (new Money($this->amount_refunded, $currency));
 
-        // We need to show if an order has been refunded
-        if ($this->is_refunded) {
-            $taxAmount = (new Money($this->taxamt, $currency));
-            $amountRefunded = (new Money($this->amount_refunded, $currency));
+        return $amountRefunded->subtract($taxAmount)->negate();
+    }
 
-            return $amountRefunded->subtract($taxAmount)->negate();
-        } elseif ($this->is_partially_refunded) {
-            $partiallyRefundedAmount = (new Money($this->amount_refunded, $currency));
-            $orderAmount = (new Money($this->amount, $currency));
+    /**
+     * @return Money
+     */
+    public function getRefundedAmountIncludingTax()
+    {
+        return (new Money($this->amount_refunded, $this->getEventCurrency()));
+    }
 
-            return $orderAmount->subtract($partiallyRefundedAmount);
-        }
-
-        return (new Money($this->amount, $currency));
+    /**
+     * @return Money
+     */
+    public function getPartiallyRefundedAmount()
+    {
+        return (new Money($this->amount_refunded, $this->getEventCurrency()));
     }
 
     /**

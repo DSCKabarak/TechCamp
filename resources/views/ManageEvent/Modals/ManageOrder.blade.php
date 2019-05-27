@@ -48,7 +48,16 @@
                         </div>
 
                         <div class="col-sm-6 col-xs-6">
-                            <b>@lang("ManageEvent.amount")</b><br>{{ $orderService->getGrandTotal(true) }}
+                            @if($order->is_refunded)
+                                <b>@lang("ManageEvent.refunded_amount")</b><br>
+                                {{ $order->getRefundedAmountIncludingTax()->display() }}
+                            @else
+                                <b>@lang("ManageEvent.amount")</b><br>
+                                {{ $order->getOrderAmount()->display() }}
+                                @if ($order->is_partially_refunded)
+                                    <em>({{ $order->getPartiallyRefundedAmount()->negate()->display() }})</em>
+                                @endif
+                            @endif
                         </div>
 
                         <div class="col-sm-6 col-xs-6">

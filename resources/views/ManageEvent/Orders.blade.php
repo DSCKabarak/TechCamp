@@ -114,7 +114,10 @@
                                 > {{$order->email}}</a>
                             </td>
                             <td>
-                                <span>{{ $order->getOrderDisplayAmount()->display() }}</span>
+                                <span>{{ $order->getOrderAmount()->display() }}</span>
+                                @if ($order->is_partially_refunded)
+                                    <em>({{ $order->getPartiallyRefundedAmount()->negate()->display() }})</em>
+                                @endif
                             </td>
                             <td>
                                 <span class="label label-{{(!$order->is_payment_received || $order->is_refunded || $order->is_partially_refunded) ? 'warning' : 'success'}}">

@@ -5,6 +5,7 @@ return array (
   'all_attendees_cancelled' => 'All attendees in this order have been cancelled.',
   'all_order_refunded' => 'All :money of this order has been refunded.',
   'amount' => 'Amount',
+  'refunded_amount' => 'Refunded Amount',
   'attendee_cancelled' => 'Cancelled',
   'attendee_cancelled_help' => 'This attendee has been cancelled',
   'attendees_file_requirements' => 'File must be .csv and the first line must contain first_name,last_name,email',
