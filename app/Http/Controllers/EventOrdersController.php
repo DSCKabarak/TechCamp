@@ -212,6 +212,8 @@ class EventOrdersController extends MyBaseController
             'refund_amount.integer' => trans("Controllers.refund_only_numbers_error"),
         ];
 
+        // TODO Add attendees as a required submission here
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
@@ -264,8 +266,7 @@ class EventOrdersController extends MyBaseController
                     $response = $request->send();
 
                     if ($response->isSuccessful()) {
-                        /* Update the event sales volume*/
-                        $order->event->decrement('sales_volume', $refund_amount);
+                        // Update the amount refunded on the order
                         $order->amount_refunded = round(($order->amount_refunded + $refund_amount), 2);
 
                         if (($order->organiser_amount - $order->amount_refunded) == 0) {
@@ -302,18 +303,20 @@ class EventOrdersController extends MyBaseController
                 $attendee = Attendee::scope()->where('id', '=', $attendee_id)->first();
                 $attendee->ticket->decrement('quantity_sold');
                 $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-                $order->event->decrement('sales_volume', $attendee->ticket->price);
+
                 $order->decrement('amount', $attendee->ticket->price);
                 $attendee->is_cancelled = 1;
                 $attendee->save();
 
+                /** @var EventStats $eventStats */
                 $eventStats = EventStats::where('event_id', $attendee->event_id)->where('date', $attendee->created_at->format('Y-m-d'))->first();
-                if($eventStats){
+                if ($eventStats) {
                     $eventStats->decrement('tickets_sold',  1);
                     $eventStats->decrement('sales_volume',  $attendee->ticket->price);
                 }
             }
         }
+
         if(!$refund_amount && !$attendees)
             $msg = trans("Controllers.nothing_to_do");
         else {
