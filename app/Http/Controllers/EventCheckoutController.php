@@ -503,7 +503,6 @@ class EventCheckoutController extends Controller
      */
     public function completeOrder($event_id, $return_json = true)
     {
-
         DB::beginTransaction();
 
         try {
@@ -552,12 +551,6 @@ class EventCheckoutController extends Controller
             });
 
             /*
-             * Update the event sales volume, not including of tax
-             */
-            $event->increment('sales_volume', $orderService->getOrderTotalWithBookingFee());
-            $event->increment('organiser_fees_volume', $order->organiser_booking_fee);
-
-            /*
              * Update affiliates stats stats
              */
             if ($ticket_order['affiliate_referral']) {
@@ -585,7 +578,6 @@ class EventCheckoutController extends Controller
              * Add the attendees
              */
             foreach ($ticket_order['tickets'] as $attendee_details) {
-
                 /*
                  * Update ticket's quantity sold
                  */
@@ -598,7 +590,6 @@ class EventCheckoutController extends Controller
                 $ticket->increment('sales_volume', ($attendee_details['ticket']['price'] * $attendee_details['qty']));
                 $ticket->increment('organiser_fees_volume',
                     ($attendee_details['ticket']['organiser_booking_fee'] * $attendee_details['qty']));
-
 
                 /*
                  * Insert order items (for use in generating invoices)
@@ -632,9 +623,9 @@ class EventCheckoutController extends Controller
                      * Save the attendee's questions
                      */
                     foreach ($attendee_details['ticket']->questions as $question) {
-
-
-                        $ticket_answer = isset($ticket_questions[$attendee_details['ticket']->id][$i][$question->id]) ? $ticket_questions[$attendee_details['ticket']->id][$i][$question->id] : null;
+                        $ticket_answer = isset($ticket_questions[$attendee_details['ticket']->id][$i][$question->id])
+                            ? $ticket_questions[$attendee_details['ticket']->id][$i][$question->id]
+                            : null;
 
                         if (is_null($ticket_answer)) {
                             continue;
@@ -658,14 +649,12 @@ class EventCheckoutController extends Controller
                         }
                     }
 
-
                     /* Keep track of total number of attendees */
                     $attendee_increment++;
                 }
             }
 
         } catch (Exception $e) {
-
             Log::error($e);
             DB::rollBack();
 
