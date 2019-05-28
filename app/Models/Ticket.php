@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use function Sodium\add;
 use Superbalist\Money\Money;
 
 class Ticket extends MyBaseModel
@@ -280,17 +279,10 @@ class Ticket extends MyBaseModel
     {
         $currency = $this->getEventCurrency();
 
-        // Partial refunded orders do not count against overall revenue
-        $partialRefunds = $this->orders()->where('is_partially_refunded', true)->get()
-            ->reduce(function($amountRefunded, $refundedOrder) use ($currency) {
-                return (new Money($amountRefunded, $currency))
-                    ->add(new Money($refundedOrder->amount_refunded, $currency));
-            });
-
         $salesVolume = (new Money($this->sales_volume, $currency));
         $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
 
-        return $salesVolume->add($organiserFeesVolume)->subtract($partialRefunds);
+        return $salesVolume->add($organiserFeesVolume);
     }
 
     /**
