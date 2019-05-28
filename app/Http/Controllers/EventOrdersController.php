@@ -207,12 +207,12 @@ class EventOrdersController extends MyBaseController
     {
         $rules = [
             'refund_amount' => ['numeric'],
+            'attendees[]' => 'required',
         ];
         $messages = [
-            'refund_amount.integer' => trans("Controllers.refund_only_numbers_error"),
+            'refund_amount.integer' => trans('Controllers.refund_only_numbers_error'),
+            'attendees[].required' => trans('Controllers.attendees_required'),
         ];
-
-        // TODO Add attendees as a required submission here
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
