@@ -50,6 +50,15 @@ Demo Back-end Demo: http://attendize.website/signup<br />
 ---
 Feel free to fork and contribute. If you are unsure about adding a feature create a Github issue to ask for Feedback. Read the [contribution guidelines](http://www.attendize.com/contributions.html)
 
+### Submitting an issue
+If you are creating an issue/bug report for Attendize please let us know the following.
+1. The version of Attendize you are using. e.g. master branch or release tag.
+2. Are you running Attendize in Docker or using a Virtual Machine.
+3. What version or Operating System are you using. e.g. Ubuntu 14.04
+4. The version of PHP you are using. e.g PHP 7.1
+5. Are you using Attendize with Nginx or Apache.
+6. Steps to reproduce the bug.
+
 ### Installation
 ---
 To get developing straight away use the [Pre-configured Docker Environment](http://www.attendize.com/getting_started.html#running-attendize-in-docker-for-development)<br />
