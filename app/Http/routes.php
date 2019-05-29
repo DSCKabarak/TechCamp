@@ -41,16 +41,6 @@ Route::group(
         'as'   => 'logout',
     ]);
 
-
-    Route::get('/terms_and_conditions', [
-        'as' => 'termsAndConditions',
-        function () {
-            return 'TODO: add terms and cond';
-        }
-    ]);
-
-
-
     Route::group(['middleware' => ['installed']], function () {
 
         /*
@@ -714,13 +704,5 @@ Route::group(
         'as'   => 'index',
         'uses' => 'IndexController@showIndex',
     ]);
-
-    Route::get('/terms_and_conditions', [
-        'as' => 'termsAndConditions',
-        function () {
-            return 'TODO: add terms and cond';
-        }
-    ]);
-
 });
 
