@@ -1,5 +1,9 @@
 @extends('Public.ViewEvent.Layouts.EventPage')
 
+@section('head')
+    @include('Public.ViewEvent.Partials.GoogleTagManager')
+@endsection
+
 @section('content')
     @include('Public.ViewEvent.Partials.EventHeaderSection')
     @include('Public.ViewEvent.Partials.EventTicketsSection')
