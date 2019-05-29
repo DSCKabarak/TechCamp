@@ -326,27 +326,17 @@ Route::group(
                 ]
             );
 
-            Route::get('{event_id}', function ($event_id) {
-                return Redirect::route('showEventDashboard', [
-                    'event_id' => $event_id,
-                ]);
-            });
+            Route::get('{event_id}/', [
+                    'uses' => 'EventDashboardController@redirectToDashboard',
+                ]
+            );
 
             /*
              * @todo Move to a controller
              */
-            Route::get('{event_id}/go_live', [
-                'as' => 'MakeEventLive',
-                function ($event_id) {
-                    $event = \App\Models\Event::scope()->findOrFail($event_id);
-                    $event->is_live = 1;
-                    $event->save();
-                    \Session::flash('message', trans('Event.go_live'));
-
-                    return Redirect::route('showEventDashboard', [
-                        'event_id' => $event_id,
-                    ]);
-                }
+             Route::get('{event_id}/go_live', [
+                'as'   => 'MakeEventLive',
+                'uses' => 'EventController@makeEventLive',
             ]);
 
             /*
@@ -720,11 +710,10 @@ Route::group(
         });
     });
 
-    Route::get('/', function () {
-        return Redirect::route('showSelectOrganiser');
-        // I prefer it that way:
-        // return Redirect::route('showOrganiserHome', ["organiser_id"=>1]);
-    });
+    Route::get('/', [
+        'as'   => 'index',
+        'uses' => 'IndexController@showIndex',
+    ]);
 
     Route::get('/terms_and_conditions', [
         'as' => 'termsAndConditions',

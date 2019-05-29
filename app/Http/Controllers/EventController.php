@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
-use App\Models\EventImage;
-use App\Models\Organiser;
-use Auth;
-use Illuminate\Http\Request;
-use Image;
 use Log;
+use Auth;
+use Image;
 use Validator;
+use App\Models\Event;
+use App\Models\Organiser;
+use App\Models\EventImage;
+use Illuminate\Http\Request;
+use Spatie\GoogleCalendar\Event as GCEvent;
 
 class EventController extends MyBaseController
 {
@@ -342,5 +343,21 @@ class EventController extends MyBaseController
                 'error' => trans("Controllers.image_upload_error"),
             ]);
         }
+    }
+
+    /**
+     * Puplish event and redirect
+     * @param  Integer|false $event_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function makeEventLive($event_id = false) {
+        $event = Event::scope()->findOrFail($event_id);
+        $event->is_live = 1;
+        $event->save();
+        \Session::flash('message', trans('Event.go_live'));
+
+        return redirect()->action(
+            'EventDashboardController@showDashboard', ['event_id' => $event_id]
+        );
     }
 }
