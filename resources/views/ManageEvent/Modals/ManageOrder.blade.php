@@ -81,118 +81,69 @@
 
                     </div>
                 </div>
-
                 <h3>@lang('Order.order_items')</h3>
                 <div class="well nopad bgcolor-white p0">
                     <div class="table-responsive">
                         <table class="table table-hover" >
                             <thead>
-                            <th>
-                                @lang("Order.ticket")
-                            </th>
-                            <th>
-                                @lang("Order.quantity")
-                            </th>
-                            <th>
-                                @lang("Order.price")
-                            </th>
-                            <th>
-                                @lang("Order.booking_fee")
-                            </th>
-                            <th>
-                                @lang("Order.total")
-                            </th>
+                                <th>@lang("Order.ticket")</th>
+                                <th>@lang("Order.quantity")</th>
+                                <th>@lang("Order.price")</th>
+                                <th>@lang("Order.booking_fee")</th>
+                                <th>@lang("Order.total")</th>
                             </thead>
                             <tbody>
                                 @foreach($order->orderItems as $order_item)
                                 <tr>
+                                    <td>{{$order_item->title}}</td>
+                                    <td>{{$order_item->quantity}}</td>
                                     <td>
-                                        {{$order_item->title}}
+                                        @if((int)ceil($order_item->unit_price) == 0)
+                                            @lang("Order.free")
+                                        @else
+                                            {{money($order_item->unit_price, $order->event->currency)}}
+                                        @endif
                                     </td>
                                     <td>
-                                        {{$order_item->quantity}}
+                                        @if((int)ceil($order_item->unit_price) == 0)
+                                            -
+                                        @else
+                                            {{money($order_item->unit_booking_fee, $order->event->currency)}}
+                                        @endif
                                     </td>
                                     <td>
                                         @if((int)ceil($order_item->unit_price) == 0)
                                             @lang("Order.free")
                                         @else
-                                       {{money($order_item->unit_price, $order->event->currency)}}
+                                            {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                                         @endif
-
-                                    </td>
-                                    <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
-                                        -
-                                        @else
-                                        {{money($order_item->unit_booking_fee, $order->event->currency)}}
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
-                                            @lang("Order.free")
-                                        @else
-                                        {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
-                                        @endif
-
                                     </td>
                                 </tr>
                                 @endforeach
                                 <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <b>@lang("Order.sub_total")</b>
-                                    </td>
-                                    <td colspan="2">
-                                        {{money($order->total_amount, $order->event->currency)}}
-                                    </td>
+                                    <td colspan="3"></td>
+                                    <td><b>@lang("Order.sub_total")</b></td>
+                                    <td colspan="2">{{money($order->total_amount, $order->event->currency)}}</td>
                                 </tr>
                                 @if($order->event->organiser->charge_tax)
                                 <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <b>{{$order->event->organiser->tax_name}}</b>
-                                    </td>
-                                    <td colspan="2">
-                                        {{ $orderService->getTaxAmount(true) }}
-                                    </td>
+                                    <td colspan="3"></td>
+                                    <td><strong>{{$order->event->organiser->tax_name}}</strong></td>
+                                    <td colspan="2">{{ $orderService->getTaxAmount(true) }}</td>
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <b>Total</b>
-                                    </td>
-                                    <td colspan="2">
-                                        {{ $orderService->getGrandTotal(true) }}
-                                    </td>
+                                    <td colspan="3"></td>
+                                    <td><strong>Total</strong></td>
+                                    <td colspan="2">{{ $orderService->getGrandTotal(true) }}</td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
                 </div>
-
-                <h3>
-                    @lang("Order.order_attendees")
-                </h3>
+                <h3>@lang("Order.order_attendees")</h3>
                 <div class="well nopad bgcolor-white p0">
-
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <tbody>

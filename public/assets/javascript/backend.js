@@ -9870,7 +9870,7 @@ function removeQuestionOption(removeBtn)
 function processFormErrors($form, errors)
 {
     $.each(errors, function (index, error) {
-        var $input = $(':input[name="' + index + '"]', $form);
+        var $input = $('input[name^="' + index + '"]', $form);
 
         // Try and render a better error message for checkboxes in a table
         if (index.indexOf('[]')) {
@@ -9881,7 +9881,7 @@ function processFormErrors($form, errors)
                     .removeClass('hidden')
                     .addClass('has-error');
             }
-            return
+            return false;
         }
 
         if ($input.prop('type') === 'file') {

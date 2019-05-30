@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Log;
 use Mail;
 use Omnipay;
+use Session;
+use Superbalist\Money\Money;
 use Validator;
 
 class EventOrdersController extends MyBaseController
@@ -187,7 +189,7 @@ class EventOrdersController extends MyBaseController
         $order->update();
 
 
-        \Session::flash('message', trans("Controllers.the_order_has_been_updated"));
+        Session::flash('message', trans("Controllers.the_order_has_been_updated"));
 
         return response()->json([
             'status'      => 'success',
@@ -207,11 +209,11 @@ class EventOrdersController extends MyBaseController
     {
         $rules = [
             'refund_amount' => ['numeric'],
-            'attendees[]' => 'required',
+            'attendees' => 'required',
         ];
         $messages = [
             'refund_amount.integer' => trans('Controllers.refund_only_numbers_error'),
-            'attendees[].required' => trans('Controllers.attendees_required'),
+            'attendees.required' => trans('Controllers.attendees_required'),
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -226,51 +228,58 @@ class EventOrdersController extends MyBaseController
         /** @var Order $order */
         $order = Order::scope()->findOrFail($order_id);
 
-        $refund_order = ($request->get('refund_order') === 'on') ? true : false;
         $refund_type = $request->get('refund_type');
-        $refund_amount = round(floatval($request->get('refund_amount')), 2);
+        $refund_amount = new Money(floatval($request->get('refund_amount')), $order->getEventCurrency());
         $attendees = $request->get('attendees');
         $error_message = false;
 
-        if ($refund_order && $order->payment_gateway->can_refund) {
+        $organiserAmount = new Money($order->organiser_amount, $order->getEventCurrency());
+        $refundedAmount = new Money($order->amount_refunded, $order->getEventCurrency());
+        $maximumRefundableAmount = $organiserAmount->subtract($refundedAmount);
+
+        if ($order->payment_gateway->can_refund) {
             if (!$order->transaction_id) {
                 $error_message = trans("Controllers.order_cant_be_refunded");
             }
-
             if ($order->is_refunded) {
-                $error_message = trans("Controllers.order_already_refunded");
-            } elseif ($order->organiser_amount == 0) {
-                $error_message = trans("Controllers.nothing_to_refund");
-            } elseif ($refund_type !== 'full' && $refund_amount > round(($order->organiser_amount - $order->amount_refunded),
-                    2)
-            ) {
-                $error_message = trans("Controllers.maximum_refund_amount", ["money"=>(money($order->organiser_amount - $order->amount_refunded,
-                        $order->event->currency))]);
+                $error_message = trans('Controllers.order_already_refunded');
+            } elseif ($maximumRefundableAmount->isZero()) {
+                $error_message = trans('Controllers.nothing_to_refund');
+            } elseif ($refund_type !== 'full' && $refund_amount->isGreaterThan($maximumRefundableAmount)) {
+                // Error if the partial refund tries to refund more than allowed
+                $error_message = trans('Controllers.maximum_refund_amount', [
+                    'money' => $maximumRefundableAmount->display(),
+                ]);
             }
+
             if (!$error_message) {
                 try {
                     $gateway = Omnipay::create($order->payment_gateway->name);
-
                     $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
 
                     if ($refund_type === 'full') { /* Full refund */
-                        $refund_amount = $order->organiser_amount - $order->amount_refunded;
+                        $refund_amount = $maximumRefundableAmount;
                     }
 
                     $request = $gateway->refund([
                         'transactionReference' => $order->transaction_id,
-                        'amount'               => $refund_amount,
+                        'amount' => $refund_amount->toFloat(),
                         'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
                     ]);
 
                     $response = $request->send();
 
                     if ($response->isSuccessful()) {
-                        // Update the amount refunded on the order
-                        $order->amount_refunded = round(($order->amount_refunded + $refund_amount), 2);
+                        // New refunded amount
+                        $updatedRefundedAmount = $refundedAmount->add($refund_amount);
 
-                        if (($order->organiser_amount - $order->amount_refunded) == 0) {
+                        // Update the amount refunded on the order
+                        $order->amount_refunded = $updatedRefundedAmount->toFloat();
+
+                        if ($organiserAmount->subtract($updatedRefundedAmount)->isZero()) {
                             $order->is_refunded = 1;
+                            // Order can't be both partially and fully refunded at the same time
+                            $order->is_partially_refunded = 0;
                             $order->order_status_id = config('attendize.order_refunded');
                         } else {
                             $order->is_partially_refunded = 1;
@@ -303,9 +312,8 @@ class EventOrdersController extends MyBaseController
                 $attendee = Attendee::scope()->where('id', '=', $attendee_id)->first();
                 $attendee->ticket->decrement('quantity_sold');
                 $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-
-                $order->decrement('amount', $attendee->ticket->price);
                 $attendee->is_cancelled = 1;
+                $attendee->is_refunded = 1;
                 $attendee->save();
 
                 /** @var EventStats $eventStats */
@@ -317,20 +325,16 @@ class EventOrdersController extends MyBaseController
             }
         }
 
-        if(!$refund_amount && !$attendees)
+        if(!$refund_amount && !$attendees) {
             $msg = trans("Controllers.nothing_to_do");
-        else {
-            if($attendees && $refund_order)
-                $msg = trans("Controllers.successfully_refunded_and_cancelled");
-            else if($refund_order)
-                $msg = trans("Controllers.successfully_refunded_order");
-            else if($attendees)
-                $msg = trans("Controllers.successfully_cancelled_attendees");
+        } else {
+            $msg = trans("Controllers.successfully_refunded_and_cancelled");
         }
-        \Session::flash('message', $msg);
+
+        Session::flash('message', $msg);
 
         return response()->json([
-            'status'      => 'success',
+            'status' => 'success',
             'redirectUrl' => '',
         ]);
     }

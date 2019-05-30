@@ -76,12 +76,13 @@
                                         <div class="row">
                                             <div class="col-md-1">
                                                 <div class="checkbox">
-                                                    {!!Form::radio('refund_type', 'full', ['selected' => 'selected'])!!}
+                                                    {!! Form::radio('refund_type', 'full', ['selected' => 'selected']) !!}
                                                 </div>
                                             </div>
                                             <div class="col-md-11">
                                                 <b>@lang("ManageEvent.issue_full_refund")</b>
                                                 <div class="help-text">
+                                                    {{--TODO translate this properly and use the order helper methods--}}
                                                     Refund the
                                                     entire {{(money($order->organiser_amount - $order->amount_refunded,
                                                     $order->event->currency))}}
