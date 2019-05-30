@@ -209,6 +209,17 @@ class Order extends MyBaseModel
     /**
      * @return Money
      */
+    public function getMaxAmountRefundable()
+    {
+        $currency = $this->getEventCurrency();
+        $organiserAmount = new Money($this->organiser_amount, $currency);
+        $refundedAmount = new Money($this->amount_refunded, $currency);
+        return $organiserAmount->subtract($refundedAmount);
+    }
+
+    /**
+     * @return Money
+     */
     public function getRefundedAmountExcludingTax()
     {
         // Setup the currency on the event for transformation

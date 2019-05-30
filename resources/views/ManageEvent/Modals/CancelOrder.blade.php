@@ -1,12 +1,17 @@
 <div role="dialog" class="modal fade " style="display: none;">
-    {!! Form::open(array('url' => route('postCancelOrder', ['order_id' => $order->id]), 'class' => 'closeModalAfter ajax')) !!}
+    {!!
+        Form::open([
+            'url' => route('postCancelOrder', ['order_id' => $order->id]),
+            'class' => 'closeModalAfter ajax',
+        ])
+    !!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-cart2"></i>
-                    {{ @trans("ManageEvent.cancel_order_:ref", ["ref"=>$order->order_reference]) }}</h3>
+                    {{ @trans('ManageEvent.cancel_order_:ref', ['ref' => $order->order_reference]) }}</h3>
             </div>
             <div class="modal-body">
                 @if($attendees->count())
@@ -34,12 +39,10 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td colspan="3">
-                                        @lang("ManageEvent.select_all")
-                                    </td>
+                                    <td colspan="3">@lang("ManageEvent.select_all")</td>
                                 </tr>
                                 @foreach($attendees as $attendee)
-                                    <tr class="{{$attendee->is_cancelled ? 'danger' : ''}}">
+                                    <tr class="{{ $attendee->is_cancelled ? 'danger' : '' }}">
                                         <td>
                                             @if (!$attendee->is_cancelled)
                                                 {!! Form::checkbox('attendees[]', $attendee->id, false, ['class' => 'attendee-check']) !!}
@@ -49,9 +52,7 @@
                                             {{$attendee->first_name}}
                                             {{$attendee->last_name}}
                                         </td>
-                                        <td>
-                                            {{$attendee->email}}
-                                        </td>
+                                        <td>{{$attendee->email}}</td>
                                         <td>
                                             {{{$attendee->ticket->title}}}
                                             {{{$order->order_reference}}}-{{{$attendee->reference_index}}}
@@ -82,10 +83,9 @@
                                             <div class="col-md-11">
                                                 <b>@lang("ManageEvent.issue_full_refund")</b>
                                                 <div class="help-text">
-                                                    {{--TODO translate this properly and use the order helper methods--}}
-                                                    Refund the
-                                                    entire {{(money($order->organiser_amount - $order->amount_refunded,
-                                                    $order->event->currency))}}
+                                                    @lang('ManageEvent.refund_the_entire_amount', [
+                                                        'amount' => $order->getMaxAmountRefundable()->display()
+                                                    ])
                                                 </div>
                                             </div>
                                         </div>
@@ -94,20 +94,19 @@
                                         <div class="row">
                                             <div class="col-md-1">
                                                 <div class="checkbox">
-                                                    {!!Form::radio('refund_type', 'partial')!!}
+                                                    {!! Form::radio('refund_type', 'partial') !!}
                                                 </div>
                                             </div>
                                             <div class="col-md-11">
                                                 <b>@lang("ManageEvent.issue_partial_refund")</b>
                                                 <div class="refund_amount">
                                                     <div class="row">
-                                                        <div class="col-md-4">
-                                                            @lang("ManageEvent.refund_amount"):
-                                                        </div>
+                                                        <div class="col-md-4">@lang("ManageEvent.refund_amount"):</div>
                                                         <div class="col-sm-8">
-                                                            <input type="text" name="refund_amount" class="form-control"
+                                                            <input type="text" name="refund_amount"
+                                                                   class="form-control"
                                                                    id="refundAmount"
-                                                                   placeholder="Max {{(money($order->organiser_amount - $order->amount_refunded, $order->event->currency))}}">
+                                                                   placeholder="Max {{ $order->getMaxAmountRefundable()->display() }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,23 +116,32 @@
                                 </div>
                             @else
                                 <div class="alert alert-info">
-                                    @lang("ManageEvent.all_order_refunded", ["money"=>money($order->amount_refunded,
-                                    $order->event->currency)])
+                                    @lang("ManageEvent.all_order_refunded", [
+                                        'money' => $order->getRefundedAmountIncludingTax()->display(),
+                                    ])
                                 </div>
                             @endif
                         </div>
                     @else
                         <div class="alert alert-info">
-                            {{ @trans("ManageEvent.cant_refund_here", ["gateway"=>$order->payment_gateway->provider_name]) }}
+                            {{
+                                @trans("ManageEvent.cant_refund_here", [
+                                    'gateway' => $order->payment_gateway->provider_name,
+                                ])
+                            }}
                         </div>
                     @endif
                 @endif
             </div>
             @if($attendees->count() || !$order->is_refunded)
                 <div class="modal-footer">
-                    {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal'])
+                    {!!
+                        Form::button(trans('basic.cancel'), [
+                            'class' => 'btn modal-close btn-danger',
+                            'data-dismiss' => 'modal',
+                        ])
                     !!}
-                    {!! Form::submit(trans("ManageEvent.confirm_order_cancel"), ['class'=>"btn btn-primary"]) !!}
+                    {!! Form::submit(trans('ManageEvent.confirm_order_cancel'), ['class' => 'btn btn-primary']) !!}
                 </div>
             @endif
         </div>
