@@ -424,6 +424,9 @@ ICSTemplate;
         return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
     }
 
+    /**
+     * @return Money
+     */
     public function getEventRevenueAmount()
     {
         $currency = $this->getEventCurrency();

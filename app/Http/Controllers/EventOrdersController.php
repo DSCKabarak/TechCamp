@@ -229,7 +229,7 @@ class EventOrdersController extends MyBaseController
         $order = Order::scope()->findOrFail($order_id);
 
         $refund_type = $request->get('refund_type');
-        $refund_amount = new Money(floatval($request->get('refund_amount')), $order->getEventCurrency());
+        $refundAmount = new Money(floatval($request->get('refund_amount')), $order->getEventCurrency());
         $attendees = $request->get('attendees');
         $error_message = false;
 
@@ -245,7 +245,7 @@ class EventOrdersController extends MyBaseController
                 $error_message = trans('Controllers.order_already_refunded');
             } elseif ($maximumRefundableAmount->isZero()) {
                 $error_message = trans('Controllers.nothing_to_refund');
-            } elseif ($refund_type !== 'full' && $refund_amount->isGreaterThan($maximumRefundableAmount)) {
+            } elseif ($refund_type !== 'full' && $refundAmount->isGreaterThan($maximumRefundableAmount)) {
                 // Error if the partial refund tries to refund more than allowed
                 $error_message = trans('Controllers.maximum_refund_amount', [
                     'money' => $maximumRefundableAmount->display(),
@@ -258,12 +258,12 @@ class EventOrdersController extends MyBaseController
                     $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
 
                     if ($refund_type === 'full') { /* Full refund */
-                        $refund_amount = $maximumRefundableAmount;
+                        $refundAmount = $maximumRefundableAmount;
                     }
 
                     $request = $gateway->refund([
                         'transactionReference' => $order->transaction_id,
-                        'amount' => $refund_amount->toFloat(),
+                        'amount' => $refundAmount->toFloat(),
                         'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
                     ]);
 
@@ -271,7 +271,7 @@ class EventOrdersController extends MyBaseController
 
                     if ($response->isSuccessful()) {
                         // New refunded amount
-                        $updatedRefundedAmount = $refundedAmount->add($refund_amount);
+                        $updatedRefundedAmount = $refundedAmount->add($refundAmount);
 
                         // Update the amount refunded on the order
                         $order->amount_refunded = $updatedRefundedAmount->toFloat();
@@ -325,7 +325,7 @@ class EventOrdersController extends MyBaseController
             }
         }
 
-        if(!$refund_amount && !$attendees) {
+        if(!$refundAmount && !$attendees) {
             $msg = trans("Controllers.nothing_to_do");
         } else {
             $msg = trans("Controllers.successfully_refunded_and_cancelled");
