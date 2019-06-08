@@ -1,6 +1,6 @@
 <?php
 /*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/25 09:06:13 
+ Generated via "php artisan localization:missing" at 2018/04/25 09:06:13
 *************************************************************************/
 
 return array (

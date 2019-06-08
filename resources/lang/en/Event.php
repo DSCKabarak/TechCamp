@@ -1,6 +1,6 @@
 <?php
 /*************************************************************************
- Generated via "php artisan localization:missing" at 2018/04/26 10:54:45 
+ Generated via "php artisan localization:missing" at 2018/04/26 10:54:45
 *************************************************************************/
 
 return array (
@@ -21,6 +21,12 @@ return array (
   'event_end_date' => 'Event End Date',
   'event_flyer' => 'Event Flyer',
   'event_image' => 'Event Image (Flyer or Graphic etc.)',
+  'event_image_position' => 'Event Image Position',
+  'event_image_position_hide' => 'Hidden',
+  'event_image_position_before' => 'Before',
+  'event_image_position_after' => 'After',
+  'event_image_position_left' => 'Left',
+  'event_image_position_right' => 'Right',
   'event_orders' => 'Event Orders',
   'event_start_date' => 'Event Start Date',
   'event_title' => 'Event Title',

@@ -20,5 +20,5 @@ return array (
   'question_options' => 'Options de la question',
   'question_placeholder' => 'par ex. Merci de saisir votre adresse complète ?',
   'question_type' => 'Type de question',
-  'require_this_question_for_ticket(s)' => 'Exiger une réponse pour le(s) billet(s)',
+  'require_this_question_for_ticket(s)' => 'Activer cette question pour le(s) billet(s)',
 );

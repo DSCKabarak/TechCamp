@@ -84,7 +84,7 @@
                                                 <tr>
                                                     <td class="meta">
                                                         @if($message->sent_at!=null) <?php /* Can occur when there was mailing error*/ ?>
-                                                            <p class="date">{{$message->sent_at->format(env("DEFAULT_DATETIME_FORMAT"))}}</p>
+                                                            <p class="date">{{$message->sent_at->format(config("attendize.default_datetime_format"))}}</p>
                                                         @else
                                                             <p class="date">@lang("Message.unsent")</p>
                                                         @endif

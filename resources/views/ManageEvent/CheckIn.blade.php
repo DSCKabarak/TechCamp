@@ -14,6 +14,7 @@
 
     @include('Shared/Layouts/ViewJavascript')
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
