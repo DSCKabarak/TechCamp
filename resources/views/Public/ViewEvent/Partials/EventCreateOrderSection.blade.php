@@ -119,34 +119,34 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line1")) !!}
-                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::label("business_address_line1", trans("Public_ViewEvent.business_address_line1")) !!}
+                                        {!! Form::text("business_address_line1", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_line2")) !!}
-                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::label("business_address_line2", trans("Public_ViewEvent.business_address_line2")) !!}
+                                        {!! Form::text("business_address_line2", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-4">
                                     <div class="form-group">
-                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_state_province")) !!}
-                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::label("business_address_state", trans("Public_ViewEvent.business_address_state_province")) !!}
+                                        {!! Form::text("business_address_state", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
-                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_city")) !!}
-                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::label("business_address_city", trans("Public_ViewEvent.business_address_city")) !!}
+                                        {!! Form::text("business_address_city", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
-                                        {!! Form::label("business_address", trans("Public_ViewEvent.business_address_code")) !!}
-                                        {!! Form::text("business_address[]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::label("business_address_code", trans("Public_ViewEvent.business_address_code")) !!}
+                                        {!! Form::text("business_address_code", null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>

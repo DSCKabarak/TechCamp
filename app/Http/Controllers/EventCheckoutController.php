@@ -306,6 +306,28 @@ class EventCheckoutController extends Controller
         $order->rules = $order->rules + $validation_rules;
         $order->messages = $order->messages + $validation_messages;
 
+        if ($request->has('is_business') && $request->get('is_business')) {
+            // Dynamic validation on the new business fields, only gets validated if business selected
+            $businessRules = [
+                'business_name' => 'required',
+                'business_tax_number' => 'required',
+                'business_address_line1' => 'required',
+                'business_address_city' => 'required',
+                'business_address_code' => 'required',
+            ];
+
+            $businessMessages = [
+                'business_name.required' => 'Please enter a valid business name',
+                'business_tax_number.required' => 'Please enter a valid business tax number',
+                'business_address_line1.required' => 'Please enter a valid street address',
+                'business_address_city.required' => 'Please enter a valid city',
+                'business_address_code.required' => 'Please enter a valid code',
+            ];
+
+            $order->rules = $order->rules + $businessRules;
+            $order->messages = $order->messages + $businessMessages;
+        }
+
         if (!$order->validate($request->all())) {
             return response()->json([
                 'status'   => 'error',
@@ -541,10 +563,19 @@ class EventCheckoutController extends Controller
                 $order->is_business = $request_data['is_business'];
                 $order->business_name = sanitise($request_data['business_name']);
                 $order->business_tax_number = sanitise($request_data['business_tax_number']);
-                $order->business_address = collect($request_data['business_address'])
-                    ->map(function($addressEntry) {
-                        return sanitise($addressEntry);
-                    })->implode(', ');
+
+                $businessAddress = collect();
+                $businessAddress->add($request_data['business_address_line1']);
+                $businessAddress->add($request_data['business_address_line2']);
+                $businessAddress->add($request_data['business_address_state']);
+                $businessAddress->add($request_data['business_address_city']);
+                $businessAddress->add($request_data['business_address_code']);
+
+                $order->business_address = $businessAddress->map(function($addressEntry) {
+                    return sanitise($addressEntry);
+                })->filter(function($addressEntry) {
+                    return (empty($addressEntry) === false);
+                })->implode(', ');
             }
 
             // Calculating grand total including tax
