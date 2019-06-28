@@ -11,16 +11,20 @@ You have received a new order for the event <b>{{$order->event->title}}</b>.<br>
 @endif
 
 
-Order Summary:
-<br><br>
+<h3>Order Summary</h3>
 Order Reference: <b>{{$order->order_reference}}</b><br>
 Order Name: <b>{{$order->full_name}}</b><br>
 Order Date: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
 Order Email: <b>{{$order->email}}</b><br>
 @if ($order->is_business)
-Business: <b>{{$order->business_name}}</b><br>
-Tax number: <b>{{$order->business_tax_number}}</b><br>
-Business Address: <b>{{$order->business_address}}</b><br>
+<h3>Business Details</h3>
+@if ($order->business_name) @lang("Public_ViewEvent.business_name"): <strong>{{$order->business_name}}</strong><br>@endif
+@if ($order->business_tax_number) @lang("Public_ViewEvent.business_tax_number"): <strong>{{$order->business_tax_number}}</strong><br>@endif
+@if ($order->business_address_line_one) @lang("Public_ViewEvent.business_address_line1"): <strong>{{$order->business_address_line_one}}</strong><br>@endif
+@if ($order->business_address_line_two) @lang("Public_ViewEvent.business_address_line2"): <strong>{{$order->business_address_line_two}}</strong><br>@endif
+@if ($order->business_address_state_province) @lang("Public_ViewEvent.business_address_state_province"): <strong>{{$order->business_address_state_province}}</strong><br>@endif
+@if ($order->business_address_city) @lang("Public_ViewEvent.business_address_city"): <strong>{{$order->business_address_city}}</strong><br>@endif
+@if ($order->business_address_code) @lang("Public_ViewEvent.business_address_code"): <strong>{{$order->business_address_code}}</strong><br>@endif
 @endif
 
 <h3>Order Items</h3>

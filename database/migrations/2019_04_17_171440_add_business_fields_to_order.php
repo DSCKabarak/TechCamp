@@ -17,7 +17,11 @@ class AddBusinessFieldsToOrder extends Migration
             $table->boolean('is_business')->default(false)->after('is_payment_received');
             $table->string('business_name')->after('email')->nullable();
             $table->string('business_tax_number')->after('business_name')->nullable();
-            $table->text('business_address')->after('business_tax_number')->nullable();
+            $table->string('business_address_line_one')->after('business_tax_number')->nullable();
+            $table->string('business_address_line_two')->after('business_address_line_one')->nullable();
+            $table->string('business_address_state_province')->after('business_address_line_two')->nullable();
+            $table->string('business_address_city')->after('business_address_state_province')->nullable();
+            $table->string('business_address_code')->nullable();
         });
     }
 

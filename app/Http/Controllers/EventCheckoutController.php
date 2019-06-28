@@ -563,19 +563,12 @@ class EventCheckoutController extends Controller
                 $order->is_business = $request_data['is_business'];
                 $order->business_name = sanitise($request_data['business_name']);
                 $order->business_tax_number = sanitise($request_data['business_tax_number']);
+                $order->business_address_line_one = sanitise($request_data['business_address_line1']);
+                $order->business_address_line_two  = sanitise($request_data['business_address_line2']);
+                $order->business_address_state_province  = sanitise($request_data['business_address_state']);
+                $order->business_address_city = sanitise($request_data['business_address_city']);
+                $order->business_address_code = sanitise($request_data['business_address_code']);
 
-                $businessAddress = collect();
-                $businessAddress->add($request_data['business_address_line1']);
-                $businessAddress->add($request_data['business_address_line2']);
-                $businessAddress->add($request_data['business_address_state']);
-                $businessAddress->add($request_data['business_address_city']);
-                $businessAddress->add($request_data['business_address_code']);
-
-                $order->business_address = $businessAddress->map(function($addressEntry) {
-                    return sanitise($addressEntry);
-                })->filter(function($addressEntry) {
-                    return (empty($addressEntry) === false);
-                })->implode(', ');
             }
 
             // Calculating grand total including tax

@@ -109,7 +109,22 @@
                             <b>@lang("Public_ViewEvent.business_tax_number")</b><br> {{$order->business_tax_number}}
                         </div>
                         <div class="col-sm-4 col-xs-6">
-                            <b>@lang("Public_ViewEvent.business_address")</b><br> {{$order->business_address}}
+                            <b>@lang("Public_ViewEvent.business_address")</b><br />
+                            @if ($order->business_address_line_one)
+                            {{$order->business_address_line_one}},
+                            @endif
+                            @if ($order->business_address_line_two)
+                            {{$order->business_address_line_two}},
+                            @endif
+                            @if ($order->business_address_state_province)
+                            {{$order->business_address_state_province}},
+                            @endif
+                            @if ($order->business_address_city)
+                            {{$order->business_address_city}},
+                            @endif
+                            @if ($order->business_address_code)
+                            {{$order->business_address_code}}
+                            @endif
                         </div>
                         @endif
                     </div>

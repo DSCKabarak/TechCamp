@@ -70,6 +70,26 @@
                         </div>
                         @endif
 
+                        @if ($order->is_business)
+                        <div class="col-sm-6 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_name")</b><br />
+                            {{$order->business_name}}
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_tax_number")</b><br />
+                            {{$order->business_tax_number}}
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <b>@lang("Public_ViewEvent.business_address")</b><br />
+                            {{$order->business_address}}
+                            @if ($order->business_address_line_one) {{$order->business_address_line_one}},@endif
+                            @if ($order->business_address_line_one) {{$order->business_address_line_two}},@endif
+                            @if ($order->business_address_line_one) {{$order->business_address_state_province}},@endif
+                            @if ($order->business_address_line_one) {{$order->business_address_city}},@endif
+                            @if ($order->business_address_line_one) {{$order->business_address_code}}@endif
+                        </div>
+                        @endif
+
                     </div>
                 </div>
 
