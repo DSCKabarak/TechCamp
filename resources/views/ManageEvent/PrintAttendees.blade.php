@@ -41,7 +41,7 @@
                     <td>{{{$attendee->email}}}</td>
                     <td>{{{$attendee->ticket->title}}}</td>
                     <td>{{{$attendee->order->order_reference}}}</td>
-                    <td>{{$attendee->created_at->format(env("DEFAULT_DATETIME_FORMAT"))}}</td>
+                    <td>{{$attendee->created_at->format(config("attendize.default_datetime_format"))}}</td>
                     <td><input type="checkbox" style="border: 1px solid #000; height: 15px; width: 15px;" /></td>
                 </tr>
                 @endforeach

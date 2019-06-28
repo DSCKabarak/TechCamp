@@ -48,18 +48,19 @@ class OrganiserCustomizeController extends MyBaseController
             ]);
         }
 
-        $organiser->name                  = $request->get('name');
-        $organiser->about                 = $request->get('about');
+        $organiser->name = $request->get('name');
+        $organiser->about = $request->get('about');
         $organiser->google_analytics_code = $request->get('google_analytics_code');
-        $organiser->email                 = $request->get('email');
+        $organiser->google_tag_manager_code = $request->get('google_tag_manager_code');
+        $organiser->email = $request->get('email');
         $organiser->enable_organiser_page = $request->get('enable_organiser_page');
-        $organiser->facebook              = $request->get('facebook');
-        $organiser->twitter               = $request->get('twitter');
+        $organiser->facebook = $request->get('facebook');
+        $organiser->twitter = $request->get('twitter');
 
-        $organiser->tax_name              = $request->get('tax_name');
-        $organiser->tax_value             = $request->get('tax_value');
-        $organiser->tax_id                = $request->get('tax_id');
-        $organiser->charge_tax            = ($request->get('charge_tax') == 1) ? 1 : 0;
+        $organiser->tax_name = $request->get('tax_name');
+        $organiser->tax_value = $request->get('tax_value');
+        $organiser->tax_id = $request->get('tax_id');
+        $organiser->charge_tax = ($request->get('charge_tax') == 1) ? 1 : 0;
 
         if ($request->get('remove_current_image') == '1') {
             $organiser->logo_path = '';

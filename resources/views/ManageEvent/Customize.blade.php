@@ -28,7 +28,7 @@
 @stop
 
 @section('head')
-    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.env("GOOGLE_MAPS_GEOCODING_KEY")) !!}
+    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.config("attendize.google_maps_geocoding_key")) !!}
     {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js') !!}
     <script>
         $(function () {
@@ -245,7 +245,7 @@
                                         <td>{{ $affiliate->visits }}</td>
                                         <td>{{ $affiliate->tickets_sold }}</td>
                                         <td>{{ money($affiliate->sales_volume, $event->currency) }}</td>
-                                        <td>{{ $affiliate->updated_at->format(env("DEFAULT_DATETIME_FORMAT")) }}</td>
+                                        <td>{{ $affiliate->updated_at->format(config("attendize.default_datetime_format")) }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -137,6 +137,14 @@
                                                 ))
                         !!}
                     </div>
+                    <div class="form-group">
+                        {!! Form::label('google_tag_manager_code', trans("Organiser.google_tag_manager_code"), ['class'=>'control-label']) !!}
+                        {!!  Form::text('google_tag_manager_code', Input::old('google_tag_manager_code'), [
+                                'class'=>'form-control',
+                                'placeholder' => trans("Organiser.google_tag_manager_code_placeholder"),
+                            ])
+                        !!}
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

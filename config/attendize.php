@@ -69,5 +69,8 @@ return [
     'default_payment_gateway'    => 1, #Stripe=1 Paypal=2
 
     'cdn_url_user_assets'   => '',
-    'cdn_url_static_assets' => ''
+    'cdn_url_static_assets' => '',
+
+    'google_analytics_id' => env('GOOGLE_ANALYTICS_ID'),
+    'google_maps_geocoding_key' => env('GOOGLE_MAPS_GEOCODING_KEY')
 ];
