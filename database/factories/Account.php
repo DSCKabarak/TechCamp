@@ -14,10 +14,18 @@ $factory->define(Account::class, function (Generator $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->email,
-        'timezone_id' => function() { return factory(Timezone::class)->create()->id; },
-        'date_format_id' => function() { return factory(DateFormat::class)->create()->id; },
-        'datetime_format_id' => function() { return factory(DateTimeFormat::class)->create()->id; },
-        'currency_id' => function() { return factory(Currency::class)->create()->id; },
+        'timezone_id' => function () {
+            return factory(Timezone::class)->create()->id;
+        },
+        'date_format_id' => function () {
+            return factory(DateFormat::class)->create()->id;
+        },
+        'datetime_format_id' => function () {
+            return factory(DateTimeFormat::class)->create()->id;
+        },
+        'currency_id' => function () {
+            return factory(Currency::class)->create()->id;
+        },
         'name' => $faker->name,
         'last_ip' => "127.0.0.1",
         'last_login_date' => Carbon::now()->subDays(2),
