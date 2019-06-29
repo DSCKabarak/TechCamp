@@ -112,6 +112,8 @@ class LocalTestSeeder extends Seeder
         ]);
 
         $visibleTicket->order_id = $singleAttendeeOrder->id;
+        $visibleTicket->quantity_sold = 1;
+        $visibleTicket->sales_volume = 100.00;
         $visibleTicket->save();
 
         $this->out("<info>Attaching visible ticket to single attendee order</info>");
@@ -147,6 +149,8 @@ class LocalTestSeeder extends Seeder
         ]);
 
         $hiddenTicket->order_id = $multipleAttendeeOrder->id;
+        $hiddenTicket->quantity_sold = 5;
+        $hiddenTicket->sales_volume = 500.00;
         $hiddenTicket->save();
 
         $this->out("<info>Attaching hidden ticket to multiple attendees order</info>");
