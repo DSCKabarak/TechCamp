@@ -1,22 +1,15 @@
 <?php
 
+use App\Models\Currency;
 use Illuminate\Database\Seeder;
 
 class CurrencySeeder extends Seeder
 {
     /**
-     * Run the database seeds.
-     *
      * @return void
      */
     public function run()
     {
-
-        Schema::disableForeignKeyConstraints();
-        DB::table('currencies')->delete();
-        Schema::enableForeignKeyConstraints();
-
-
         $currencies = [
             [
                 'id' => 1,
@@ -524,6 +517,8 @@ class CurrencySeeder extends Seeder
             ],
         ];
 
-        DB::table('currencies')->insert($currencies);
+        collect($currencies)->map(function($currency) {
+            factory(Currency::class)->create($currency);
+        });
     }
 }
