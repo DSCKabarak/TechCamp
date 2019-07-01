@@ -4,6 +4,7 @@ use App\Models\Account;
 use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventAccessCodes;
+use App\Models\EventStats;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Organiser;
@@ -98,6 +99,17 @@ class LocalTestSeeder extends Seeder
         $this->out("<info>Attaching access code to hidden ticket</info>");
         $hiddenTicket->event_access_codes()->attach($eventAccessCode);
 
+        // Event Stats
+        $this->out("<info>Seeding Event Stats</info>");
+        $eventStats = factory(EventStats::class)->create([
+            'date' => Carbon::now()->format('Y-m-d'),
+            'views' => 0,
+            'unique_views' => 0,
+            'tickets_sold' => 6,
+            'sales_volume' => 600.00,
+            'event_id' => $event->id,
+        ]);
+
         // Orders (order_items, ticket_order) as normie
         $this->out("<info>Seeding single attendee order</info>");
         $singleAttendeeOrder = factory(Order::class)->create([
@@ -174,7 +186,6 @@ class LocalTestSeeder extends Seeder
         ]);
 
         // TODO Event Stats (event_stats) to match revenues
-        // TODO Ticket stats (tickets)
 
 
         // Organiser with With tax (organisers)
