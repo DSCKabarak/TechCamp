@@ -1,9 +1,9 @@
-<?php
-
-namespace App\Models;
+<?php namespace App\Models;
 
 use File;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PDF;
 use Illuminate\Support\Str;
@@ -21,7 +21,7 @@ class Order extends MyBaseModel
     public $rules = [
         'order_first_name' => ['required'],
         'order_last_name'  => ['required'],
-        'order_email'      => ['required', 'email'],
+        'order_email' => ['required', 'email'],
     ];
 
     /**
@@ -32,47 +32,47 @@ class Order extends MyBaseModel
     public $messages = [
         'order_first_name.required' => 'Please enter a valid first name',
         'order_last_name.required'  => 'Please enter a valid last name',
-        'order_email.email'         => 'Please enter a valid email',
+        'order_email.email' => 'Please enter a valid email',
     ];
 
     /**
      * The items associated with the order.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function orderItems()
     {
-        return $this->hasMany(\App\Models\OrderItem::class);
+        return $this->hasMany(OrderItem::class);
     }
 
     /**
      * The attendees associated with the order.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function attendees()
     {
-        return $this->hasMany(\App\Models\Attendee::class);
+        return $this->hasMany(Attendee::class);
     }
 
     /**
      * The account associated with the order.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
-        return $this->belongsTo(\App\Models\Account::class);
+        return $this->belongsTo(Account::class);
     }
 
     /**
      * The event associated with the order.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function event()
     {
-        return $this->belongsTo(\App\Models\Event::class);
+        return $this->belongsTo(Event::class);
     }
 
     /**
@@ -89,20 +89,22 @@ class Order extends MyBaseModel
         );
     }
 
-
+    /**
+     * @return BelongsTo
+     */
     public function payment_gateway()
     {
-        return $this->belongsTo(\App\Models\PaymentGateway::class);
+        return $this->belongsTo(PaymentGateway::class);
     }
 
     /**
      * The status associated with the order.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function orderStatus()
     {
-        return $this->belongsTo(\App\Models\OrderStatus::class);
+        return $this->belongsTo(OrderStatus::class);
     }
 
 
@@ -261,5 +263,10 @@ class Order extends MyBaseModel
             $eventCurrency->title,
             !empty($eventCurrency->symbol_left)
         );
+    }
+
+    public function canRefund()
+    {
+        return $this->payment_gateway->can_refund;
     }
 }
