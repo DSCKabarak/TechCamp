@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use File;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -202,7 +203,7 @@ class Order extends MyBaseModel
     {
         // We need to show if an order has been refunded
         if ($this->is_refunded) {
-            return $this->getRefundedAmountExcludingTax()->negate();
+            return $this->getRefundedAmountExcludingTax();
         }
 
         return (new Money($this->amount, $this->getEventCurrency()));
@@ -265,8 +266,19 @@ class Order extends MyBaseModel
         );
     }
 
+    /**
+     * @return boolean
+     */
     public function canRefund()
     {
         return $this->payment_gateway->can_refund;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllNonCancelledAttendees()
+    {
+        return $this->attendees()->where('is_cancelled', false)->get();
     }
 }

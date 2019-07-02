@@ -68,75 +68,11 @@
                         @lang("ManageEvent.all_attendees_cancelled")
                     </div>
                 @endif
-                @if($order->transaction_id)
-                    @if($order->payment_gateway->can_refund)
-                        <div class="refund_section">
-                            @if(!$order->is_refunded)
-                                <div class="refund_options">
-                                    <div class="well bgcolor-white">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <div class="checkbox">
-                                                    {!! Form::radio('refund_type', 'full', ['selected' => 'selected']) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-11">
-                                                <b>@lang("ManageEvent.issue_full_refund")</b>
-                                                <div class="help-text">
-                                                    @lang('ManageEvent.refund_the_entire_amount', [
-                                                        'amount' => $order->getMaxAmountRefundable()->display()
-                                                    ])
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="well bgcolor-white clearfix">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <div class="checkbox">
-                                                    {!! Form::radio('refund_type', 'partial') !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-11">
-                                                <b>@lang("ManageEvent.issue_partial_refund")</b>
-                                                <div class="refund_amount">
-                                                    <div class="row">
-                                                        <div class="col-md-4">@lang("ManageEvent.refund_amount"):</div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" name="refund_amount"
-                                                                   class="form-control"
-                                                                   id="refundAmount"
-                                                                   placeholder="Max {{ $order->getMaxAmountRefundable()->display() }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="alert alert-info">
-                                    @lang("ManageEvent.all_order_refunded", [
-                                        'money' => $order->getRefundedAmountIncludingTax()->display(),
-                                    ])
-                                </div>
-                            @endif
-                        </div>
-                    @else
-                        <div class="alert alert-info">
-                            {{
-                                @trans("ManageEvent.cant_refund_here", [
-                                    'gateway' => $order->payment_gateway->provider_name,
-                                ])
-                            }}
-                        </div>
-                    @endif
-                @endif
             </div>
             @if($attendees->count() || !$order->is_refunded)
                 <div class="modal-footer">
                     {!!
-                        Form::button(trans('basic.cancel'), [
+                        Form::button(trans('basic.back_to_orders'), [
                             'class' => 'btn modal-close btn-danger',
                             'data-dismiss' => 'modal',
                         ])

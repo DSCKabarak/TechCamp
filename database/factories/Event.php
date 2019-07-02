@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 $factory->define(App\Models\Event::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->name,
@@ -8,9 +10,9 @@ $factory->define(App\Models\Event::class, function (Faker\Generator $faker) {
         'bg_color' => config('attendize.event_default_bg_color'),
         'bg_image_path' => $faker->imageUrl,
         'description' => $faker->text,
-        'start_date' => Carbon::now(),
-        'end_date' => Carbon::now()->addDay(),
-        'on_sale_date' => Carbon::now()->subDays(20),
+        'start_date' => Carbon::now()->format(config('attendize.default_datetime_format')),
+        'end_date' => Carbon::now()->addWeek()->format(config('attendize.default_datetime_format')),
+        'on_sale_date' => Carbon::now()->subDays(20)->format(config('attendize.default_datetime_format')),
         'account_id' => function () {
             return factory(App\Models\Account::class)->create()->id;
         },
