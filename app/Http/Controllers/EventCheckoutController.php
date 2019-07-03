@@ -306,6 +306,28 @@ class EventCheckoutController extends Controller
         $order->rules = $order->rules + $validation_rules;
         $order->messages = $order->messages + $validation_messages;
 
+        if ($request->has('is_business') && $request->get('is_business')) {
+            // Dynamic validation on the new business fields, only gets validated if business selected
+            $businessRules = [
+                'business_name' => 'required',
+                'business_tax_number' => 'required',
+                'business_address_line1' => 'required',
+                'business_address_city' => 'required',
+                'business_address_code' => 'required',
+            ];
+
+            $businessMessages = [
+                'business_name.required' => 'Please enter a valid business name',
+                'business_tax_number.required' => 'Please enter a valid business tax number',
+                'business_address_line1.required' => 'Please enter a valid street address',
+                'business_address_city.required' => 'Please enter a valid city',
+                'business_address_code.required' => 'Please enter a valid code',
+            ];
+
+            $order->rules = $order->rules + $businessRules;
+            $order->messages = $order->messages + $businessMessages;
+        }
+
         if (!$order->validate($request->all())) {
             return response()->json([
                 'status'   => 'error',
@@ -515,7 +537,6 @@ class EventCheckoutController extends Controller
             $attendee_increment = 1;
             $ticket_questions = isset($request_data['ticket_holder_questions']) ? $request_data['ticket_holder_questions'] : [];
 
-
             /*
              * Create the order
              */
@@ -525,9 +546,9 @@ class EventCheckoutController extends Controller
             if ($ticket_order['order_requires_payment'] && !isset($request_data['pay_offline'])) {
                 $order->payment_gateway_id = $ticket_order['payment_gateway']->id;
             }
-            $order->first_name = strip_tags($request_data['order_first_name']);
-            $order->last_name = strip_tags($request_data['order_last_name']);
-            $order->email = $request_data['order_email'];
+            $order->first_name = sanitise($request_data['order_first_name']);
+            $order->last_name = sanitise($request_data['order_last_name']);
+            $order->email = sanitise($request_data['order_email']);
             $order->order_status_id = isset($request_data['pay_offline']) ? config('attendize.order_awaiting_payment') : config('attendize.order_complete');
             $order->amount = $ticket_order['order_total'];
             $order->booking_fee = $ticket_order['booking_fee'];
@@ -536,6 +557,19 @@ class EventCheckoutController extends Controller
             $order->account_id = $event->account->id;
             $order->event_id = $ticket_order['event_id'];
             $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
+
+            // Business details is selected, we need to save the business details
+            if (isset($request_data['is_business']) && (bool)$request_data['is_business']) {
+                $order->is_business = $request_data['is_business'];
+                $order->business_name = sanitise($request_data['business_name']);
+                $order->business_tax_number = sanitise($request_data['business_tax_number']);
+                $order->business_address_line_one = sanitise($request_data['business_address_line1']);
+                $order->business_address_line_two  = sanitise($request_data['business_address_line2']);
+                $order->business_address_state_province  = sanitise($request_data['business_address_state']);
+                $order->business_address_city = sanitise($request_data['business_address_city']);
+                $order->business_address_code = sanitise($request_data['business_address_code']);
+
+            }
 
             // Calculating grand total including tax
             $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
