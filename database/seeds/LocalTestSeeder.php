@@ -25,33 +25,34 @@ class LocalTestSeeder extends Seeder
 
         // Setup Test account
         $this->out("<info>Setting up basic settings</info>");
-        $this->out("<info>Seeding account</info>");
-        $account = factory(Account::class)->create([
-            'name' => 'Local Integration Test Account',
-            'timezone_id' => 38, // Brussels
-            'currency_id' => 2, // Euro
-        ]);
+        $account = $this->setupTestAccountWithTestStripeDetails();
+        $user = $this->setupTestAttendizeUserWithLoginDetails($account);
 
-        // Set test stripe details
-        $this->out("<info>Seeding account payment test details</info>");
-        DB::table('account_payment_gateways')->insert([
-            'account_id' => $account->id,
-            'payment_gateway_id' => 1,
-            'config' =>
-                '{"apiKey":"sk_test_tOBvRHnMTNHKHhypnkUBrM5j","publishableKey":"pk_test_WETFbh7uhyF1zPK42tjOUca1"}',
-        ]);
+        $this->setupNonTaxOrganisation($account, $user);
+        $this->setupTaxOrganisation($account, $user); // Adds VAT @15% per transaction
 
-        // Setup test user with login details
-        $this->out("<info>Seeding User</info>");
-        $user = factory(User::class)->create([
-            'account_id' => $account->id,
-            'email' => 'local@test.com',
-            'password' => Hash::make('pass'),
-            'is_parent' => true, // Top level user
-            'is_registered' => true,
-            'is_confirmed' => true,
-        ]);
+        // Write final part about test user logins
+        $this->command->alert(
+            sprintf("Local Test Seed Finished"
+                . "\n\nYou can log in with the Test User using"
+                . "\n\nu: %s\np: %s\n\n", $user->email, 'pass')
+        );
+    }
 
+    /**
+     * @param string $message
+     */
+    protected function out($message)
+    {
+        $this->command->getOutput()->writeln($message);
+    }
+
+    /**
+     * @param $account
+     * @param $user
+     */
+    protected function setupNonTaxOrganisation($account, $user)
+    {
         // Organiser with no tax (organisers)
         $this->out("<info>Seeding Organiser (no tax)</info>");
         $organiserNoTax = factory(Organiser::class)->create([
@@ -73,11 +74,7 @@ class LocalTestSeeder extends Seeder
         ]);
 
         // Setup event access codes to allow testing hidden code functionality on the tickets public page
-        $this->out("<info>Seeding event access code</info>");
-        $eventAccessCode = factory(EventAccessCodes::class)->create([
-            'event_id' => $event->id,
-            'code' => 'SHOWME',
-        ]);
+        $eventAccessCode = $this->setupEventAccessCodeForHiddenTickets($event);
 
         // Setup two tickets, one visible and one hidden
         $this->out("<info>Seeding visible ticket</info>");
@@ -110,7 +107,7 @@ class LocalTestSeeder extends Seeder
 
         // Event Stats
         $this->out("<info>Seeding Event Stats</info>");
-        $eventStats = factory(EventStats::class)->create([
+        factory(EventStats::class)->create([
             'date' => Carbon::now()->format('Y-m-d'),
             'views' => 0,
             'unique_views' => 0,
@@ -141,7 +138,7 @@ class LocalTestSeeder extends Seeder
         $singleAttendeeOrder->tickets()->attach($visibleTicket);
 
         $this->out("<info>Seeding single attendee order item/info>");
-        $singleAttendeeOrderItem = factory(OrderItem::class)->create([
+        factory(OrderItem::class)->create([
             'title' => $visibleTicket->title,
             'quantity' => 1,
             'unit_price' => 100.00,
@@ -150,7 +147,7 @@ class LocalTestSeeder extends Seeder
         ]);
 
         $this->out("<info>Seeding single attendee</info>");
-        $singleAttendee = factory(Attendee::class)->create([
+        factory(Attendee::class)->create([
             'order_id' => $singleAttendeeOrder->id,
             'event_id' => $event->id,
             'ticket_id' => $visibleTicket->id,
@@ -177,8 +174,8 @@ class LocalTestSeeder extends Seeder
         $this->out("<info>Attaching hidden ticket to multiple attendees order</info>");
         $multipleAttendeeOrder->tickets()->attach($hiddenTicket);
 
-        $this->out("<info>Seeding multiple attendees order item/info>");
-        $multipleAttendeesOrderItem = factory(OrderItem::class)->create([
+        $this->out("<info>Seeding multiple attendees order item</info>");
+        factory(OrderItem::class)->create([
             'title' => $visibleTicket->title,
             'quantity' => 5,
             'unit_price' => 100.00,
@@ -187,45 +184,212 @@ class LocalTestSeeder extends Seeder
         ]);
 
         $this->out("<info>Seeding multiple attendees</info>");
-        $multipleAttendees = factory(Attendee::class, 5)->create([
+        factory(Attendee::class, 5)->create([
             'order_id' => $multipleAttendeeOrder->id,
             'event_id' => $event->id,
             'ticket_id' => $hiddenTicket->id,
             'account_id' => $account->id,
         ]);
-
-        // TODO Event Stats (event_stats) to match revenues
-
-
-        // Organiser with With tax (organisers)
-//        $organiserWithTax = factory(Organiser::class)->create([
-//            'account_id' => $account->id,
-//            'name' => 'Test Organiser (With Tax)',
-//            'charge_tax' => false,
-//            'tax_name' => '',
-//            'tax_value' => 0.00
-//        ]);
-        // Organiser tax (organisers)
-            // Event (events)
-            // Tickets (tickets)
-                // One visible
-                // One Hidden
-            // Orders (order_items, ticket_order)
-                // Single attendee (attendees)
-                // Mulitple attendees (attendees)
-
-        $this->command->alert(
-            sprintf("Local Test Seed Finished"
-                . "\n\nYou can log in with the Test User using"
-                . "\n\nu: %s\np: %s\n\n", $user->email, 'pass')
-        );
     }
 
     /**
-     * @param string $message
+     * @param $account
+     * @param $user
      */
-    protected function out($message)
+    protected function setupTaxOrganisation($account, $user)
     {
-        $this->command->getOutput()->writeln($message);
+        // Organiser with no tax (organisers)
+        $this->out("<info>Seeding Organiser (with tax)</info>");
+        $organiserTax = factory(Organiser::class)->create([
+            'account_id' => $account->id,
+            'name' => 'Test Organiser (with tax)',
+            'charge_tax' => true,
+            'tax_name' => 'VAT',
+            'tax_value' => 15.00
+        ]);
+
+        // Event (events)
+        $this->out("<info>Seeding event</info>");
+        $event = factory(Event::class)->create([
+            'account_id' => $account->id,
+            'user_id' => $user->id,
+            'organiser_id' => $organiserTax->id,
+            'title' => 'Local Bonsai Show',
+            'is_live' => true,
+        ]);
+
+        $eventAccessCode = $this->setupEventAccessCodeForHiddenTickets($event);
+
+        // Setup two tickets, one visible and one hidden
+        $this->out("<info>Seeding visible ticket</info>");
+        $visibleTicket = factory(Ticket::class)->create([
+            'user_id' => $user->id,
+            'edited_by_user_id' => $user->id,
+            'account_id' => $account->id,
+            'order_id' => null, // We'll create the orders on these later
+            'event_id' => $event->id,
+            'title' => 'Visible Ticket',
+            'price' => 100.00,
+            'is_hidden' => false,
+        ]);
+
+        $this->out("<info>Seeding hidden ticket</info>");
+        $hiddenTicket = factory(Ticket::class)->create([
+            'user_id' => $user->id,
+            'edited_by_user_id' => $user->id,
+            'account_id' => $account->id,
+            'order_id' => null, // We'll create the orders on these later
+            'event_id' => $event->id,
+            'title' => 'Hidden Ticket',
+            'price' => 100.00,
+            'is_hidden' => true,
+        ]);
+
+        // Attach unlock code to hidden ticket
+        $this->out("<info>Attaching access code to hidden ticket</info>");
+        $hiddenTicket->event_access_codes()->attach($eventAccessCode);
+
+        // Event Stats
+        $this->out("<info>Seeding Event Stats</info>");
+        factory(EventStats::class)->create([
+            'date' => Carbon::now()->format('Y-m-d'),
+            'views' => 0,
+            'unique_views' => 0,
+            'tickets_sold' => 6,
+            'sales_volume' => 600.00,
+            'event_id' => $event->id,
+        ]);
+
+        // Orders (order_items, ticket_order) as normie
+        $this->out("<info>Seeding single attendee order</info>");
+        $singleAttendeeOrder = factory(Order::class)->create([
+            'account_id' => $account->id,
+            'order_status_id' => 1, // Completed Order
+            'discount' => 0.00,
+            'booking_fee' => 0.00,
+            'organiser_booking_fee' => 0.00,
+            'amount' => 100.00,
+            'event_id' => $event->id,
+            'is_payment_received' => true,
+            'taxamt' => 15.00,
+        ]);
+
+        $visibleTicket->order_id = $singleAttendeeOrder->id;
+        $visibleTicket->quantity_sold = 1;
+        $visibleTicket->sales_volume = 100.00;
+        $visibleTicket->save();
+
+        $this->out("<info>Attaching visible ticket to single attendee order</info>");
+        $singleAttendeeOrder->tickets()->attach($visibleTicket);
+
+        $this->out("<info>Seeding single attendee order item/info>");
+        factory(OrderItem::class)->create([
+            'title' => $visibleTicket->title,
+            'quantity' => 1,
+            'unit_price' => 100.00,
+            'unit_booking_fee' => 0.00,
+            'order_id' => $singleAttendeeOrder->id,
+        ]);
+
+        $this->out("<info>Seeding single attendee</info>");
+        factory(Attendee::class)->create([
+            'order_id' => $singleAttendeeOrder->id,
+            'event_id' => $event->id,
+            'ticket_id' => $visibleTicket->id,
+            'account_id' => $account->id,
+        ]);
+
+        $this->out("<info>Seeding multiple attendees order</info>");
+        $multipleAttendeeOrder = factory(Order::class)->create([
+            'account_id' => $account->id,
+            'order_status_id' => 1, // Completed Order
+            'discount' => 0.00,
+            'booking_fee' => 0.00,
+            'organiser_booking_fee' => 0.00,
+            'amount' => 500.00,
+            'event_id' => $event->id,
+            'is_payment_received' => true,
+            'taxamt' => 75.00,
+        ]);
+
+        $hiddenTicket->order_id = $multipleAttendeeOrder->id;
+        $hiddenTicket->quantity_sold = 5;
+        $hiddenTicket->sales_volume = 500.00;
+        $hiddenTicket->save();
+
+        $this->out("<info>Attaching hidden ticket to multiple attendees order</info>");
+        $multipleAttendeeOrder->tickets()->attach($hiddenTicket);
+
+        $this->out("<info>Seeding multiple attendees order item</info>");
+        factory(OrderItem::class)->create([
+            'title' => $visibleTicket->title,
+            'quantity' => 5,
+            'unit_price' => 100.00,
+            'unit_booking_fee' => 0.00,
+            'order_id' => $multipleAttendeeOrder->id,
+        ]);
+
+        $this->out("<info>Seeding multiple attendees</info>");
+        factory(Attendee::class, 5)->create([
+            'order_id' => $multipleAttendeeOrder->id,
+            'event_id' => $event->id,
+            'ticket_id' => $hiddenTicket->id,
+            'account_id' => $account->id,
+        ]);
+    }
+
+    /**
+     * @param $account
+     * @return mixed
+     */
+    protected function setupTestAttendizeUserWithLoginDetails($account)
+    {
+        $this->out("<info>Seeding User</info>");
+        $user = factory(User::class)->create([
+            'account_id' => $account->id,
+            'email' => 'local@test.com',
+            'password' => Hash::make('pass'),
+            'is_parent' => true, // Top level user
+            'is_registered' => true,
+            'is_confirmed' => true,
+        ]);
+        return $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function setupTestAccountWithTestStripeDetails()
+    {
+        $this->out("<info>Seeding account</info>");
+        $account = factory(Account::class)->create([
+            'name' => 'Local Integration Test Account',
+            'timezone_id' => 38, // Brussels
+            'currency_id' => 2, // Euro
+        ]);
+
+        // Set test stripe details
+        $this->out("<info>Seeding account payment test details</info>");
+        DB::table('account_payment_gateways')->insert([
+            'account_id' => $account->id,
+            'payment_gateway_id' => 1,
+            'config' => '{"apiKey":"sk_test_tOBvRHnMTNHKHhypnkUBrM5j","publishableKey":"pk_test_WETFbh7uhyF1zPK42tjOUca1"}',
+        ]);
+
+        return $account;
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     */
+    protected function setupEventAccessCodeForHiddenTickets($event)
+    {
+        // Setup event access codes to allow testing hidden code functionality on the tickets public page
+        $this->out("<info>Seeding event access code</info>");
+        return factory(EventAccessCodes::class)->create([
+            'event_id' => $event->id,
+            'code' => 'SHOWME',
+        ]);
     }
 }

@@ -223,8 +223,11 @@ class EventOrdersController extends MyBaseController
 
         // Get the full order amount, tax and booking fees included
         $organiserAmount = new Money($order->organiser_amount, $order->getEventCurrency());
+        Log::debug(sprintf("Total Order Value: %s", $organiserAmount->display()));
         $refundedAmount = new Money($order->amount_refunded, $order->getEventCurrency());
+        Log::debug(sprintf("Already refunded amount: %s", $refundedAmount->display()));
         $maximumRefundableAmount = $organiserAmount->subtract($refundedAmount);
+        Log::debug(sprintf("Maxmimum refundable amount: %s", $maximumRefundableAmount->display()));
         /*
          * NOTE: Calculates the refund amount by using the order total (tax incl) and dividing it by the amount of
          * attendees the user has selected. This will evently spread the tax refund per attendee.
@@ -233,7 +236,9 @@ class EventOrdersController extends MyBaseController
          */
 
         $refundAmount = $maximumRefundableAmount->multiply($attendees->count())
-            ->divide($nonCancelledOrderAttendees->count());
+            ->divide($nonCancelledOrderAttendees->count())->floor();
+
+        Log::debug(sprintf("Requested Refund should include Tax: %s", $refundAmount->display()));
 
         $errorMessage = false;
         // Check refunds are valid
@@ -267,6 +272,12 @@ class EventOrdersController extends MyBaseController
             $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
 
             $request = $gateway->refund([
+                'transactionReference' => $order->transaction_id,
+                'amount' => $refundAmount->toFloat(),
+                'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
+            ]);
+
+            Log::debug("STRIPE REQUEST", [
                 'transactionReference' => $order->transaction_id,
                 'amount' => $refundAmount->toFloat(),
                 'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
