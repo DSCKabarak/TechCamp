@@ -4770,6 +4770,19 @@ function log() {
             $clicked.closest('.has-access-codes').remove();
         });
     });
+
+    $('#is_business').click(function(e) {
+        var $isBusiness = $(this);
+        var isChecked = $isBusiness.hasClass('checked');
+
+        if (isChecked == undefined || isChecked === false) {
+            $isBusiness.addClass('checked');
+            $('#business_details').removeClass('hidden').show();
+        } else {
+            $isBusiness.removeClass('checked');
+            $('#business_details').addClass('hidden').hide();
+        }
+    });
 });
 
 function processFormErrors($form, errors)

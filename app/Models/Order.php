@@ -36,6 +36,10 @@ class Order extends MyBaseModel
         'order_email.email' => 'Please enter a valid email',
     ];
 
+    protected $casts = [
+        'is_business' => 'boolean',
+    ];
+
     /**
      * The items associated with the order.
      *

@@ -27,7 +27,7 @@
         "maatwebsite/excel": "~2.1",
         "maxhoffmann/parsedown-laravel": "dev-master",
         "mcamara/laravel-localization": "~1.2",
-        "mews/purifier": "~2.0",
+        "mews/purifier": "^2.1",
         "milon/barcode": "~5.3",
         "nitmedia/wkhtml2pdf": "dev-master",
         "omnipay/common": "~3",

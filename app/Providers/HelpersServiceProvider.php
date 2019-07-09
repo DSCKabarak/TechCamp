@@ -15,6 +15,7 @@ class HelpersServiceProvider extends ServiceProvider
     {
         require app_path('Helpers/helpers.php');
         require app_path('Helpers/macros.php');
+        require app_path('Helpers/strings.php');
     }
 
     /**

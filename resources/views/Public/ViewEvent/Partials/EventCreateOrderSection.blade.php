@@ -87,7 +87,73 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-checkbox">
+                                {!! Form::checkbox('is_business', 1, null, ['data-toggle' => 'toggle', 'id' => 'is_business']) !!}
+                                {!! Form::label('is_business', trans("Public_ViewEvent.is_business"), ['class' => 'control-label']) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
+                <div class="row hidden" id="business_details">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_name", trans("Public_ViewEvent.business_name")) !!}
+                                        {!! Form::text("business_name", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_tax_number", trans("Public_ViewEvent.business_tax_number")) !!}
+                                        {!! Form::text("business_tax_number", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address_line1", trans("Public_ViewEvent.business_address_line1")) !!}
+                                        {!! Form::text("business_address_line1", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address_line2", trans("Public_ViewEvent.business_address_line2")) !!}
+                                        {!! Form::text("business_address_line2", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address_state", trans("Public_ViewEvent.business_address_state_province")) !!}
+                                        {!! Form::text("business_address_state", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address_city", trans("Public_ViewEvent.business_address_city")) !!}
+                                        {!! Form::text("business_address_city", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        {!! Form::label("business_address_code", trans("Public_ViewEvent.business_address_code")) !!}
+                                        {!! Form::text("business_address_code", null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><div class="col-md-12">&nbsp;</div></div>
                 <div class="p20 pl0">
                     <a href="javascript:void(0);" class="btn btn-primary btn-xs" id="mirror_buyer_info">
                         @lang("Public_ViewEvent.copy_buyer")
