@@ -13,10 +13,27 @@ class RetrofitFixScriptForStats extends Migration
      */
     public function up()
     {
-        // TODO
+        /*
+         * Link tickets to their orders based on the order items on each order record. It will try and 
+         * find the ticket on the event and match the order item title to the ticket title.
+         */
+        App\Models\Order::all()->map(function($order) {
+            $event = $order->event()->first();
+            $tickets = $event->tickets()->get();
+            $orderItems = $order->orderItems()->get();
+            $mapOrderItemTitles = $orderItems->map(function($orderItem) {
+                return $orderItem->title;
+            });
 
-        // ticket_order
-            // Link tickets to orders
+            $ticketsFound = $tickets->filter(function($ticket) use ($mapOrderItemTitles) {
+                return ($mapOrderItemTitles->contains($ticket->title));
+            });
+
+            $ticketsFound->map(function($ticket) use ($order) {
+                \Log::debug(sprintf("Attaching Ticket:%d to Order:%d\n", $ticket->id, $order->id));                
+                // $order->tickets()->attach($ticket); // TODO uncomment this to actually save
+            });
+        });
 
         // orders
             // Check `order_items` table
