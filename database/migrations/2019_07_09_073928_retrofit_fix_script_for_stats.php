@@ -31,7 +31,7 @@ class RetrofitFixScriptForStats extends Migration
 
             $ticketsFound->map(function($ticket) use ($order) {
                 \Log::debug(sprintf("Attaching Ticket:%d to Order:%d\n", $ticket->id, $order->id));                
-                // $order->tickets()->attach($ticket); // TODO uncomment this to actually save
+                $order->tickets()->attach($ticket); // TODO uncomment this to actually save
             });
         });
 
