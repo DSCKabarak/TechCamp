@@ -33,7 +33,16 @@ class AddBusinessFieldsToOrder extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn(['is_business', 'business_name', 'business_tax_number', 'business_address']);
+            $table->dropColumn([
+                'is_business', 
+                'business_name', 
+                'business_tax_number', 
+                'business_address_line_one',
+                'business_address_line_two',
+                'business_address_state_province',
+                'business_address_city',
+                'business_address_code',
+            ]);
         });
     }
 }

@@ -21,19 +21,27 @@ class RetrofitFixScriptForStats extends Migration
             $event = $order->event()->first();
             $tickets = $event->tickets()->get();
             $orderItems = $order->orderItems()->get();
+            // We would like a list of titles from the order items to map against tickets
             $mapOrderItemTitles = $orderItems->map(function($orderItem) {
                 return $orderItem->title;
             });
 
+            // Filter tickets who's title is contained in the order items set
             $ticketsFound = $tickets->filter(function($ticket) use ($mapOrderItemTitles) {
                 return ($mapOrderItemTitles->contains($ticket->title));
             });
 
+            // Attach the ticket to it's order
             $ticketsFound->map(function($ticket) use ($order) {
-                \Log::debug(sprintf("Attaching Ticket:%d to Order:%d\n", $ticket->id, $order->id));                
-                $order->tickets()->attach($ticket); // TODO uncomment this to actually save
+                $pivotExists = $order->tickets()->where('ticket_id', $ticket->id)->exists();
+                if (!$pivotExists) {
+                    \Log::debug(sprintf("Attaching Ticket:%d to Order:%d", $ticket->id, $order->id));
+                    $order->tickets()->attach($ticket);
+                }
             });
         });
+
+        \Log::debug("Finished linking tickets to orders");
 
         // orders
             // Check `order_items` table
