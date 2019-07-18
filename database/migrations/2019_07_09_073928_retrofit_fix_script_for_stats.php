@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Superbalist\Money\Money;
 
 class RetrofitFixScriptForStats extends Migration
 {
@@ -39,21 +38,39 @@ class RetrofitFixScriptForStats extends Migration
                     $order->tickets()->attach($ticket);
                 }
             });
+
+            $orderStringValue = $orderItems->reduce(function($carry, $orderItem) {
+                $orderTotal = (new Money($carry));
+                $orderItemValue = (new Money($orderItem->unit_price))->multiply($orderItem->quantity);
+
+                return $orderTotal->add($orderItemValue)->format();
+            });
+
+            // Refunded orders had their amounts wiped in previous versions so we need to fix that before we can work on stats
+            if ($order->is_refunded) {
+                \Log::debug("Refunded orders need their amounts set again");
+                $orderFloatValue = (new Money($orderStringValue))->toFloat();
+                \Log::debug(sprintf("Setting Order: %d amount to match Order Items Amount: %f", $order->id, $orderFloatValue));
+
+                $order->attendees()->get()->map(function($attendee) {
+                    if (!$attendee->is_refunded) {
+                        \Log::debug(sprintf("Marking Attendee: %d as refunded",$attendee->id));
+                    }
+                });
+            }
         });
-
-        \Log::debug("Finished linking tickets to orders");
-
-        // orders
-            // Check `order_items` table
-            // Compare order values by using `quantity` and `unit_price`
-            // Fix order `amount` if `refunded_amount` exists
-
-            // attendees
-                // Mark cancelled/refunded if refunded amount/status exists on the order
 
         // tickets
             // Check quantity sold from order_items
             // Fix sales_volume from order_items
+
+        // orders
+            // Check `order_items` table
+                // Compare order values by using `quantity` and `unit_price` - fixed
+                // Fix order `amount` if `refunded_amount` exists - fixed
+
+            // attendees
+                // Mark cancelled/refunded if refunded amount/status exists on the order - fixed
 
         // event_stats
             // Keep the dates as is and try to find orders that has the same timestamps

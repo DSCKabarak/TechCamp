@@ -40,10 +40,6 @@ class Order extends MyBaseModel
         'is_business' => 'boolean',
     ];
 
-    protected $casts = [
-        'is_business' => 'boolean',
-    ];
-
     /**
      * The items associated with the order.
      *
