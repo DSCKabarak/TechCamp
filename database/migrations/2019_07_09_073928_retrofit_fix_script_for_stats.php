@@ -51,28 +51,30 @@ class RetrofitFixScriptForStats extends Migration
                 \Log::debug("Refunded orders need their amounts set again");
                 $orderFloatValue = (new Money($orderStringValue))->toFloat();
                 \Log::debug(sprintf("Setting Order: %d amount to match Order Items Amount: %f", $order->id, $orderFloatValue));
+                $order->amount = $orderFloatValue;
+                $order->save();
 
                 $order->attendees()->get()->map(function($attendee) {
                     if (!$attendee->is_refunded) {
                         \Log::debug(sprintf("Marking Attendee: %d as refunded",$attendee->id));
+                        $attendee->is_refunded = true;
                     }
+
+                    if (!$attendee->is_cancelled) {
+                        \Log::debug(sprintf("Marking Attendee: %d as cancelled",$attendee->id));
+                        $attendee->is_cancelled = true;
+                    }
+                    // Update the attendee to reflect the real world
+                    $attendee->save();
                 });
             }
         });
 
-        // tickets
+        // tickets todo
             // Check quantity sold from order_items
             // Fix sales_volume from order_items
 
-        // orders
-            // Check `order_items` table
-                // Compare order values by using `quantity` and `unit_price` - fixed
-                // Fix order `amount` if `refunded_amount` exists - fixed
-
-            // attendees
-                // Mark cancelled/refunded if refunded amount/status exists on the order - fixed
-
-        // event_stats
+        // event_stats todo
             // Keep the dates as is and try to find orders that has the same timestamps
                 // Fix the sales volume value from orders, order_items and tickets (amount - amount_refunded)
                 // Fix the tickets_sold value from order_items
