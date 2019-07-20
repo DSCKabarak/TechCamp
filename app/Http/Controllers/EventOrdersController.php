@@ -322,8 +322,8 @@ class EventOrdersController extends MyBaseController
         $attendees->map(function(Attendee $attendee) {
             $attendee->ticket->decrement('quantity_sold');
             $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-            $attendee->is_cancelled = 1;
-            $attendee->is_refunded = 1;
+            $attendee->is_cancelled = true;
+            $attendee->is_refunded = true;
             $attendee->save();
 
             /** @var EventStats $eventStats */ // TODO move this to the EventStats Model

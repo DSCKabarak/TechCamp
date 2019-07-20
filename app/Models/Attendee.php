@@ -26,6 +26,11 @@ class Attendee extends MyBaseModel
         'arrival_time'
     ];
 
+    protected $casts = [
+        'is_refunded' => 'boolean',
+        'is_cancelled' => 'boolean',
+    ];
+
     /**
      * Generate a private reference number for the attendee. Use for checking in the attendee.
      *
