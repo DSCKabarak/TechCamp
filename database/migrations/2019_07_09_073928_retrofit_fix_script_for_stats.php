@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\EventStats;
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Superbalist\Money\Money;
 
@@ -147,11 +150,86 @@ class RetrofitFixScriptForStats extends Migration
             }
         });
 
-        // event_stats todo
-            // Keep the dates as is and try to find orders that has the same timestamps
-                // Fix the sales volume value from orders, order_items and tickets (amount - amount_refunded)
-                // Fix the tickets_sold value from order_items
+        Event::all()->map(function($event) {
+            /** @var $event Event */
+            $orders = $event->orders()->where('is_refunded', false)->get();
 
+            $orderTimeBasedStats = [];
+            $orders->map(function($order) use (&$orderTimeBasedStats) {
+                /** @var $order Order */
+                $orderItems = $order->orderItems()->get();
+                $quantity = $orderItems->reduce(function ($carry, $orderItem) {
+                    return $carry + $orderItem->quantity;
+                });
+
+                $orderDay = Carbon::createFromTimeString($order->created_at)->format('Y-m-d');
+                if (!isset($orderTimeBasedStats[$orderDay])) {
+                    $orderTimeBasedStats[$orderDay] = [
+                        'quantity' => 0,
+                        'sales_volume' => new Money(0),
+                    ];
+                }
+                $orderTimeBasedStats[$orderDay]['quantity'] += $quantity;
+                /** @var Money $previousSalesVolume */
+                $previousSalesVolume = $orderTimeBasedStats[$orderDay]['sales_volume'];
+
+                $orderAmount = new Money($order->amount);
+                $orderTimeBasedStats[$orderDay]['sales_volume'] = $previousSalesVolume->add($orderAmount);
+            });
+
+            /**
+             * Event stats needs to be checked so the dashboard time series graphs match the historical order amounts
+             * and amount of tickets sold per day.
+             */
+            EventStats::where('event_id', $event->id)->get()->map(function($eventStat) use ($orderTimeBasedStats) {
+                /** @var $eventStat EventStats */
+                if (isset($orderTimeBasedStats[$eventStat->date])) {
+                    $timeBasedQuantity = $orderTimeBasedStats[$eventStat->date]['quantity'];
+                    if ($eventStat->tickets_sold !== $timeBasedQuantity) {
+                        \Log::debug(sprintf(
+                            "Updating Event Stat (ID:%d, OLD_QUANTITY:%d) - New Quantity %d",
+                            $eventStat->id,
+                            $eventStat->tickets_sold,
+                            $timeBasedQuantity
+                        ));
+                        $eventStat->tickets_sold = $timeBasedQuantity;
+                    }
+
+                    $oldEventStatsSalesVolume = new Money($eventStat->sales_volume);
+                    $timeBasedSalesVolume = $orderTimeBasedStats[$eventStat->date]['sales_volume'];
+                    if ($oldEventStatsSalesVolume->equals($timeBasedSalesVolume) === false) {
+                        \Log::debug(sprintf(
+                            "Updating Event Stat (ID:%d, OLD_SALES_VOLUME:%s) - New Sales Volume %s",
+                            $eventStat->id,
+                            $oldEventStatsSalesVolume->format(),
+                            $timeBasedSalesVolume->format()
+                        ));
+                        $eventStat->sales_volume = $timeBasedSalesVolume->toFloat();
+                    }
+                    if ($eventStat->isDirty()) {
+                        // Persist event stat changes to reflect order amounts and tickets sold
+                        $eventStat->save();
+                    }
+                } else {
+                    /*
+                     * If the order stats does not exist, but the event stat has quantity and sales_volume then
+                     * we need to kill the values since there is no subsequent order information to back their
+                     * existance.
+                     */
+                    if ($eventStat->tickets_sold > 0) {
+                        \Log::debug(sprintf(
+                            "Clearing Event Stat (ID:%d, TICKETS_SOLD:%d, SALES_VOLUME:%f) due to no order information",
+                            $eventStat->id,
+                            $eventStat->tickets_sold,
+                            $eventStat->sales_volume
+                        ));
+                        $eventStat->tickets_sold = 0;
+                        $eventStat->sales_volume = 0.0;
+                        $eventStat->save();
+                    }
+                }
+            });
+        });
     }
 
     /**

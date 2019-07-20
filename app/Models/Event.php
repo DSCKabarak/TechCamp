@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
@@ -52,21 +53,21 @@ class Event extends MyBaseModel
     /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question');
+        return $this->belongsToMany(Question::class, 'event_question');
     }
 
     /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions_with_trashed()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question')->withTrashed();
+        return $this->belongsToMany(Question::class, 'event_question')->withTrashed();
     }
 
     /**
@@ -76,7 +77,7 @@ class Event extends MyBaseModel
      */
     public function attendees()
     {
-        return $this->hasMany(\App\Models\Attendee::class);
+        return $this->hasMany(Attendee::class);
     }
 
     /**
@@ -86,7 +87,7 @@ class Event extends MyBaseModel
      */
     public function images()
     {
-        return $this->hasMany(\App\Models\EventImage::class);
+        return $this->hasMany(EventImage::class);
     }
 
     /**
@@ -96,7 +97,7 @@ class Event extends MyBaseModel
      */
     public function messages()
     {
-        return $this->hasMany(\App\Models\Message::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Message::class)->orderBy('created_at', 'DESC');
     }
 
     /**
@@ -106,7 +107,7 @@ class Event extends MyBaseModel
      */
     public function tickets()
     {
-        return $this->hasMany(\App\Models\Ticket::class);
+        return $this->hasMany(Ticket::class);
     }
 
     /**
@@ -126,7 +127,7 @@ class Event extends MyBaseModel
      */
     public function affiliates()
     {
-        return $this->hasMany(\App\Models\Affiliate::class);
+        return $this->hasMany(Affiliate::class);
     }
 
     /**
@@ -136,7 +137,7 @@ class Event extends MyBaseModel
      */
     public function orders()
     {
-        return $this->hasMany(\App\Models\Order::class);
+        return $this->hasMany(Order::class);
     }
 
     /**
@@ -146,7 +147,7 @@ class Event extends MyBaseModel
      */
     public function access_codes()
     {
-        return $this->hasMany(\App\Models\EventAccessCodes::class, 'event_id', 'id');
+        return $this->hasMany(EventAccessCodes::class, 'event_id', 'id');
     }
 
     /**
@@ -156,7 +157,7 @@ class Event extends MyBaseModel
      */
     public function account()
     {
-        return $this->belongsTo(\App\Models\Account::class);
+        return $this->belongsTo(Account::class);
     }
 
     /**
@@ -166,7 +167,7 @@ class Event extends MyBaseModel
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 
     /**
@@ -176,7 +177,7 @@ class Event extends MyBaseModel
      */
     public function organiser()
     {
-        return $this->belongsTo(\App\Models\Organiser::class);
+        return $this->belongsTo(Organiser::class);
     }
 
     /**
