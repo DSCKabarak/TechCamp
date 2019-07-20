@@ -293,12 +293,12 @@ class EventOrdersController extends MyBaseController
                 $order->amount_refunded = $updatedRefundedAmount->toFloat();
 
                 if ($organiserAmount->subtract($updatedRefundedAmount)->isZero()) {
-                    $order->is_refunded = 1;
+                    $order->is_refunded = true;
                     // Order can't be both partially and fully refunded at the same time
-                    $order->is_partially_refunded = 0;
+                    $order->is_partially_refunded = false;
                     $order->order_status_id = config('attendize.order_refunded');
                 } else {
-                    $order->is_partially_refunded = 1;
+                    $order->is_partially_refunded = true;
                     $order->order_status_id = config('attendize.order_partially_refunded');
                 }
             } else {

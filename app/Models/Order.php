@@ -38,6 +38,8 @@ class Order extends MyBaseModel
 
     protected $casts = [
         'is_business' => 'boolean',
+        'is_refunded' => 'boolean',
+        'is_partially_refunded' => 'boolean',
     ];
 
     /**
