@@ -230,7 +230,7 @@ class EventOrdersController extends MyBaseController
         Log::debug(sprintf("Maxmimum refundable amount: %s", $maximumRefundableAmount->display()));
         /*
          * NOTE: Calculates the refund amount by using the order total (tax incl) and dividing it by the amount of
-         * attendees the user has selected. This will evently spread the tax refund per attendee.
+         * attendees the user has selected. This will evenly spread the tax refund per attendee.
          *
          * If only one attendee lives in an order then its safe to assume a full refund can be made.
          */
@@ -277,7 +277,7 @@ class EventOrdersController extends MyBaseController
                 'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
             ]);
 
-            Log::debug("STRIPE REQUEST", [
+            Log::debug(strtoupper($order->payment_gateway->name), [
                 'transactionReference' => $order->transaction_id,
                 'amount' => $refundAmount->toFloat(),
                 'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
