@@ -1,9 +1,10 @@
 <script>
     $(function() {
-        $('.payment_gateway_options').hide();
-        $('#gateway_{{$account->payment_gateway_id}}').show();
 
-        $('.gateway_selector').on('change', function(e) {
+        $('.payment_gateway_options').hide();
+        $('#gateway_{{ $default_payment_gateway_id }}').show();
+
+        $('input[type=radio][name=payment_gateway]').on('change', function(e) {
             $('.payment_gateway_options').hide();
             $('#gateway_' + $(this).val()).fadeIn();
         });
@@ -11,10 +12,17 @@
     });
 </script>
 
+
 {!! Form::model($account, array('url' => route('postEditAccountPayment'), 'class' => 'ajax ')) !!}
 <div class="form-group">
-    {!! Form::label('payment_gateway_id', trans("ManageAccount.default_payment_gateway"), array('class'=>'control-label ')) !!}
-    {!! Form::select('payment_gateway_id', $payment_gateways, $account->payment_gateway_id, ['class' => 'form-control gateway_selector']) !!}
+    {!! Form::label('payment_gateway_id', trans("ManageAccount.default_payment_gateway"), array('class'=>'control-label ')) !!}<br />
+
+    @foreach ($payment_gateways as $id => $payment_gateway)
+    {!! Form::radio('payment_gateway', $payment_gateway['id'], $payment_gateway['default'], array('id'=>'payment_gateway_' . $payment_gateway['id'])) !!}
+    {!! Form::label($payment_gateway['provider_name'],$payment_gateway['provider_name'] , array('class'=>'control-label gateway_selector')) !!}<br />
+    @endforeach
+
+
 </div>
 
 {{--Stripe--}}
@@ -31,6 +39,25 @@
             <div class="form-group">
                 {!! Form::label('publishableKey', trans("ManageAccount.stripe_publishable_key"), array('class'=>'control-label ')) !!}
                 {!! Form::text('stripe[publishableKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_stripe'), 'publishableKey'),[ 'class'=>'form-control'])  !!}
+            </div>
+        </div>
+    </div>
+</section>
+
+{{--Stripe SCA--}}
+<section class="payment_gateway_options" id="gateway_{{config('attendize.payment_gateway_stripe_sca')}}">
+    <h4>@lang("ManageAccount.stripe_settings")</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {!! Form::label('stripe_sca[apiKey]', trans("ManageAccount.stripe_secret_key"), array('class'=>'control-label ')) !!}
+                {!! Form::text('stripe_sca[apiKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_stripe_sca'), 'apiKey'),[ 'class'=>'form-control'])  !!}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {!! Form::label('publishableKey', trans("ManageAccount.stripe_publishable_key"), array('class'=>'control-label ')) !!}
+                {!! Form::text('stripe_sca[publishableKey]', $account->getGatewayConfigVal(config('attendize.payment_gateway_stripe_sca'), 'publishableKey'),[ 'class'=>'form-control'])  !!}
             </div>
         </div>
     </div>
@@ -73,8 +100,6 @@
                 </div>
             </div>
         </div>
-
-
 </section>
 
 <div class="row">

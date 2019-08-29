@@ -31,7 +31,8 @@ class ManageAccountController extends MyBaseController
             'account'                  => Account::find(Auth::user()->account_id),
             'timezones'                => Timezone::pluck('location', 'id'),
             'currencies'               => Currency::pluck('title', 'id'),
-            'payment_gateways'         => PaymentGateway::pluck('provider_name', 'id'),
+            'payment_gateways'         => PaymentGateway::getAllWithDefaultSet(),
+            'default_payment_gateway_id' => PaymentGateway::getDefaultPaymentGatewayId(),
             'account_payment_gateways' => AccountPaymentGateway::scope()->get(),
             'version_info'             => $this->getVersionInfo(),
         ];
@@ -124,7 +125,7 @@ class ManageAccountController extends MyBaseController
     public function postEditAccountPayment(Request $request)
     {
         $account = Account::find(Auth::user()->account_id);
-        $gateway_id = $request->get('payment_gateway_id');
+        $gateway_id = $request->get('payment_gateway');
 
         switch ($gateway_id) {
             case config('attendize.payment_gateway_stripe') : //Stripe
@@ -133,7 +134,15 @@ class ManageAccountController extends MyBaseController
             case config('attendize.payment_gateway_paypal') : //PayPal
                 $config = $request->get('paypal');
                 break;
+            case config('attendize.payment_gateway_stripe_sca') : //Stripe SCA
+                $config = $request->get('stripe_sca');
+                break;
         }
+
+        PaymentGateway::query()->update(['default' => 0]);
+        $payment_gateway = PaymentGateway::where('id', '=', $gateway_id)->first();
+        $payment_gateway->default = 1;
+        $payment_gateway->save();
 
         $account_payment_gateway = AccountPaymentGateway::firstOrNew(
             [
