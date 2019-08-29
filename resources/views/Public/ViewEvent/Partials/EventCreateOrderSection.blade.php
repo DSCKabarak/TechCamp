@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-8 col-md-pull-4">
             <div class="event_order_form">
-                {!! Form::open(['url' => route('postValidateOrder', ['event_id' => $event->id ]) ]) !!}
+                {!! Form::open(['url' => route('postValidateOrder', ['event_id' => $event->id ]), 'class' => 'ajax payment-form']) !!}
 
                 {!! Form::hidden('event_id', $event->id) !!}
 
