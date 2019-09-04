@@ -53,7 +53,8 @@
             "database",
             "app/Http/Controllers",
             "app/Models",
-            "app/Attendize"
+            "app/Attendize",
+            "app/Services"
         ],
         "psr-4": {
             "App\\": "app/",

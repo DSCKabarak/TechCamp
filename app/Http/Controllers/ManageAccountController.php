@@ -14,6 +14,9 @@ use HttpClient;
 use Illuminate\Http\Request;
 use Input;
 use Mail;
+use Services\PaymentGateway\Dummy;
+use Services\PaymentGateway\Stripe;
+use Services\PaymentGateway\StripeSCA;
 use Validator;
 use GuzzleHttp\Client;
 
@@ -127,20 +130,24 @@ class ManageAccountController extends MyBaseController
         $account = Account::find(Auth::user()->account_id);
         $gateway_id = $request->get('payment_gateway');
 
-        switch ($gateway_id) {
-            case config('attendize.payment_gateway_stripe') : //Stripe
+        $payment_gateway = PaymentGateway::where('id', '=', $gateway_id)->first();
+
+        $config = [];
+
+        switch ($payment_gateway->name) {
+            case Stripe::GATEWAY_NAME :
                 $config = $request->get('stripe');
                 break;
-            case config('attendize.payment_gateway_paypal') : //PayPal
-                $config = $request->get('paypal');
-                break;
-            case config('attendize.payment_gateway_stripe_sca') : //Stripe SCA
+            case StripeSCA::GATEWAY_NAME :
                 $config = $request->get('stripe_sca');
                 break;
+            case Dummy::GATEWAY_NAME :
+                break;
+
         }
 
         PaymentGateway::query()->update(['default' => 0]);
-        $payment_gateway = PaymentGateway::where('id', '=', $gateway_id)->first();
+
         $payment_gateway->default = 1;
         $payment_gateway->save();
 

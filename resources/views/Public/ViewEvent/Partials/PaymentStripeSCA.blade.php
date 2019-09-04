@@ -11,9 +11,7 @@
     </div>
     {!! Form::token() !!}
 
-    <button id="card-button" data-secret="<?php echo $client_secret; ?>">
-        Submit Payment
-    </button>
+    <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="Complete Payment">
 
 </form>
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
@@ -38,9 +36,8 @@
         }
     };
 
-    var cardElement = elements.create('card', {style: style});
+    var cardElement = elements.create('card', {hidePostalCode: true, style: style});
     cardElement.mount('#card-element');
-
 
     cardElement.addEventListener('change', function(event) {
         var displayError = document.getElementById('card-errors');

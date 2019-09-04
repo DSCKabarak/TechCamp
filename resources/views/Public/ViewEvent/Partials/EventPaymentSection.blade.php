@@ -59,18 +59,12 @@
         <div class="col-md-8 col-md-pull-4">
             <div class="row">
 
-                {{ $payment_gateway->name }}
-
                 @if($order_requires_payment)
                     @include('Public.ViewEvent.Partials.OfflinePayments')
                 @endif
 
-                @if($payment_gateway->name == 'Stripe')
-                    @include('Public.ViewEvent.Partials.PaymentStripe')
-                @endif
-
-                @if($payment_gateway->name == 'Stripe\PaymentIntents')
-                    @include('Public.ViewEvent.Partials.PaymentStripeSCA')
+                @if(View::exists($payment_gateway['checkout_blade_template']))
+                    @include($payment_gateway['checkout_blade_template'])
                 @endif
 
             </div>
