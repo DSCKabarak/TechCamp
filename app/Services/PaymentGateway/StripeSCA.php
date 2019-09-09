@@ -2,7 +2,6 @@
 
 namespace Services\PaymentGateway;
 
-
 use Illuminate\Support\Facades\Log;
 
 class StripeSCA
@@ -14,7 +13,7 @@ class StripeSCA
 
     private $gateway;
 
-    private $extra_params = ['paymentMethod','payment_intent'];
+    private $extra_params = ['paymentMethod', 'payment_intent'];
 
     public function __construct($gateway)
     {
@@ -45,14 +44,14 @@ class StripeSCA
 
     public function startTransaction($order_total, $order_email, $event)
     {
-
         $this->createTransactionData($order_total, $order_email, $event);
         $response = $this->gateway->authorize($this->transaction_data)->send();
 
         return $response;
     }
 
-    public function getTransactionData() {
+    public function getTransactionData()
+    {
         return $this->transaction_data;
     }
 
@@ -65,11 +64,12 @@ class StripeSCA
         }
     }
 
-    public function completeTransaction($transactionId = '') {
+    public function completeTransaction($transactionId = '')
+    {
 
-        $intentData = array(
+        $intentData = [
             'paymentIntentReference' => $this->options['payment_intent'],
-        );
+        ];
 
         $paymentIntent = $this->gateway->fetchPaymentIntent($intentData);
         $response = $paymentIntent->send();
@@ -77,8 +77,41 @@ class StripeSCA
             $response = $this->gateway->confirm($intentData)->send();
         }
 
-
         return $response;
     }
-    
+
+    public function getAdditionalData($response)
+    {
+
+        $additionalData['payment_intent'] = $response->getPaymentIntentReference();
+        return $additionalData;
+    }
+
+    public function storeAdditionalData()
+    {
+        return true;
+    }
+
+    public function refundTransaction($order, $refund_amount, $refund_application_fee)
+    {
+
+        $request = $this->gateway->cancel([
+            'transactionReference' => $order->transaction_id,
+            'amount' => $refund_amount,
+            'refundApplicationFee' => $refund_application_fee,
+            'paymentIntentReference' => $order->payment_intent
+        ]);
+
+        $response = $request->send();
+
+        if ($response->isCancelled()) {
+            $refundResponse['successful'] = true;
+        } else {
+            $refundResponse['successful'] = false;
+            $refundResponse['error_message'] = $response->getMessage();
+        }
+
+        return $refundResponse;
+    }
+
 }

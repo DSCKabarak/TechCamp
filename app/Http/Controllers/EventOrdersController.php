@@ -8,7 +8,9 @@ use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
 use App\Models\Order;
+use App\Models\PaymentGateway;
 use App\Services\Order as OrderService;
+use App\Services\PaymentGateway\Factory as PaymentGatewayFactory;
 use DB;
 use Excel;
 use Illuminate\Http\Request;
@@ -196,11 +198,10 @@ class EventOrdersController extends MyBaseController
 
 
     /**
-     * Cancels an order
-     *
      * @param Request $request
      * @param $order_id
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function postCancelOrder(Request $request, $order_id)
     {
@@ -244,24 +245,23 @@ class EventOrdersController extends MyBaseController
                         $order->event->currency))]);
             }
             if (!$error_message) {
-                try {
-                    $gateway = Omnipay::create($order->payment_gateway->name);
 
-                    $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
+                try {
+
+                    $payment_gateway_config = $order->account->getGateway($order->payment_gateway->id)->config + [
+                            'testMode' => config('attendize.enable_test_payments')];
+
+                    $payment_gateway_factory = new PaymentGatewayFactory();
+                    $gateway = $payment_gateway_factory->create($order->payment_gateway->name, $payment_gateway_config);
 
                     if ($refund_type === 'full') { /* Full refund */
                         $refund_amount = $order->organiser_amount - $order->amount_refunded;
                     }
 
-                    $request = $gateway->refund([
-                        'transactionReference' => $order->transaction_id,
-                        'amount'               => $refund_amount,
-                        'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
-                    ]);
+                    $refund_application_fee = floatval($order->booking_fee) > 0 ? true : false;
+                    $response = $gateway->refundTransaction($order, $refund_amount, $refund_application_fee);
 
-                    $response = $request->send();
-
-                    if ($response->isSuccessful()) {
+                    if ($response['successful']) {
                         /* Update the event sales volume*/
                         $order->event->decrement('sales_volume', $refund_amount);
                         $order->amount_refunded = round(($order->amount_refunded + $refund_amount), 2);
@@ -274,10 +274,11 @@ class EventOrdersController extends MyBaseController
                             $order->order_status_id = config('attendize.order_partially_refunded');
                         }
                     } else {
-                        $error_message = $response->getMessage();
+                        $error_message = $response['error_message'];
                     }
 
                     $order->save();
+
                 } catch (\Exeption $e) {
                     Log::error($e);
                     $error_message = trans("Controllers.refund_exception");

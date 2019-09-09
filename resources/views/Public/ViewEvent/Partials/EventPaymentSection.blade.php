@@ -4,6 +4,13 @@
             @lang("Public_ViewEvent.payment_information")
         </h1>
     </div>
+    @if($payment_failed)
+    <div class="row">
+        <div class="col-md-8 alert-danger" style="text-align: left; padding: 10px">
+            @lang("Order.payment_failed")
+        </div>
+    </div>
+    @endif
     <div class="row">
         <div class="col-md-12" style="text-align: center">
             @lang("Public_ViewEvent.below_order_details_header")

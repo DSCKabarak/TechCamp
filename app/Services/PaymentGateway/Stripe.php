@@ -42,7 +42,8 @@ class Stripe
         return $response;
     }
 
-    public function getTransactionData() {
+    public function getTransactionData()
+    {
         return $this->transaction_data;
     }
 
@@ -55,6 +56,37 @@ class Stripe
         }
     }
 
-    public function completeTransaction($transactionId) {}
+    public function completeTransaction($transactionId)
+    {
+    }
 
+    public function getAdditionalData()
+    {
+    }
+
+    public function storeAdditionalData()
+    {
+        return false;
+    }
+
+    public function refundTransaction($order, $refund_amount, $refund_application_fee)
+    {
+
+        $request = $this->gateway->refund([
+            'transactionReference' => $order->transaction_id,
+            'amount' => $refund_amount,
+            'refundApplicationFee' => $refund_application_fee
+        ]);
+
+        $response = $request->send();
+
+        if ($response->isSuccessful()) {
+            $refundResponse['successful'] = true;
+        } else {
+            $refundResponse['successful'] = false;
+            $refundResponse['error_message'] = $response->getMessage();
+        }
+
+        return $refundResponse;
+    }
 }

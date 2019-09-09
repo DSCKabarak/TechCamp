@@ -22,6 +22,10 @@ class AddDefaultGateways extends Migration
             $table->string('checkout_blade_template', 150)->default('');
         });
 
+        Schema::table('orders', function($table) {
+            $table->string('payment_intent', 150)->default('');
+        });
+
         DB::table('payment_gateways')
             ->where('provider_name', 'Stripe')
             ->update(['admin_blade_template' => 'ManageAccount.Partials.Stripe',
