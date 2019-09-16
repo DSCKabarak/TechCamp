@@ -2,8 +2,6 @@
 
 namespace Services\PaymentGateway;
 
-use Illuminate\Support\Facades\Log;
-
 class StripeSCA
 {
 

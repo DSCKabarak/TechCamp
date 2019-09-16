@@ -2,11 +2,7 @@
 
 namespace App\Services\PaymentGateway;
 
-use Illuminate\Support\Facades\Log;
 use Omnipay\Omnipay;
-use Services\PaymentGateway\Dummy;
-use Services\PaymentGateway\Stripe;
-use Services\PaymentGateway\StripeSCA;
 
 /**
  * The intention of this factory is to create a service that is a wrapper around the relative Omnipay implementation
