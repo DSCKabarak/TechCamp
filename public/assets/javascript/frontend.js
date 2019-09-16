@@ -4566,147 +4566,163 @@ function log() {
   };
 
 }).call(this);
-;$(function() {
+;function getAjaxFormConfig(form) {
+
+    var $form = form;
+    var $submitButton = $form.find('input[type=submit]');
+
+    toggleSubmitDisabled($submitButton);
+
+    var ajaxFormConf = {
+        delegation: true,
+        beforeSerialize: function (jqForm, options) {
+            window.doSubmit = true;
+            clearFormErrors(jqForm[0]);
+            toggleSubmitDisabled($submitButton);
+        },
+        beforeSubmit: function () {
+            $submitButton = $form.find('input[type=submit]');
+            toggleSubmitDisabled($submitButton);
+            return window.doSubmit;
+        },
+        error: function (data, statusText, xhr, $form) {
+            $submitButton = $form.find('input[type=submit]');
+
+            // Form validation error.
+            if (422 == data.status) {
+                processFormErrors($form, $.parseJSON(data.responseText));
+                return;
+            }
+
+            toggleSubmitDisabled($submitButton);
+            showMessage(lang("whoops"));
+        },
+        success: function (data, statusText, xhr, $form) {
+            var $submitButton = $form.find('input[type=submit]');
+
+            if (data.message) {
+                showMessage(data.message);
+            }
+            switch (data.status) {
+                case 'success':
+
+                    if (data.redirectUrl) {
+                        if (data.redirectData) {
+                            $.redirectPost(data.redirectUrl, data.redirectData);
+                        } else {
+                            document.location.href = data.redirectUrl;
+                        }
+                    }
+                    break;
+
+                case 'error':
+                    if (data.messages) {
+                        processFormErrors($form, data.messages);
+                        return;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            toggleSubmitDisabled($submitButton);
+
+        },
+        dataType: 'json'
+    };
+
+    return ajaxFormConf;
+}
+
+$(function() {
+
     $('form.ajax').on('submit', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
 
-        var $form =
-                $(this),
-                $submitButton = $form.find('input[type=submit]'),
-                ajaxFormConf = {
-                    delegation: true,
-                    beforeSerialize: function(jqForm, options) {
-                        window.doSubmit = true;
-                        clearFormErrors(jqForm[0]);
-                        toggleSubmitDisabled($submitButton);
-                    },
-                    beforeSubmit: function() {
-                        $submitButton = $form.find('input[type=submit]');
-                        toggleSubmitDisabled($submitButton);
-                        return window.doSubmit;
-                    },
-                    error: function(data, statusText, xhr, $form) {
-                        $submitButton = $form.find('input[type=submit]');
+        var ajaxFormConf = getAjaxFormConfig($(this));
 
-                        // Form validation error.
-                        if (422 == data.status) {
-                            processFormErrors($form, $.parseJSON(data.responseText));
-                            return;
-                        }
+        $(this).ajaxSubmit(ajaxFormConf);
 
-                        toggleSubmitDisabled($submitButton);
-                        showMessage(lang("whoops"));
-                    },
-                    success: function(data, statusText, xhr, $form) {
-                        var $submitButton = $form.find('input[type=submit]');
-
-                        if (data.message) {
-                            showMessage(data.message);
-                        }
-                        switch (data.status) {
-                            case 'success':
-
-                                if (data.redirectUrl) {
-                                    if(data.redirectData)  {
-                                        $.redirectPost(data.redirectUrl, data.redirectData);
-                                    } else {
-                                        document.location.href = data.redirectUrl;
-                                    }
-                                }
-                                break;
-
-                            case 'error':
-                                if (data.messages) {
-                                    processFormErrors($form, data.messages);
-                                    return;
-                                }
-                                break;
-
-                            default:
-                                break;
-
-
-                        }
-
-                        toggleSubmitDisabled($submitButton);
-
-
-                    },
-                    dataType: 'json'
-                };
-
-        toggleSubmitDisabled($submitButton);
-
-        if ($form.hasClass('payment-form') && !$('#pay_offline').is(":checked")) {
-            clearFormErrors($('.payment-form'));
-
-            Stripe.setPublishableKey($form.data('stripe-pub-key'));
-
-            var
-                    noErrors = true,
-                    $cardNumber = $('.card-number'),
-                    $cardName = $('.card-name'),
-                    $cvcNumber = $('.card-cvc'),
-                    $expiryMonth = $('.card-expiry-month'),
-                    $expiryYear = $('.card-expiry-year');
-
-
-            if (!Stripe.validateCardNumber($cardNumber.val())) {
-                showFormError($cardNumber, lang("credit_card_error"));
-                noErrors = false;
-            }
-
-            if (!Stripe.validateCVC($cvcNumber.val())) {
-                showFormError($cardNumber, lang("cvc_error"));
-                noErrors = false;
-            }
-
-            if (!Stripe.validateExpiry($expiryMonth.val(), $expiryYear.val())) {
-                showFormError($cardNumber, lang("expiry_error"));
-                showFormError($expiryYear, '');
-                noErrors = false;
-            }
-
-            if (noErrors) {
-                Stripe.card.createToken({
-                    name: $cardName.val(),
-                    number: $cardNumber.val(),
-                    cvc: $cvcNumber.val(),
-                    exp_month: $expiryMonth.val(),
-                    exp_year: $expiryYear.val()
-                },
-                function(status, response) {
-
-                    if (response.error) {
-                        clearFormErrors($('.payment-form'));
-                        if(response.error.param.length>0)
-                            showFormError($('*[data-stripe=' + response.error.param + ']', $('.payment-form')), response.error.message);
-                        else
-                            showMessage(response.error.message);
-                        toggleSubmitDisabled($submitButton);
-                    } else {
-                        var token = response.id;
-                        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                        $form.ajaxSubmit(ajaxFormConf);
-                    }
-
-                });
-            } else {
-                showMessage(lang("card_validation_error"));
-                toggleSubmitDisabled($submitButton);
-            }
-
-        } else {
-            $form.ajaxSubmit(ajaxFormConf);
-        }
     });
+
+    //handles stripe payment form submit
+    $('#stripe-payment-form').on('submit', function (e) {
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+
+    });
+
+    function stripeTokenHandler(token) {
+
+        var form = document.getElementById('stripe-payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        var $ajaxFormConf = getAjaxFormConfig($('#stripe-payment-form'));
+        $('#stripe-payment-form').ajaxSubmit($ajaxFormConf);
+
+    }
+
+    $('#stripe-sca-payment-form').on('submit', function (e) {
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        stripe.createPaymentMethod(
+            'card',
+            cardElement
+        ).then(function (result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+
+                stripePaymentMethodHandler(result.paymentMethod);
+            }
+        });
+    });
+
+
+    function stripePaymentMethodHandler(paymentMethod) {
+
+        var form = document.getElementById('stripe-sca-payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'paymentMethod');
+        hiddenInput.setAttribute('value', paymentMethod.id);
+        form.appendChild(hiddenInput);
+
+        var $ajaxFormConf = getAjaxFormConfig($('#stripe-sca-payment-form'));
+        $('#stripe-sca-payment-form').ajaxSubmit($ajaxFormConf);
+
+    }
+
+    $('#pay_offline').change(function () {
+        $('.online_payment').toggle(!this.checked);
+        $('.offline_payment').toggle(this.checked);
+    }).change();
 
     $('a').smoothScroll({
         offset: -60
     });
-
-
+    
     /* Scroll to top */
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {
@@ -4734,15 +4750,6 @@ function log() {
 
     $('.card-number').payment('formatCardNumber');
     $('.card-cvc').payment('formatCardCVC');
-
-    $('#pay_offline').change(function () {
-        $('.online_payment').toggle(!this.checked);
-        $('.offline_payment').toggle(this.checked);
-
-        // Disable CC form inputs to prevent Chrome trying to validate hidden fields
-        $('.online_payment input,  .online_payment select').attr('disabled', this.checked);
-
-    }).change();
 
     // Apply access code here to unlock hidden tickets
     $('#apply_access_code').click(function(e) {

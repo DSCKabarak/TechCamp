@@ -153,6 +153,16 @@ Route::group(
             'uses' => 'EventCheckoutController@postValidateTickets',
         ]);
 
+        Route::post('{event_id}/checkout/validate', [
+            'as'   => 'postValidateOrder',
+            'uses' => 'EventCheckoutController@postValidateOrder',
+        ]);
+
+        Route::get('{event_id}/checkout/payment', [
+            'as'   => 'showEventPayment',
+            'uses' => 'EventCheckoutController@showEventPayment',
+        ]);
+
         Route::get('{event_id}/checkout/create', [
             'as'   => 'showEventCheckout',
             'uses' => 'EventCheckoutController@showEventCheckout',
@@ -162,7 +172,6 @@ Route::group(
             'as'   => 'showEventCheckoutPaymentReturn',
             'uses' => 'EventCheckoutController@showEventCheckoutPaymentReturn',
         ]);
-
 
         Route::post('{event_id}/checkout/create', [
             'as'   => 'postCreateOrder',

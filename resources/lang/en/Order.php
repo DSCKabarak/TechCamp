@@ -31,6 +31,8 @@ return array (
   'order_ref' => 'Reference',
   'organiser_booking_fees' => 'Organiser Booking Fees',
   'payment_gateway' => 'Payment Gateway',
+  'payment_intent' => 'Payment Intent',
+  'payment_failed' => 'Payment failed please try enter your payment details again.',
   'price' => 'Price',
   'purchase_date' => 'Purchase Date',
   'quantity' => 'Quantity',
