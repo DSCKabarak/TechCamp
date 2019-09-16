@@ -16,7 +16,7 @@ use App\Models\QuestionAnswer;
 use App\Models\ReservedTickets;
 use App\Models\Ticket;
 use App\Services\Order as OrderService;
-use App\Services\PaymentGateway\Factory as PaymentGatewayFactory;
+use Services\PaymentGateway\Factory as PaymentGatewayFactory;
 use Carbon\Carbon;
 use Cookie;
 use DB;

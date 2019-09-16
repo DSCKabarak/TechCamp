@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\PaymentGateway;
+namespace Services\PaymentGateway;
 
 use Omnipay\Omnipay;
 
