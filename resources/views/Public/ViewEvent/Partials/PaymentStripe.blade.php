@@ -60,13 +60,14 @@
 
         padding: 10px 12px;
 
-        border: 1px solid transparent;
+        border: 1px solid #e0e0e0 !important;
         border-radius: 4px;
         background-color: white;
 
         box-shadow: 0 1px 3px 0 #e6ebf1;
         -webkit-transition: box-shadow 150ms ease;
         transition: box-shadow 150ms ease;
+        margin-bottom: 20px;
     }
 
     .StripeElement--focus {
@@ -80,4 +81,5 @@
     .StripeElement--webkit-autofill {
         background-color: #fefde5 !important;
     }
+
 </style>
