@@ -428,6 +428,11 @@ class EventCheckoutController extends Controller
                 session()->push('ticket_order_' . $event_id . '.transaction_id',
                     $response->getTransactionReference());
 
+                $additionalData = ($gateway->storeAdditionalData()) ? $gateway->getAdditionalData($response) : array();
+
+                session()->push('ticket_order_' . $event_id . '.transaction_data',
+                                $gateway->getTransactionData() + $additionalData);
+
                 return $this->completeOrder($event_id);
 
             } elseif ($response->isRedirect()) {
@@ -436,7 +441,6 @@ class EventCheckoutController extends Controller
 
                 session()->push('ticket_order_' . $event_id . '.transaction_data',
                                 $gateway->getTransactionData() + $additionalData);
-
 
                 Log::info("Redirect url: " . $response->getRedirectUrl());
 
