@@ -48,7 +48,7 @@ class Dummy
 
     public function extractRequestParameters($request) {}
 
-    public function completeTransaction($transactionId) {}
+    public function completeTransaction($data) {}
 
     public function getAdditionalData() {}
 
