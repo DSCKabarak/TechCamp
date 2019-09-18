@@ -433,6 +433,8 @@ class EventCheckoutController extends Controller
                 session()->push('ticket_order_' . $event_id . '.transaction_data',
                                 $gateway->getTransactionData() + $additionalData);
 
+                $gateway->completeTransaction($additionalData);
+
                 return $this->completeOrder($event_id);
 
             } elseif ($response->isRedirect()) {
