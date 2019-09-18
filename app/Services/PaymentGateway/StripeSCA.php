@@ -76,8 +76,12 @@ class StripeSCA
 
         $paymentIntent = $this->gateway->fetchPaymentIntent($intentData);
         $response = $paymentIntent->send();
+
         if ($response->requiresConfirmation()) {
-            $response = $this->gateway->confirm($intentData)->send();
+            $confirmResponse = $this->gateway->confirm($intentData)->send();
+            if ($confirmResponse->isSuccessful()) {
+                $response = $this->gateway->capture($intentData)->send();
+            }
         } else {
             $response = $this->gateway->capture($intentData)->send();
         }
