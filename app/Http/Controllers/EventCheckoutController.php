@@ -362,7 +362,7 @@ class EventCheckoutController extends Controller
             'tickets' => $order_session['tickets'],
             'order_total' => $order_total,
             'orderService' => $orderService,
-            'order_requires_payment'  => (ceil($order_session['order_total']) == 0) ? false : true,
+            'order_requires_payment'  => ceil($order_session['order_total']) > 0,
             'account_payment_gateway' => $account_payment_gateway,
             'payment_gateway' => $payment_gateway,
             'secondsToExpire' => $secondsToExpire,
