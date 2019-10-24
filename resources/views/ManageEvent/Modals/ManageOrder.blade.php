@@ -79,6 +79,12 @@
                         </div>
                         @endif
 
+                        @if($order->payment_intent)
+                        <div class="col-sm-6 col-xs-6">
+                            <b>@lang("Order.payment_intent")</b><br> {{$order->payment_intent}}
+                        </div>
+                        @endif
+
                         @if ($order->is_business)
                         <div class="col-sm-6 col-xs-6">
                             <b>@lang("Public_ViewEvent.business_name")</b><br />

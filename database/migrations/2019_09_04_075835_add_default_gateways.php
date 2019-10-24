@@ -1,23 +1,42 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use App\Models\PaymentGateway;
 
-class PaymentGatewaySeeder extends Seeder
+class AddDefaultGateways extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
+        PaymentGateway::where('name', 'PayPal_Express')->delete();
+
+        Schema::table('payment_gateways', function($table) {
+            $table->boolean('default')->default(0);
+            $table->string('admin_blade_template', 150)->default('');
+            $table->string('checkout_blade_template', 150)->default('');
+        });
+
+        Schema::table('orders', function($table) {
+            $table->string('payment_intent', 150)->default('');
+        });
+
+        DB::table('payment_gateways')
+            ->where('provider_name', 'Stripe')
+            ->update(['admin_blade_template' => 'ManageAccount.Partials.Stripe',
+                      'checkout_blade_template' => 'Public.ViewEvent.Partials.PaymentStripe']);
 
         $dummyGateway = DB::table('payment_gateways')->where('name', '=', 'Dummy')->first();
 
         if ($dummyGateway === null) {
             // user doesn't exist
             DB::table('payment_gateways')->insert(
-                [
+                array(
                     'provider_name' => 'Dummy/Test Gateway',
                     'provider_url' => 'none',
                     'is_on_site' => 1,
@@ -26,23 +45,7 @@ class PaymentGatewaySeeder extends Seeder
                     'default' => 0,
                     'admin_blade_template' => '',
                     'checkout_blade_template' => 'Public.ViewEvent.Partials.Dummy'
-                ]
-            );
-        }
-
-        $stripe = DB::table('payment_gateways')->where('name', '=', 'Stripe')->first();
-        if ($stripe === null) {
-            DB::table('payment_gateways')->insert(
-                [
-                    'name' => 'Stripe',
-                    'provider_name' => 'Stripe',
-                    'provider_url' => 'https://www.stripe.com',
-                    'is_on_site' => 1,
-                    'can_refund' => 1,
-                    'default' => 0,
-                    'admin_blade_template' => 'ManageAccount.Partials.Stripe',
-                    'checkout_blade_template' => 'Public.ViewEvent.Partials.PaymentStripe'
-                ]
+                )
             );
         }
 
@@ -61,6 +64,15 @@ class PaymentGatewaySeeder extends Seeder
                 ]
             );
         }
+    }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
     }
 }

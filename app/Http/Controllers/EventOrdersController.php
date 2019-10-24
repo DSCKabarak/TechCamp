@@ -5,7 +5,9 @@ use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
 use App\Models\Order;
+use App\Models\PaymentGateway;
 use App\Services\Order as OrderService;
+use Services\PaymentGateway\Factory as PaymentGatewayFactory;
 use DB;
 use Excel;
 use Exeption;
@@ -198,7 +200,8 @@ class EventOrdersController extends MyBaseController
      * Cancels attendees in an order
      * @param Request $request
      * @param $order_id
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function postCancelOrder(Request $request, $order_id)
     {
