@@ -197,7 +197,13 @@ class EventOrdersController extends MyBaseController
     }
 
     /**
+<<<<<<< HEAD
      * Cancels attendees in an order
+||||||| merged common ancestors
+     * Cancels an order
+     *
+=======
+>>>>>>> master
      * @param Request $request
      * @param $order_id
      * @return \Illuminate\Http\JsonResponse
