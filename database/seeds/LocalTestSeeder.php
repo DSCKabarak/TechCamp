@@ -373,7 +373,7 @@ class LocalTestSeeder extends Seeder
         DB::table('account_payment_gateways')->insert([
             'account_id' => $account->id,
             'payment_gateway_id' => 1,
-            'config' => '{"apiKey":"sk_test_tOBvRHnMTNHKHhypnkUBrM5j","publishableKey":"pk_test_WETFbh7uhyF1zPK42tjOUca1"}',
+            'config' => '',
         ]);
 
         return $account;

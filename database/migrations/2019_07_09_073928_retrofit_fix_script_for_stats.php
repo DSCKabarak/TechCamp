@@ -67,6 +67,7 @@ class RetrofitFixScriptForStats extends Migration
                 $order->save();
             }
 
+            // If the order is cancelled but the linked attendees are not marked as cancelled and refunded, we need to fix that
             if ($order->is_refunded) {
                 $order->attendees()->get()->map(function($attendee) {
                     if (!$attendee->is_refunded) {
@@ -150,6 +151,7 @@ class RetrofitFixScriptForStats extends Migration
             }
         });
 
+        // We need to calculate the time based stats on events going back in time
         Event::all()->map(function($event) {
             /** @var $event Event */
             $orders = $event->orders()->where('is_refunded', false)->get();
