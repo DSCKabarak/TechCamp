@@ -38,8 +38,15 @@ class OrganiserViewController extends Controller
             $organiser->page_text_color = $preview_styles['page_text_color'];
         }
 
-        $upcoming_events = $organiser->events()->where('end_date', '>=', Carbon::now())->get();
-        $past_events = $organiser->events()->where('end_date', '<', Carbon::now())->limit(10)->get();
+        $upcoming_events = $organiser->events()->where([
+            ['end_date', '>=', $now],
+            ['is_live',1]
+        ])->get();
+		
+        $past_events = $organiser->events()->where([
+            ['end_date', '<', $now],
+            ['is_live',1]
+        ])->limit(10)->get();
 
         $data = [
             'organiser'       => $organiser,
