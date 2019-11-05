@@ -45,7 +45,7 @@ Demo Back-end Demo: http://attendize.website/signup<br />
  - Public event listings page for organisers
  - Ability to ask custom questions during checkout
  - Browser based QR code scanner for door management
-
+ - Elegant dashboard for easy management.
 ### Contribution
 ---
 Feel free to fork and contribute. If you are unsure about adding a feature create a Github issue to ask for Feedback. Read the [contribution guidelines](http://www.attendize.com/contributions.html)
