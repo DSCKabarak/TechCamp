@@ -65,7 +65,7 @@
         <div class="col-sm-6">
             <div class="stat-box">
                 <h3>
-                    {{$organiser->attendees->count()}}
+                    {{ $organiser->getTicketsSold() }}
                 </h3>
             <span>
                 @lang("Organiser.tickets_sold")
