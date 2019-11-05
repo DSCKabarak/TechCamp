@@ -18,14 +18,14 @@ class RetrofitFixScriptForStats extends Migration
     public function up()
     {
         /*
-         * Link tickets to their orders based on the order items on each order record. It will try and 
+         * Link tickets to their orders based on the order items on each order record. It will try and
          * find the ticket on the event and match the order item title to the ticket title.
          */
         Order::all()->map(function($order) {
             $event = $order->event()->first();
             $tickets = $event->tickets()->get();
             $orderItems = $order->orderItems()->get();
-            // We would like a list of titles from the order items to map against tickets
+            // We would like a list of titles from the order items to test against existing tickets
             $mapOrderItemTitles = $orderItems->map(function($orderItem) {
                 return $orderItem->title;
             });
@@ -35,7 +35,7 @@ class RetrofitFixScriptForStats extends Migration
                 return ($mapOrderItemTitles->contains($ticket->title));
             });
 
-            // Attach the ticket to it's order
+            // Attach the ticket to it's order to keep referencial integrity
             $ticketsFound->map(function($ticket) use ($order) {
                 $pivotExists = $order->tickets()->where('ticket_id', $ticket->id)->exists();
                 if (!$pivotExists) {
@@ -44,6 +44,10 @@ class RetrofitFixScriptForStats extends Migration
                 }
             });
 
+            /*
+             * Next we need to check if the order amount is the same as the total of the order items.
+             * We use the order items as the source of truth for setting order amounts to the correct ones.
+             */
             $orderStringValue = $orderItems->reduce(function($carry, $orderItem) {
                 $orderTotal = (new Money($carry));
                 $orderItemValue = (new Money($orderItem->unit_price))->multiply($orderItem->quantity);
@@ -70,6 +74,7 @@ class RetrofitFixScriptForStats extends Migration
             // If the order is cancelled but the linked attendees are not marked as cancelled and refunded, we need to fix that
             if ($order->is_refunded) {
                 $order->attendees()->get()->map(function($attendee) {
+                    // Mark attendees as cancelled and refunded if the order is cancelled
                     if (!$attendee->is_refunded) {
                         \Log::debug(sprintf("Marking Attendee (ID:%d) as refunded",$attendee->id));
                         $attendee->is_refunded = true;
@@ -85,11 +90,16 @@ class RetrofitFixScriptForStats extends Migration
             }
         });
 
+        /**
+         * Next we need to check if the sales volume on the ticket is correct based on the order items again
+         * as the source of truth. We ignore tickets where the order is refunded.
+         */
         Ticket::all()->map(function($ticket) {
             // NOTE: We need to ignore refunded orders when calculating the ticket sales volume.
             /** @var Ticket $ticket */
             $orders = $ticket->orders()->where('is_refunded', false)->get();
 
+            // Calculate the ticket sales value from the order items linked to a ticket.
             $ticketStringValue = $orders->reduce(function($ticketCarry, $order) use ($ticket) {
                 $ticketTotal = (new Money($ticketCarry));
 
@@ -112,6 +122,7 @@ class RetrofitFixScriptForStats extends Migration
                 return $ticketTotal->add($orderValue)->format();
             });
 
+            // Compare the current value against the calculated one and update as needed
             $oldTicketSalesVolume = (new Money($ticket->sales_volume));
             $orderItemsTicketSalesVolume = (new Money($ticketStringValue));
             if ($oldTicketSalesVolume->equals($orderItemsTicketSalesVolume) === false) {
@@ -125,7 +136,10 @@ class RetrofitFixScriptForStats extends Migration
                 $ticket->save();
             }
 
-            // Do the same check for ticket quantity sold
+            /**
+             * Do the same check for ticket quantity sold against the order items. Lucky for us the order item
+             * saved the quantity of tickets sold.
+             */
             $ticketQuantity = $orders->reduce(function ($ticketCarry, $order) use ($ticket) {
                 $orderItems = $order->orderItems()->get();
                 $orderQuantity = $orderItems->reduce(function ($carry, $orderItem) use ($ticket) {
@@ -151,11 +165,15 @@ class RetrofitFixScriptForStats extends Migration
             }
         });
 
-        // We need to calculate the time based stats on events going back in time
+        // We need to calculate the time based stats on events going back in time to fix any inconsistencies.
         Event::all()->map(function($event) {
             /** @var $event Event */
             $orders = $event->orders()->where('is_refunded', false)->get();
 
+            /**
+             * We will build the event stats for all orders in an event along with their create date as
+             * the key for the dashboard graphs. We are ignoring views as it's out of scope for this fix.
+             */
             $orderTimeBasedStats = [];
             $orders->map(function($order) use (&$orderTimeBasedStats) {
                 /** @var $order Order */
@@ -171,10 +189,12 @@ class RetrofitFixScriptForStats extends Migration
                         'sales_volume' => new Money(0),
                     ];
                 }
+                // Increment any hits on already saved days for quantity
                 $orderTimeBasedStats[$orderDay]['quantity'] += $quantity;
                 /** @var Money $previousSalesVolume */
                 $previousSalesVolume = $orderTimeBasedStats[$orderDay]['sales_volume'];
 
+                // Increment any hits on already saved days for amounts
                 $orderAmount = new Money($order->amount);
                 $orderTimeBasedStats[$orderDay]['sales_volume'] = $previousSalesVolume->add($orderAmount);
             });
@@ -186,6 +206,7 @@ class RetrofitFixScriptForStats extends Migration
             EventStats::where('event_id', $event->id)->get()->map(function($eventStat) use ($orderTimeBasedStats) {
                 /** @var $eventStat EventStats */
                 if (isset($orderTimeBasedStats[$eventStat->date])) {
+                    // Here we are comparing the calculated ticket quantity against the current one and updating if needed
                     $timeBasedQuantity = $orderTimeBasedStats[$eventStat->date]['quantity'];
                     if ($eventStat->tickets_sold !== $timeBasedQuantity) {
                         \Log::debug(sprintf(
@@ -197,6 +218,7 @@ class RetrofitFixScriptForStats extends Migration
                         $eventStat->tickets_sold = $timeBasedQuantity;
                     }
 
+                    // Here we are comparing the calculated ticket amounts against the current one and updating if needed
                     $oldEventStatsSalesVolume = new Money($eventStat->sales_volume);
                     $timeBasedSalesVolume = $orderTimeBasedStats[$eventStat->date]['sales_volume'];
                     if ($oldEventStatsSalesVolume->equals($timeBasedSalesVolume) === false) {
@@ -216,7 +238,7 @@ class RetrofitFixScriptForStats extends Migration
                     /*
                      * If the order stats does not exist, but the event stat has quantity and sales_volume then
                      * we need to kill the values since there is no subsequent order information to back their
-                     * existance.
+                     * existence. Again this is built from the order items as the source of truth.
                      */
                     if ($eventStat->tickets_sold > 0) {
                         \Log::debug(sprintf(
@@ -232,6 +254,8 @@ class RetrofitFixScriptForStats extends Migration
                 }
             });
         });
+
+        // This was rough I know but it was worth it.
     }
 
     /**
