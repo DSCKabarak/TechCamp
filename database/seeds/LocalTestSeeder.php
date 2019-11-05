@@ -241,7 +241,7 @@ class LocalTestSeeder extends Seeder
             'order_id' => null, // We'll create the orders on these later
             'event_id' => $event->id,
             'title' => 'Hidden Ticket',
-            'price' => 100.00,
+            'price' => 50.00,
             'is_hidden' => true,
         ]);
 
@@ -256,7 +256,7 @@ class LocalTestSeeder extends Seeder
             'views' => 0,
             'unique_views' => 0,
             'tickets_sold' => 6,
-            'sales_volume' => 600.00,
+            'sales_volume' => 350.00,
             'event_id' => $event->id,
         ]);
 
@@ -306,15 +306,15 @@ class LocalTestSeeder extends Seeder
             'discount' => 0.00,
             'booking_fee' => 0.00,
             'organiser_booking_fee' => 0.00,
-            'amount' => 500.00,
+            'amount' => 250.00,
             'event_id' => $event->id,
             'is_payment_received' => true,
-            'taxamt' => 75.00,
+            'taxamt' => 37.5,
         ]);
 
         $hiddenTicket->order_id = $multipleAttendeeOrder->id;
         $hiddenTicket->quantity_sold = 5;
-        $hiddenTicket->sales_volume = 500.00;
+        $hiddenTicket->sales_volume = 250.00;
         $hiddenTicket->save();
 
         $this->out("<info>Attaching hidden ticket to multiple attendees order</info>");
@@ -322,9 +322,9 @@ class LocalTestSeeder extends Seeder
 
         $this->out("<info>Seeding multiple attendees order item</info>");
         factory(OrderItem::class)->create([
-            'title' => $visibleTicket->title,
+            'title' => $hiddenTicket->title,
             'quantity' => 5,
-            'unit_price' => 100.00,
+            'unit_price' => 50.00,
             'unit_booking_fee' => 0.00,
             'order_id' => $multipleAttendeeOrder->id,
         ]);
@@ -373,7 +373,7 @@ class LocalTestSeeder extends Seeder
         DB::table('account_payment_gateways')->insert([
             'account_id' => $account->id,
             'payment_gateway_id' => 1,
-            'config' => '',
+            'config' => '{"apiKey":"","publishableKey":""}',
         ]);
 
         return $account;

@@ -197,13 +197,7 @@ class EventOrdersController extends MyBaseController
     }
 
     /**
-<<<<<<< HEAD
      * Cancels attendees in an order
-||||||| merged common ancestors
-     * Cancels an order
-     *
-=======
->>>>>>> master
      * @param Request $request
      * @param $order_id
      * @return \Illuminate\Http\JsonResponse
@@ -230,22 +224,38 @@ class EventOrdersController extends MyBaseController
         $attendees = Attendee::findFromSelection($request->get('attendees'));
         $nonCancelledOrderAttendees = $order->getAllNonCancelledAttendees();
 
+        $currency = $order->getEventCurrency();
+
         // Get the full order amount, tax and booking fees included
-        $organiserAmount = new Money($order->organiser_amount, $order->getEventCurrency());
+        $organiserAmount = new Money($order->organiser_amount, $currency);
         Log::debug(sprintf("Total Order Value: %s", $organiserAmount->display()));
-        $refundedAmount = new Money($order->amount_refunded, $order->getEventCurrency());
+        $refundedAmount = new Money($order->amount_refunded, $currency);
         Log::debug(sprintf("Already refunded amount: %s", $refundedAmount->display()));
         $maximumRefundableAmount = $organiserAmount->subtract($refundedAmount);
         Log::debug(sprintf("Maxmimum refundable amount: %s", $maximumRefundableAmount->display()));
-        /*
-         * NOTE: Calculates the refund amount by using the order total (tax incl) and dividing it by the amount of
-         * attendees the user has selected. This will evenly spread the tax refund per attendee.
-         *
-         * If only one attendee lives in an order then its safe to assume a full refund can be made.
-         */
 
-        $refundAmount = $maximumRefundableAmount->multiply($attendees->count())
-            ->divide($nonCancelledOrderAttendees->count())->floor();
+        // We need the organiser tax value to calculate what the attendee would've paid
+        $event = $order->event()->first();
+        $organiser = $event->organiser()->get();
+        $organiserTaxAmount = new Money($organiser->first()->tax_value);
+        $organiserTaxRate = $organiserTaxAmount->divide(100)->__toString();
+
+        /**
+         * Calculates the refund amount from the selected attendees from the ticket price perspective.
+         *
+         * It will add the tax value from the organiser if it's set and build the refund amount to equal
+         * the amount of tickets purchased by the selected attendees. Ex:
+         * Refunding 2 attendees @ 100EUR with 15% VAT = 230EUR
+         */
+        $refundAmount = new Money($attendees->map(function(Attendee $attendee) use ($organiserTaxRate, $currency) {
+            $ticketPrice = new Money($attendee->ticket->price, $currency);
+            Log::debug(sprintf("TicketPrice: %s", $ticketPrice->display()));
+            Log::debug(sprintf("TicketTax: %s", $ticketPrice->multiply($organiserTaxRate)->display()));
+            return $ticketPrice->add($ticketPrice->multiply($organiserTaxRate));
+        })->reduce(function($carry, $singleTicketWithTax) use ($currency) {
+            $refundTotal = (new Money($carry, $currency));
+            return $refundTotal->add($singleTicketWithTax)->format();
+        }), $currency);
 
         Log::debug(sprintf("Requested Refund should include Tax: %s", $refundAmount->display()));
 
