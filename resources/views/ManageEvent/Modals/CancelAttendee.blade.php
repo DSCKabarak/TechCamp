@@ -23,14 +23,6 @@
                         <label for="notify_attendee">{{ @trans("ManageEvent.cancel_notify", [ "name" => $attendee->full_name]) }}</label>
                     </div>
                 </div>
-                @if(config('attendize.default_payment_gateway') == config('attendize.payment_gateway_stripe'))
-                    <div class="form-group">
-                            <div class="checkbox custom-checkbox">
-                                <input type="checkbox" name="refund_attendee" id="refund_attendee" value="1">
-                                <label for="refund_attendee">{{ @trans("ManageEvent.cancel_refund_user", ["name"=>$attendee->full_name]) }}</label>
-                            </div>
-                    </div>
-                @endif
             </div> <!-- /end modal body-->
             <div class="modal-footer">
                {!! Form::hidden('attendee_id', $attendee->id) !!}
