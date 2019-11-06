@@ -1,5 +1,7 @@
 <?php namespace App\Cancellation;
 
+use App\Models\Attendee;
+
 class OrderCancellation
 {
     private $order;

@@ -5,21 +5,15 @@ use App\Cancellation\OrderRefundException;
 use App\Jobs\SendOrderTickets;
 use App\Models\Attendee;
 use App\Models\Event;
-use App\Models\EventStats;
 use App\Models\Order;
-use App\Models\PaymentGateway;
 use App\Services\Order as OrderService;
-use Services\PaymentGateway\Factory as PaymentGatewayFactory;
 use DB;
 use Excel;
-use Exeption;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Log;
 use Mail;
-use Omnipay;
 use Session;
-use Superbalist\Money\Money;
 use Validator;
 
 class EventOrdersController extends MyBaseController
@@ -235,136 +229,6 @@ class EventOrdersController extends MyBaseController
                 'message' => $e->getMessage(),
             ]);
         }
-
-        $currency = $order->getEventCurrency();
-
-        // Get the full order amount, tax and booking fees included
-        $organiserAmount = new Money($order->organiser_amount, $currency);
-        Log::debug(sprintf("Total Order Value: %s", $organiserAmount->display()));
-        $refundedAmount = new Money($order->amount_refunded, $currency);
-        Log::debug(sprintf("Already refunded amount: %s", $refundedAmount->display()));
-        $maximumRefundableAmount = $organiserAmount->subtract($refundedAmount);
-        Log::debug(sprintf("Maxmimum refundable amount: %s", $maximumRefundableAmount->display()));
-
-        // We need the organiser tax value to calculate what the attendee would've paid
-        $event = $order->event()->first();
-        $organiser = $event->organiser()->get();
-        $organiserTaxAmount = new Money($organiser->first()->tax_value);
-        $organiserTaxRate = $organiserTaxAmount->divide(100)->__toString();
-
-        /**
-         * Calculates the refund amount from the selected attendees from the ticket price perspective.
-         *
-         * It will add the tax value from the organiser if it's set and build the refund amount to equal
-         * the amount of tickets purchased by the selected attendees. Ex:
-         * Refunding 2 attendees @ 100EUR with 15% VAT = 230EUR
-         */
-        $refundAmount = new Money($attendees->map(function(Attendee $attendee) use ($organiserTaxRate, $currency) {
-            $ticketPrice = new Money($attendee->ticket->price, $currency);
-            Log::debug(sprintf("TicketPrice: %s", $ticketPrice->display()));
-            Log::debug(sprintf("TicketTax: %s", $ticketPrice->multiply($organiserTaxRate)->display()));
-            return $ticketPrice->add($ticketPrice->multiply($organiserTaxRate));
-        })->reduce(function($carry, $singleTicketWithTax) use ($currency) {
-            $refundTotal = (new Money($carry, $currency));
-            return $refundTotal->add($singleTicketWithTax)->format();
-        }), $currency);
-
-        Log::debug(sprintf("Requested Refund should include Tax: %s", $refundAmount->display()));
-
-        $errorMessage = false;
-        // Check refunds are valid
-        if ($order->canRefund()) {
-            if (!$order->transaction_id) {
-                $errorMessage = trans("Controllers.order_cant_be_refunded");
-            }
-            if ($order->is_refunded) {
-                $errorMessage = trans('Controllers.order_already_refunded');
-            } elseif ($maximumRefundableAmount->isZero()) {
-                $errorMessage = trans('Controllers.nothing_to_refund');
-            } elseif ($refundAmount->isGreaterThan($maximumRefundableAmount)) {
-                // Error if the partial refund tries to refund more than allowed
-                $errorMessage = trans('Controllers.maximum_refund_amount', [
-                    'money' => $maximumRefundableAmount->display(),
-                ]);
-            }
-        }
-
-        // Stop before refunding anything or updating stats
-        if ($errorMessage) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => $errorMessage,
-            ]);
-        }
-
-        // Do refund with the amount calculated
-        try {
-            $gateway = Omnipay::create($order->payment_gateway->name);
-            $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
-
-            $request = $gateway->refund([
-                'transactionReference' => $order->transaction_id,
-                'amount' => $refundAmount->toFloat(),
-                'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
-            ]);
-
-            Log::debug(strtoupper($order->payment_gateway->name), [
-                'transactionReference' => $order->transaction_id,
-                'amount' => $refundAmount->toFloat(),
-                'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
-            ]);
-
-            $response = $request->send();
-
-            if ($response->isSuccessful()) {
-                // New refunded amount needs to be saved on the order
-                $updatedRefundedAmount = $refundedAmount->add($refundAmount);
-
-                // Update the amount refunded on the order
-                $order->amount_refunded = $updatedRefundedAmount->toFloat();
-
-                if ($organiserAmount->subtract($updatedRefundedAmount)->isZero()) {
-                    $order->is_refunded = true;
-                    // Order can't be both partially and fully refunded at the same time
-                    $order->is_partially_refunded = false;
-                    $order->order_status_id = config('attendize.order_refunded');
-                } else {
-                    $order->is_partially_refunded = true;
-                    $order->order_status_id = config('attendize.order_partially_refunded');
-                }
-            } else {
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => $response->getMessage(),
-                ]);
-            }
-
-            $order->save();
-        } catch (Exeption $e) {
-            Log::error($e);
-            return response()->json([
-                'status'  => 'error',
-                'message' => trans("Controllers.refund_exception"),
-            ]);
-
-        }
-
-        // With the refunds done, we can mark the attendees as cancelled and refunded as well
-        $attendees->map(function(Attendee $attendee) {
-            $attendee->ticket->decrement('quantity_sold');
-            $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-            $attendee->is_cancelled = true;
-            $attendee->is_refunded = true;
-            $attendee->save();
-
-            /** @var EventStats $eventStats */ // TODO move this to the EventStats Model
-            $eventStats = EventStats::where('event_id', $attendee->event_id)
-                ->where('date', $attendee->created_at->format('Y-m-d'))->first();
-            if ($eventStats) {
-                $eventStats->decrement('tickets_sold',  1);
-                $eventStats->decrement('sales_volume',  $attendee->ticket->price);
-            }
-        });
 
         // Done
         Session::flash('message', trans("Controllers.successfully_refunded_and_cancelled"));

@@ -1,8 +1,10 @@
 <?php namespace App\Cancellation;
 
 use App\Models\Attendee;
+use App\Models\EventStats;
 use Superbalist\Money\Money;
 use Log;
+use Omnipay;
 
 class OrderRefund
 {
@@ -32,7 +34,70 @@ class OrderRefund
 
     public function refund()
     {
+        try {
+            $response = $this->sendRefundRequest();
+        } catch (\Exception $e) {
+            throw new OrderRefundException(trans("Controllers.refund_exception"));
+        }
 
+        if ($response->isSuccessful()) {
+            // New refunded amount needs to be saved on the order
+            $updatedRefundedAmount = $this->refundedAmount->add($this->refundAmount);
+
+            // Update the amount refunded on the order
+            $this->order->amount_refunded = $updatedRefundedAmount->toFloat();
+
+            if ($this->organiserAmount->subtract($updatedRefundedAmount)->isZero()) {
+                $this->order->is_refunded = true;
+                // Order can't be both partially and fully refunded at the same time
+                $this->order->is_partially_refunded = false;
+                $this->order->order_status_id = config('attendize.order_refunded');
+            } else {
+                $this->order->is_partially_refunded = true;
+                $this->order->order_status_id = config('attendize.order_partially_refunded');
+            }
+
+            // Persist the order refund updates
+            $this->order->save();
+
+            // With the refunds done, we can mark the attendees as cancelled and refunded as well
+            $this->attendees->map(function(Attendee $attendee) {
+                $attendee->ticket->decrement('quantity_sold');
+                $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
+                $attendee->is_refunded = true;
+                $attendee->save();
+
+                /** @var EventStats $eventStats */ // TODO move this to the EventStats Model
+                $eventStats = EventStats::where('event_id', $attendee->event_id)
+                    ->where('date', $attendee->created_at->format('Y-m-d'))->first();
+                if ($eventStats) {
+                    $eventStats->decrement('tickets_sold',  1);
+                    $eventStats->decrement('sales_volume',  $attendee->ticket->price);
+                }
+            });
+        } else {
+            throw new OrderRefundException($response->getMessage());
+        }
+    }
+
+    private function sendRefundRequest()
+    {
+        $gateway = Omnipay::create($this->order->payment_gateway->name);
+        $gateway->initialize($this->order->account->getGateway($this->order->payment_gateway->id)->config);
+
+        $request = $gateway->refund([
+            'transactionReference' => $this->order->transaction_id,
+            'amount' => $this->refundAmount->toFloat(),
+            'refundApplicationFee' => floatval($this->order->booking_fee) > 0 ? true : false,
+        ]);
+
+        Log::debug(strtoupper($this->order->payment_gateway->name), [
+            'transactionReference' => $this->order->transaction_id,
+            'amount' => $this->refundAmount->toFloat(),
+            'refundApplicationFee' => floatval($this->order->booking_fee) > 0 ? true : false,
+        ]);
+
+        return $request->send();
     }
 
     private function setRefundAmounts()
