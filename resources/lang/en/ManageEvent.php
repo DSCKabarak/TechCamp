@@ -13,6 +13,7 @@ return array (
   'attendize_qrcode_check_in' => 'Attendize QRCode Check-in',
   'cancel_attendee_title' => 'Cancel :cancel',
   'cancel_description' => 'Cancelling Attendees will remove them from the attendee list.',
+  'cancelling_order_will_refund_attendees' => 'Cancelling the :type will refund the selected attendees',
   'cancel_notify' => 'Notify :name their ticket has been cancelled.',
   'cancel_order_:ref' => 'Cancel Order: :ref',
   'cancel_refund' => 'If you would like to refund the order which this attendee belongs to you can do so <strong><a href=":url">here</a></strong>.',
