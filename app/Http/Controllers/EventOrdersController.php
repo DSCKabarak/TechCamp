@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use App\Cancellation\OrderCancellation;
+use App\Cancellation\OrderRefundException;
 use App\Jobs\SendOrderTickets;
 use App\Models\Attendee;
 use App\Models\Event;
@@ -222,7 +224,17 @@ class EventOrdersController extends MyBaseController
         $order = Order::scope()->findOrFail($order_id);
         /** @var Collection $attendees */
         $attendees = Attendee::findFromSelection($request->get('attendees'));
-        $nonCancelledOrderAttendees = $order->getAllNonCancelledAttendees();
+
+        try {
+            // Cancels attendees for an order and attempts to refund
+            OrderCancellation::make($order, $attendees)->cancel();
+        } catch (OrderRefundException $e) {
+            Log::error($e);
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         $currency = $order->getEventCurrency();
 
