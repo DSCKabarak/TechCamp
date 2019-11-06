@@ -80,6 +80,11 @@ class OrderRefund
         }
     }
 
+    public function getRefundAmount()
+    {
+        return $this->refundAmount->format();
+    }
+
     private function sendRefundRequest()
     {
         $gateway = Omnipay::create($this->order->payment_gateway->name);
