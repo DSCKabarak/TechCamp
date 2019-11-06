@@ -4,8 +4,10 @@ use App\Models\Attendee;
 
 class OrderCancellation
 {
+    /** @var \App\Models\Order $order */
     private $order;
     private $attendees;
+    private $orderRefund;
 
     public function __construct($order, $attendees)
     {
@@ -22,7 +24,9 @@ class OrderCancellation
     {
         // If order can do a refund then refund first
         if ($this->order->canRefund()) {
-            OrderRefund::make($this->order, $this->attendees)->refund();
+            $orderRefund = OrderRefund::make($this->order, $this->attendees);
+            $orderRefund->refund();
+            $this->orderRefund = $orderRefund;
         }
 
         // Cancel the attendees
@@ -32,16 +36,8 @@ class OrderCancellation
         });
     }
 
-    // Refund is automatic but only if the order can be refunded
-    // Takes collection of attendees
-    // cancel()
-        // if can refund
-            // OrderRefund::make($order, $attendees)->refund()
-
-    // Updates to stats
-        // Ticket
-        // Attendee
-        // Order
-        // EventStats
-
+    public function getRefundAmount()
+    {
+        return $this->orderRefund->getRefundAmount();
+    }
 }
