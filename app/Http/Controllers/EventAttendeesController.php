@@ -1,7 +1,6 @@
-<?php
+<?php namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
+use App\Cancellation\OrderCancellation;
 use App\Jobs\GenerateTicket;
 use App\Jobs\SendAttendeeInvite;
 use App\Jobs\SendAttendeeTicket;
@@ -18,13 +17,12 @@ use Auth;
 use Config;
 use DB;
 use Excel;
+use Exception;
 use Illuminate\Http\Request;
 use Log;
 use Mail;
-use Omnipay\Omnipay;
 use PDF;
 use Validator;
-use Superbalist\Money\Money;
 
 class EventAttendeesController extends MyBaseController
 {
@@ -720,8 +718,6 @@ class EventAttendeesController extends MyBaseController
     public function postCancelAttendee(Request $request, $event_id, $attendee_id)
     {
         $attendee = Attendee::scope()->findOrFail($attendee_id);
-        $error_message = false; // Prevent "variable doesn't exist" error message
-
         if ($attendee->is_cancelled) {
             return response()->json([
                 'status' => 'success',
@@ -729,101 +725,37 @@ class EventAttendeesController extends MyBaseController
             ]);
         }
 
-        $attendee->ticket->decrement('quantity_sold');
-        $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-        $attendee->is_cancelled = true;
-        $attendee->is_refunded = true;
-        $attendee->save();
-
-        $eventStats = EventStats::where('event_id', $attendee->event_id)
-            ->where('date', $attendee->created_at->format('Y-m-d'))
-            ->first();
-
-        if ($eventStats) {
-            $eventStats->decrement('tickets_sold', 1);
-            $eventStats->decrement('sales_volume', $attendee->ticket->price);
-        }
-
+        // Create email data
         $data = [
             'attendee' => $attendee,
             'email_logo' => $attendee->event->organiser->full_logo_path,
         ];
 
-        if ($request->get('notify_attendee') == '1') {
-            Mail::send('Emails.notifyCancelledAttendee', $data, function ($message) use ($attendee) {
-                $message->to($attendee->email, $attendee->full_name)
-                    ->from(config('attendize.outgoing_email_noreply'), $attendee->event->organiser->name)
-                    ->replyTo($attendee->event->organiser->email, $attendee->event->organiser->name)
-                    ->subject(trans("Email.your_ticket_cancelled"));
-            });
+        try {
+            // Cancels attendee for an order and attempts to refund
+            $orderCancellation = OrderCancellation::make($attendee->order, collect([$attendee]));
+            $orderCancellation->cancel();
+            $data['refund_amount'] = $orderCancellation->getRefundAmount();
+        } catch (Exception | OrderRefundException $e) {
+            Log::error($e);
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ]);
         }
 
-        try {
-            // NOTE: This does not account for an increased/decreased ticket price after the original purchase.
-            // We need the organiser tax value to calculate what the attendee would've paid
-            $ticket = $attendee->ticket()->first();
-            $event = $ticket->event()->first();
-            $order = $attendee->order;
-            $currency = $order->getEventCurrency();
-            $organiser = $event->organiser()->get();
-            $organiserTaxAmount = new Money($organiser->first()->tax_value);
-            $organiserTaxRate = $organiserTaxAmount->divide(100)->__toString();
-            Log::debug(sprintf("Organiser Tax Value: %s", $organiserTaxRate));
-            $organiserAmount = new Money($order->organiser_amount, $currency);
-            Log::debug(sprintf("Total Order Value: %s", $organiserAmount->display()));
-            $refundedAmount = new Money($order->amount_refunded, $currency);
-            Log::debug(sprintf("Already refunded amount: %s", $refundedAmount->display()));
-            // Calculate the refund amount from the ticket price and the organiser tax rate
-            $ticketPrice = new Money($ticket->price, $currency);
-            $refundAmount = $ticketPrice->add($ticketPrice->multiply($organiserTaxRate));
-            Log::debug(sprintf("Requested Refund should include Tax: %s", $refundAmount->display()));
-
-            $data['refund_amount'] = $refundAmount->toFloat();
-
-            $gateway = Omnipay::create($order->payment_gateway->name);
-
-            // Only works for stripe
-            $gateway->initialize($order->account->getGateway($order->payment_gateway->id)->config);
-            $request = $gateway->refund([
-                'transactionReference' => $order->transaction_id,
-                'amount' => $refundAmount->toFloat(),
-                'refundApplicationFee' => false,
-            ]);
-
-            Log::debug(strtoupper($order->payment_gateway->name), [
-                'transactionReference' => $order->transaction_id,
-                'amount' => $refundAmount->toFloat(),
-                'refundApplicationFee' => floatval($order->booking_fee) > 0 ? true : false,
-            ]);
-
-            $response = $request->send();
-
-            if ($response->isSuccessful()) {
-                // New refunded amount needs to be saved on the order
-                $updatedRefundedAmount = $refundedAmount->add($refundAmount);
-
-                // Update the amount refunded on the order
-                $order->amount_refunded = $updatedRefundedAmount->toFloat();
-
-                // Mark the order as correct status
-                if ($organiserAmount->subtract($updatedRefundedAmount)->isZero()) {
-                    $order->is_refunded = true;
-                    // Order can't be both partially and fully refunded at the same time
-                    $order->is_partially_refunded = false;
-                    $order->order_status_id = config('attendize.order_refunded');
-                } else {
-                    $order->is_partially_refunded = true;
-                    $order->order_status_id = config('attendize.order_partially_refunded');
-                }
-
-                // Persist the order updates
-                $order->save();
-            } else {
-                $error_message = $response->getMessage();
+        if ($request->get('notify_attendee') == '1') {
+            try {
+                Mail::send('Emails.notifyCancelledAttendee', $data, function ($message) use ($attendee) {
+                    $message->to($attendee->email, $attendee->full_name)
+                        ->from(config('attendize.outgoing_email_noreply'), $attendee->event->organiser->name)
+                        ->replyTo($attendee->event->organiser->email, $attendee->event->organiser->name)
+                        ->subject(trans("Email.your_ticket_cancelled"));
+                });
+            } catch (\Exception $e) {
+                Log::error($e);
+                // We do not want to kill the flow if the email fails
             }
-        } catch (\Exception $e) {
-            \Log::error($e);
-            $error_message = trans("Controllers.refund_exception");
         }
 
         try {
@@ -835,15 +767,8 @@ class EventAttendeesController extends MyBaseController
                     ->subject(trans("Email.refund_from_name", ["name"=>$attendee->event->organiser->name]));
             });
         } catch (\Exception $e) {
-            \Log::error($e);
+            Log::error($e);
             // We do not want to kill the flow if the email fails
-        }
-
-        if ($error_message) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => $error_message,
-            ]);
         }
 
         session()->flash('message', trans("Controllers.successfully_cancelled_attendee"));
