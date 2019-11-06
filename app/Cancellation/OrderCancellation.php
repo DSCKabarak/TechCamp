@@ -1,6 +1,7 @@
 <?php namespace App\Cancellation;
 
 use App\Models\Attendee;
+use Superbalist\Money\Money;
 
 class OrderCancellation
 {
@@ -38,6 +39,10 @@ class OrderCancellation
 
     public function getRefundAmount()
     {
+        if (is_null($this->orderRefund)) {
+            return new Money('0');
+        }
+
         return $this->orderRefund->getRefundAmount();
     }
 }
