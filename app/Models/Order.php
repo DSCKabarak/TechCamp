@@ -276,6 +276,11 @@ class Order extends MyBaseModel
      */
     public function canRefund()
     {
+        // Guard against orders that does not contain a payment gateway, ex: Free tickets
+        if (is_null($this->payment_gateway)) {
+            return false;
+        }
+
         return $this->payment_gateway->can_refund;
     }
 
