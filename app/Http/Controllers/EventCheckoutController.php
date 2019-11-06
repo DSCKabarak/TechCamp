@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendize\PaymentUtils;
 use App\Events\OrderCompletedEvent;
 use App\Models\Account;
 use App\Models\AccountPaymentGateway;
@@ -208,7 +209,7 @@ class EventCheckoutController extends Controller
             'booking_fee'             => $booking_fee,
             'organiser_booking_fee'   => $organiser_booking_fee,
             'total_booking_fee'       => $booking_fee + $organiser_booking_fee,
-            'order_requires_payment'  => (ceil($order_total) == 0) ? false : true,
+            'order_requires_payment'  => PaymentUtils::requiresPayment($order_total),
             'account_id'              => $event->account->id,
             'affiliate_referral'      => Cookie::get('affiliate_' . $event_id),
             'account_payment_gateway' => $activeAccountPaymentGateway,
@@ -359,14 +360,14 @@ class EventCheckoutController extends Controller
         $secondsToExpire = Carbon::now()->diffInSeconds($order_session['expires']);
 
         $viewData = ['event' => $event,
-            'tickets' => $order_session['tickets'],
-            'order_total' => $order_total,
-            'orderService' => $orderService,
-            'order_requires_payment'  => ceil($order_session['order_total']) > 0,
-            'account_payment_gateway' => $account_payment_gateway,
-            'payment_gateway' => $payment_gateway,
-            'secondsToExpire' => $secondsToExpire,
-            'payment_failed' => $payment_failed
+                     'tickets' => $order_session['tickets'],
+                     'order_total' => $order_total,
+                     'orderService' => $orderService,
+                     'order_requires_payment'  => PaymentUtils::requiresPayment($order_total),
+                     'account_payment_gateway' => $account_payment_gateway,
+                     'payment_gateway' => $payment_gateway,
+                     'secondsToExpire' => $secondsToExpire,
+                     'payment_failed' => $payment_failed
         ];
 
         return view('Public.ViewEvent.EventPagePayment', $viewData);

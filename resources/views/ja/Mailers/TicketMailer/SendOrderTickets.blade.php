@@ -48,7 +48,7 @@
                         {{$order_item->quantity}}
                     </td>
                     <td>
-                        @if((int)ceil($order_item->unit_price) == 0)
+                        @isFree($order_item->unit_price)
                             FREE
                         @else
                             {{money($order_item->unit_price, $order->event->currency)}}
@@ -56,7 +56,7 @@
 
                     </td>
                     <td>
-                        @if((int)ceil($order_item->unit_price) == 0)
+                        @isFree($order_item->unit_price)
                             -
                         @else
                             {{money($order_item->unit_booking_fee, $order->event->currency)}}
@@ -64,7 +64,7 @@
 
                     </td>
                     <td>
-                        @if((int)ceil($order_item->unit_price) == 0)
+                        @isFree($order_item->unit_price)
                             FREE
                         @else
                             {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}

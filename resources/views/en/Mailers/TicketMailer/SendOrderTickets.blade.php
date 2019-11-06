@@ -57,21 +57,21 @@ Order Email: <strong>{{$order->email}}</strong><br>
             <td>{{$order_item->title}}</td>
             <td>{{$order_item->quantity}}</td>
             <td>
-                @if((int)ceil($order_item->unit_price) == 0)
+                @isFree($order_item->unit_price)
                 FREE
                 @else
                 {{money($order_item->unit_price, $order->event->currency)}}
                 @endif
             </td>
             <td>
-                @if((int)ceil($order_item->unit_price) == 0)
+                @isFree($order_item->unit_price)
                 -
                 @else
                 {{money($order_item->unit_booking_fee, $order->event->currency)}}
                 @endif
             </td>
             <td>
-                @if((int)ceil($order_item->unit_price) == 0)
+                @isFree($order_item->unit_price)
                 FREE
                 @else
                 {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity),

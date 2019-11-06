@@ -23,7 +23,7 @@
                         <tr>
                             <td class="pl0">{{{$ticket['ticket']['title']}}} X <b>{{$ticket['qty']}}</b></td>
                             <td style="text-align: right;">
-                                @if((int)ceil($ticket['full_price']) === 0)
+                                @isFree($ticket['full_price'])
                                     @lang("Public_ViewEvent.free")
                                 @else
                                 {{ money($ticket['full_price'], $event->currency) }}
