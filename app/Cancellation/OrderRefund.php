@@ -61,18 +61,24 @@ class OrderRefund
             $this->order->save();
 
             // With the refunds done, we can mark the attendees as cancelled and refunded as well
-            $this->attendees->map(function(Attendee $attendee) {
-                $attendee->ticket->decrement('quantity_sold');
-                $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
+            $currency = $this->currency;
+            $this->attendees->map(function(Attendee $attendee) use ($currency) {
+                $ticketPrice = new Money($attendee->ticket->price, $currency);
+                $attendee->ticket->decrement('quantity_sold', 1);
+                $attendee->ticket->decrement('sales_volume', $ticketPrice->toFloat());
+                $organiserFee = $attendee->event->getOrganiserFee($ticketPrice);
+                $attendee->ticket->decrement('organiser_fees_volume', $organiserFee->toFloat());
                 $attendee->is_refunded = true;
                 $attendee->save();
 
-                /** @var EventStats $eventStats */ // TODO move this to the EventStats Model
+                /** @var EventStats $eventStats */
                 $eventStats = EventStats::where('event_id', $attendee->event_id)
-                    ->where('date', $attendee->created_at->format('Y-m-d'))->first();
+                    ->where('date', $attendee->created_at->format('Y-m-d'))
+                    ->first();
                 if ($eventStats) {
                     $eventStats->decrement('tickets_sold',  1);
-                    $eventStats->decrement('sales_volume',  $attendee->ticket->price);
+                    $eventStats->decrement('sales_volume',  $ticketPrice->toFloat());
+                    $eventStats->decrement('organiser_fees_volume', $organiserFee->toFloat());
                 }
             });
         } else {
@@ -80,6 +86,9 @@ class OrderRefund
         }
     }
 
+    /**
+     * string
+     */
     public function getRefundAmount()
     {
         return $this->refundAmount->format();
@@ -140,11 +149,19 @@ class OrderRefund
         $organiserTaxRate = $this->organiserTaxRate;
         $currency = $this->currency;
 
+        /**
+         * Subtotal = (Ticket price + Organiser Fee)
+         * Tax Amount = Subtotal * Tax rate
+         * Refund Amount = Subtotal + Tax Amount
+         */
         $this->refundAmount = new Money($this->attendees->map(function(Attendee $attendee) use ($organiserTaxRate, $currency) {
             $ticketPrice = new Money($attendee->ticket->price, $currency);
+            $organiserFee = new Money($attendee->event->getOrganiserFee($ticketPrice), $currency);
+            $subTotal = $ticketPrice->add($organiserFee);
             Log::debug(sprintf("Ticket Price: %s", $ticketPrice->display()));
-            Log::debug(sprintf("Ticket Tax: %s", $ticketPrice->multiply($organiserTaxRate)->display()));
-            return $ticketPrice->add($ticketPrice->multiply($organiserTaxRate));
+            Log::debug(sprintf("Ticket Organiser Fee: %s", $organiserFee->display()));
+            Log::debug(sprintf("Ticket Tax: %s", $subTotal->multiply($organiserTaxRate)->display()));
+            return $subTotal->add($subTotal->multiply($organiserTaxRate));
         })->reduce(function($carry, $singleTicketWithTax) use ($currency) {
             $refundTotal = (new Money($carry, $currency));
             return $refundTotal->add($singleTicketWithTax)->format();
@@ -174,9 +191,4 @@ class OrderRefund
             throw new OrderRefundException($errorMessage);
         }
     }
-
-
-    // Takes an order and attendees collection
-    // Calculate the refund amounts including tax
-    // refund()
 }
