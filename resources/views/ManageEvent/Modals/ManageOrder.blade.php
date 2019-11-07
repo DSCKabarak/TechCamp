@@ -155,13 +155,13 @@
                                 <tr>
                                     <td colspan="3"></td>
                                     <td><strong>{{$order->event->organiser->tax_name}}</strong></td>
-                                    <td colspan="2">{{ $orderService->getTaxAmount(true) }}</td>
+                                    <td colspan="2">{{ $order->getOrderTaxAmount()->format() }}</td>
                                 </tr>
                                 @endif
                                 <tr>
                                     <td colspan="3"></td>
                                     <td><strong>Total</strong></td>
-                                    <td colspan="2">{{ $orderService->getGrandTotal(true) }}</td>
+                                    <td colspan="2">{{ $order->getOrderAmount()->add($order->getOrderTaxAmount())->format() }}</td>
                                 </tr>
                             </tbody>
                         </table>
