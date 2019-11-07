@@ -30,6 +30,7 @@ class LocalTestSeeder extends Seeder
 
         $this->setupNonTaxOrganisation($account, $user);
         $this->setupTaxOrganisation($account, $user); // Adds VAT @15% per transaction
+        $this->setupTaxOrganisationWithFees($account, $user);
 
         // Write final part about test user logins
         $this->command->alert(
@@ -334,6 +335,95 @@ class LocalTestSeeder extends Seeder
             'order_id' => $multipleAttendeeOrder->id,
             'event_id' => $event->id,
             'ticket_id' => $hiddenTicket->id,
+            'account_id' => $account->id,
+        ]);
+    }
+
+    protected function setupTaxOrganisationWithFees($account, $user)
+    {
+        // Organiser with tax and fees (organisers)
+        $this->out("<info>Seeding Organiser (with tax and fees)</info>");
+        $organiserTaxAndFees = factory(Organiser::class)->create([
+            'account_id' => $account->id,
+            'name' => 'Test Organiser (with tax and fees)',
+            'charge_tax' => true,
+            'tax_name' => 'VAT',
+            'tax_value' => 20.00
+        ]);
+
+        // Event (events)
+        $this->out("<info>Seeding event with percentage fees</info>");
+        $eventWithPercentageFee = factory(Event::class)->create([
+            'account_id' => $account->id,
+            'user_id' => $user->id,
+            'organiser_id' => $organiserTaxAndFees->id,
+            'organiser_fee_percentage' => 5.0,
+            'title' => 'Local Clivia Show',
+            'is_live' => true,
+        ]);
+
+        // Setup tickets, single and multiple order
+        $this->out("<info>Seeding ticket with organiser fee</info>");
+        $ticketWithPercentageFee = factory(Ticket::class)->create([
+            'user_id' => $user->id,
+            'edited_by_user_id' => $user->id,
+            'account_id' => $account->id,
+            'order_id' => null, // We'll create the orders on these later
+            'event_id' => $eventWithPercentageFee->id,
+            'title' => 'Ticket with organiser fee',
+            'price' => 100.00,
+            'organiser_fees_volume' => 5.00,
+            'is_hidden' => false,
+        ]);
+
+        // Event Stats
+        $this->out("<info>Seeding Event Stats</info>");
+        factory(EventStats::class)->create([
+            'date' => Carbon::now()->format('Y-m-d'),
+            'views' => 0,
+            'unique_views' => 0,
+            'tickets_sold' => 1,
+            'sales_volume' => 100.00,
+            'organiser_fees_volume' => 5.00,
+            'event_id' => $eventWithPercentageFee->id,
+        ]);
+
+        // Orders (order_items, ticket_order) as normie
+        $this->out("<info>Seeding single attendee order</info>");
+        $singleAttendeeOrder = factory(Order::class)->create([
+            'account_id' => $account->id,
+            'order_status_id' => 1, // Completed Order
+            'discount' => 0.00,
+            'booking_fee' => 0.00,
+            'organiser_booking_fee' => 5.00,
+            'amount' => 100.00,
+            'event_id' => $eventWithPercentageFee->id,
+            'is_payment_received' => true,
+            'taxamt' => 21.00,
+        ]);
+
+        $ticketWithPercentageFee->order_id = $singleAttendeeOrder->id;
+        $ticketWithPercentageFee->quantity_sold = 1;
+        $ticketWithPercentageFee->sales_volume = 100.00;
+        $ticketWithPercentageFee->save();
+
+        $this->out("<info>Attaching ticket with percentage fee to single attendee order</info>");
+        $singleAttendeeOrder->tickets()->attach($ticketWithPercentageFee);
+
+        $this->out("<info>Seeding single attendee order item/info>");
+        factory(OrderItem::class)->create([
+            'title' => $ticketWithPercentageFee->title,
+            'quantity' => 1,
+            'unit_price' => 100.00,
+            'unit_booking_fee' => 5.00,
+            'order_id' => $singleAttendeeOrder->id,
+        ]);
+
+        $this->out("<info>Seeding single attendee</info>");
+        factory(Attendee::class)->create([
+            'order_id' => $singleAttendeeOrder->id,
+            'event_id' => $eventWithPercentageFee->id,
+            'ticket_id' => $ticketWithPercentageFee->id,
             'account_id' => $account->id,
         ]);
     }
