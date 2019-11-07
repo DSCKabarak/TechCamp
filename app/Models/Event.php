@@ -459,4 +459,26 @@ ICSTemplate;
         );
         return $currency;
     }
+
+    /**
+     * Calculates the event organiser fee from both the fixed and percentage values based on the ticket
+     * price
+     *
+     * return Money
+     */
+    public function getOrganiserFee(Money $ticketPrice)
+    {
+        $currency = $this->getEventCurrency();
+        $calculatedBookingFee = new Money('0', $currency);
+
+        // Fixed event organiser fees can be added without worry, defaults to zero
+        $eventOrganiserFeeFixed = new Money($this->organiser_fee_fixed, $currency);
+        $calculatedBookingFee->add($eventOrganiserFeeFixed);
+
+        // We have to calculate the event organiser fee percentage from the ticket price
+        $eventOrganiserFeePercentage = new Money($this->organiser_fee_percentage, $currency);
+        $percentageFeeValue = $ticketPrice->multiply($eventOrganiserFeePercentage)->divide(100);
+
+        return $calculatedBookingFee->add($percentageFeeValue);
+    }
 }

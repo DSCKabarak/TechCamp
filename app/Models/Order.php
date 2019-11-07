@@ -211,7 +211,21 @@ class Order extends MyBaseModel
             return $this->getRefundedAmountExcludingTax();
         }
 
-        return (new Money($this->amount, $this->getEventCurrency()));
+        $orderValue = new Money($this->amount, $this->getEventCurrency());
+        $bookingFee = new Money($this->organiser_booking_fee, $this->getEventCurrency());
+
+        return $orderValue->add($bookingFee);
+    }
+
+    /**
+     * @return Money
+     */
+    public function getOrderTaxAmount()
+    {
+        $currency = $this->getEventCurrency();
+        $taxAmount = (new Money($this->taxamt, $currency));
+
+        return $taxAmount;
     }
 
     /**
