@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites>
-  <testsuite name="Feature" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="3.427755">
-    <testsuite name="Tests\Features\FeatureDemoTest" file="/Users/etiennemarais/Code/external/attendize/tests/Feature/FeatureDemoTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="3.427755">
-      <testcase name="it_tests_the_framework_is_setup" class="Tests\Features\FeatureDemoTest" classname="Tests.Features.FeatureDemoTest" file="/Users/etiennemarais/Code/external/attendize/tests/Feature/FeatureDemoTest.php" line="11" assertions="1" time="3.427755"/>
-    </testsuite>
-  </testsuite>
-</testsuites>
