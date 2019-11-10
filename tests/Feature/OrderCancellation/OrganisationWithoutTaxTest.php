@@ -22,14 +22,17 @@ class OrganisationWithoutTaxTest extends TestCase
      */
     public function it_cancels_and_refunds_order_with_single_ticket()
     {
+        // Setup single attendee order
         list($order, $attendees) = $this->setupSingleTicketOrder();
-
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
                 'attendees' => $attendees,
             ]);
 
+        // Check refund call works
         $response->assertStatus(200);
+        // Assert database is correct after refund and cancel
+        $this->assertDatabaseHasMany($this->singleTicketOrderAfterRefund());
     }
 
     /**
@@ -71,4 +74,33 @@ class OrganisationWithoutTaxTest extends TestCase
     // {
 
     // }
+
+    /**
+     * The expected database state after a single attendee order cancellation.
+     */
+    private function singleTicketOrderAfterRefund()
+    {
+        return [
+            'event_stats' => [
+                'tickets_sold' => 0,
+                'sales_volume' => 0.00,
+                'organiser_fees_volume' => 0.00,
+            ],
+            'tickets' => [
+                'sales_volume' => 0.00,
+                'organiser_fees_volume' => 0.00,
+                'quantity_sold' => 0,
+                'quantity_available' => 50,
+            ],
+            'orders' => [
+                'organiser_booking_fee' => 0.00,
+                'amount_refunded' => 100.00,
+                'is_refunded' => true,
+            ],
+            'attendees' => [
+                'is_refunded' => true,
+                'is_cancelled' => true,
+            ],
+        ];
+    }
 }

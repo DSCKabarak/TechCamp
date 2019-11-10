@@ -12,4 +12,11 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->setupDatabase();
     }
+
+    public function assertDatabaseHasMany(array $expected = [])
+    {
+        collect($expected)->each(function($data, $table) {
+            $this->assertDatabaseHas($table, $data);
+        });
+    }
 }
