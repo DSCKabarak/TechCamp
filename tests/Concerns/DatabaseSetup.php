@@ -37,7 +37,7 @@ trait DatabaseSetup
             static::$migrated = true;
         }
 
-        $this->beginDatabaseTransaction();
+        // $this->beginDatabaseTransaction();
     }
 
     public function beginDatabaseTransaction()

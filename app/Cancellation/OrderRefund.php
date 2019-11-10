@@ -3,8 +3,8 @@
 use App\Models\Attendee;
 use App\Models\EventStats;
 use Superbalist\Money\Money;
+use Services\PaymentGateway\Factory;
 use Log;
-use Omnipay;
 
 class OrderRefund
 {
@@ -16,6 +16,7 @@ class OrderRefund
     private $maximumRefundableAmount;
     private $organiserTaxRate;
     private $refundAmount;
+    private $gateway;
 
     public function __construct($order, $attendees)
     {
@@ -25,6 +26,14 @@ class OrderRefund
         $this->setRefundAmounts();
         // Then we need to check for a valid refund state before we can continue
         $this->checkValidRefundState();
+
+        $paymentGateway = $order->payment_gateway;
+        $accountPaymentGateway = $order->account->getGateway($paymentGateway->id);
+        $config = array_merge($accountPaymentGateway->config, [
+            'testMode' => config('attendize.enable_test_payments')
+        ]);
+
+        $this->gateway = (new Factory())->create($paymentGateway->name, $config);
     }
 
     public static function make($order, $attendees)
@@ -37,10 +46,11 @@ class OrderRefund
         try {
             $response = $this->sendRefundRequest();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new OrderRefundException(trans("Controllers.refund_exception"));
         }
 
-        if ($response->isSuccessful()) {
+        if ($response['successful']) { // Successful is a Boolean
             // New refunded amount needs to be saved on the order
             $updatedRefundedAmount = $this->refundedAmount->add($this->refundAmount);
 
@@ -82,7 +92,7 @@ class OrderRefund
                 }
             });
         } else {
-            throw new OrderRefundException($response->getMessage());
+            throw new OrderRefundException($response['error_message']);
         }
     }
 
@@ -96,14 +106,11 @@ class OrderRefund
 
     private function sendRefundRequest()
     {
-        $gateway = Omnipay::create($this->order->payment_gateway->name);
-        $gateway->initialize($this->order->account->getGateway($this->order->payment_gateway->id)->config);
-
-        $request = $gateway->refund([
-            'transactionReference' => $this->order->transaction_id,
-            'amount' => $this->refundAmount->toFloat(),
-            'refundApplicationFee' => floatval($this->order->booking_fee) > 0 ? true : false,
-        ]);
+        $response = $this->gateway->refundTransaction(
+            $this->order,
+            $this->refundAmount->toFloat(),
+            floatval($this->order->booking_fee) > 0 ? true : false
+        );
 
         Log::debug(strtoupper($this->order->payment_gateway->name), [
             'transactionReference' => $this->order->transaction_id,
@@ -111,7 +118,7 @@ class OrderRefund
             'refundApplicationFee' => floatval($this->order->booking_fee) > 0 ? true : false,
         ]);
 
-        return $request->send();
+        return $response;
     }
 
     private function setRefundAmounts()

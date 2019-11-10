@@ -10,6 +10,9 @@ $factory->define(AccountPaymentGateway::class, function (Faker\Generator $faker)
         'payment_gateway_id' => function () {
             return factory(App\Models\PaymentGateway::class)->create()->id;
         },
-        'config' => '{"apiKey":"","publishableKey":""}',
+        'config' => [
+            'apiKey' => '',
+            'publishableKey' => '',
+        ],
     ];
 });
