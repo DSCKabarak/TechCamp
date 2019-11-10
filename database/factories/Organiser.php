@@ -23,7 +23,7 @@ $factory->define(App\Models\Organiser::class, function (Faker\Generator $faker) 
         'google_analytics_code' => null,
         'tax_name' => $faker->text(11) . ' tax',
         'tax_value' => $faker->randomFloat(2, 0, 30),
-        'tax_id' => $faker->randomDigitNotNull,
+        'tax_id' => '',
         'charge_tax' => $faker->boolean
     ];
 });
