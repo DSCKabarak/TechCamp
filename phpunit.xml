@@ -22,6 +22,9 @@
                 <directory suffix=".php">./app/Listeners</directory>
                 <directory suffix=".php">./app/Exceptions</directory>
                 <directory suffix=".php">./app/Providers</directory>
+                <directory suffix=".php">./app/Helpers</directory>
+                <directory suffix=".php">./app/Http</directory>
+                <directory suffix=".php">./app/Services</directory>
             </exclude>
         </whitelist>
     </filter>

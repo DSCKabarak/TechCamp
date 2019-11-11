@@ -16,6 +16,7 @@ use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\Timezone;
 use App\Models\User;
+use Superbalist\Money\Money;
 use Illuminate\Support\Carbon;
 
 trait OrganisationWithoutTax
@@ -24,6 +25,8 @@ trait OrganisationWithoutTax
     private $paymentGateway;
     private $user;
     private $event;
+    private $eventWithPercentageFees;
+    private $eventWithFixedFees;
 
     public function setupOrganisationWithoutTax()
     {
@@ -93,7 +96,7 @@ trait OrganisationWithoutTax
             'is_live' => true,
         ]);
 
-        $eventWithPercentageFees = factory(Event::class)->create([
+        $this->eventWithPercentageFees = factory(Event::class)->create([
             'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'organiser_id' => $organiserNoTax->id,
@@ -103,7 +106,7 @@ trait OrganisationWithoutTax
             'is_live' => true,
         ]);
 
-        $eventWithFixedFees = factory(Event::class)->create([
+        $this->eventWithFixedFees = factory(Event::class)->create([
             'account_id' => $this->account->id,
             'user_id' => $this->user->id,
             'organiser_id' => $organiserNoTax->id,
@@ -114,19 +117,33 @@ trait OrganisationWithoutTax
         ]);
     }
 
-    public function setupSingleTicketOrder()
+    public function makeTicketOrder($count = 1, $price = 100.00, $hasPercentageFee = false, $hasFixedFee = false)
     {
+        $salesVolume = (new Money($price))->multiply($count)->toFloat();
+        // Every organisation can have events with or without fees
+        $eventId = $this->event->id;
+        $organiserFees = new Money('0');
+        if ($hasPercentageFee) {
+            $eventId = $this->eventWithPercentageFees->id;
+            $organiserFeePercentage = (new Money($this->eventWithPercentageFees->organiser_fee_percentage))->divide(100);
+            $organiserFees = (new Money($price))->multiply($organiserFeePercentage);
+        } else if ($hasFixedFee) {
+            $eventId = $this->eventWithFixedFees->id;
+            $organiserFees = new Money($this->eventWithFixedFees->organiser_fee_fixed);
+        }
+
         $ticket = factory(Ticket::class)->create([
             'user_id' => $this->user->id,
             'edited_by_user_id' => $this->user->id,
             'account_id' => $this->account->id,
             'order_id' => null,
-            'event_id' => $this->event->id,
+            'event_id' => $eventId,
             'title' => 'Ticket',
-            'price' => 100.00,
+            'price' => $price,
             'is_hidden' => false,
-            'quantity_sold' => 1,
-            'sales_volume' => 100.00,
+            'quantity_sold' => $count,
+            'sales_volume' => $salesVolume,
+            'organiser_fees_volume' => $organiserFees->multiply($count)->toFloat(),
         ]);
 
         $singleAttendeeOrder = factory(Order::class)->create([
@@ -135,9 +152,9 @@ trait OrganisationWithoutTax
             'order_status_id' => OrderStatus::where('name', 'Completed')->first(), // Completed Order
             'discount' => 0.00,
             'booking_fee' => 0.00,
-            'organiser_booking_fee' => 0.00,
-            'amount' => 100.00,
-            'event_id' => $this->event->id,
+            'organiser_booking_fee' => $organiserFees->multiply($count)->toFloat(),
+            'amount' => $salesVolume,
+            'event_id' => $eventId,
             'is_payment_received' => true,
         ]);
 
@@ -145,15 +162,16 @@ trait OrganisationWithoutTax
 
         factory(OrderItem::class)->create([
             'title' => $ticket->title,
-            'quantity' => 1,
-            'unit_price' => 100.00,
-            'unit_booking_fee' => 0.00,
+            'quantity' => $count,
+            'unit_price' => $price,
+            'unit_booking_fee' => $organiserFees->toFloat(),
             'order_id' => $singleAttendeeOrder->id,
         ]);
 
-        $attendee = factory(Attendee::class)->create([
+        // Add the number of attendees based on the count
+        $attendees = factory(Attendee::class, $count)->create([
             'order_id' => $singleAttendeeOrder->id,
-            'event_id' => $this->event->id,
+            'event_id' => $eventId,
             'ticket_id' => $ticket->id,
             'account_id' => $this->account->id,
         ]);
@@ -162,12 +180,13 @@ trait OrganisationWithoutTax
             'date' => Carbon::now()->format('Y-m-d'),
             'views' => 0,
             'unique_views' => 0,
-            'tickets_sold' => 1,
-            'sales_volume' => 100.00,
-            'event_id' => $this->event->id,
+            'tickets_sold' => $count,
+            'sales_volume' => $salesVolume,
+            'event_id' => $eventId,
+            'organiser_fees_volume' => $organiserFees->multiply($count)->toFloat(),
         ]);
 
-        return [ $singleAttendeeOrder, [ $attendee->id ] ];
+        return [ $singleAttendeeOrder, $attendees ];
     }
 
     public function getAccountUser()
