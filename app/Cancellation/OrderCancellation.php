@@ -30,6 +30,8 @@ class OrderCancellation
             $this->orderRefund = $orderRefund;
         }
 
+        // TODO if no refunds can be done, mark the order as cancelled to indicate attendees are cancelled
+
         // Cancel the attendees
         $this->attendees->map(function(Attendee $attendee) {
             $attendee->is_cancelled = true;

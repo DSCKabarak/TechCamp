@@ -1,6 +1,8 @@
 <?php
 
-$factory->define(App\Models\Currency::class, function (Faker\Generator $faker) {
+use App\Models\Currency;
+
+$factory->define(Currency::class, function (Faker\Generator $faker) {
     return [
         'title' => "Dollar",
         'symbol_left' => "$",
@@ -13,3 +15,15 @@ $factory->define(App\Models\Currency::class, function (Faker\Generator $faker) {
         'status' => 1,
     ];
 });
+
+$factory->state(Currency::class, 'GBP', [
+    'title' => 'Pound Sterling',
+    'symbol_left' => '£',
+    'symbol_right' => '',
+    'code' => 'GBP',
+    'decimal_place' => 2,
+    'value' => 0.62220001,
+    'decimal_point' => '.',
+    'thousand_point' => ',',
+    'status' => 1,
+]);
