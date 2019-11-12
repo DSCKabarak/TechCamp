@@ -22,8 +22,8 @@ $factory->define(App\Models\Event::class, function (Faker\Generator $faker) {
         'currency_id' => function () {
             return factory(App\Models\Currency::class)->create()->id;
         },
-        'organiser_fee_fixed' => 0,
-        'organiser_fee_percentage' => 0,
+        'organiser_fee_fixed' => 0.00,
+        'organiser_fee_percentage' => 0.00,
         'organiser_id' => function () {
             return factory(App\Models\Organiser::class)->create()->id;
         },
