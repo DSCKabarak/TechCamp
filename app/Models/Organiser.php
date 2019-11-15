@@ -128,6 +128,11 @@ class Organiser extends MyBaseModel implements AuthenticatableContract
         return $this->events->sum('sales_volume');
     }
 
+    public function getTicketsSold()
+    {
+        return $this->attendees()->where('is_cancelled', false)->count();
+    }
+
     /**
      * TODO:implement DailyStats method
      */
