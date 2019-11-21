@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
+use Superbalist\Money\Money;
 use URL;
 
 class Event extends MyBaseModel
@@ -50,41 +53,41 @@ class Event extends MyBaseModel
     /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question');
+        return $this->belongsToMany(Question::class, 'event_question');
     }
 
     /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions_with_trashed()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question')->withTrashed();
+        return $this->belongsToMany(Question::class, 'event_question')->withTrashed();
     }
 
     /**
      * The attendees associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function attendees()
     {
-        return $this->hasMany(\App\Models\Attendee::class);
+        return $this->hasMany(Attendee::class);
     }
 
     /**
      * The images associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function images()
     {
-        return $this->hasMany(\App\Models\EventImage::class);
+        return $this->hasMany(EventImage::class);
     }
 
     /**
@@ -94,57 +97,57 @@ class Event extends MyBaseModel
      */
     public function messages()
     {
-        return $this->hasMany(\App\Models\Message::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Message::class)->orderBy('created_at', 'DESC');
     }
 
     /**
      * The tickets associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tickets()
     {
-        return $this->hasMany(\App\Models\Ticket::class);
+        return $this->hasMany(Ticket::class);
     }
 
     /**
      * The stats associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function stats()
     {
-        return $this->hasMany(\App\Models\EventStats::class);
+        return $this->hasMany(EventStats::class);
     }
 
     /**
      * The affiliates associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function affiliates()
     {
-        return $this->hasMany(\App\Models\Affiliate::class);
+        return $this->hasMany(Affiliate::class);
     }
 
     /**
      * The orders associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function orders()
     {
-        return $this->hasMany(\App\Models\Order::class);
+        return $this->hasMany(Order::class);
     }
 
     /**
      * The access codes associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function access_codes()
     {
-        return $this->hasMany(\App\Models\EventAccessCodes::class, 'event_id', 'id');
+        return $this->hasMany(EventAccessCodes::class, 'event_id', 'id');
     }
 
     /**
@@ -154,7 +157,7 @@ class Event extends MyBaseModel
      */
     public function account()
     {
-        return $this->belongsTo(\App\Models\Account::class);
+        return $this->belongsTo(Account::class);
     }
 
     /**
@@ -164,7 +167,7 @@ class Event extends MyBaseModel
      */
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 
     /**
@@ -174,7 +177,7 @@ class Event extends MyBaseModel
      */
     public function organiser()
     {
-        return $this->belongsTo(\App\Models\Organiser::class);
+        return $this->belongsTo(Organiser::class);
     }
 
     /**
@@ -420,5 +423,63 @@ ICSTemplate;
     public function hasAccessCode($accessCodeId)
     {
         return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
+    }
+
+    /**
+     * @return Money
+     */
+    public function getEventRevenueAmount()
+    {
+        $currency = $this->getEventCurrency();
+
+        $eventRevenue = $this->stats()->get()->reduce(function($eventRevenue, $statsEntry) use ($currency) {
+            $salesVolume = (new Money($statsEntry->sales_volume, $currency));
+            $organiserFeesVolume = (new Money($statsEntry->organiser_fees_volume, $currency));
+
+            return (new Money($eventRevenue, $currency))->add($salesVolume)->add($organiserFeesVolume);
+        });
+
+        return (new Money($eventRevenue, $currency));
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    private function getEventCurrency()
+    {
+        // Get the event currency
+        $eventCurrency = $this->currency()->first();
+
+        // Setup the currency on the event for transformation
+        $currency = new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            !empty($eventCurrency->symbol_left)
+        );
+        return $currency;
+    }
+
+    /**
+     * Calculates the event organiser fee from both the fixed and percentage values based on the ticket
+     * price
+     *
+     * return Money
+     */
+    public function getOrganiserFee(Money $ticketPrice)
+    {
+        $currency = $this->getEventCurrency();
+        $calculatedBookingFee = new Money('0', $currency);
+
+        // Fixed event organiser fees can be added without worry, defaults to zero
+        $eventOrganiserFeeFixed = new Money($this->organiser_fee_fixed, $currency);
+        $calculatedBookingFee = $calculatedBookingFee->add($eventOrganiserFeeFixed);
+
+        // We have to calculate the event organiser fee percentage from the ticket price
+        $eventOrganiserFeePercentage = new Money($this->organiser_fee_percentage, $currency);
+        $percentageFeeValue = $ticketPrice->multiply($eventOrganiserFeePercentage)->divide(100);
+        $calculatedBookingFee = $calculatedBookingFee->add($percentageFeeValue);
+
+        return $calculatedBookingFee;
     }
 }

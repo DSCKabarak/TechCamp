@@ -1,26 +1,16 @@
-<?php
+<?php namespace App\Models;
 
-namespace App\Models;
-
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-/*
-  Attendize.com   - Event Management & Ticketing
- */
-
-/**
- * Description of Attendees.
- *
- * @author Dave
- */
 class Attendee extends MyBaseModel
 {
     use SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array $fillable
      */
     protected $fillable = [
@@ -34,6 +24,11 @@ class Attendee extends MyBaseModel
         'reference',
         'has_arrived',
         'arrival_time'
+    ];
+
+    protected $casts = [
+        'is_refunded' => 'boolean',
+        'is_cancelled' => 'boolean',
     ];
 
     /**
@@ -58,41 +53,50 @@ class Attendee extends MyBaseModel
     }
 
     /**
+     * @param array $attendeeIds
+     * @return Collection
+     */
+    public static function findFromSelection(array $attendeeIds = [])
+    {
+        return (new static)->whereIn('id', $attendeeIds)->get();
+    }
+
+    /**
      * The order associated with the attendee.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function order()
     {
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(Order::class);
     }
 
     /**
      * The ticket associated with the attendee.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function ticket()
     {
-        return $this->belongsTo(\App\Models\Ticket::class);
+        return $this->belongsTo(Ticket::class);
     }
 
     /**
      * The event associated with the attendee.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function event()
     {
-        return $this->belongsTo(\App\Models\Event::class);
+        return $this->belongsTo(Event::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function answers()
     {
-        return $this->hasMany('App\Models\QuestionAnswer');
+        return $this->hasMany(QuestionAnswer::class);
     }
 
     /**
