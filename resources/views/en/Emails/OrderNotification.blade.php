@@ -64,7 +64,7 @@ Order Email: <b>{{$order->email}}</b><br>
                 @endif
             </td>
             <td>
-                @if ((int)ceil($order_item->unit_booking_fee) > 0)
+                @requiresPayment($order_item->unit_booking_fee)
                     @isFree($order_item->unit_price)
                     -
                     @else

@@ -11,6 +11,7 @@ return array (
   'attendees' => 'Attendees',
   'back_to_login' => 'Back to login',
   'back_to_page' => 'Back To :page',
+  'back_to_orders' => 'Back to orders',
   'cancel' => 'Cancel',
   'customize' => 'Customize',
   'dashboard' => 'Dashboard',

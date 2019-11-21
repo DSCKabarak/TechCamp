@@ -13,7 +13,7 @@ class AddTaxamtToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function($table) {
-            $table->float('taxamt');
+            $table->float('taxamt')->default(0.00);
         });
     }
 

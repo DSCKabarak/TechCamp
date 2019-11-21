@@ -20,9 +20,9 @@
 @stop
 
 @section('head')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" integrity="sha256-szHusaozbQctTn4FX+3l5E0A5zoxz7+ne4fr8NgWJlw=" crossorigin="anonymous" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js" integrity="sha256-Gk+dzc4kV2rqAZMkyy3gcfW6Xd66BhGYjVWa/FjPu+s=" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js" integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" integrity="sha256-szHusaozbQctTn4FX+3l5E0A5zoxz7+ne4fr8NgWJlw=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js" integrity="sha256-Gk+dzc4kV2rqAZMkyy3gcfW6Xd66BhGYjVWa/FjPu+s=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js" integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
     <script>
         $(function () {
             $.getJSON('https://graph.facebook.com/?id=' + '{{route('showEventPage',['event_id' => $event->id, 'event_slug' => Str::slug($event->title)])}}', function (fbdata) {
@@ -42,8 +42,8 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="stat-box">
-                <h3>{{ money($event->sales_volume + $event->organiser_fees_volume, $event->currency) }}</h3>
-                <span>@lang("Dashboard.sales_volume")</span>
+                <h3>{{ $event->getEventRevenueAmount()->display() }}</h3>
+                <span>@lang("Event.revenue")</span>
             </div>
         </div>
         <div class="col-sm-3">
@@ -101,7 +101,7 @@
                             <h3 class="panel-title">
                                 @lang("Dashboard.ticket_sales_volume")
                                 <span style="color: green; float: right;">
-                                    {{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}
+                                    {{ $event->getEventRevenueAmount()->display() }}
                                     @lang("basic.total")
                                 </span>
                             </h3>

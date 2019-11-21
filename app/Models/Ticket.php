@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Attendize\PaymentUtils;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Superbalist\Money\Money;
 
 class Ticket extends MyBaseModel
 {
@@ -55,18 +57,22 @@ class Ticket extends MyBaseModel
 
     /**
      * The order associated with the ticket.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function order()
+    public function orders()
     {
-        return $this->belongsToMany(\App\Models\Order::class);
+        return $this->belongsToMany(
+            Order::class,
+            'ticket_order',
+            'ticket_id',
+            'order_id'
+        );
     }
 
     /**
      * The questions associated with the ticket.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions()
     {
@@ -74,7 +80,7 @@ class Ticket extends MyBaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     function event_access_codes()
     {
@@ -262,5 +268,39 @@ class Ticket extends MyBaseModel
         }
 
         return config('attendize.ticket_status_on_sale');
+    }
+
+    /**
+     * Ticket revenue is calculated as:
+     *
+     * Sales Volume + Organiser Booking Fees - Partial Refunds
+     * @return Money
+     */
+    public function getTicketRevenueAmount()
+    {
+        $currency = $this->getEventCurrency();
+
+        $salesVolume = (new Money($this->sales_volume, $currency));
+        $organiserFeesVolume = (new Money($this->organiser_fees_volume, $currency));
+
+        return $salesVolume->add($organiserFeesVolume);
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    private function getEventCurrency()
+    {
+        // Get the event currency
+        $eventCurrency = $this->event()->first()->currency()->first();
+
+        // Setup the currency on the event for transformation
+        $currency = new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            !empty($eventCurrency->symbol_left)
+        );
+        return $currency;
     }
 }

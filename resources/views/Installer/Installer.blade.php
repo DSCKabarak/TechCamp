@@ -187,7 +187,8 @@
                                 });
                             });
                         </script>
-                        <a href="{{route('postInstaller',['test' => 'db'])}}" class="test_db">
+
+                        <a href="{{route('postInstaller',['test' => 'db'])}}" class="test_db btn-block btn btn-success" style="color: white; font-weight: 300;">
                             @lang("Installer.test_database_connection")
                         </a>
                     </div>

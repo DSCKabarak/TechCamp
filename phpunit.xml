@@ -7,19 +7,33 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false">
+         stopOnFailure="false">
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+            <exclude>
+                <directory suffix=".php">./app/Transformers</directory>
+                <directory suffix=".php">./app/Notifications</directory>
+                <directory suffix=".php">./app/Listeners</directory>
+                <directory suffix=".php">./app/Exceptions</directory>
+                <directory suffix=".php">./app/Providers</directory>
+                <directory suffix=".php">./app/Helpers</directory>
+                <directory suffix=".php">./app/Http</directory>
+                <directory suffix=".php">./app/Services</directory>
+            </exclude>
+        </whitelist>
+    </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="MAIL_DRIVER" value="log"/>
-        <env name="DB_HOST" value="db"/>
-        <env name="DB_DATABASE" value="attendize"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_TYPE" value="sqlite.testing"/> <!-- Force sqlite in memory tests -->
+        <env name="LOG_CHANNEL" value="daily"/>
     </php>
 </phpunit>

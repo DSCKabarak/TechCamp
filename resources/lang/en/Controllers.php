@@ -20,6 +20,7 @@ return array (
   //==================================== Translations ====================================//
   'account_successfully_updated' => 'Account Successfully Updated',
   'addInviteError' => 'You need to create a ticket before you can invite an attendee.',
+  'attendees_required' => 'Please select at least one attendee',
   'attendee_already_cancelled' => 'Attendee Already Cancelled',
   'attendee_already_checked_in' => 'Attendee already checked in at :time ',
   'attendee_exception' => 'An error occurred while inviting this attendee. Please try again.',
