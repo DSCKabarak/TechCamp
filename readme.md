@@ -69,8 +69,13 @@ To do a manual installation use the [Manual Installation Steps](http://www.atten
 To run the application tests, you can run the following from your project root:
 
 ```sh
+# If the testing db does not exist yet, please create it
+touch database/database.sqlite
+# Run the test suite
 ./vendor/bin/phpunit
 ```
+
+This will run the feature tests that hits the database using the `sqlite` database connection.
 
 ### Troubleshooting
 ---
