@@ -13,8 +13,8 @@ class AddTaxToOrganizers extends Migration
     public function up()
     {
         Schema::table('organisers', function($table) {
-            $table->string('taxname',15);
-            $table->float('taxvalue');
+            $table->string('taxname', 15)->default('');
+            $table->float('taxvalue')->default(0.00);
         });
     }
 

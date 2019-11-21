@@ -13,10 +13,12 @@ class FixTicketOrderTableForeignKeyConstraints extends Migration
      */
     public function up()
     {
-        Schema::table('ticket_order', function (Blueprint $table) {
-            $table->dropForeign('ticket_order_ticket_id_foreign');
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
-        });
+        if (env('APP_ENV') !== 'testing') {
+            Schema::table('ticket_order', function (Blueprint $table) {
+                $table->dropForeign('ticket_order_ticket_id_foreign');
+                $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            });
+        }
     }
 
     /**

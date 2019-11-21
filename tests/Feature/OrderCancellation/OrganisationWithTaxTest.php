@@ -168,25 +168,32 @@ class OrganisationWithTaxTest extends TestCase
         // Check refund call works
         $response->assertStatus(200);
         // Assert database is correct after refund and cancel
-        $this->assertDatabaseHasMany([
-            'event_stats' => [
-                'tickets_sold' => 2,
-                'sales_volume' => 240.00,
-                'organiser_fees_volume' => 28.80, // 12% Fees
-            ],
-            'tickets' => [
-                'sales_volume' => 240.00,
-                'organiser_fees_volume' => 28.80,
-                'quantity_sold' => 2,
-            ],
-            'orders' => [
-                'organiser_booking_fee' => 72.00, // 12% Fees
-                'amount' => 600.00,
-                'amount_refunded' => 483.84,
-                'taxamt' => 134.40, // 20% VAT
-                'is_partially_refunded' => true,
-            ],
-        ]);
+
+        $eventStats = \App\Models\EventStats::first()
+            ->only('tickets_sold', 'sales_volume', 'organiser_fees_volume');
+        $this->assertEquals([
+            'tickets_sold' => 2,
+            'sales_volume' => 240,
+            'organiser_fees_volume' => 28.8, // 12% Fees
+        ], $eventStats);
+
+        $tickets = \App\Models\Ticket::first()
+            ->only('sales_volume', 'organiser_fees_volume', 'quantity_sold');
+        $this->assertEquals([
+            'quantity_sold' => 2,
+            'sales_volume' => 240,
+            'organiser_fees_volume' => 28.8, // 12% Fees
+        ], $tickets);
+
+        $order = \App\Models\Order::first()
+            ->only('organiser_booking_fee', 'amount', 'amount_refunded', 'taxamt', 'is_partially_refunded');
+        $this->assertEquals([
+            'organiser_booking_fee' => 72.00, // 12% Fees
+            'amount' => 600.00,
+            'amount_refunded' => 483.84,
+            'taxamt' => 134.40, // 20% VAT
+            'is_partially_refunded' => true,
+        ], $order);
 
         // Check that the the attendees are marked as refunded/cancelled
         $this->assertTrue(Attendee::find($attendeeIds[0])->is_refunded);
