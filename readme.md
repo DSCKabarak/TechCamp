@@ -64,6 +64,14 @@ If you are creating an issue/bug report for Attendize please let us know the fol
 To get developing straight away use the [Pre-configured Docker Environment](http://www.attendize.com/getting_started.html#running-attendize-in-docker-for-development)<br />
 To do a manual installation use the [Manual Installation Steps](http://www.attendize.com/getting_started.html#manual-installation)
 
+### Testing
+
+To run the application tests, you can run the following from your project root:
+
+```sh
+./vendor/bin/phpunit
+```
+
 ### Troubleshooting
 ---
 If you are having problems please read the [troubleshooting guide](http://www.attendize.com/troubleshooting.html) 
@@ -71,9 +79,9 @@ If you are having problems please read the [troubleshooting guide](http://www.at
 License
 ---
 
-Attendize is open-sourced software licensed under the Attribution Assurance License. See [http://www.attendize.com/license.html](http://www.attendize.com/license.html) for further details. We also have white-label licence options available.
+Attendize is open-sourced software licensed under the Attribution Assurance License. See [http://www.attendize.com/license.html](http://www.attendize.com/license.html) for further details. We also have white-label license options available.
 
-Contributors 
+Contributors
 ---
 * Jeremy Quinton ([Github](https://github.com/jeremyquinton))
 * Sam Bell ([Github](https://github.com/samdb))
@@ -84,3 +92,4 @@ Contributors
 * James Campbell ([Github](https://github.com/jncampbell))
 * JapSeyz ([Github](https://github.com/JapSeyz))
 * Mark Walet ([Github](https://github.com/markwalet))
+* Etienne Marais ([Github](https://github.com/etiennemarais))

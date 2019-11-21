@@ -38,8 +38,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="attendize_testing"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
         <env name="LOG_CHANNEL" value="daily"/>
     </php>
 </phpunit>
