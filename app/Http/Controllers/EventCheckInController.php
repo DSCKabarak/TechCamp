@@ -65,6 +65,7 @@ class EventCheckInController extends MyBaseController
                     )
                     //->orWhere('attendees.email', 'like', $searchQuery . '%')
                     ->orWhere('orders.order_reference', 'like', $searchQuery . '%')
+                    ->orWhere('attendees.private_reference_number', 'like', $searchQuery . '%')
                     ->orWhere('attendees.last_name', 'like', $searchQuery . '%');
             })
             ->select([
