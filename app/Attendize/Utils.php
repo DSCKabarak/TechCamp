@@ -145,4 +145,14 @@ class Utils
             return round($size);
         }
     }
+
+    /**
+     * Check if Attendize is installed
+     *
+     * @return bool
+     */
+    public static function installed(): bool
+    {
+        return file_exists(base_path('installed'));
+    }
 }

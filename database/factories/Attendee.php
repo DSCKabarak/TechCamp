@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 $factory->define(App\Models\Attendee::class, function (Faker\Generator $faker) {
     return [
         'order_id' => function () {

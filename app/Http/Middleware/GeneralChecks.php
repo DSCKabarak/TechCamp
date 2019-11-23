@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 
@@ -9,10 +9,11 @@ class GeneralChecks
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
+     *
+     * @throws \Illuminate\Session\TokenMismatchException
      */
     public function handle($request, Closure $next)
     {
@@ -22,8 +23,6 @@ class GeneralChecks
             session()->flash('message', 'Please update your browser. This application requires a modern browser.');
         }
 
-        $response = $next($request);
-
-        return $response;
+        return $next($request);
     }
 }

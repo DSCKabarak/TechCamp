@@ -24,7 +24,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('first_name', trans("Attendee.first_name"), array('class'=>'control-label required')) !!}
-                                    {!!  Form::text('first_name', Input::old('first_name'),
+                                    {!!  Form::text('first_name', old('first_name'),
                                             array(
                                             'class'=>'form-control'
                                             ))  !!}
@@ -34,7 +34,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('last_name', trans("Attendee.last_name"), array('class'=>'control-label')) !!}
-                                    {!!  Form::text('last_name', Input::old('last_name'),
+                                    {!!  Form::text('last_name', old('last_name'),
                                             array(
                                             'class'=>'form-control'
                                             ))  !!}
@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     {!! Form::label('email', trans("Attendee.email"), array('class'=>'control-label required')) !!}
 
-                                    {!!  Form::text('email', Input::old('email'),
+                                    {!!  Form::text('email', old('email'),
                                             array(
                                             'class'=>'form-control'
                                             ))  !!}

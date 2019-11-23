@@ -192,7 +192,7 @@ class Order extends MyBaseModel
 
         static::creating(function ($order) {
             do {
-                    //generate a random string using Laravel's str_random helper
+                    //generate a random string using Laravel's Str::Random helper
                     $token = Str::Random(5) . date('jn');
             } //check if the token already exists and if it does, try again
 

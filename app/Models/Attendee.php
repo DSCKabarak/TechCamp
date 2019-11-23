@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+/**
+ * @property bool is_cancelled
+ * @property Order order
+ * @property string first_name
+ * @property string last_name
+ */
 class Attendee extends MyBaseModel
 {
     use SoftDeletes;
@@ -27,7 +33,7 @@ class Attendee extends MyBaseModel
     ];
 
     protected $casts = [
-        'is_refunded' => 'boolean',
+        'is_refunded'  => 'boolean',
         'is_cancelled' => 'boolean',
     ];
 
@@ -42,7 +48,7 @@ class Attendee extends MyBaseModel
         static::creating(function ($order) {
 
             do {
-                //generate a random string using Laravel's str_random helper
+                //generate a random string using Laravel's Str::Random helper
                 $token = Str::Random(15);
             } //check if the token already exists and if it does, try again
 
@@ -53,7 +59,7 @@ class Attendee extends MyBaseModel
     }
 
     /**
-     * @param array $attendeeIds
+     * @param  array  $attendeeIds
      * @return Collection
      */
     public static function findFromSelection(array $attendeeIds = [])

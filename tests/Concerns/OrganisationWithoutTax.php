@@ -31,10 +31,10 @@ trait OrganisationWithoutTax
     public function setupOrganisationWithoutTax()
     {
         $orderStatuses = collect([
-            ['id' => config('attendize.order_complete'), 'name' => 'Completed'],
-            ['id' => config('attendize.order_refunded'), 'name' => 'Refunded'],
-            ['id' => config('attendize.order_partially_refunded'), 'name' => 'Partially Refunded'],
-            ['id' => config('attendize.order_cancelled'), 'name' => 'Cancelled'],
+            ['id' => config('attendize.order.complete'), 'name' => 'Completed'],
+            ['id' => config('attendize.order.refunded'), 'name' => 'Refunded'],
+            ['id' => config('attendize.order.partially_refunded'), 'name' => 'Partially Refunded'],
+            ['id' => config('attendize.order.cancelled'), 'name' => 'Cancelled'],
         ]);
         $orderStatuses->map(function($orderStatus) {
             factory(OrderStatus::class)->create($orderStatus);

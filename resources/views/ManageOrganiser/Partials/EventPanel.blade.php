@@ -11,7 +11,7 @@
         <ul class="event-meta">
             <li class="event-title">
                 <a title="{{{$event->title}}}" href="{{route('showEventDashboard', ['event_id'=>$event->id])}}">
-                    {{{ str_limit($event->title, $limit = 75, $end = '...') }}}
+                    {{{ Str::limit($event->title, $limit = 75, $end = '...') }}}
                 </a>
             </li>
             <li class="event-organiser">
