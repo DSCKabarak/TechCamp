@@ -27,8 +27,8 @@ class ChangePrivateReferenceNumberColumnType extends Migration
      */
     public function down()
     {
-        Schema::table('attendees', function ($table) {
-            $table->integer('private_reference_number')->change();
-        });
+        // Schema::table('attendees', function ($table) {
+        //     $table->integer('private_reference_number')->change();
+        // });
     }
 }
