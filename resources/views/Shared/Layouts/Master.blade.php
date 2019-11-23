@@ -23,11 +23,11 @@
    <!--/Meta-->
 
     <!--JS-->
-    {!! HTML::script(config('attendize.cdn_url_static_assets').'/vendor/jquery/dist/jquery.min.js') !!}
+    {!! Html::script(config('attendize.cdn_url_static_assets').'/vendor/jquery/dist/jquery.min.js') !!}
     <!--/JS-->
 
     <!--Style-->
-    {!! HTML::style(config('attendize.cdn_url_static_assets').'/assets/stylesheet/application.css') !!}
+    {!! Html::style(config('attendize.cdn_url_static_assets').'/assets/stylesheet/application.css') !!}
     <!--/Style-->
 
     @yield('head')
@@ -125,7 +125,7 @@
 
 <!--JS-->
 @include("Shared.Partials.LangScript")
-{!! HTML::script('assets/javascript/backend.js') !!}
+{!! Html::script('assets/javascript/backend.js') !!}
 <script>
     $(function () {
         $.ajaxSetup({

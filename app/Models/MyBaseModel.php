@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Auth;
-use Validator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 /*
  * Adapted from: https://github.com/hillelcoren/invoice-ninja/blob/master/app/models/EntityModel.php
@@ -47,20 +48,20 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
     /**
      * Create a new model.
      *
-     * @param int $account_id
-     * @param int $user_id
-     * @param bool $ignore_user_id
+     * @param  int|bool  $account_id
+     * @param  int|bool  $user_id
+     * @param  bool  $ignore_user_id
      *
      * @return \className
      */
     public static function createNew($account_id = false, $user_id = false, $ignore_user_id = false)
     {
-        $className = get_called_class();
+        $className = static::class;
         $entity = new $className();
 
         if (Auth::check()) {
             if (!$ignore_user_id) {
-                $entity->user_id = Auth::user()->id;
+                $entity->user_id = Auth::id();
             }
 
             $entity->account_id = Auth::user()->account_id;
@@ -102,7 +103,7 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
     /**
      * Gets the validation error messages.
      *
-     * @param bool $returnArray
+     * @param  bool  $returnArray
      *
      * @return mixed
      */
@@ -115,7 +116,7 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      * Get a formatted date.
      *
      * @param        $field
-     * @param string $format
+     * @param  bool|null|string  $format
      *
      * @return bool|null|string
      */
@@ -132,7 +133,7 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
      * Ensures each query looks for account_id
      *
      * @param $query
-     * @param bool $accountId
+     * @param  bool  $accountId
      * @return mixed
      */
     public function scopeScope($query, $accountId = false)
@@ -145,15 +146,17 @@ class MyBaseModel extends \Illuminate\Database\Eloquent\Model
          * //return  $query;
          */
 
-        if (!$accountId) {
+        if (!$accountId && Auth::check()) {
             $accountId = Auth::user()->account_id;
         }
 
-        $table = $this->getTable();
+        if ($accountId !== false) {
+            $table = $this->getTable();
 
-        $query->where(function ($query) use ($accountId, $table) {
-            $query->whereRaw(\DB::raw('(' . $table . '.account_id = ' . $accountId . ')'));
-        });
+            $query->where(function ($query) use ($accountId, $table) {
+                $query->whereRaw(\DB::raw('('.$table.'.account_id = '.$accountId.')'));
+            });
+        }
 
         return $query;
     }

@@ -14,7 +14,6 @@ class HelpersServiceProvider extends ServiceProvider
     public function boot()
     {
         require app_path('Helpers/helpers.php');
-        require app_path('Helpers/macros.php');
         require app_path('Helpers/strings.php');
     }
 

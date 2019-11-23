@@ -28,8 +28,8 @@
 @stop
 
 @section('head')
-    {!! HTML::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.config("attendize.google_maps_geocoding_key")) !!}
-    {!! HTML::script('vendor/geocomplete/jquery.geocomplete.min.js') !!}
+    {!! Html::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.config("attendize.google_maps_geocoding_key")) !!}
+    {!! Html::script('vendor/geocomplete/jquery.geocomplete.min.js') !!}
     <script>
         $(function () {
 
@@ -527,7 +527,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::label('ticket_border_color', trans("Ticket.ticket_border_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'ticket_border_color', Input::old('ticket_border_color'),
+                                {!!  Form::input('text', 'ticket_border_color', old('ticket_border_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#000000'
@@ -537,7 +537,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::label('ticket_bg_color', trans("Ticket.ticket_background_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'ticket_bg_color', Input::old('ticket_bg_color'),
+                                {!!  Form::input('text', 'ticket_bg_color', old('ticket_bg_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#FFFFFF'
@@ -547,7 +547,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::label('ticket_text_color', trans("Ticket.ticket_text_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'ticket_text_color', Input::old('ticket_text_color'),
+                                {!!  Form::input('text', 'ticket_text_color', old('ticket_text_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#000000'
@@ -557,7 +557,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::label('ticket_sub_text_color', trans("Ticket.ticket_sub_text_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'ticket_sub_text_color', Input::old('ticket_border_color'),
+                                {!!  Form::input('text', 'ticket_sub_text_color', old('ticket_border_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#000000'

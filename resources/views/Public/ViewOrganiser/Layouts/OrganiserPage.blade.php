@@ -30,7 +30,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-       {!!HTML::style('assets/stylesheet/frontend.css')!!}
+       {!!Html::style('assets/stylesheet/frontend.css')!!}
         @yield('head')
     </head>
     <body class="attendize">
@@ -43,7 +43,7 @@
             <span style="font-size:11px;">@lang("basic.TOP")</span></a>
 
         @include("Shared.Partials.LangScript")
-        {!!HTML::script('assets/javascript/frontend.js')!!}
+        {!!Html::script('assets/javascript/frontend.js')!!}
 
         @include('Shared.Partials.GlobalFooterJS')
         @yield('foot')

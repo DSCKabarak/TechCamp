@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 $factory->define(App\Models\EventStats::class, function (Faker\Generator $faker) {
     return [
         'date' => Carbon::now(),
