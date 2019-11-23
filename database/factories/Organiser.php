@@ -13,7 +13,7 @@ $factory->define(App\Models\Organiser::class, function (Faker\Generator $faker) 
         'twitter' => 'https://twitter.com/organizer-profile',
         'logo_path' => 'path/to/logo',
         'is_email_confirmed' => 0,
-        'confirmation_key' => str_random(15),
+        'confirmation_key' => Str::Random(15),
         'show_twitter_widget' => $faker->boolean,
         'show_facebook_widget' => $faker->boolean,
         'page_header_bg_color' => $faker->hexcolor,

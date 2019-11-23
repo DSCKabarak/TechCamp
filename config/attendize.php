@@ -8,19 +8,19 @@ return [
     'ticket_status_after_sale_date' => 2,//
     'enable_test_payments'          => env('ENABLE_TEST_PAYMENTS', false),
     'enable_dummy_payment_gateway'  => false,
-    'payment_gateway_dummy'    => 0,
-    'payment_gateway_stripe'   => 1,
-    'payment_gateway_paypal'   => 2,
-    'fake_card_data' => [
-        'number' => '4242424242424242',
+    'payment_gateway_dummy'         => 0,
+    'payment_gateway_stripe'        => 1,
+    'payment_gateway_paypal'        => 2,
+    'fake_card_data'                => [
+        'number'      => '4242424242424242',
         'expiryMonth' => '6',
-        'expiryYear' => '2030',
-        'cvv' => '123'
+        'expiryYear'  => '2030',
+        'cvv'         => '123'
     ],
-    'outgoing_email_noreply' => env('MAIL_FROM_ADDRESS'),
-    'outgoing_email'         => env('MAIL_FROM_ADDRESS'),
-    'outgoing_email_name'    => env('MAIL_FROM_NAME'),
-    'incoming_email'         => env('MAIL_FROM_ADDRESS'),
+    'outgoing_email_noreply'        => env('MAIL_FROM_ADDRESS'),
+    'outgoing_email'                => env('MAIL_FROM_ADDRESS'),
+    'outgoing_email_name'           => env('MAIL_FROM_NAME'),
+    'incoming_email'                => env('MAIL_FROM_ADDRESS'),
 
     'app_name'               => 'Attendize Event Ticketing',
     'event_default_bg_color' => '#B23333',
@@ -44,11 +44,13 @@ return [
     'ticket_booking_fee_percentage' => 0,
 
     /* Order statuses */
-    'order_complete'                => 1,
-    'order_refunded'                => 2,
-    'order_partially_refunded'      => 3,
-    'order_cancelled'               => 4,
-    'order_awaiting_payment'        => 5,
+    'order'                         => [
+        'complete'           => 1,
+        'refunded'           => 2,
+        'partially_refunded' => 3,
+        'cancelled'          => 4,
+        'awaiting_payment'   => 5,
+    ],
 
     /* Attendee question types */
     'question_textbox_single'       => 1,
@@ -59,18 +61,18 @@ return [
     'question_radio_single'         => 6,
 
 
-    'default_timezone'           => 30, #Europe/Dublin
-    'default_currency'           => 2, #Euro
-    'default_date_picker_format' => env('DEFAULT_DATEPICKER_FORMAT', 'yyyy-MM-dd HH:mm'),
+    'default_timezone'              => 30, #Europe/Dublin
+    'default_currency'              => 2, #Euro
+    'default_date_picker_format'    => env('DEFAULT_DATEPICKER_FORMAT', 'yyyy-MM-dd HH:mm'),
     'default_date_picker_seperator' => env('DEFAULT_DATEPICKER_SEPERATOR', '-'),
-    'default_datetime_format'    => env('DEFAULT_DATETIME_FORMAT', 'Y-m-d H:i'),
-    'default_query_cache'        => 120, #Minutes
-    'default_locale'             => 'en',
-    'default_payment_gateway'    => 1, #Stripe=1 Paypal=2
+    'default_datetime_format'       => env('DEFAULT_DATETIME_FORMAT', 'Y-m-d H:i'),
+    'default_query_cache'           => 120, #Minutes
+    'default_locale'                => 'en',
+    'default_payment_gateway'       => 1, #Stripe=1 Paypal=2
 
     'cdn_url_user_assets'   => '',
     'cdn_url_static_assets' => '',
 
-    'google_analytics_id' => env('GOOGLE_ANALYTICS_ID'),
+    'google_analytics_id'       => env('GOOGLE_ANALYTICS_ID'),
     'google_maps_geocoding_key' => env('GOOGLE_MAPS_GEOCODING_KEY')
 ];

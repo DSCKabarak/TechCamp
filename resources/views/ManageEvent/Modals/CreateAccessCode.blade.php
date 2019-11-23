@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('code', trans("AccessCodes.access_code_title"), ['class'=>'control-label required']) !!}
-                            {!! Form::text('code', Input::old('code'),
+                            {!! Form::text('code', old('code'),
                                         [
                                             'class'=>'form-control',
                                             'placeholder' => trans("AccessCodes.access_code_title_placeholder")

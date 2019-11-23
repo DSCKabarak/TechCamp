@@ -149,7 +149,7 @@ class EventAttendeesController extends MyBaseController
             $order->first_name = $attendee_first_name;
             $order->last_name = $attendee_last_name;
             $order->email = $attendee_email;
-            $order->order_status_id = config('attendize.order_complete');
+            $order->order_status_id = config('attendize.order.complete');
             $order->amount = $ticket_price;
             $order->account_id = Auth::user()->account_id;
             $order->event_id = $event_id;
@@ -314,7 +314,7 @@ class EventAttendeesController extends MyBaseController
                     $order->first_name = $attendee_first_name;
                     $order->last_name = $attendee_last_name;
                     $order->email = $attendee_email;
-                    $order->order_status_id = config('attendize.order_complete');
+                    $order->order_status_id = config('attendize.order.complete');
                     $order->amount = $ticket_price;
                     $order->account_id = Auth::user()->account_id;
                     $order->event_id = $event_id;

@@ -5,9 +5,9 @@
       @lang("ManageEvent.attendize_qrcode_check_in"): {{ $event->title }}
   </title>
 
-    {!! HTML::style('assets/stylesheet/application.css') !!}
-    {!! HTML::style('assets/stylesheet/qrcode-check-in.css') !!}
-  {!! HTML::script('vendor/jquery/jquery.js') !!}
+    {!! Html::style('assets/stylesheet/application.css') !!}
+    {!! Html::style('assets/stylesheet/qrcode-check-in.css') !!}
+  {!! Html::script('vendor/jquery/jquery.js') !!}
 
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
 
@@ -29,8 +29,8 @@
           });
       });
   </script>
-  {!! HTML::script('vendor/qrcode-scan/llqrcode.js') !!}
-  {!! HTML::script('vendor/qrcode-scan/webqr.js') !!}
+  {!! Html::script('vendor/qrcode-scan/llqrcode.js') !!}
+  {!! Html::script('vendor/qrcode-scan/webqr.js') !!}
 </head>
 <body>
   <div id="main">

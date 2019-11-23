@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 $factory->define(App\Models\EventAccessCodes::class, function (Faker\Generator $faker) {
     return [
         'event_id' => function () {

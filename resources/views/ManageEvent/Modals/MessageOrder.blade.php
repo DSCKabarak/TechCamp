@@ -18,7 +18,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('subject',  trans("Message.subject"), array('class'=>'control-label required')) !!}
-                            {!!  Form::text('subject', Input::old('subject'),
+                            {!!  Form::text('subject', old('subject'),
                                         array(
                                         'class'=>'form-control'
                                         ))  !!}
@@ -26,7 +26,7 @@
 
                         <div class="form-group">
                             {!! Form::label('message', trans("Message.content"), array('class'=>'control-label required')) !!}
-                            {!!  Form::textarea('message', Input::old('message'),
+                            {!!  Form::textarea('message', old('message'),
                                         array(
                                         'class'=>'form-control',
                                         'rows' => '5'

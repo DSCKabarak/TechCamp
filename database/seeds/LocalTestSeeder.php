@@ -11,6 +11,7 @@ use App\Models\Organiser;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class LocalTestSeeder extends Seeder

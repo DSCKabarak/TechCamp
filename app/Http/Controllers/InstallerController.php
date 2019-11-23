@@ -8,6 +8,7 @@ use Config;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 use PhpSpec\Exception\Example\ExampleException;
 use Log;
 
@@ -136,7 +137,7 @@ class InstallerController extends Controller
         $mail['host'] = $request->get('mail_host');
 
         $app_url = $request->get('app_url');
-        $app_key = str_random(32);
+        $app_key = Str::random(32);
         $version = file_get_contents(base_path('VERSION'));
 
         if ($request->get('test') === 'db') {

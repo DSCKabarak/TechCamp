@@ -24,11 +24,11 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_single_ticket()
     {
         // Setup single attendee order
-        list($order, $attendees) = $this->makeTicketOrder(1, 100.00);
+        [$order, $attendees] = $this->makeTicketOrder(1, 100.00);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
-                'attendees' => [ $attendeeIds[0] ],
+                'attendees' => [$attendeeIds[0]],
             ]);
 
         // Check refund call works
@@ -36,23 +36,23 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 0,
-                'sales_volume' => 0.00,
+                'tickets_sold'          => 0,
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets' => [
-                'sales_volume' => 0.00,
+            'tickets'     => [
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold' => 0,
+                'quantity_sold'         => 0,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 0.00,
-                'amount' => 100.00,
-                'amount_refunded' => 100.00,
-                'is_refunded' => true,
+                'amount'                => 100.00,
+                'amount_refunded'       => 100.00,
+                'is_refunded'           => true,
             ],
-            'attendees' => [
-                'is_refunded' => true,
+            'attendees'   => [
+                'is_refunded'  => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -64,7 +64,7 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_multiple_tickets()
     {
         // Setup multiple attendee order but refund only 3 out of 5
-        list($order, $attendees) = $this->makeTicketOrder(5, 100.00);
+        [$order, $attendees] = $this->makeTicketOrder(5, 100.00);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
@@ -80,19 +80,19 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 2,
-                'sales_volume' => 200.00,
+                'tickets_sold'          => 2,
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets' => [
-                'sales_volume' => 200.00,
+            'tickets'     => [
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold' => 2,
+                'quantity_sold'         => 2,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 0.00,
-                'amount' => 500.00,
-                'amount_refunded' => 300.00,
+                'amount'                => 500.00,
+                'amount_refunded'       => 300.00,
                 'is_partially_refunded' => true,
             ],
         ]);
@@ -111,11 +111,11 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_single_ticket_with_percentage_booking_fees()
     {
         // Setup single attendee order with % fees
-        list($order, $attendees) = $this->makeTicketOrder(1, 100.00, true);
+        [$order, $attendees] = $this->makeTicketOrder(1, 100.00, true);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
-                'attendees' => [ $attendeeIds[0] ],
+                'attendees' => [$attendeeIds[0]],
             ]);
 
         // Check refund call works
@@ -123,23 +123,23 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 0,
-                'sales_volume' => 0.00,
+                'tickets_sold'          => 0,
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets' => [
-                'sales_volume' => 0.00,
+            'tickets'     => [
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold' => 0,
+                'quantity_sold'         => 0,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 5.00,
-                'amount' => 100.00,
-                'amount_refunded' => 105.00,
-                'is_refunded' => true,
+                'amount'                => 100.00,
+                'amount_refunded'       => 105.00,
+                'is_refunded'           => true,
             ],
-            'attendees' => [
-                'is_refunded' => true,
+            'attendees'   => [
+                'is_refunded'  => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -151,7 +151,7 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_multiple_tickets_with_percentage_booking_fees()
     {
         // Setup single attendee order with % fees
-        list($order, $attendees) = $this->makeTicketOrder(5, 100.00, true);
+        [$order, $attendees] = $this->makeTicketOrder(5, 100.00, true);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
@@ -167,19 +167,19 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 2,
-                'sales_volume' => 200.00,
+                'tickets_sold'          => 2,
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 10.00,
             ],
-            'tickets' => [
-                'sales_volume' => 200.00,
+            'tickets'     => [
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 10.00,
-                'quantity_sold' => 2,
+                'quantity_sold'         => 2,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 25.00,
-                'amount' => 500.00,
-                'amount_refunded' => 315.00,
+                'amount'                => 500.00,
+                'amount_refunded'       => 315.00,
                 'is_partially_refunded' => true,
             ],
         ]);
@@ -198,11 +198,11 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_single_ticket_with_fixed_booking_fees()
     {
         // Setup single attendee order with % fees
-        list($order, $attendees) = $this->makeTicketOrder(1, 100.00, false, true);
+        [$order, $attendees] = $this->makeTicketOrder(1, 100.00, false, true);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
-                'attendees' => [ $attendeeIds[0] ],
+                'attendees' => [$attendeeIds[0]],
             ]);
 
         // Check refund call works
@@ -210,23 +210,23 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 0,
-                'sales_volume' => 0.00,
+                'tickets_sold'          => 0,
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
             ],
-            'tickets' => [
-                'sales_volume' => 0.00,
+            'tickets'     => [
+                'sales_volume'          => 0.00,
                 'organiser_fees_volume' => 0.00,
-                'quantity_sold' => 0,
+                'quantity_sold'         => 0,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 2.50,
-                'amount' => 100.00,
-                'amount_refunded' => 102.50,
-                'is_refunded' => true,
+                'amount'                => 100.00,
+                'amount_refunded'       => 102.50,
+                'is_refunded'           => true,
             ],
-            'attendees' => [
-                'is_refunded' => true,
+            'attendees'   => [
+                'is_refunded'  => true,
                 'is_cancelled' => true,
             ],
         ]);
@@ -238,7 +238,7 @@ class OrganisationWithoutTaxTest extends TestCase
     public function cancels_and_refunds_order_with_multiple_tickets_with_fixed_booking_fees()
     {
         // Setup single attendee order with % fees
-        list($order, $attendees) = $this->makeTicketOrder(5, 100.00, false, true);
+        [$order, $attendees] = $this->makeTicketOrder(5, 100.00, false, true);
         $attendeeIds = $attendees->pluck('id')->toArray();
         $response = $this->actingAs($this->getAccountUser())
             ->post("event/order/$order->id/cancel", [
@@ -254,19 +254,19 @@ class OrganisationWithoutTaxTest extends TestCase
         // Assert database is correct after refund and cancel
         $this->assertDatabaseHasMany([
             'event_stats' => [
-                'tickets_sold' => 2,
-                'sales_volume' => 200.00,
+                'tickets_sold'          => 2,
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 5.00,
             ],
-            'tickets' => [
-                'sales_volume' => 200.00,
+            'tickets'     => [
+                'sales_volume'          => 200.00,
                 'organiser_fees_volume' => 5.00,
-                'quantity_sold' => 2,
+                'quantity_sold'         => 2,
             ],
-            'orders' => [
+            'orders'      => [
                 'organiser_booking_fee' => 12.50,
-                'amount' => 500.00,
-                'amount_refunded' => 307.50,
+                'amount'                => 500.00,
+                'amount_refunded'       => 307.50,
                 'is_partially_refunded' => true,
             ],
         ]);

@@ -3,17 +3,14 @@
 namespace App\Models;
 
 use App\Notifications\UserResetPassword;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-    use Authenticatable, CanResetPassword, SoftDeletes, Notifiable;
+    use SoftDeletes, Notifiable;
 
     /**
      * The database table used by the model.
@@ -30,16 +27,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public $dates = ['deleted_at'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['password'];
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array $fillable
+     * @var array
      */
     protected $fillable = [
         'account_id',
@@ -53,6 +52,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'is_confirmed',
         'is_parent',
         'remember_token'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -118,7 +126,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Set the remember token for the user.
      *
-     * @param string $value
+     * @param  string  $value
      */
     public function setRememberToken($value)
     {
@@ -153,8 +161,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         parent::boot();
 
         static::creating(function ($user) {
-            $user->confirmation_code = str_random();
-            $user->api_token = str_random(60);
+            $user->confirmation_code = Str::random();
+            $user->api_token = Str::random(60);
         });
     }
 

@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('title', trans("ManageEvent.ticket_title"), array('class'=>'control-label required')) !!}
-                            {!!  Form::text('title', Input::old('title'),
+                            {!!  Form::text('title', old('title'),
                                         array(
                                         'class'=>'form-control',
                                         'placeholder'=>trans("ManageEvent.ticket_title_placeholder")
@@ -24,7 +24,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     {!! Form::label('price', trans("ManageEvent.ticket_price"), array('class'=>'control-label required')) !!}
-                                    {!!  Form::text('price', Input::old('price'),
+                                    {!!  Form::text('price', old('price'),
                                                 array(
                                                 'class'=>'form-control',
                                                 'placeholder'=>trans("ManageEvent.price_placeholder")
@@ -37,7 +37,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     {!! Form::label('quantity_available', trans("ManageEvent.quantity_available"), array('class'=>' control-label')) !!}
-                                    {!!  Form::text('quantity_available', Input::old('quantity_available'),
+                                    {!!  Form::text('quantity_available', old('quantity_available'),
                                                 array(
                                                 'class'=>'form-control',
                                                 'placeholder'=>trans("ManageEvent.quantity_available_placeholder")
@@ -50,7 +50,7 @@
 
                         <div class="form-group more-options">
                             {!! Form::label('description', trans("ManageEvent.ticket_description"), array('class'=>'control-label')) !!}
-                            {!!  Form::text('description', Input::old('description'),
+                            {!!  Form::text('description', old('description'),
                                         array(
                                         'class'=>'form-control'
                                         ))  !!}
@@ -60,7 +60,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     {!! Form::label('start_sale_date', trans("ManageEvent.start_sale_on"), array('class'=>' control-label')) !!}
-                                    {!!  Form::text('start_sale_date', Input::old('start_sale_date'),
+                                    {!!  Form::text('start_sale_date', old('start_sale_date'),
                                                     [
                                                 'class'=>'form-control start hasDatepicker ',
                                                 'data-field'=>'datetime',
@@ -78,7 +78,7 @@
                                                 [
                                             'class'=>' control-label '
                                         ])  !!}
-                                    {!!  Form::text('end_sale_date', Input::old('end_sale_date'),
+                                    {!!  Form::text('end_sale_date', old('end_sale_date'),
                                             [
                                         'class'=>'form-control end hasDatepicker ',
                                         'data-field'=>'datetime',

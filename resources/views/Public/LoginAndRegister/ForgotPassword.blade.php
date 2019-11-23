@@ -13,7 +13,7 @@
             <div class="panel-body">
 
                 <div class="logo">
-                   {!!HTML::image('assets/images/logo-dark.png')!!}
+                   {!!Html::image('assets/images/logo-dark.png')!!}
                 </div>
                 <h2>@lang("User.forgot_password")</h2>
 

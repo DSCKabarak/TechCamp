@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\Passcheck;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class UserController extends Controller
                 'email',
                 'unique:users,email,' . Auth::user()->id . ',id,account_id,' . Auth::user()->account_id
             ],
-            'password'     => 'passcheck',
+            'password'     => [new Passcheck],
             'new_password' => ['min:8', 'confirmed', 'required_with:password'],
             'first_name'   => ['required'],
             'last_name'    => ['required'],

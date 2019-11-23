@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 $factory->define(App\Models\Ticket::class, function (Faker\Generator $faker) {
     return [
         'user_id' => function () {

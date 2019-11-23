@@ -61,10 +61,10 @@ class OrderRefund
                 $this->order->is_refunded = true;
                 // Order can't be both partially and fully refunded at the same time
                 $this->order->is_partially_refunded = false;
-                $this->order->order_status_id = config('attendize.order_refunded');
+                $this->order->order_status_id = config('attendize.order.refunded');
             } else {
                 $this->order->is_partially_refunded = true;
-                $this->order->order_status_id = config('attendize.order_partially_refunded');
+                $this->order->order_status_id = config('attendize.order.partially_refunded');
             }
 
             // Persist the order refund updates
