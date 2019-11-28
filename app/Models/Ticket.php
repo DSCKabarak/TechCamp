@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Attendize\PaymentUtils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
@@ -198,7 +199,7 @@ class Ticket extends MyBaseModel
      */
     public function getBookingFeeAttribute()
     {
-        return (int)ceil($this->price) === 0 ? 0 : round(
+        return PaymentUtils::isFree($this->price) ? 0 : round(
             ($this->price * (config('attendize.ticket_booking_fee_percentage') / 100)) + (config('attendize.ticket_booking_fee_fixed')),
             2
         );
@@ -211,7 +212,7 @@ class Ticket extends MyBaseModel
      */
     public function getOrganiserBookingFeeAttribute()
     {
-        return (int)ceil($this->price) === 0 ? 0 : round(
+        return PaymentUtils::isFree($this->price) ? 0 : round(
             ($this->price * ($this->event->organiser_fee_percentage / 100)) + ($this->event->organiser_fee_fixed),
             2
         );
@@ -240,7 +241,7 @@ class Ticket extends MyBaseModel
      */
     public function getIsFreeAttribute()
     {
-        return ceil($this->price) == 0;
+        return PaymentUtils::isFree($this->price);
     }
 
     /**

@@ -30,7 +30,7 @@
                         <tr>
                             <td class="pl0">{{{$ticket['ticket']['title']}}} X <b>{{$ticket['qty']}}</b></td>
                             <td style="text-align: right;">
-                                @if((int)ceil($ticket['full_price']) === 0)
+                                @isFree($ticket['full_price'])
                                 @lang("Public_ViewEvent.free")
                                 @else
                                 {{ money($ticket['full_price'], $event->currency) }}
@@ -66,11 +66,9 @@
         <div class="col-md-8 col-md-pull-4">
             <div class="row">
 
-                @if($order_requires_payment)
-                    @include('Public.ViewEvent.Partials.OfflinePayments')
-                @endif
-
-                @if(View::exists($payment_gateway['checkout_blade_template']))
+                @if(!$order_requires_payment)
+                    @include('Public.ViewEvent.Partials.PaymentFree')
+                @elseif(View::exists($payment_gateway['checkout_blade_template']) && $order_requires_payment)
                     @include($payment_gateway['checkout_blade_template'])
                 @endif
 
