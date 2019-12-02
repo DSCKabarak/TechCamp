@@ -1,12 +1,16 @@
 name: Attendize
 
 on:
+  pull_request:
+    types: [assigned, edited, opened, synchronize, reopened]
   push:
     branches:
       - next
+      - master
+      - v2*
 
 jobs:
-  laravel-tests:
+  laravel-build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
