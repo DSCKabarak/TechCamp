@@ -1,5 +1,5 @@
 <div role="dialog"  class="modal fade" style="display: none;">
-   {!! Form::open(array('url' => route('postMessageOrder', array('attendee_id' => $order->id)), 'class' => 'ajax reset closeModalAfter')) !!}
+   {!! Form::open(array('url' => route('postMessageOrder', array('event_id' => $event->id, 'attendee_id' => $order->id)), 'class' => 'ajax reset closeModalAfter')) !!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
