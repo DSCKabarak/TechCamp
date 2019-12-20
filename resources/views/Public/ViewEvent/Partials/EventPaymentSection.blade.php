@@ -66,11 +66,16 @@
         <div class="col-md-8 col-md-pull-4">
             <div class="row">
 
-                @if(!$order_requires_payment)
-                    @include('Public.ViewEvent.Partials.PaymentFree')
-                @elseif(View::exists($payment_gateway['checkout_blade_template']) && $order_requires_payment)
-                    @include($payment_gateway['checkout_blade_template'])
+                @if($order_requires_payment)
+                @include('Public.ViewEvent.Partials.OfflinePayments')
                 @endif
+                @if(View::exists($payment_gateway['checkout_blade_template']) && $order_requires_payment)
+                @include($payment_gateway['checkout_blade_template'])
+                @endif
+                @if(!$order_requires_payment)
+                @include('Public.ViewEvent.Partials.PaymentFree')
+                @endif
+
 
             </div>
         </div>
@@ -80,4 +85,3 @@
 @if(session()->get('message'))
 <script>showMessage('{{session()->get('message')}}');</script>
 @endif
-
