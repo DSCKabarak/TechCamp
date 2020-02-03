@@ -38,7 +38,7 @@ return array (
   'quantity' => 'Quantity',
   'recent_orders' => 'Recent Orders',
   'reference' => 'Reference',
-  'refund/cancel' => 'Refund / Cancel',
+  'refund/cancel' => 'Cancel',
   'registered' => 'registered',
   'search_placeholder' => 'Search Orders..',
   'status' => 'Status',
