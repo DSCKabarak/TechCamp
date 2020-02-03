@@ -12,7 +12,7 @@
     "type": "project",
     "homepage": "https://www.attendize.com",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "doctrine/dbal": "^2.9",
         "dompdf/dompdf": "^0.8",
         "ext-json": "*",
@@ -110,5 +110,5 @@
             ]
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
