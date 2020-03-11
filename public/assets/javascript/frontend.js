@@ -4603,18 +4603,21 @@ function log() {
             if (data.message) {
                 showMessage(data.message);
             }
+
             switch (data.status) {
                 case 'success':
-
                     if (data.redirectUrl) {
                         if (data.redirectData) {
                             $.redirectPost(data.redirectUrl, data.redirectData);
                         } else {
-                            document.location.href = data.redirectUrl;
+                            if (data.isEmbedded) {
+                                window.parent.location.href = data.redirectUrl;
+                            } else {
+                                document.location.href = data.redirectUrl;
+                            }
                         }
                     }
                     break;
-
                 case 'error':
                     if (data.messages) {
                         processFormErrors($form, data.messages);
@@ -4722,7 +4725,7 @@ $(function() {
     $('a').smoothScroll({
         offset: -60
     });
-    
+
     /* Scroll to top */
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {

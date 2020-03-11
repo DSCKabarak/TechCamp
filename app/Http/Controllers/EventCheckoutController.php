@@ -223,9 +223,9 @@ class EventCheckoutController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'status'      => 'success',
+                'isEmbedded' => $this->is_embedded,
                 'redirectUrl' => route('showEventCheckout', [
                         'event_id'    => $event_id,
-                        'is_embedded' => $this->is_embedded,
                     ]) . '#order_form',
             ]);
         }
