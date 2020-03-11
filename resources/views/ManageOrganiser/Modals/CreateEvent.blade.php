@@ -66,6 +66,7 @@
                             {!! Form::styledFile('event_image') !!}
 
                         </div>
+                        @if(!empty(config("attendize.google_maps_geocoding_key")))
                         <div class="form-group address-automatic">
                             {!! Form::label('name', trans("Event.venue_name"), array('class'=>'control-label required ')) !!}
                             {!!  Form::text('venue_name_full', old('venue_name_full'),
@@ -93,7 +94,6 @@
                             </div>
                             <!-- /These are populated with the Google places info-->
                         </div>
-
                         <div class="address-manual" style="display:none;">
                             <h5>
                                 @lang("Event.address_details")
@@ -142,7 +142,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <span>
                             <a data-clear-field=".location_field"
                                data-toggle-class=".address-automatic, .address-manual"
@@ -151,6 +150,56 @@
                             @lang("Event.or(manual/existing_venue)") <b>@lang("Event.enter_manual")</b>
                             </a>
                         </span>
+                        @else
+                        <div class="address-manual">
+                            <h5>
+                                @lang("Event.address_details")
+                            </h5>
+
+                            <div class="form-group">
+                                {!! Form::label('location_venue_name', trans("Event.venue_name"), array('class'=>'control-label required ')) !!}
+                                {!!  Form::text('location_venue_name', old('location_venue_name'), [
+                                        'class'=>'form-control location_field',
+                                        'placeholder'=>trans("Event.venue_name_placeholder")
+                                        ])  !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('location_address_line_1', trans("Event.address_line_1"), array('class'=>'control-label')) !!}
+                                {!!  Form::text('location_address_line_1', old('location_address_line_1'), [
+                                        'class'=>'form-control location_field',
+                                        'placeholder'=>trans("Event.address_line_1_placeholder")
+                                        ])  !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('location_address_line_2', trans("Event.address_line_2"), array('class'=>'control-label')) !!}
+                                {!!  Form::text('location_address_line_2', old('location_address_line_2'), [
+                                        'class'=>'form-control location_field',
+                                        'placeholder'=>trans("Event.address_line_2_placeholder")
+                                        ])  !!}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::label('location_state', trans("Event.city"), array('class'=>'control-label')) !!}
+                                        {!!  Form::text('location_state', old('location_state'), [
+                                                'class'=>'form-control location_field',
+                                                'placeholder'=>trans("Event.city_placeholder")
+                                                ])  !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::label('location_post_code', trans("Event.post_code"), array('class'=>'control-label')) !!}
+                                        {!!  Form::text('location_post_code', old('location_post_code'), [
+                                                'class'=>'form-control location_field',
+                                                'placeholder'=>trans("Event.post_code_placeholder")
+                                                ])  !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         @if($organiser_id)
                             {!! Form::hidden('organiser_id', $organiser_id) !!}
