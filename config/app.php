@@ -181,7 +181,6 @@ return [
         App\Providers\BladeServiceProvider::class,
         App\Providers\HtmlMacroServiceProvider::class,
         App\Providers\HelpersServiceProvider::class,
-        MaxHoffmann\Parsedown\ParsedownServiceProvider::class,
         Nitmedia\Wkhtml2pdf\L5Wkhtml2pdfServiceProvider::class,
 
     ],
@@ -236,7 +235,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
 
         // Attendize Class Alias
-        'Markdown'     => MaxHoffmann\Parsedown\ParsedownFacade::class,
+        'Markdown'     => GrahamCampbell\Markdown\Facades\Markdown::class,
         'PDF'          => Nitmedia\Wkhtml2pdf\Facades\Wkhtml2pdf::class,
         'Utils'        => App\Attendize\Utils::class,
 
