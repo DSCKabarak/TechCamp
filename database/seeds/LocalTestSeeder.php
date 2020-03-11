@@ -139,7 +139,7 @@ class LocalTestSeeder extends Seeder
         $this->out("<info>Attaching visible ticket to single attendee order</info>");
         $singleAttendeeOrder->tickets()->attach($visibleTicket);
 
-        $this->out("<info>Seeding single attendee order item/info>");
+        $this->out("<info>Seeding single attendee order item</info>");
         factory(OrderItem::class)->create([
             'title' => $visibleTicket->title,
             'quantity' => 1,
@@ -284,7 +284,7 @@ class LocalTestSeeder extends Seeder
         $this->out("<info>Attaching visible ticket to single attendee order</info>");
         $singleAttendeeOrder->tickets()->attach($visibleTicket);
 
-        $this->out("<info>Seeding single attendee order item/info>");
+        $this->out("<info>Seeding single attendee order item</info>");
         factory(OrderItem::class)->create([
             'title' => $visibleTicket->title,
             'quantity' => 1,
@@ -411,7 +411,7 @@ class LocalTestSeeder extends Seeder
         $this->out("<info>Attaching ticket with percentage fee to single attendee order</info>");
         $singleAttendeeOrder->tickets()->attach($ticketWithPercentageFee);
 
-        $this->out("<info>Seeding single attendee order item/info>");
+        $this->out("<info>Seeding single attendee order item</info>");
         factory(OrderItem::class)->create([
             'title' => $ticketWithPercentageFee->title,
             'quantity' => 1,
