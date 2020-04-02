@@ -470,8 +470,13 @@ function processFormErrors($form, errors)
     $.each(errors, function (index, error) {
         var $input = $('input[name^="' + index + '"]', $form);
 
+        // Fix for description wysiwyg form elements
+        if (index === 'description') {
+            $input = $('.CodeMirror', $form)
+        }
+
         // Try and render a better error message for checkboxes in a table
-        if (index.indexOf('[]')) {
+        if (index.indexOf('[]') > -1) {
             var $formCombinedErrors = $input.closest('form').find('.form-errors');
             // $input.addClass('has-error');
             if ($formCombinedErrors.is(':visible') === false) {
