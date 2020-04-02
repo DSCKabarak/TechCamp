@@ -138,7 +138,7 @@
                         @lang("Public_ViewEvent.order_awaiting_payment")
                     </div>
                     <div class="offline_payment_instructions well">
-                        {!! Markdown::parse($event->offline_payment_instructions) !!}
+                        {!! Markdown::convertToHtml($event->offline_payment_instructions) !!}
                     </div>
 
                     @endif

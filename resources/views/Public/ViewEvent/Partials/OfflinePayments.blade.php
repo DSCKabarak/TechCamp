@@ -17,7 +17,7 @@
 <div class="offline_payment" style="display: none;">
     <h5>@lang("Public_ViewEvent.offline_payment_instructions")</h5>
     <div class="well">
-        {!! Markdown::parse($event->offline_payment_instructions) !!}
+        {!! Markdown::convertToHtml($event->offline_payment_instructions) !!}
     </div>
     <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="Complete Order">
 </div>
