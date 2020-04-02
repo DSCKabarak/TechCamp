@@ -15,9 +15,11 @@
             </div>
             <div class="modal-body">
                 @if($attendees->count())
+                    @if ($order->is_payment_received)
                     <div class="alert alert-warning">
                         @lang("ManageEvent.cancelling_order_will_refund_attendees", ['type' => 'order'])
                     </div>
+                    @endif
                     <div class="form-errors hidden"></div>
                     <div class="help-block">
                         @lang("ManageEvent.select_attendee_to_cancel")
