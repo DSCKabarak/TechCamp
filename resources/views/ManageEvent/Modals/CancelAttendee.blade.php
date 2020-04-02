@@ -9,9 +9,11 @@
                     {{ @trans("ManageEvent.cancel_attendee_title", ["cancel" => $attendee->full_name]) }}</h3>
             </div>
             <div class="modal-body">
+                @if ($attendee->order->is_payment_received)
                 <div class="alert alert-warning">
                     @lang("ManageEvent.cancelling_order_will_refund_attendees", ['type' => 'attendee'])
                 </div>
+                @endif
                 <p>
                     {{ @trans("ManageEvent.cancel_description") }}
                 </p>
