@@ -19,4 +19,14 @@ class OrderItem extends MyBaseModel
      * @var bool $timestamps
      */
     public $timestamps = false;
+
+    /**
+     * @var array $fillable
+     */
+    protected $fillable = [
+        'title',
+        'quantity',
+        'order_id',
+        'unit_price',
+    ];
 }

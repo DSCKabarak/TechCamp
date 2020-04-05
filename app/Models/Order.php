@@ -26,6 +26,20 @@ class Order extends MyBaseModel
     ];
 
     /**
+     * @var array $fillable
+     */
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'order_status_id',
+        'amount',
+        'account_id',
+        'event_id',
+        'taxamt',
+    ];
+
+    /**
      * The validation error messages.
      *
      * @var array $messages
