@@ -171,7 +171,6 @@ class EventAttendeesController extends MyBaseController
             $ticket = Ticket::scope()->find($ticket_id);
             $ticket->increment('quantity_sold');
             $ticket->increment('sales_volume', $ticket_price);
-            $ticket->event->increment('sales_volume', $ticket_price);
 
             /*
              * Insert order item
