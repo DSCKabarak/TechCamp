@@ -7,6 +7,8 @@ return array (
   //============================== New strings to translate ==============================//
   'scan_another_ticket' => 'Scan Another Ticket',
   'scanning' => 'Scanning',
+  'has_arrived' => 'Has Arrived',
+  'arrival_time' => 'Arrival Time',
   //==================================== Translations ====================================//
   'attendees' => 'Attendees',
   'check_in' => 'Check in: :event',

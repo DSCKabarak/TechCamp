@@ -2,15 +2,16 @@
 
 namespace App\Exports;
 
-use App\Models\Order;
+use App\Models\Attendee;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Auth;
 use DB;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
 
-class OrdersExport implements FromQuery, WithHeadings, WithEvents
+class AttendeesExport implements FromQuery, WithHeadings, WithEvents
 {
     use Exportable;
 
@@ -26,19 +27,22 @@ class OrdersExport implements FromQuery, WithHeadings, WithEvents
     {
         $yes = strtoupper(trans("basic.yes"));
         $no = strtoupper(trans("basic.no"));
-
-        $query = Order::query()->where('event_id', $this->event_id);
-        $query->select([
-            'orders.first_name',
-            'orders.last_name',
-            'orders.email',
+        $query = Attendee::query()->select([
+            'attendees.first_name',
+            'attendees.last_name',
+            'attendees.email',
+            'attendees.private_reference_number',
             'orders.order_reference',
-            'orders.amount',
-            DB::raw("(CASE WHEN orders.is_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_refunded`"),
-            DB::raw("(CASE WHEN orders.is_partially_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_partially_refunded`"),
-            'orders.amount_refunded',
+            'tickets.title',
             'orders.created_at',
-        ]);
+            DB::raw("(CASE WHEN attendees.has_arrived THEN '$yes' ELSE '$no' END) AS has_arrived"),
+            'attendees.arrival_time',
+        ])->join('events', 'events.id', '=', 'attendees.event_id')
+            ->join('orders', 'orders.id', '=', 'attendees.order_id')
+            ->join('tickets', 'tickets.id', '=', 'attendees.ticket_id')
+            ->where('attendees.event_id', $this->event_id)
+            ->where('attendees.account_id', Auth::user()->account_id)
+            ->where('attendees.is_cancelled', false);
 
         return $query;
     }
@@ -49,12 +53,12 @@ class OrdersExport implements FromQuery, WithHeadings, WithEvents
             trans("Attendee.first_name"),
             trans("Attendee.last_name"),
             trans("Attendee.email"),
+            trans("Ticket.id"),
             trans("Order.order_ref"),
-            trans("Order.amount"),
-            trans("Order.fully_refunded"),
-            trans("Order.partially_refunded"),
-            trans("Order.amount_refunded"),
+            trans("Ticket.ticket_type"),
             trans("Order.order_date"),
+            trans("Attendee.has_arrived"),
+            trans("Attendee.arrival_time"),
         ];
     }
 
