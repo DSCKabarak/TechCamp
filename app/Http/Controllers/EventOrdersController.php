@@ -2,6 +2,7 @@
 
 use App\Cancellation\OrderCancellation;
 use App\Cancellation\OrderRefundException;
+use App\Exports\OrdersExport;
 use App\Jobs\SendOrderTickets;
 use App\Models\Attendee;
 use App\Models\Event;
@@ -248,61 +249,8 @@ class EventOrdersController extends MyBaseController
     public function showExportOrders($event_id, $export_as = 'xls')
     {
         $event = Event::scope()->findOrFail($event_id);
-
-        Excel::create('orders-as-of-' . date('d-m-Y-g.i.a'), function ($excel) use ($event) {
-
-            $excel->setTitle('Orders For Event: ' . $event->title);
-
-            // Chain the setters
-            $excel->setCreator(config('attendize.app_name'))
-                ->setCompany(config('attendize.app_name'));
-
-            $excel->sheet('orders_sheet_1', function ($sheet) use ($event) {
-
-                $yes = strtoupper(trans("basic.yes"));
-                $no = strtoupper(trans("basic.no"));
-                $orderRows = DB::table('orders')
-                    ->where('orders.event_id', '=', $event->id)
-                    ->where('orders.event_id', '=', $event->id)
-                    ->select([
-                        'orders.first_name',
-                        'orders.last_name',
-                        'orders.email',
-                        'orders.order_reference',
-                        'orders.amount',
-                        \DB::raw("(CASE WHEN orders.is_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_refunded`"),
-                        \DB::raw("(CASE WHEN orders.is_partially_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_partially_refunded`"),
-                        'orders.amount_refunded',
-                        'orders.created_at',
-                    ])->get();
-
-                $exportedOrders = $orderRows->toArray();
-
-                array_walk($exportedOrders, function(&$value) {
-                    $value = (array)$value;
-                });
-
-                $sheet->fromArray($exportedOrders);
-
-                // Add headings to first row
-                $sheet->row(1, [
-                    trans("Attendee.first_name"),
-                    trans("Attendee.last_name"),
-                    trans("Attendee.email"),
-                    trans("Order.order_ref"),
-                    trans("Order.amount"),
-                    trans("Order.fully_refunded"),
-                    trans("Order.partially_refunded"),
-                    trans("Order.amount_refunded"),
-                    trans("Order.order_date"),
-                ]);
-
-                // Set gray background on first row
-                $sheet->row(1, function ($row) {
-                    $row->setBackground('#f5f5f5');
-                });
-            });
-        })->export($export_as);
+        $date = date('d-m-Y-g.i.a');
+        return (new OrdersExport($event->id))->download("orders-as-of-{$date}.{$export_as}");
     }
 
     /**

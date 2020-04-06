@@ -197,7 +197,7 @@
                     {!! Form::close() !!}
                 </div>
                 <div class="tab-pane scale_iframe" id="OrganiserPageDesign">
-                    {!! Form::model($organiser, array('url' => route('postEditOrganiserPageDesign', ['event_id' => $organiser->id]), 'class' => 'ajax ')) !!}
+                    {!! Form::model($organiser, array('url' => route('postEditOrganiserPageDesign', ['organiser_id' => $organiser->id]), 'class' => 'ajax ')) !!}
 
                     <div class="row">
 
