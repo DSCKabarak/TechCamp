@@ -3,36 +3,21 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
+use Superbalist\Money\Money;
 use URL;
 
+/**
+ * @property int start_date
+ */
 class Event extends MyBaseModel
 {
     use SoftDeletes;
 
     protected $dates = ['start_date', 'end_date', 'on_sale_date'];
-
-    /**
-     * The validation rules.
-     *
-     * @return array $rules
-     */
-    public function rules()
-    {
-        $format = config('attendize.default_datetime_format');
-        return [
-                'title'               => 'required',
-                'description'         => 'required',
-                'location_venue_name' => 'required_without:venue_name_full',
-                'venue_name_full'     => 'required_without:location_venue_name',
-                'start_date'          => 'required|date_format:"'.$format.'"',
-                'end_date'            => 'required|date_format:"'.$format.'"',
-                'organiser_name'      => 'required_without:organiser_id',
-                'event_image'         => 'mimes:jpeg,jpg,png|max:3000',
-            ];
-    }
-
     /**
      * The validation error messages.
      *
@@ -48,43 +33,53 @@ class Event extends MyBaseModel
     ];
 
     /**
+     * The validation rules.
+     *
+     * @return array $rules
+     */
+    public function rules()
+    {
+        $format = config('attendize.default_datetime_format');
+        return [
+            'title'               => 'required',
+            'description'         => 'required',
+            'location_venue_name' => 'required_without:venue_name_full',
+            'venue_name_full'     => 'required_without:location_venue_name',
+            'start_date'          => 'required|date_format:"' . $format . '"',
+            'end_date'            => 'required|date_format:"' . $format . '"',
+            'organiser_name'      => 'required_without:organiser_id',
+            'event_image'         => 'nullable|mimes:jpeg,jpg,png|max:3000',
+        ];
+    }
+
+    /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question');
+        return $this->belongsToMany(Question::class, 'event_question');
     }
 
     /**
      * The questions associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function questions_with_trashed()
     {
-        return $this->belongsToMany(\App\Models\Question::class, 'event_question')->withTrashed();
-    }
-
-    /**
-     * The attendees associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function attendees()
-    {
-        return $this->hasMany(\App\Models\Attendee::class);
+        return $this->belongsToMany(Question::class, 'event_question')->withTrashed();
     }
 
     /**
      * The images associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function images()
     {
-        return $this->hasMany(\App\Models\EventImage::class);
+        return $this->hasMany(EventImage::class);
     }
 
     /**
@@ -94,57 +89,37 @@ class Event extends MyBaseModel
      */
     public function messages()
     {
-        return $this->hasMany(\App\Models\Message::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Message::class)->orderBy('created_at', 'DESC');
     }
 
     /**
      * The tickets associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tickets()
     {
-        return $this->hasMany(\App\Models\Ticket::class);
-    }
-
-    /**
-     * The stats associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function stats()
-    {
-        return $this->hasMany(\App\Models\EventStats::class);
+        return $this->hasMany(Ticket::class);
     }
 
     /**
      * The affiliates associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function affiliates()
     {
-        return $this->hasMany(\App\Models\Affiliate::class);
+        return $this->hasMany(Affiliate::class);
     }
 
     /**
      * The orders associated with the event.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function orders()
     {
-        return $this->hasMany(\App\Models\Order::class);
-    }
-
-    /**
-     * The access codes associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function access_codes()
-    {
-        return $this->hasMany(\App\Models\EventAccessCodes::class, 'event_id', 'id');
+        return $this->hasMany(Order::class);
     }
 
     /**
@@ -154,17 +129,7 @@ class Event extends MyBaseModel
      */
     public function account()
     {
-        return $this->belongsTo(\App\Models\Account::class);
-    }
-
-    /**
-     * The currency associated with the event.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function currency()
-    {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Account::class);
     }
 
     /**
@@ -174,7 +139,7 @@ class Event extends MyBaseModel
      */
     public function organiser()
     {
-        return $this->belongsTo(\App\Models\Organiser::class);
+        return $this->belongsTo(Organiser::class);
     }
 
     /**
@@ -184,7 +149,7 @@ class Event extends MyBaseModel
      */
     public function getEmbedUrlAttribute()
     {
-        return str_replace(['http:', 'https:'], '', route('showEmbeddedEventPage', ['event' => $this->id]));
+        return str_replace(['http:', 'https:'], '', route('showEmbeddedEventPage', ['event_id' => $this->id]));
     }
 
     /**
@@ -210,12 +175,17 @@ class Event extends MyBaseModel
     /**
      * Parse start_date to a Carbon instance
      *
-     * @param string $date DateTime
+     * @param  string  $date  DateTime
      */
     public function setStartDateAttribute($date)
     {
         $format = config('attendize.default_datetime_format');
-        $this->attributes['start_date'] = Carbon::createFromFormat($format, $date);
+
+        if ($date instanceof Carbon) {
+            $this->attributes['start_date'] = $date->format($format);
+        } else {
+            $this->attributes['start_date'] = Carbon::createFromFormat($format, $date);
+        }
     }
 
     /**
@@ -230,12 +200,17 @@ class Event extends MyBaseModel
     /**
      * Parse end_date to a Carbon instance
      *
-     * @param string $date DateTime
+     * @param  string  $date  DateTime
      */
     public function setEndDateAttribute($date)
     {
         $format = config('attendize.default_datetime_format');
-        $this->attributes['end_date'] = Carbon::createFromFormat($format, $date);
+
+        if ($date instanceof Carbon) {
+            $this->attributes['end_date'] = $date->format($format);
+        } else {
+            $this->attributes['end_date'] = Carbon::createFromFormat($format, $date);
+        }
     }
 
     /**
@@ -316,6 +291,16 @@ class Event extends MyBaseModel
     }
 
     /**
+     * The attendees associated with the event.
+     *
+     * @return HasMany
+     */
+    public function attendees()
+    {
+        return $this->hasMany(Attendee::class);
+    }
+
+    /**
      * Get the embed html code.
      *
      * @return string
@@ -352,17 +337,6 @@ class Event extends MyBaseModel
     public function getBgImageUrlAttribute()
     {
         return URL::to('/') . '/' . $this->bg_image_path;
-    }
-
-    /**
-     * Get the url of the event.
-     *
-     * @return string
-     */
-    public function getEventUrlAttribute()
-    {
-        return route("showEventPage", ["event_id"=>$this->id, "event_slug"=>Str::slug($this->title)]);
-        //return URL::to('/') . '/e/' . $this->id . '/' . Str::slug($this->title);
     }
 
     /**
@@ -414,11 +388,110 @@ ICSTemplate;
     }
 
     /**
-     * @param integer $accessCodeId
+     * Get the url of the event.
+     *
+     * @return string
+     */
+    public function getEventUrlAttribute()
+    {
+        return route("showEventPage", ["event_id" => $this->id, "event_slug" => Str::slug($this->title)]);
+        //return URL::to('/') . '/e/' . $this->id . '/' . Str::slug($this->title);
+    }
+
+    /**
+     * @param  integer  $accessCodeId
      * @return bool
      */
     public function hasAccessCode($accessCodeId)
     {
         return (is_null($this->access_codes()->where('id', $accessCodeId)->first()) === false);
+    }
+
+    /**
+     * The access codes associated with the event.
+     *
+     * @return HasMany
+     */
+    public function access_codes()
+    {
+        return $this->hasMany(EventAccessCodes::class, 'event_id', 'id');
+    }
+
+    /**
+     * @return Money
+     */
+    public function getEventRevenueAmount()
+    {
+        $currency = $this->getEventCurrency();
+
+        $eventRevenue = $this->stats()->get()->reduce(function ($eventRevenue, $statsEntry) use ($currency) {
+            $salesVolume = (new Money($statsEntry->sales_volume, $currency));
+            $organiserFeesVolume = (new Money($statsEntry->organiser_fees_volume, $currency));
+
+            return (new Money($eventRevenue, $currency))->add($salesVolume)->add($organiserFeesVolume);
+        });
+
+        return (new Money($eventRevenue, $currency));
+    }
+
+    /**
+     * @return \Superbalist\Money\Currency
+     */
+    private function getEventCurrency()
+    {
+        // Get the event currency
+        $eventCurrency = $this->currency()->first();
+
+        // Setup the currency on the event for transformation
+        $currency = new \Superbalist\Money\Currency(
+            $eventCurrency->code,
+            empty($eventCurrency->symbol_left) ? $eventCurrency->symbol_right : $eventCurrency->symbol_left,
+            $eventCurrency->title,
+            !empty($eventCurrency->symbol_left)
+        );
+        return $currency;
+    }
+
+    /**
+     * The currency associated with the event.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * The stats associated with the event.
+     *
+     * @return HasMany
+     */
+    public function stats()
+    {
+        return $this->hasMany(EventStats::class);
+    }
+
+    /**
+     * Calculates the event organiser fee from both the fixed and percentage values based on the ticket
+     * price
+     *
+     * return Money
+     */
+    public function getOrganiserFee(Money $ticketPrice)
+    {
+        $currency = $this->getEventCurrency();
+        $calculatedBookingFee = new Money('0', $currency);
+
+        // Fixed event organiser fees can be added without worry, defaults to zero
+        $eventOrganiserFeeFixed = new Money($this->organiser_fee_fixed, $currency);
+        $calculatedBookingFee = $calculatedBookingFee->add($eventOrganiserFeeFixed);
+
+        // We have to calculate the event organiser fee percentage from the ticket price
+        $eventOrganiserFeePercentage = new Money($this->organiser_fee_percentage, $currency);
+        $percentageFeeValue = $ticketPrice->multiply($eventOrganiserFeePercentage)->divide(100);
+        $calculatedBookingFee = $calculatedBookingFee->add($percentageFeeValue);
+
+        return $calculatedBookingFee;
     }
 }

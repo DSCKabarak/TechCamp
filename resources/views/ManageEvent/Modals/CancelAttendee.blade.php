@@ -9,6 +9,11 @@
                     {{ @trans("ManageEvent.cancel_attendee_title", ["cancel" => $attendee->full_name]) }}</h3>
             </div>
             <div class="modal-body">
+                @if ($attendee->order->is_payment_received)
+                <div class="alert alert-warning">
+                    @lang("ManageEvent.cancelling_order_will_refund_attendees", ['type' => 'attendee'])
+                </div>
+                @endif
                 <p>
                     {{ @trans("ManageEvent.cancel_description") }}
                 </p>
@@ -23,14 +28,6 @@
                         <label for="notify_attendee">{{ @trans("ManageEvent.cancel_notify", [ "name" => $attendee->full_name]) }}</label>
                     </div>
                 </div>
-                @if(config('attendize.default_payment_gateway') == config('attendize.payment_gateway_stripe'))
-                    <div class="form-group">
-                            <div class="checkbox custom-checkbox">
-                                <input type="checkbox" name="refund_attendee" id="refund_attendee" value="1">
-                                <label for="refund_attendee">{{ @trans("ManageEvent.cancel_refund_user", ["name"=>$attendee->full_name]) }}</label>
-                            </div>
-                    </div>
-                @endif
             </div> <!-- /end modal body-->
             <div class="modal-footer">
                {!! Form::hidden('attendee_id', $attendee->id) !!}

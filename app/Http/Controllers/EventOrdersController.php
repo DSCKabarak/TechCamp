@@ -1,27 +1,24 @@
-<?php
+<?php namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
-
+use App\Cancellation\OrderCancellation;
+use App\Cancellation\OrderRefundException;
+use App\Exports\OrdersExport;
 use App\Jobs\SendOrderTickets;
 use App\Models\Attendee;
 use App\Models\Event;
-use App\Models\EventStats;
 use App\Models\Order;
-use App\Models\PaymentGateway;
 use App\Services\Order as OrderService;
-use Services\PaymentGateway\Factory as PaymentGatewayFactory;
 use DB;
 use Excel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Log;
 use Mail;
-use Omnipay;
+use Session;
 use Validator;
 
 class EventOrdersController extends MyBaseController
 {
-
     /**
      * Show event orders page
      *
@@ -188,7 +185,7 @@ class EventOrdersController extends MyBaseController
         $order->update();
 
 
-        \Session::flash('message', trans("Controllers.the_order_has_been_updated"));
+        Session::flash('message', trans("Controllers.the_order_has_been_updated"));
 
         return response()->json([
             'status'      => 'success',
@@ -196,8 +193,8 @@ class EventOrdersController extends MyBaseController
         ]);
     }
 
-
     /**
+     * Cancels attendees in an order
      * @param Request $request
      * @param $order_id
      * @return \Illuminate\Http\JsonResponse
@@ -205,14 +202,11 @@ class EventOrdersController extends MyBaseController
      */
     public function postCancelOrder(Request $request, $order_id)
     {
-        $rules = [
-            'refund_amount' => ['numeric'],
-        ];
-        $messages = [
-            'refund_amount.integer' => trans("Controllers.refund_only_numbers_error"),
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator = Validator::make(
+            $request->all(),
+            ['attendees' => 'required'],
+            ['attendees.required' => trans('Controllers.attendees_required')]
+        );
 
         if ($validator->fails()) {
             return response()->json([
@@ -221,112 +215,27 @@ class EventOrdersController extends MyBaseController
             ]);
         }
 
+        /** @var Order $order */
         $order = Order::scope()->findOrFail($order_id);
+        /** @var Collection $attendees */
+        $attendees = Attendee::findFromSelection($request->get('attendees'));
 
-        $refund_order = ($request->get('refund_order') === 'on') ? true : false;
-        $refund_type = $request->get('refund_type');
-        $refund_amount = round(floatval($request->get('refund_amount')), 2);
-        $attendees = $request->get('attendees');
-        $error_message = false;
-
-        if ($refund_order && $order->payment_gateway->can_refund) {
-            if (!$order->transaction_id) {
-                $error_message = trans("Controllers.order_cant_be_refunded");
-            }
-
-            if ($order->is_refunded) {
-                $error_message = trans("Controllers.order_already_refunded");
-            } elseif ($order->organiser_amount == 0) {
-                $error_message = trans("Controllers.nothing_to_refund");
-            } elseif ($refund_type !== 'full' && $refund_amount > round(($order->organiser_amount - $order->amount_refunded),
-                    2)
-            ) {
-                $error_message = trans("Controllers.maximum_refund_amount", ["money"=>(money($order->organiser_amount - $order->amount_refunded,
-                        $order->event->currency))]);
-            }
-            if (!$error_message) {
-
-                try {
-
-                    $payment_gateway_config = $order->account->getGateway($order->payment_gateway->id)->config + [
-                            'testMode' => config('attendize.enable_test_payments')];
-
-                    $payment_gateway_factory = new PaymentGatewayFactory();
-                    $gateway = $payment_gateway_factory->create($order->payment_gateway->name, $payment_gateway_config);
-
-                    if ($refund_type === 'full') { /* Full refund */
-                        $refund_amount = $order->organiser_amount - $order->amount_refunded;
-                    }
-
-                    $refund_application_fee = floatval($order->booking_fee) > 0 ? true : false;
-                    $response = $gateway->refundTransaction($order, $refund_amount, $refund_application_fee);
-
-                    if ($response['successful']) {
-                        /* Update the event sales volume*/
-                        $order->event->decrement('sales_volume', $refund_amount);
-                        $order->amount_refunded = round(($order->amount_refunded + $refund_amount), 2);
-
-                        if (($order->organiser_amount - $order->amount_refunded) == 0) {
-                            $order->is_refunded = 1;
-                            $order->order_status_id = config('attendize.order_refunded');
-                        } else {
-                            $order->is_partially_refunded = 1;
-                            $order->order_status_id = config('attendize.order_partially_refunded');
-                        }
-                    } else {
-                        $error_message = $response['error_message'];
-                    }
-
-                    $order->save();
-
-                } catch (\Exeption $e) {
-                    Log::error($e);
-                    $error_message = trans("Controllers.refund_exception");
-                }
-            }
-
-            if ($error_message) {
-                return response()->json([
-                    'status'  => 'success',
-                    'message' => $error_message,
-                ]);
-            }
+        try {
+            // Cancels attendees for an order and attempts to refund
+            OrderCancellation::make($order, $attendees)->cancel();
+        } catch (OrderRefundException $e) {
+            Log::error($e);
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ]);
         }
 
-        /*
-         * Cancel the attendees
-         */
-        if ($attendees) {
-            foreach ($attendees as $attendee_id) {
-                $attendee = Attendee::scope()->where('id', '=', $attendee_id)->first();
-                $attendee->ticket->decrement('quantity_sold');
-                $attendee->ticket->decrement('sales_volume', $attendee->ticket->price);
-                $order->event->decrement('sales_volume', $attendee->ticket->price);
-                $order->decrement('amount', $attendee->ticket->price);
-                $attendee->is_cancelled = 1;
-                $attendee->save();
-
-                $eventStats = EventStats::where('event_id', $attendee->event_id)->where('date', $attendee->created_at->format('Y-m-d'))->first();
-                if($eventStats){
-                    $eventStats->decrement('tickets_sold',  1);
-                    $eventStats->decrement('sales_volume',  $attendee->ticket->price);
-                }
-            }
-        }
-        if(!$refund_amount && !$attendees)
-            $msg = trans("Controllers.nothing_to_do");
-        else {
-            if($attendees && $refund_order)
-                $msg = trans("Controllers.successfully_refunded_and_cancelled");
-            else if($refund_order)
-                $msg = trans("Controllers.successfully_refunded_order");
-            else if($attendees)
-                $msg = trans("Controllers.successfully_cancelled_attendees");
-        }
-        \Session::flash('message', $msg);
+        // Done
+        Session::flash('message', trans("Controllers.successfully_refunded_and_cancelled"));
 
         return response()->json([
-            'status'      => 'success',
+            'status' => 'success',
             'redirectUrl' => '',
         ]);
     }
@@ -340,61 +249,8 @@ class EventOrdersController extends MyBaseController
     public function showExportOrders($event_id, $export_as = 'xls')
     {
         $event = Event::scope()->findOrFail($event_id);
-
-        Excel::create('orders-as-of-' . date('d-m-Y-g.i.a'), function ($excel) use ($event) {
-
-            $excel->setTitle('Orders For Event: ' . $event->title);
-
-            // Chain the setters
-            $excel->setCreator(config('attendize.app_name'))
-                ->setCompany(config('attendize.app_name'));
-
-            $excel->sheet('orders_sheet_1', function ($sheet) use ($event) {
-
-                $yes = strtoupper(trans("basic.yes"));
-                $no = strtoupper(trans("basic.no"));
-                $orderRows = DB::table('orders')
-                    ->where('orders.event_id', '=', $event->id)
-                    ->where('orders.event_id', '=', $event->id)
-                    ->select([
-                        'orders.first_name',
-                        'orders.last_name',
-                        'orders.email',
-                        'orders.order_reference',
-                        'orders.amount',
-                        \DB::raw("(CASE WHEN orders.is_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_refunded`"),
-                        \DB::raw("(CASE WHEN orders.is_partially_refunded = 1 THEN '$yes' ELSE '$no' END) AS `orders.is_partially_refunded`"),
-                        'orders.amount_refunded',
-                        'orders.created_at',
-                    ])->get();
-
-                $exportedOrders = $orderRows->toArray();
-
-                array_walk($exportedOrders, function(&$value) {
-                    $value = (array)$value;
-                });
-
-                $sheet->fromArray($exportedOrders);
-
-                // Add headings to first row
-                $sheet->row(1, [
-                    trans("Attendee.first_name"),
-                    trans("Attendee.last_name"),
-                    trans("Attendee.email"),
-                    trans("Order.order_ref"),
-                    trans("Order.amount"),
-                    trans("Order.fully_refunded"),
-                    trans("Order.partially_refunded"),
-                    trans("Order.amount_refunded"),
-                    trans("Order.order_date"),
-                ]);
-
-                // Set gray background on first row
-                $sheet->row(1, function ($row) {
-                    $row->setBackground('#f5f5f5');
-                });
-            });
-        })->export($export_as);
+        $date = date('d-m-Y-g.i.a');
+        return (new OrdersExport($event->id))->download("orders-as-of-{$date}.{$export_as}");
     }
 
     /**

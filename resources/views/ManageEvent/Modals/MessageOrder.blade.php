@@ -1,5 +1,5 @@
 <div role="dialog"  class="modal fade" style="display: none;">
-   {!! Form::open(array('url' => route('postMessageOrder', array('attendee_id' => $order->id)), 'class' => 'ajax reset closeModalAfter')) !!}
+   {!! Form::open(array('url' => route('postMessageOrder', array('event_id' => $event->id, 'attendee_id' => $order->id)), 'class' => 'ajax reset closeModalAfter')) !!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -18,7 +18,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('subject',  trans("Message.subject"), array('class'=>'control-label required')) !!}
-                            {!!  Form::text('subject', Input::old('subject'),
+                            {!!  Form::text('subject', old('subject'),
                                         array(
                                         'class'=>'form-control'
                                         ))  !!}
@@ -26,7 +26,7 @@
 
                         <div class="form-group">
                             {!! Form::label('message', trans("Message.content"), array('class'=>'control-label required')) !!}
-                            {!!  Form::textarea('message', Input::old('message'),
+                            {!!  Form::textarea('message', old('message'),
                                         array(
                                         'class'=>'form-control',
                                         'rows' => '5'

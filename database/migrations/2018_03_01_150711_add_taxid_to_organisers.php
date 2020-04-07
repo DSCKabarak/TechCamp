@@ -13,7 +13,7 @@ class AddTaxidToOrganisers extends Migration
     public function up()
     {
         Schema::table('organisers', function($table) {
-            $table->string('taxid',100);
+            $table->string('taxid', 100)->default('');
         });
     }
 

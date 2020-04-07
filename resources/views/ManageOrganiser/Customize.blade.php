@@ -63,7 +63,7 @@
                         {!! Form::label('enable_organiser_page', trans("Organiser.enable_public_organiser_page"), array('class'=>'control-label required')) !!}
                         {!!  Form::select('enable_organiser_page', [
                         '1' => trans("Organiser.make_organiser_public"),
-                        '0' => trans("Organiser.make_organiser_hidden")],Input::old('enable_organiser_page'),
+                        '0' => trans("Organiser.make_organiser_hidden")],old('enable_organiser_page'),
                                                     array(
                                                     'class'=>'form-control'
                                                     ))  !!}
@@ -73,14 +73,14 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('name', trans("Organiser.organiser_name"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('name', Input::old('name'),
+                        {!!  Form::text('name', old('name'),
                                                 array(
                                                 'class'=>'form-control'
                                                 ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('email', trans("Organiser.organiser_email"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('email', Input::old('email'),
+                        {!!  Form::text('email', old('email'),
                                                 array(
                                                 'class'=>'form-control ',
                                                 'placeholder'=>trans("Organiser.organiser_email_placeholder")
@@ -88,7 +88,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('about', trans("Organiser.organiser_description"), array('class'=>'control-label ')) !!}
-                        {!!  Form::textarea('about', Input::old('about'),
+                        {!!  Form::textarea('about', old('about'),
                                                 array(
                                                 'class'=>'form-control ',
                                                 'placeholder'=>trans("Organiser.organiser_description_placeholder"),
@@ -108,29 +108,29 @@
                         <div id="tax_fields">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID')) !!}
+                                    {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label')) !!}
+                                    {!! Form::text('tax_id', old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID')) !!}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name')) !!}
+                                    {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label')) !!}
+                                    {!! Form::text('tax_name', old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name')) !!}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value')) !!}
+                                    {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label')) !!}
+                                    {!! Form::text('tax_value', old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value')) !!}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         {!! Form::label('google_analytics_code', trans("Organiser.google_analytics_code"), array('class'=>'control-label')) !!}
-                        {!!  Form::text('google_analytics_code', Input::old('google_analytics_code'),
+                        {!!  Form::text('google_analytics_code', old('google_analytics_code'),
                                                 array(
                                                 'class'=>'form-control',
                                                 'placeholder' => trans("Organiser.google_analytics_code_placeholder"),
@@ -139,7 +139,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('google_tag_manager_code', trans("Organiser.google_tag_manager_code"), ['class'=>'control-label']) !!}
-                        {!!  Form::text('google_tag_manager_code', Input::old('google_tag_manager_code'), [
+                        {!!  Form::text('google_tag_manager_code', old('google_tag_manager_code'), [
                                 'class'=>'form-control',
                                 'placeholder' => trans("Organiser.google_tag_manager_code_placeholder"),
                             ])
@@ -152,7 +152,7 @@
 
                                 <div class="input-group">
                                     <span style="background-color: #eee;" class="input-group-addon">facebook.com/</span>
-                                    {!!  Form::text('facebook', Input::old('facebook'),
+                                    {!!  Form::text('facebook', old('facebook'),
                                                     array(
                                                     'class'=>'form-control ',
                                                     'placeholder'=> trans("Organiser.organiser_username_facebook_placeholder")
@@ -166,7 +166,7 @@
 
                                 <div class="input-group">
                                     <span style="background-color: #eee;" class="input-group-addon">twitter.com/</span>
-                                    {!!  Form::text('twitter', Input::old('twitter'),
+                                    {!!  Form::text('twitter', old('twitter'),
                                              array(
                                              'class'=>'form-control ',
                                                     'placeholder'=> trans("Organiser.organiser_username_twitter_placeholder")
@@ -180,7 +180,7 @@
                             {!! Form::label('current_logo', trans("Organiser.current_logo"), array('class'=>'control-label ')) !!}
 
                             <div class="thumbnail">
-                                {!!HTML::image($organiser->logo_path)!!}
+                                {!!Html::image($organiser->logo_path)!!}
                                 {!! Form::label('remove_current_image', trans("Organiser.delete_logo?"), array('class'=>'control-label ')) !!}
                                 {!! Form::checkbox('remove_current_image') !!}
                             </div>
@@ -197,7 +197,7 @@
                     {!! Form::close() !!}
                 </div>
                 <div class="tab-pane scale_iframe" id="OrganiserPageDesign">
-                    {!! Form::model($organiser, array('url' => route('postEditOrganiserPageDesign', ['event_id' => $organiser->id]), 'class' => 'ajax ')) !!}
+                    {!! Form::model($organiser, array('url' => route('postEditOrganiserPageDesign', ['organiser_id' => $organiser->id]), 'class' => 'ajax ')) !!}
 
                     <div class="row">
 
@@ -206,7 +206,7 @@
 
                             <div class="form-group">
                                 {!! Form::label('page_header_bg_color', trans("Organiser.header_background_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'page_header_bg_color', Input::old('page_header_bg_color'),
+                                {!!  Form::input('text', 'page_header_bg_color', old('page_header_bg_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#000000'
@@ -214,7 +214,7 @@
                             </div>
                             <div class="form-group">
                                 {!! Form::label('page_text_color', trans("Organiser.text_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'page_text_color', Input::old('page_text_color'),
+                                {!!  Form::input('text', 'page_text_color', old('page_text_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#FFFFFF'
@@ -222,7 +222,7 @@
                             </div>
                             <div class="form-group">
                                 {!! Form::label('page_bg_color', trans("Organiser.background_color"), ['class'=>'control-label required ']) !!}
-                                {!!  Form::input('text', 'page_bg_color', Input::old('page_bg_color'),
+                                {!!  Form::input('text', 'page_bg_color', old('page_bg_color'),
                                                             [
                                                             'class'=>'form-control colorpicker',
                                                             'placeholder'=>'#EEEEEE'

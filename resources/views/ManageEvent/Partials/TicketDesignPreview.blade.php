@@ -1,4 +1,4 @@
-{!! HTML::style(asset('assets/stylesheet/ticket.css')) !!}
+{!! Html::style(asset('assets/stylesheet/ticket.css')) !!}
 <style>
     .ticket {
         border: 1px solid {{$event->ticket_border_color}};
@@ -15,7 +15,7 @@
 </style>
 <div class="ticket">
     <div class="logo">
-        {!! HTML::image(asset($image_path)) !!}
+        {!! Html::image(asset($image_path)) !!}
     </div>
 
     <div class="layout_even">

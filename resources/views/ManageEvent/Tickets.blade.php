@@ -146,10 +146,9 @@
                                 </li>
                                 <li>
                                     <div class="section">
-                                        <h4 class="nm hint--top"
-                                            title="{{money($ticket->sales_volume, $event->currency)}} + {{money($ticket->organiser_fees_volume, $event->currency)}} @lang("Order.organiser_booking_fees")">
-                                            {{money($ticket->sales_volume + $ticket->organiser_fees_volume, $event->currency)}}
-                                            <sub title="@lang("Ticket.doesnt_account_for_refunds").">*</sub>
+                                        <h4 class="nm hint--top">
+                                            {{-- Sales revenue + organiser fees - Partial Refunds --}}
+                                            {{ $ticket->getTicketRevenueAmount()->display() }}
                                         </h4>
                                         <p class="nm text-muted">@lang("Ticket.revenue")</p>
                                     </div>

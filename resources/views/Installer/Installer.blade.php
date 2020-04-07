@@ -25,7 +25,7 @@
             <div class="panel">
                 <div class="panel-body">
                     <div class="logo">
-                        {!!HTML::image('assets/images/logo-dark.png')!!}
+                        {!!Html::image('assets/images/logo-dark.png')!!}
                     </div>
 
                     <h1>@lang("Installer.setup")</h1>
@@ -102,7 +102,7 @@
 
                     <div class="form-group">
                         {!! Form::label('app_url', trans("Installer.application_url"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('app_url', Input::old('app_url'),
+                        {!!  Form::text('app_url', old('app_url'),
                                     array(
                                     'class'=>'form-control',
                                     'placeholder' => 'http://www.myticketsite.com'
@@ -117,7 +117,7 @@
                         {!!  Form::select('database_type', array(
                                   'mysql' => "MySQL",
                                   'pgsql' => "Postgres",
-                                    ), Input::old('database_type'),
+                                    ), old('database_type'),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -187,7 +187,8 @@
                                 });
                             });
                         </script>
-                        <a href="{{route('postInstaller',['test' => 'db'])}}" class="test_db">
+
+                        <a href="{{route('postInstaller',['test' => 'db'])}}" class="test_db btn-block btn btn-success" style="color: white; font-weight: 300;">
                             @lang("Installer.test_database_connection")
                         </a>
                     </div>
@@ -229,7 +230,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_encryption', trans("Installer.mail_encryption"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_encryption', Input::old('mail_encryption'),
+                        {!!  Form::text('mail_encryption', old('mail_encryption'),
                                     array(
                                     'class'=>'form-control',
                                     'placeholder' => "tls/ssl"
@@ -244,14 +245,14 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_username', trans("Installer.mail_username"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_username', Input::old('mail_username'),
+                        {!!  Form::text('mail_username', old('mail_username'),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_password', trans("Installer.mail_password"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_password', Input::old('mail_password'),
+                        {!!  Form::text('mail_password', old('mail_password'),
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}

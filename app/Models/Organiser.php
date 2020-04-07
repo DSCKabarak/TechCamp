@@ -19,13 +19,13 @@ class Organiser extends MyBaseModel implements AuthenticatableContract
     protected $rules = [
         'name'           => ['required'],
         'email'          => ['required', 'email'],
-        'organiser_logo' => ['mimes:jpeg,jpg,png', 'max:10000'],
+        'organiser_logo' => ['nullable', 'mimes:jpeg,jpg,png', 'max:10000'],
     ];
 
     protected $extra_rules = [
-        'tax_name'        => ['required','max:15'],
-        'tax_value'       => ['required','numeric'],
-        'tax_id'          => ['required','max:100'],
+        'tax_name'        => ['nullable', 'max:15'],
+        'tax_value'       => ['nullable', 'numeric'],
+        'tax_id'          => ['nullable', 'max:100'],
     ];
 
     /**
@@ -128,6 +128,11 @@ class Organiser extends MyBaseModel implements AuthenticatableContract
         return $this->events->sum('sales_volume');
     }
 
+    public function getTicketsSold()
+    {
+        return $this->attendees()->where('is_cancelled', false)->count();
+    }
+
     /**
      * TODO:implement DailyStats method
      */
@@ -143,7 +148,7 @@ class Organiser extends MyBaseModel implements AuthenticatableContract
      */
     public function setLogo(UploadedFile $file)
     {
-        $filename = str_slug($this->name).'-logo-'.$this->id.'.'.strtolower($file->getClientOriginalExtension());
+        $filename = Str::slug($this->name).'-logo-'.$this->id.'.'.strtolower($file->getClientOriginalExtension());
 
         // Image Directory
         $imageDirectory = public_path() . '/' . config('attendize.organiser_images_path');
@@ -172,7 +177,7 @@ class Organiser extends MyBaseModel implements AuthenticatableContract
      * Adds extra validator rules to the organiser object depending on whether tax is required or not
      */
     public function addExtraValidationRules() {
-        $this->rules = $this->rules + $this->extra_rules;
+        $this->rules = array_merge($this->rules, $this->extra_rules);
     }
 }
 

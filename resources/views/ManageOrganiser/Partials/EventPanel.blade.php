@@ -11,7 +11,7 @@
         <ul class="event-meta">
             <li class="event-title">
                 <a title="{{{$event->title}}}" href="{{route('showEventDashboard', ['event_id'=>$event->id])}}">
-                    {{{ str_limit($event->title, $limit = 75, $end = '...') }}}
+                    {{{ Str::limit($event->title, $limit = 75, $end = '...') }}}
                 </a>
             </li>
             <li class="event-organiser">
@@ -25,14 +25,14 @@
         <ul class="nav nav-section nav-justified mt5 mb5">
             <li>
                 <div class="section">
-                    <h4 class="nm">{{$event->tickets->sum('quantity_sold')}}</h4>
+                    <h4 class="nm">{{ $event->tickets->sum('quantity_sold') }}</h4>
                     <p class="nm text-muted">@lang("Event.tickets_sold")</p>
                 </div>
             </li>
 
             <li>
                 <div class="section">
-                    <h4 class="nm">{{{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}}</h4>
+                    <h4 class="nm">{{ $event->getEventRevenueAmount()->display() }}</h4>
                     <p class="nm text-muted">@lang("Event.revenue")</p>
                 </div>
             </li>

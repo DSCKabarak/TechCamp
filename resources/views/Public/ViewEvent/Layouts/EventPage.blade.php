@@ -26,7 +26,7 @@
         @if($event->images->count())
         <meta property="og:image" content="{{config('attendize.cdn_url_user_assets').'/'.$event->images->first()['image_path']}}" />
         @endif
-        <meta property="og:description" content="{{Str::words(strip_tags(Markdown::parse($event->description))), 20}}" />
+        <meta property="og:description" content="{{Str::words(strip_tags(Markdown::convertToHtml($event->description))), 20}}" />
         <meta property="og:site_name" content="Attendize.com" />
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -34,7 +34,7 @@
         <![endif]-->
         @yield('head')
 
-       {!!HTML::style(config('attendize.cdn_url_static_assets').'/assets/stylesheet/frontend.css')!!}
+       {!!Html::style(config('attendize.cdn_url_static_assets').'/assets/stylesheet/frontend.css')!!}
 
         <!--Bootstrap placeholder fix-->
         <style>
@@ -62,14 +62,14 @@
             }
 
         </style>
-        @if ($event->bg_type == 'color' || Input::get('bg_color_preview'))
-            <style>body {background-color: {{(Input::get('bg_color_preview') ? '#'.Input::get('bg_color_preview') : $event->bg_color)}} !important; }</style>
+        @if ($event->bg_type == 'color' || Request::input('bg_color_preview'))
+            <style>body {background-color: {{(Request::input('bg_color_preview') ? '#'.Request::input('bg_color_preview') : $event->bg_color)}} !important; }</style>
         @endif
 
-        @if (($event->bg_type == 'image' || $event->bg_type == 'custom_image' || Input::get('bg_img_preview')) && !Input::get('bg_color_preview'))
+        @if (($event->bg_type == 'image' || $event->bg_type == 'custom_image' || Request::input('bg_img_preview')) && !Request::input('bg_color_preview'))
             <style>
                 body {
-                    background: url({{(Input::get('bg_img_preview') ? URL::to(Input::get('bg_img_preview')) :  asset(config('attendize.cdn_url_static_assets').'/'.$event->bg_image_path))}}) no-repeat center center fixed;
+                    background: url({{(Request::input('bg_img_preview') ? URL::to(Request::input('bg_img_preview')) :  asset(config('attendize.cdn_url_static_assets').'/'.$event->bg_image_path))}}) no-repeat center center fixed;
                     background-size: cover;
                 }
             </style>
@@ -91,7 +91,7 @@
             <span style="font-size:11px;">@lang("basic.TOP")</span></a>
 
         @include("Shared.Partials.LangScript")
-        {!!HTML::script(config('attendize.cdn_url_static_assets').'/assets/javascript/frontend.js')!!}
+        {!!Html::script(config('attendize.cdn_url_static_assets').'/assets/javascript/frontend.js')!!}
 
 
         @if(isset($secondsToExpire))

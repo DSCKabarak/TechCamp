@@ -4,8 +4,7 @@
         border: none !important;
         font-size: 30px;
         text-align: center;
-        margin: 0;
-        margin-bottom: 30px;
+        margin: 0 0 30px;
         letter-spacing: .2em;
         font-weight: 200;
     }
@@ -139,7 +138,7 @@
                         @lang("Public_ViewEvent.order_awaiting_payment")
                     </div>
                     <div class="offline_payment_instructions well">
-                        {!! Markdown::parse($event->offline_payment_instructions) !!}
+                        {!! Markdown::convertToHtml($event->offline_payment_instructions) !!}
                     </div>
 
                     @endif
@@ -179,28 +178,28 @@
                                         {{$order_item->quantity}}
                                     </td>
                                     <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
+                                        @isFree($order_item->unit_price)
                                             @lang("Public_ViewEvent.free")
                                         @else
-                                       {{money($order_item->unit_price, $order->event->currency)}}
+                                            {{money($order_item->unit_price, $order->event->currency)}}
                                         @endif
                                     </td>
                                     <td>
-                                        @if ((int)ceil($order_item->unit_booking_fee) > 0)
-                                            @if((int)ceil($order_item->unit_price) == 0)
-                                            -
+                                        @requiresPayment($order_item->unit_booking_fee)
+                                            @requiresPayment($order_item->unit_price)
+                                                {{money($order_item->unit_booking_fee, $order->event->currency)}}
                                             @else
-                                            {{money($order_item->unit_booking_fee, $order->event->currency)}}
+                                                -
                                             @endif
                                         @else
                                             -
                                         @endif
                                     </td>
                                     <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
+                                        @isFree($order_item->unit_price)
                                             @lang("Public_ViewEvent.free")
                                         @else
-                                        {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
+                                            {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
                                         @endif
 
                                     </td>

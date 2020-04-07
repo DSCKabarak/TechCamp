@@ -1,12 +1,16 @@
 name: Attendize
 
 on:
+  pull_request:
+    types: [assigned, edited, opened, synchronize, reopened]
   push:
     branches:
       - next
+      - master
+      - v2*
 
 jobs:
-  laravel-tests:
+  laravel-build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -14,6 +18,8 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+    - name: Debug dependency versions
+      run: php -v && composer -V
     - name: Generate key
       run: php artisan key:generate
     - name: Create Database
@@ -24,4 +30,4 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit -c phpunit.xml

@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('title', trans("Event.event_title"), array('class'=>'control-label required')) !!}
-            {!!  Form::text('title', Input::old('title'),
+            {!!  Form::text('title', old('title'),
                                         array(
                                         'class'=>'form-control',
                                         'placeholder'=>trans("Event.event_title_placeholder", ["name"=>Auth::user()->first_name])
@@ -28,7 +28,7 @@
 
         <div class="form-group">
            {!! Form::label('description', trans("Event.event_description"), array('class'=>'control-label')) !!}
-            {!!  Form::textarea('description', Input::old('description'),
+            {!!  Form::textarea('description', old('description'),
                                         array(
                                         'class'=>'form-control editable',
                                         'rows' => 5
@@ -37,7 +37,7 @@
 
         <div class="form-group address-automatic" style="display:{{$event->location_is_manual ? 'none' : 'block'}};">
             {!! Form::label('name', trans("Event.venue_name"), array('class'=>'control-label required ')) !!}
-            {!!  Form::text('venue_name_full', Input::old('venue_name_full'),
+            {!!  Form::text('venue_name_full', old('venue_name_full'),
                                         array(
                                         'class'=>'form-control geocomplete location_field',
                                         'placeholder'=>trans("Event.venue_name_placeholder")//'E.g: The Crab Shack'
@@ -166,7 +166,7 @@
                                 'left' => trans("Event.event_image_position_left"),
                                 'right' => trans("Event.event_image_position_right"),
                             ],
-                            Input::old('event_image_position'),
+                            old('event_image_position'),
                             ['class'=>'form-control']
                         ) !!}
                     </div>
@@ -184,7 +184,7 @@
                 <div class="float-l">
                     @if($event->images->count())
                     <div class="thumbnail">
-                       {!!HTML::image('/'.$event->images->first()['image_path'])!!}
+                       {!!Html::image('/'.$event->images->first()['image_path'])!!}
                     </div>
                     @endif
                 </div>
@@ -194,7 +194,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::label('google_tag_manager_code', trans("Organiser.google_tag_manager_code"), ['class'=>'control-label']) !!}
-                    {!!  Form::text('google_tag_manager_code', Input::old('google_tag_manager_code'), [
+                    {!!  Form::text('google_tag_manager_code', old('google_tag_manager_code'), [
                             'class'=>'form-control',
                             'placeholder' => trans("Organiser.google_tag_manager_code_placeholder"),
                         ])

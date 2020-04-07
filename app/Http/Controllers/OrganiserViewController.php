@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendize\Utils;
 use App\Models\Organiser;
 use Auth;
-use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class OrganiserViewController extends Controller
@@ -14,12 +14,13 @@ class OrganiserViewController extends Controller
      * Show the public organiser page
      *
      * @param $organiser_id
-     * @param string $slug
-     * @param bool $preview
-     * @return \Illuminate\Contracts\View\View
+     * @param  string  $slug
+     * @param  bool  $preview
+     * @return View
      */
     public function showOrganiserHome(Request $request, $organiser_id, $slug = '', $preview = false)
     {
+        /** @var Organiser $organiser */
         $organiser = Organiser::findOrFail($organiser_id);
 
         if (!$organiser->enable_organiser_page && !Utils::userOwns($organiser)) {
@@ -38,8 +39,15 @@ class OrganiserViewController extends Controller
             $organiser->page_text_color = $preview_styles['page_text_color'];
         }
 
-        $upcoming_events = $organiser->events()->where('end_date', '>=', Carbon::now())->get();
-        $past_events = $organiser->events()->where('end_date', '<', Carbon::now())->limit(10)->get();
+        $upcoming_events = $organiser->events()->where([
+            ['end_date', '>=', now()],
+            ['is_live', 1]
+        ])->get();
+
+        $past_events = $organiser->events()->where([
+            ['end_date', '<', now()],
+            ['is_live', 1]
+        ])->limit(10)->get();
 
         $data = [
             'organiser'       => $organiser,
@@ -60,6 +68,6 @@ class OrganiserViewController extends Controller
      */
     public function showEventHomePreview($event_id)
     {
-        return showEventHome($event_id, true);
+        return (new EventViewController)->showEventHome($event_id, true);
     }
 }

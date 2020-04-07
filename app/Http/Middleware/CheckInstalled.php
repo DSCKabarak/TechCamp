@@ -1,19 +1,20 @@
 <?php
 
-namespace app\Http\Middleware;
+namespace App\Http\Middleware;
 
 use App\Attendize\Utils;
 use App\Models\Account;
 use Closure;
-use Redirect;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckInstalled
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param Request $request
+     * @param Closure $next
      *
      * @return mixed
      */
@@ -22,7 +23,7 @@ class CheckInstalled
         /*
          * Check if the 'installed' file has been created
          */
-        if (!file_exists(base_path('installed')) && !Utils::isAttendize()) {
+        if (!Utils::isAttendize() && !Utils::installed()) {
             return Redirect::to('install');
         }
 
@@ -33,8 +34,6 @@ class CheckInstalled
             return redirect()->to('signup');
         }
 
-        $response = $next($request);
-
-        return $response;
+        return $next($request);
     }
 }
