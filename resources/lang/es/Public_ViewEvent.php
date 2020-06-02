@@ -75,4 +75,6 @@ return [
     'your_information'                  => 'Tu información',
     'your_message'                      => 'Tu mensaje',
     'your_name'                         => 'Tu nombre',
+    'stripe_credit_or_debit_card'       => 'Carta de crédito o débito',
+    'complete_payment'                  => 'Completar el pago',
 ];

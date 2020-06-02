@@ -168,7 +168,7 @@
                             @endif
                             <tr>
                                 <td colspan="3"></td>
-                                <td><strong>Total</strong></td>
+                                <td><strong>@lang("Order.total")</strong></td>
                                 <td colspan="2">{{ $order->getOrderAmount()->add($order->getOrderTaxAmount())->format() }}</td>
                             </tr>
                             </tbody>

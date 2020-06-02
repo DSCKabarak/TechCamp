@@ -2,57 +2,27 @@ version: '3.2'
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile-nginx
-    env_file:
-      - ./.env
+    image: attendize_web:latest
     ports:
     - "8080:80"
     - "8081:443"
-    networks:
-      - attendizenet
     volumes:
-      - .:/usr/share/nginx/html/attendize
+      - .:/usr/share/nginx/html
+      - .:/var/www
     depends_on:
-      - php
-  php:
-    build:
-      context: .
-      dockerfile: Dockerfile-php
-    env_file:
-      - ./.env
+      - db
+      - maildev
+      - redis
+      - worker
+  worker:
+    image: attendize_worker:latest
     depends_on:
       - db
       - maildev
       - redis
     volumes:
-      - .:/usr/share/nginx/html/attendize
-    networks: 
-      - attendizenet
-  composer:
-    build:
-      context: .
-      dockerfile: Dockerfile-composer
-    depends_on:
-      - php
-    volumes:
-      - .:/usr/share/nginx/html/attendize
-    networks:
-      - attendizenet
-  php-worker:
-    build:
-      context: .
-      dockerfile: Dockerfile-php
-    depends_on:
-      - db
-      - maildev
-      - redis
-    volumes:
-      - .:/usr/share/nginx/html/attendize
-    command: php artisan queue:work --daemon
-    networks:
-      - attendizenet
+      - .:/usr/share/nginx/html
+      - .:/var/www
   db:
     image: mysql:5.7.23
     restart: always
@@ -68,22 +38,12 @@ services:
       - "3306:3306"
     volumes:
       - "mysql-data:/var/lib/mysql"
-    networks:
-    - attendizenet
   maildev:
     image: djfarrelly/maildev
     ports:
       - "1080:80"
-    networks:
-      - attendizenet
   redis:
     image: redis
-    networks:
-      - attendizenet
-
-networks:
-  attendizenet:
-    driver: bridge
 
 volumes:
     mysql-data:

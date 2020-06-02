@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
 use Services\PaymentGateway\Dummy;
 use Services\PaymentGateway\Stripe;
 use Services\PaymentGateway\StripeSCA;
+use Utils;
 
 class ManageAccountController extends MyBaseController
 {
@@ -53,11 +54,12 @@ class ManageAccountController extends MyBaseController
 
         try {
             $http_client = new Client();
-
-            $response = $http_client->get('https://attendize.com/version.php');
-            $latestVersion = (string) $response->getBody();
+            $response = $http_client->get('https://raw.githubusercontent.com/Attendize/Attendize/master/VERSION');
+            $latestVersion = Utils::parse_version((string)$response->getBody());
             $installedVersion = file_get_contents(base_path('VERSION'));
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
+            \Log::warn("Error retrieving the latest Attendize version. ManageAccountController.getVersionInf() try/catch");
+            \Log::warn($exception);
             return false;
         }
 
@@ -65,7 +67,7 @@ class ManageAccountController extends MyBaseController
             return [
                 'latest'      => $latestVersion,
                 'installed'   => $installedVersion,
-                'is_outdated' => version_compare($installedVersion, $latestVersion) === -1,
+                'is_outdated' => (version_compare($installedVersion, $latestVersion) === -1) ? true : false,
             ];
         }
 

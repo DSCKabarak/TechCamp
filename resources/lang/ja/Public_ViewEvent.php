@@ -75,5 +75,7 @@ return [
     'your_information'                  => 'あなたの情報',
     'your_message'                      => 'あなたのメッセージ',
     'your_name'                         => 'あなたの名前',
-    'your'                              => 'あなたの'
+    'your'                              => 'あなたの',
+    'stripe_credit_or_debit_card'       => 'クレジットカードまたはデビットカード',
+    'complete_payment'                  => '支払いを完了する',
 ];

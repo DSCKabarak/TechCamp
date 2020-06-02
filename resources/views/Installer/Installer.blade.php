@@ -102,7 +102,7 @@
 
                     <div class="form-group">
                         {!! Form::label('app_url', trans("Installer.application_url"), array('class'=>'required control-label ')) !!}
-                        {!!  Form::text('app_url', old('app_url'),
+                        {!!  Form::text('app_url', $default_config['application_url'],
                                     array(
                                     'class'=>'form-control',
                                     'placeholder' => 'http://www.myticketsite.com'
@@ -117,7 +117,7 @@
                         {!!  Form::select('database_type', array(
                                   'mysql' => "MySQL",
                                   'pgsql' => "Postgres",
-                                    ), old('database_type'),
+                                    ), $default_config['database_type'],
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -125,7 +125,7 @@
 
                     <div class="form-group">
                         {!! Form::label('database_host', trans("Installer.database_host"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_host', $value = env("DB_HOST") ,
+                        {!!  Form::text('database_host', $value = $default_config['database_host'] ,
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>''
@@ -135,7 +135,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('database_name', trans("Installer.database_name"), array('class'=>'required control-label required')) !!}
-                        {!!  Form::text('database_name', $value = env("DB_DATABASE") ,
+                        {!!  Form::text('database_name', $value = $default_config['database_name'] ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
@@ -143,7 +143,7 @@
 
                     <div class="form-group">
                         {!! Form::label('database_username', trans("Installer.database_username"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_username', $value = env("DB_USERNAME"),
+                        {!!  Form::text('database_username', $value = $default_config['database_username'],
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
@@ -151,7 +151,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('database_password', trans("Installer.database_password"), array('class'=>'control-label required')) !!}
-                        {!!  Form::text('database_password', $value = env("DB_PASSWORD"),
+                        {!!  Form::text('database_password', $value = $default_config['database_password'],
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder'=>'',
@@ -197,40 +197,40 @@
 
                     <div class="form-group">
                         {!! Form::label('mail_from_address', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_address', $value = env("MAIL_FROM_ADDRESS") ,
+                        {!!  Form::text('mail_from_address', $value = $default_config['mail_from_address'] ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_from_name', trans("Installer.mail_from_name"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_from_name', $value = env("MAIL_FROM_NAME") ,
+                        {!!  Form::text('mail_from_name', $value = $default_config['mail_from_name'] ,
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('mail_driver', trans("Installer.mail_from_address"), array('class'=>' control-label required')) !!}
-                        {!!  Form::text('mail_driver', $value = env("MAIL_DRIVER"),
+                        {!! Form::label('mail_driver', trans("Installer.mail_driver"), array('class'=>' control-label required')) !!}
+                        {!!  Form::text('mail_driver', $value = $default_config['mail_driver'],
                                     array(
                                     'class'=>'form-control ',
                                     'placeholder' => 'mail'
                                     ))  !!}
                         <div class="help-block">
-                           {!! @trans("Installer.mail_from_help") !!}
+                           {!! @trans("Installer.mail_driver_help") !!}
                         </div>
                     </div>
 
                     <div class="form-group">
                         {!! Form::label('mail_port', trans("Installer.mail_port"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_port', $value = env("MAIL_PORT"),
+                        {!!  Form::text('mail_port', $value = $default_config['mail_port'],
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_encryption', trans("Installer.mail_encryption"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_encryption', old('mail_encryption'),
+                        {!!  Form::text('mail_encryption', $default_config['mail_encryption'],
                                     array(
                                     'class'=>'form-control',
                                     'placeholder' => "tls/ssl"
@@ -238,21 +238,21 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_host', trans("Installer.mail_host"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_host', $value = env("MAIL_HOST"),
+                        {!!  Form::text('mail_host', $value = $default_config['mail_host'],
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_username', trans("Installer.mail_username"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_username', old('mail_username'),
+                        {!!  Form::text('mail_username', $default_config['mail_username'],
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('mail_password', trans("Installer.mail_password"), array('class'=>' control-label ')) !!}
-                        {!!  Form::text('mail_password', old('mail_password'),
+                        {!!  Form::text('mail_password', $default_config['mail_password'],
                                     array(
                                     'class'=>'form-control'
                                     ))  !!}

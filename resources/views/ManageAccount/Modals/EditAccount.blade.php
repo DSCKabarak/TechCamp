@@ -144,10 +144,12 @@
                                     @lang("ManageAccount.version_info")
                                 </h4>
                                 <p>
-                                    @if($version_info['is_outdated'])
+                                    @if(is_array($version_info) && $version_info['is_outdated'])
                                         @lang("ManageAccount.version_out_of_date", ["installed" => $version_info['installed'], "latest"=> $version_info['latest'], "url"=>"https://attendize.com/documentation.php#download"]).
-                                    @else
+                                    @elseif(is_array($version_info))
                                         @lang("ManageAccount.version_up_to_date", ["installed" => $version_info['installed']])
+                                    @else
+                                        Error retrieving the latest Attendize version.
                                     @endif
                                 </p>
                                 <h4>

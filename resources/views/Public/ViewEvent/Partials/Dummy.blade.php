@@ -40,7 +40,7 @@
 
         {!! Form::token() !!}
 
-        <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="Complete Payment">
+        <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="@lang("Public_ViewEvent.complete_payment")">
     </div>
 </form>
 

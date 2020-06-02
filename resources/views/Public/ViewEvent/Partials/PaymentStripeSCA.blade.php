@@ -1,7 +1,7 @@
 <form class="online_payment" action="<?php echo route('postCreateOrder', ['event_id' => $event->id]); ?>" method="post" id="stripe-sca-payment-form">
     <div class="form-row">
         <label for="card-element">
-            Credit or debit card
+            @lang("Public_ViewEvent.stripe_credit_or_debit_card")
         </label>
         <div id="card-element">
 
@@ -11,7 +11,7 @@
     </div>
     {!! Form::token() !!}
 
-    <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="Complete Payment">
+    <input class="btn btn-lg btn-success card-submit" style="width:100%;" type="submit" value="@lang("Public_ViewEvent.complete_payment")">
 
 </form>
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>

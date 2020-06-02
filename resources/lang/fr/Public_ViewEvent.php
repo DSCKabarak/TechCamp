@@ -80,4 +80,6 @@ return array (
   'your_message' => 'Votre message',
   'your_name' => 'Votre nom',
   'your' => 'Vos',
+  'stripe_credit_or_debit_card' => 'Carte de crédit ou de débit',
+  'complete_payment' => 'Effectuer le paiement',
 );

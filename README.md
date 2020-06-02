@@ -44,7 +44,7 @@ Demo Back-end Demo: http://attendize.website/signup<br />
  - Elegant dashboard for easy management.
 
 ## Contributing
-Feel free to fork and contribute. If you are unsure about adding a feature create a Github issue to ask for Feedback. Read the [contribution guidelines](CONTRIBUTING.md)
+Feel free to fork and contribute. If you are unsure about adding a feature, create a Github issue to ask for Feedback. Read the [contribution guidelines](CONTRIBUTING.md)
 
 ## Submitting an issue
 If you encounter a bug in Attendize, please first search the list of current open [Issues on the GitHub repository](https://github.com/Attendize/Attendize/issues). You may add additional feedback on an existing bug report. If the issue you're having has not yet been reported, please open a new issue. There is a template available for new issues. Please fill out all information requested in the template so we can help you more easily.

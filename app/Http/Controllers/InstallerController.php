@@ -56,6 +56,24 @@ class InstallerController extends Controller
             'pdo_mysql',
             'pdo_pgsql',
         ];
+
+        $database_default = Config::get('database.default');
+        $this->data['default_config'] = [
+            'application_url'   => Config::get('app.url'),
+            'database_type'     => $database_default,
+            'database_host'     => Config::get('database.connections.' . $database_default . '.host'),
+            'database_name'     => Config::get('database.connections.' . $database_default . '.database'),
+            'database_username' => Config::get('database.connections.' . $database_default . '.username'),
+            'database_password' => Config::get('database.connections.' . $database_default . '.password'),
+            'mail_from_address' => Config::get('mail.from.address'),
+            'mail_from_name'    => Config::get('mail.from.name'),
+            'mail_driver'       => Config::get('mail.driver'),
+            'mail_port'         => Config::get('mail.port'),
+            'mail_encryption'   => Config::get('mail.encryption'),
+            'mail_host'         => Config::get('mail.host'),
+            'mail_username'     => Config::get('mail.username'),
+            'mail_password'     => Config::get('mail.password')
+        ];
     }
 
     /**
@@ -75,7 +93,6 @@ class InstallerController extends Controller
         if (file_exists(base_path('installed'))) {
             return view('Installer.AlreadyInstalled', $this->data);
         }
-
 
         return view('Installer.Installer', $this->data);
     }

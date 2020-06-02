@@ -76,5 +76,7 @@ return [
   'your_information' => 'Uw information',
   'your_message' => 'Uw bericht',
   'your_name' => 'Uw naam',
-  'your' => 'Uw'
+  'your' => 'Uw',
+  'stripe_credit_or_debit_card' => 'Creditcard of bankpas',
+  'complete_payment' => 'Voltooi de betaling',
 ];
