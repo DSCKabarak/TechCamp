@@ -67,6 +67,7 @@ return array (
   'image_upload_error' => 'There was a problem uploading your image.',
   'invalid_ticket_error' => '"Invalid Ticket! Please try again."',
   'login_password_incorrect' => 'Your username/password combination was incorrect',
+  'incorrect_captcha' => 'Robot verification failed, please try again.',
   'maximum_refund_amount' => 'The maximum amount you can refund is :money',
   'message_successfully_sent' => 'Message Successfully Sent!',
   'new_order_received' => 'New order received on the event :event [:order]',

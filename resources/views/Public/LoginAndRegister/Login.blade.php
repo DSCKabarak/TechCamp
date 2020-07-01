@@ -3,7 +3,7 @@
 @section('title', trans("User.login"))
 
 @section('content')
-    {!! Form::open(array('url' => route("login"))) !!}
+    {!! Form::open(['url' => route("login"), 'id' => 'login-form']) !!}
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel">
@@ -28,8 +28,11 @@
                         (<a class="forgotPassword" href="{{route('forgotPassword')}}" tabindex="-1">@lang("User.forgot_password?")</a>)
                         {!! Form::password('password',  ['class' => 'form-control']) !!}
                     </div>
+
+                    @include('Public.LoginAndRegister.Partials.CaptchaSection')
+
                     <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-success">@lang("User.login")</button>
+                        <p><input class="btn btn-block btn-success" type="submit" value="@lang('User.login')"></p>
                     </div>
 
                     @if(Utils::isAttendize())

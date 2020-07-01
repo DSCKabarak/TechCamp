@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-7 col-md-offset-2">
-            {!! Form::open(array('url' => route("showSignup"), 'class' => 'panel')) !!}
+            {!! Form::open(['url' => route("showSignup"), 'class' => 'panel', 'id' => 'signup-form']) !!}
             <div class="panel-body">
                 <div class="logo">
                    {!! Html::image('assets/images/logo-dark.png') !!}
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group {{ ($errors->has('last_name')) ? 'has-error' : '' }}">
-                            {!! Form::label('last_name', trans("User.last_name"), ['class' => 'control-label']) !!}
+                            {!! Form::label('last_name', trans("User.last_name"), ['class' => 'control-label required']) !!}
                             {!! Form::text('last_name', null, ['class' => 'form-control']) !!}
                             @if($errors->has('last_name'))
                                 <p class="help-block">{{ $errors->first('last_name') }}</p>
@@ -63,7 +63,7 @@
                     @endif
                 </div>
 
-                @if(Utils::isAttendize())
+                @if(Utils::isAttendizeCloud())
                 <div class="form-group {{ ($errors->has('terms_agreed')) ? 'has-error' : '' }}">
                     <div class="checkbox custom-checkbox">
                         {!! Form::checkbox('terms_agreed', old('terms_agreed'), false, ['id' => 'terms_agreed']) !!}
@@ -75,12 +75,14 @@
                 </div>
                 @endif
 
-                <div class="form-group ">
-                   {!! Form::submit(trans("User.sign_up"), array('class'=>"btn btn-block btn-success")) !!}
+                @include('Public.LoginAndRegister.Partials.CaptchaSection')
+
+                <div class="form-group">
+                    <p><input class="btn btn-block btn-success" type="submit" value="@lang('User.sign_up')"></p>
                 </div>
-                    <div class="signup">
-                        <span>{!! @trans("User.already_have_account", ["url"=>route("login")]) !!}</span>
-                    </div>
+                <div class="signup">
+                    <span>{!! @trans("User.already_have_account", ["url"=>route("login")]) !!}</span>
+                </div>
             </div>
             {!! Form::close() !!}
         </div>

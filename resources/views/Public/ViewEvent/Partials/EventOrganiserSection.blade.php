@@ -33,7 +33,7 @@
                     </button>
                 </p>
                 <div class="contact_form well well-sm">
-                    {!! Form::open(array('url' => route('postContactOrganiser', array('event_id' => $event->id)), 'class' => 'reset ajax')) !!}
+                    {!! Form::open(['url' => route('postContactOrganiser', ['event_id' => $event->id]), 'class' => 'reset ajax', 'id' => 'contact-form']) !!}
                     <h3>@lang("Public_ViewEvent.Contact") <i>{{$event->organiser->name}}</i></h3>
                     <div class="form-group">
                         {!! Form::label(trans("Public_ViewEvent.your_name")) !!}
@@ -59,9 +59,10 @@
                                   'placeholder'=>trans("Public_ViewEvent.your_message"))) !!}
                     </div>
 
+                    @include('Public.LoginAndRegister.Partials.CaptchaSection')
+
                     <div class="form-group">
-                        {!! Form::submit(trans("Public_ViewEvent.send_message_submit"),
-                          array('class'=>'btn btn-primary')) !!}
+                        <p><input class="btn btn-primary" type="submit" value="@lang('Public_ViewEvent.send_message_submit')"></p>
                     </div>
                 </div>
                 {!! Form::close() !!}

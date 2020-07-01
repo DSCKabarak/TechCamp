@@ -6,12 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
 use View;
+use Services\Captcha\Factory;
 
 class UserLoginController extends Controller
 {
 
+    protected $captchaService;
+
     public function __construct()
     {
+        $captchaConfig = config('attendize.captcha');
+        if ($captchaConfig["captcha_is_on"]) {
+            $this->captchaService = Factory::create($captchaConfig);
+        }
+
         $this->middleware('guest');
     }
 
@@ -56,12 +64,19 @@ class UserLoginController extends Controller
                 ->withInput();
         }
 
+        if (is_object($this->captchaService)) {
+            if (!$this->captchaService->isHuman($request)) {
+                return Redirect::back()
+                    ->with(['message' => trans("Controllers.incorrect_captcha"), 'failed' => true])
+                    ->withInput();
+            }
+        }
+
         if (Auth::attempt(['email' => $email, 'password' => $password], true) === false) {
             return Redirect::back()
                 ->with(['message' => trans('Controllers.login_password_incorrect'), 'failed' => true])
                 ->withInput();
         }
-
         return redirect()->intended(route('showSelectOrganiser'));
     }
 }

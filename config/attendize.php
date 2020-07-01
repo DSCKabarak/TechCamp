@@ -74,5 +74,12 @@ return [
     'cdn_url_static_assets' => '',
 
     'google_analytics_id'       => env('GOOGLE_ANALYTICS_ID'),
-    'google_maps_geocoding_key' => env('GOOGLE_MAPS_GEOCODING_KEY')
+    'google_maps_geocoding_key' => env('GOOGLE_MAPS_GEOCODING_KEY'),
+
+    'captcha' => [
+        'captcha_is_on' => env('CAPTCHA_IS_ON', false),
+        'captcha_type' => strtolower(env('CAPTCHA_TYPE')),
+        'captcha_key' => env('CAPTCHA_KEY'),
+        'captcha_secret' => env('CAPTCHA_SECRET')
+    ]
 ];

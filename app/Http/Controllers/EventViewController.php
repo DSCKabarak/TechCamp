@@ -11,10 +11,22 @@ use Auth;
 use Cookie;
 use Illuminate\Http\Request;
 use Mail;
+use Redirect;
 use Validator;
+use Services\Captcha\Factory;
 
 class EventViewController extends Controller
 {
+    protected $captchaService;
+
+    public function __construct()
+    {
+        $captchaConfig = config('attendize.captcha');
+        if ($captchaConfig["captcha_is_on"]) {
+            $this->captchaService = Factory::create($captchaConfig);
+        }
+    }
+
     /**
      * Show the homepage for an event
      *
@@ -90,9 +102,9 @@ class EventViewController extends Controller
     public function postContactOrganiser(Request $request, $event_id)
     {
         $rules = [
-            'name'    => 'required',
-            'email'   => ['required', 'email'],
-            'message' => ['required'],
+            'name'                  => 'required',
+            'email'                 => 'required|email',
+            'message'               => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -102,6 +114,14 @@ class EventViewController extends Controller
                 'status'   => 'error',
                 'messages' => $validator->messages()->toArray(),
             ]);
+        }
+
+        if (is_object($this->captchaService)) {
+            if (!$this->captchaService->isHuman($request)) {
+                return Redirect::back()
+                    ->with(['message' => trans("Controllers.incorrect_captcha"), 'failed' => true])
+                    ->withInput();
+            }
         }
 
         $event = Event::findOrFail($event_id);

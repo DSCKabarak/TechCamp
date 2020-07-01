@@ -39,3 +39,7 @@ test:
 # clear all laravel caches on a running web container
 cache:
 	docker-compose exec web php artisan optimize:clear
+
+# clear and recompile the autoloder files, for example if you add a new class file
+autoload:
+	docker-compose exec web composer dump-autoload
