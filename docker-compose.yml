@@ -14,6 +14,8 @@ services:
       - maildev
       - redis
       - worker
+    env_file:
+      - ./.env
   worker:
     image: attendize_worker:latest
     depends_on:
