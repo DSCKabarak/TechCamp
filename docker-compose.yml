@@ -41,7 +41,7 @@ services:
     volumes:
       - "mysql-data:/var/lib/mysql"
   maildev:
-    image: djfarrelly/maildev
+    image: maildev/maildev
     ports:
       - "1080:80"
   redis:

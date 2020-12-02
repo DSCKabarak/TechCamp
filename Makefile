@@ -28,6 +28,8 @@ setup: build
 # run the whole stack and open up the app in the browser
 run:
 	docker-compose up -d
+	docker-compose exec web sh -c 'wait-for-it db:3306 -t 180'
+	docker-compose exec web sh -c 'wait-for-it web:443 -t 120'
 	open https://localhost:8081/
 
 # open a bash prompt on a running web container
