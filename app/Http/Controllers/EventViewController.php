@@ -129,7 +129,7 @@ class EventViewController extends Controller
         $data = [
             'sender_name'     => $request->get('name'),
             'sender_email'    => $request->get('email'),
-            'message_content' => strip_tags($request->get('message')),
+            'message_content' => clean($request->get('message')),
             'event'           => $event,
         ];
 
@@ -167,7 +167,7 @@ class EventViewController extends Controller
     {
         $event = Event::findOrFail($event_id);
 
-        $accessCode = strtoupper(strip_tags($request->get('access_code')));
+        $accessCode = strtoupper($request->get('access_code'));
         if (!$accessCode) {
             return response()->json([
                 'status' => 'error',
